@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -71,16 +72,17 @@ namespace Bencodex
                     break;
 
                 case IDictionary dict:
-                    WriteDictionary(dict.Cast<DictionaryEntry>(), stream);
+                    IEnumerable<DictionaryEntry> pairs =
+                        ToDictionaryEntries(dict);
+                    WriteDictionary(pairs, stream);
                     break;
 
                 case ICollection d when IsGenericCollection(
                     d,
                     typeof(IDictionary<,>)):
-                    WriteDictionary(
-                        ToDictionaryEntries(d),
-                        stream
-                    );
+                    IEnumerable<DictionaryEntry> entries =
+                        ToDictionaryEntries(d);
+                    WriteDictionary(entries, stream);
                     break;
 
                 default:

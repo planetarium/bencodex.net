@@ -6,11 +6,19 @@ using System.Linq;
 using System.Numerics;
 using Xunit;
 using System.Text;
+using Xunit.Abstractions;
 
 namespace Bencodex.Tests
 {
     public class SerializerTests
     {
+        public readonly ITestOutputHelper Output;
+
+        public SerializerTests(ITestOutputHelper output)
+        {
+            Output = output;
+        }
+
         private byte[] Serialize(object o)
         {
             var stream = new MemoryStream();
@@ -20,7 +28,11 @@ namespace Bencodex.Tests
             return stream.ToArray();
         }
 
-        private void AssertEqual(byte[] expected, byte[] actual)
+        private void AssertEqual(
+            byte[] expected,
+            byte[] actual,
+            string message = null
+        )
         {
             Encoding utf8 = Encoding.GetEncoding(
                 "UTF-8",
@@ -30,12 +42,15 @@ namespace Bencodex.Tests
             Assert.True(
                 expected.SequenceEqual(actual),
                 String.Format(
+                    "{4}{5}" +
                     "Expected: {0}\nActual:   {1}\n" +
                     "Expected (hex): {2}\nActual (hex):   {3}",
                     utf8.GetString(expected),
                     utf8.GetString(actual),
                     BitConverter.ToString(expected),
-                    BitConverter.ToString(actual)
+                    BitConverter.ToString(actual),
+                    message ?? "",
+                    message == null ? "" : "\n"
                 )
             );
         }
@@ -207,6 +222,23 @@ namespace Bencodex.Tests
                     }
                 )
             );
+        }
+
+        [Fact]
+        public void SpecTestSuite()
+        {
+            SpecData specData = SpecData.GetInstance();
+            Output.WriteLine("Test suite path: {0}", specData.TestSuitePath);
+            foreach (Spec spec in specData)
+            {
+                Output.WriteLine("");
+                Output.WriteLine("Spec: {0}", spec);
+                AssertEqual(
+                    spec.Encoding,
+                    Serialize(spec.Semantics),
+                    spec.SemanticsPath
+                );
+            }
         }
     }
 }

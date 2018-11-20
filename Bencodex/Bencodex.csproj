@@ -3,5 +3,6 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 </Project>
