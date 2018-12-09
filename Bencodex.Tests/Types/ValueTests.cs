@@ -1,31 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
-using Xunit;
 using System.Text;
+using Bencodex.Types;
+using Xunit;
 using Xunit.Abstractions;
 
-namespace Bencodex.Tests
+namespace Bencodex.Tests.Types
 {
-    public class SerializerTests
+    public class ValueTests
     {
         public readonly ITestOutputHelper Output;
 
-        public SerializerTests(ITestOutputHelper output)
+        public ValueTests(ITestOutputHelper output)
         {
             Output = output;
-        }
-
-        private byte[] Serialize(object o)
-        {
-            var stream = new MemoryStream();
-            var serializer = new Serializer();
-            serializer.Serialize(o, stream);
-            stream.Flush();
-            return stream.ToArray();
         }
 
         private void AssertEqual(
@@ -60,62 +52,72 @@ namespace Bencodex.Tests
         {
             AssertEqual(
                 new byte[] { 0x6e },  // "n"
-                Serialize(null)
+                new Null().EncodeIntoByteArray()
             );
         }
 
         [Fact]
-        public void True()
+        public void Boolean()
         {
             AssertEqual(
                 new byte[] { 0x74 },  // "t"
-                Serialize(true)
+                new Bencodex.Types.Boolean(true).EncodeIntoByteArray()
             );
-        }
-
-        [Fact]
-        public void False()
-        {
             AssertEqual(
                 new byte[] { 0x66 },  // "f"
-                Serialize(false)
+                new Bencodex.Types.Boolean(false).EncodeIntoByteArray()
             );
         }
 
-        [Fact]
-        public void Integers()
-        {
-            Integer<short>(123, -456, 0);
-            Integer<int>(123, -456, 0);
-            Integer<long>(123, -456, 0);
-            Integer<ushort>(123, 0, 0);
-            Integer<uint>(123, 0, 0);
-            Integer<ulong>(123, 0, 0);
-            Integer(
-                new BigInteger(123),
-                new BigInteger(-456),
-                new BigInteger(0)
-            );
-        }
-
-        private void Integer<T>(T a, T b, T zero) where T : IComparable<T>
+        private void IntegerGeneric(Func<int, Integer?> convert)
         {
             AssertEqual(
                 new byte[] { 0x69, 0x31, 0x32, 0x33, 0x65 },  // "i123e"
-                Serialize(a)
+                convert(123).EncodeIntoByteArray()
             );
-            if (b.CompareTo(zero) < 0)
+            Integer? i = convert(-123);
+            if (i != null)
             {
                 AssertEqual(
-                    new byte[] { 0x69, 0x2d, 0x34, 0x35, 0x36, 0x65 },
-                    // "i-456e"
-                    Serialize(b)
+                    new byte[]
+                    {
+                        0x69, 0x2d, 0x31, 0x32, 0x33, 0x65
+                        // "i-123e"
+                    },
+                    i.EncodeIntoByteArray()
                 );
             }
             AssertEqual(
                 new byte[] { 0x69, 0x30, 0x65 },  // "i0e"
-                Serialize(zero)
+                convert(0).EncodeIntoByteArray()
             );
+            i = convert(-0);
+            if (i != null)
+            {
+                AssertEqual(
+                    new byte[] { 0x69, 0x30, 0x65 },  // "i0e"
+                    i.EncodeIntoByteArray()
+                );
+            }
+        }
+
+        [Fact]
+        public void Integer()
+        {
+            IntegerGeneric(i => new Integer((short) i));
+            IntegerGeneric(
+                i => i >= 0 ? new Integer((ushort) i) : (Integer?) null
+            );
+            IntegerGeneric(i => new Integer(i));
+            IntegerGeneric(
+                i => i >= 0 ? new Integer((uint) i) : (Integer?) null
+            );
+            IntegerGeneric(i => new Integer((long) i));
+            IntegerGeneric(
+                i => i >= 0 ? new Integer((ulong) i) : (Integer?) null
+            );
+            IntegerGeneric(i => new Integer(new BigInteger(i)));
+            IntegerGeneric(i => new Integer(i.ToString()));
         }
 
         [Fact]
@@ -123,13 +125,15 @@ namespace Bencodex.Tests
         {
             AssertEqual(
                 new byte[] { 0x30, 0x3a },  // "0:"
-                Serialize(new byte[] { })
+                new Binary().EncodeIntoByteArray()
             );
             AssertEqual(
                 new byte[] { 0x35, 0x3a, 0x68, 0x65, 0x6c, 0x6c, 0x6f },
                 // "5:hello"
-                Serialize(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f })
-                // "hello"
+                new Binary(
+                    new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f }
+                    // "hello"
+                ).EncodeIntoByteArray()
             );
         }
 
@@ -138,7 +142,7 @@ namespace Bencodex.Tests
         {
             AssertEqual(
                 new byte[] { 0x75, 0x30, 0x3a },  // "u0:"
-                Serialize("")
+                new Text().EncodeIntoByteArray()
             );
             AssertEqual(
                 new byte[]
@@ -147,7 +151,7 @@ namespace Bencodex.Tests
                     0xa0, 0xe5, 0xa5, 0xbd,
                     // "u6:\xe4\xbd\xa0\xe5\xa5\xbd"
                 },
-                Serialize("\u4f60\u597d")  // "你好"
+                new Text("\u4f60\u597d").EncodeIntoByteArray()  // "你好"
             );
         }
 
@@ -156,15 +160,15 @@ namespace Bencodex.Tests
         {
             AssertEqual(
                 new byte[] { 0x6c, 0x65 },  // "le"
-                Serialize(new string[] {})
+                new List().EncodeIntoByteArray()
             );
             AssertEqual(
                 new byte[] { 0x6c, 0x65 },  // "le"
-                Serialize(new List<int>())
+                new List(new IValue[0]).EncodeIntoByteArray()
             );
             AssertEqual(
                 new byte[] { 0x6c, 0x65 },  // "le"
-                Serialize(new ArrayList())
+                new List(ImmutableList<IValue>.Empty).EncodeIntoByteArray()
             );
             AssertEqual(
                 new byte[]
@@ -173,24 +177,13 @@ namespace Bencodex.Tests
                     0x75, 0x35, 0x3a, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x65,
                     // "lu5:hellou5:worlde"
                 },
-                Serialize(new string[] { "hello", "world" })
-            );
-            AssertEqual(
-                new byte[]
-                {
-                    0x6c, 0x35, 0x3a, 0x68, 0x65, 0x6c, 0x6c, 0x6f,
-                    0x35, 0x3a, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x65,
-                    // "l5:hellou5:worlde"
-                },
-                Serialize(
-                    new List<object>
+                new List(
+                    new Text[]
                     {
-                        new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f },
-                        // "hello"
-                        new byte[] { 0x77, 0x6f, 0x72, 0x6c, 0x64 },
-                        // "world"
-                    }
-                )
+                        "hello",
+                        "world",
+                    }.Cast<IValue>()
+                ).EncodeIntoByteArray()
             );
         }
 
@@ -199,11 +192,15 @@ namespace Bencodex.Tests
         {
             AssertEqual(
                 new byte[] { 0x64, 0x65 },  // "de"
-                Serialize(new Hashtable())
+                new Dictionary(
+                    ImmutableDictionary<IKey, IValue>.Empty
+                ).EncodeIntoByteArray()
             );
             AssertEqual(
                 new byte[] { 0x64, 0x65 },  // "de"
-                Serialize(new Dictionary<object, int>())
+                new Dictionary(
+                    new KeyValuePair<IKey, IValue>[0]
+                ).EncodeIntoByteArray()
             );
             AssertEqual(
                 new byte[]
@@ -213,14 +210,14 @@ namespace Bencodex.Tests
                     0x75, 0x31, 0x3a, 0x62, 0x69, 0x33, 0x65, 0x65,
                     // "d1:ci1eu1:ai2eu1:bi3ee"
                 },
-                Serialize(
-                    new Hashtable
+                new Dictionary(
+                    new Dictionary<IKey, IValue>()
                     {
-                        {"a", 2},
-                        {"b", 3},
-                        {new byte[] { 0x63 }, 1}  // "c" => 3
+                        {(Text) "a", (Integer) 2},
+                        {(Text) "b", (Integer) 3},
+                        {(Binary) new byte[] { 0x63 }, (Integer) 1}  // "c" => 3
                     }
-                )
+                ).EncodeIntoByteArray()
             );
         }
 
@@ -235,7 +232,7 @@ namespace Bencodex.Tests
                 Output.WriteLine("Spec: {0}", spec);
                 AssertEqual(
                     spec.Encoding,
-                    Serialize(spec.Semantics),
+                    spec.Semantics.EncodeIntoByteArray(),
                     spec.SemanticsPath
                 );
             }

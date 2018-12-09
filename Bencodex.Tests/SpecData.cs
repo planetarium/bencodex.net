@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Bencodex.Types;
 using SharpYaml;
 using SharpYaml.Serialization;
 
@@ -46,7 +45,7 @@ namespace Bencodex.Tests
             }
         }
 
-        public object Semantics
+        public IValue Semantics
         {
             get
             {
@@ -57,12 +56,24 @@ namespace Bencodex.Tests
                     var yamlStream = new YamlStream();
                     yamlStream.Load(reader);
                     YamlNode node = yamlStream.Documents[0].RootNode;
-                    return TransformNode(node);
+                    return TransformValue(node);
                 }
             }
         }
 
-        private object TransformNode(YamlNode node)
+        private IKey TransformKey(YamlNode node)
+        {
+            IValue v = TransformValue(node);
+            if (v is IKey key)
+            {
+                return key;
+            }
+            throw new NotImplementedException(
+                $"Unsupported node type for key: {node.GetType()}"
+            );
+        }
+
+        private IValue TransformValue(YamlNode node)
         {
             switch (node)
             {
@@ -70,15 +81,19 @@ namespace Bencodex.Tests
                     switch (scalar.Tag)
                     {
                         case "tag:yaml.org,2002:null":
-                            return null;
+                            return new Null();
                         case "tag:yaml.org,2002:bool":
                             string bLit = scalar.Value.ToLower();
-                            return bLit == "on" || bLit == "true" ||
-                                   bLit == "y" || bLit == "yes";
+                            return new Bencodex.Types.Boolean(
+                                bLit == "on" || bLit == "true" ||
+                                bLit == "y" || bLit == "yes"
+                            );
                         case "tag:yaml.org,2002:int":
-                            return BigInteger.Parse(scalar.Value);
+                            return new Integer(scalar.Value);
                         case "tag:yaml.org,2002:binary":
-                            return Convert.FromBase64String(scalar.Value);
+                            return new Binary(
+                                Convert.FromBase64String(scalar.Value)
+                            );
                         case null:
                         case "":
                             if (scalar.Style == ScalarStyle.Plain)
@@ -88,28 +103,28 @@ namespace Bencodex.Tests
                                     case "null":
                                     case "":
                                     case null:
-                                        return null;
+                                        return new Null();
                                     case "on":
                                     case "true":
                                     case "y":
                                     case "yes":
-                                        return true;
+                                        return new Bencodex.Types.Boolean(true);
                                     case "false":
                                     case "off":
                                     case "n":
                                     case "no":
-                                        return false;
+                                        return new Bencodex.Types.Boolean();
                                 }
                                 try
                                 {
-                                    return BigInteger.Parse(scalar.Value);
+                                    return new Integer(scalar.Value);
                                 }
                                 catch (FormatException)
                                 {
-                                    return scalar.Value;
+                                    return new Text(scalar.Value);
                                 }
                             }
-                            return scalar.Value;
+                            return new Text(scalar.Value);
                         default:
                             throw new NotImplementedException(
                                 $"unsupported tag: \"{scalar.Tag}\""
@@ -119,18 +134,18 @@ namespace Bencodex.Tests
                 case YamlMappingNode map:
                     var transformedPairs = map.Select(kv =>
                         KeyValuePair.Create(
-                            TransformNode(kv.Key),
-                            TransformNode(kv.Value)
+                            TransformKey(kv.Key),
+                            TransformValue(kv.Value)
                         )
                     );
-                    return new Dictionary<object, object>(transformedPairs);
+                    return new Dictionary(transformedPairs);
 
                 case YamlSequenceNode seq:
-                    return seq.Children.Select(TransformNode).ToImmutableList();
+                    return new List(seq.Children.Select(TransformValue));
 
                 default:
                     throw new NotImplementedException(
-                        $"Unsupported node type: {node.GetType()}"
+                        $"Unsupported node type for vlaue: {node.GetType()}"
                     );
             }
         }
