@@ -88,7 +88,10 @@ namespace Bencodex.Types
             return new Dictionary(Value.RemoveRange(keys));
         }
 
-        public IImmutableDictionary<IKey, IValue> SetItem(IKey key, IValue value)
+        public IImmutableDictionary<IKey, IValue> SetItem(
+            IKey key,
+            IValue value
+        )
         {
             return new Dictionary(Value.SetItem(key, value));
         }
@@ -112,15 +115,25 @@ namespace Bencodex.Types
                 case null:
                     return false;
                 case IImmutableDictionary<IKey, IValue> d:
-                    return Equals(d);
+                    return (
+                        (IEquatable<IImmutableDictionary<IKey, IValue>>) this
+                    ).Equals(d);
                 default:
                     return false;
             }
         }
 
-        public bool Equals(IImmutableDictionary<IKey, IValue> other)
+        bool IEquatable<IImmutableDictionary<IKey, IValue>>.Equals(
+            IImmutableDictionary<IKey, IValue> other
+        )
         {
-            return Value.Equals(other);
+            if (this.LongCount() != other.LongCount()) return false;
+            foreach (KeyValuePair<IKey, IValue> kv in this)
+            {
+                if (!other.ContainsKey(kv.Key)) return false;
+                if (!other[kv.Key].Equals(kv.Value)) return false;
+            }
+            return true;
         }
 
         public override int GetHashCode()
@@ -140,7 +153,11 @@ namespace Bencodex.Types
             yield return new byte[1] { 0x64 }; // 'd'
             IEnumerable<ValueTuple<byte?, byte[], IValue>> rawPairs =
                 from pair in this
-                select (pair.Key.KeyPrefix, pair.Key.EncodeAsByteArray(), pair.Value);
+                select (
+                    pair.Key.KeyPrefix,
+                    pair.Key.EncodeAsByteArray(),
+                    pair.Value
+                );
             IEnumerable<ValueTuple<byte?, byte[], IValue>> orderedPairs =
                 rawPairs.OrderBy(
                     (triple) => ValueTuple.Create(triple.Item1, triple.Item2),
@@ -163,6 +180,16 @@ namespace Bencodex.Types
                 }
             }
             yield return new byte[1] { 0x65 }; // 'e'
+        }
+
+        [Pure]
+        public override string ToString()
+        {
+            IEnumerable<string> pairs = this.Select(
+                kv => $"{kv.Key}: {kv.Value}"
+            );
+            string pairsString = string.Join(", ", pairs);
+            return $"{{{pairsString}}}";
         }
     }
 }

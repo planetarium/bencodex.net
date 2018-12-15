@@ -101,9 +101,9 @@ namespace Bencodex.Types
                 case null:
                     return false;
                 case Integer other:
-                    return Equals(other);
+                    return ((IEquatable<Integer>) this).Equals(other);
                 case BigInteger other:
-                    return Equals(other);
+                    return ((IEquatable<BigInteger>) this).Equals(other);
                 default:
                     return false;
             }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Text;
 using Bencodex.Misc;
 
@@ -33,25 +34,34 @@ namespace Bencodex.Types
             return new Binary(bytes);
         }
 
-        bool IEquatable<byte[]>.Equals(byte[] other)
+        bool IEquatable<byte[]>.Equals(byte[] otherBytes)
         {
-            return Equals(Value, other);
+            return Value.SequenceEqual(otherBytes);
         }
 
-        public bool Equals(Binary other)
+        bool IEquatable<Binary>.Equals(Binary other)
         {
-            return ((IComparable<byte[]>) this).Equals(other.Value);
+            return ((IEquatable<byte[]>) this).Equals(other.Value);
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is Binary other && Equals(other);
+            if (obj is byte[] otherBytes)
+            {
+                return ((IEquatable<byte[]>) this).Equals(otherBytes);
+            }
+            return obj is Binary other &&
+                ((IEquatable<Binary>) this).Equals(other);
         }
 
         public override int GetHashCode()
         {
-            return Value?.GetHashCode() ?? 0;
+            int length = Value.Length;
+            return Value.Aggregate(
+                0,
+                (current, t) => unchecked(current * (length + 1) + t)
+            );
         }
 
         public static bool operator ==(Binary left, Binary right)

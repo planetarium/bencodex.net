@@ -55,9 +55,9 @@ namespace Bencodex.Types
                 case null:
                     return false;
                 case Boolean b:
-                    return Equals(b);
+                    return Value.Equals(b.Value);
                 case bool b:
-                    return Equals(b);
+                    return Value.Equals(b);
                 default:
                     return false;
             }

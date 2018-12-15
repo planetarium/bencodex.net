@@ -15,14 +15,16 @@ namespace Bencodex.Types
         private ImmutableArray<IValue> _value;
 
         public ImmutableArray<IValue> Value =>
-            _value == null ? (_value = ImmutableArray<IValue>.Empty) : _value;
+            _value.IsDefault ? (_value = ImmutableArray<IValue>.Empty) : _value;
 
         public List(IEnumerable<IValue> value)
         {
             _value = value?.ToImmutableArray() ?? ImmutableArray<IValue>.Empty;
         }
 
-        public bool Equals(IImmutableList<IValue> other)
+        bool IEquatable<IImmutableList<IValue>>.Equals(
+            IImmutableList<IValue> other
+        )
         {
             return Value.SequenceEqual(other);
         }
@@ -38,7 +40,8 @@ namespace Bencodex.Types
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is List other && Equals(other);
+            return obj is List other &&
+                ((IEquatable<IImmutableList<IValue>>) this).Equals(other);
         }
 
         public override int GetHashCode()
@@ -175,6 +178,14 @@ namespace Bencodex.Types
                 }
             }
             yield return new byte[1] { 0x65 };  // 'e'
+        }
+
+        [Pure]
+        public override string ToString()
+        {
+            IEnumerable<string> elements = this.Select(v => v.ToString());
+            string elementsString = String.Join(", ", elements);
+            return $"[{elementsString}]";
         }
     }
 }

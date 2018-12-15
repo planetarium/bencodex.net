@@ -160,9 +160,9 @@ namespace Bencodex.Tests
     {
         public string TestSuitePath { get; }
 
-        public SpecData(string testSuitePath)
+        public SpecData(string testSuitePath = null)
         {
-            TestSuitePath = testSuitePath;
+            TestSuitePath = testSuitePath ?? DefaultTestSuitePath();
         }
 
         public IEnumerator<Spec> GetEnumerator()
@@ -195,10 +195,19 @@ namespace Bencodex.Tests
                 : Path.GetDirectoryName(path);
             return Path.Join(path, "spec", "testsuite");
         }
+    }
 
-        public static SpecData GetInstance()
+    public class SpecTheoryData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
         {
-            return new SpecData(DefaultTestSuitePath());
+            var specData = new SpecData();
+            foreach (Spec spec in specData)
+            {
+                yield return new object[] { spec };
+            }
         }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

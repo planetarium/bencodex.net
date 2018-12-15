@@ -13,13 +13,6 @@ namespace Bencodex.Tests.Types
 {
     public class ValueTests
     {
-        public readonly ITestOutputHelper Output;
-
-        public ValueTests(ITestOutputHelper output)
-        {
-            Output = output;
-        }
-
         private void AssertEqual(
             byte[] expected,
             byte[] actual,
@@ -221,21 +214,15 @@ namespace Bencodex.Tests.Types
             );
         }
 
-        [Fact]
-        public void SpecTestSuite()
+        [Theory]
+        [ClassData(typeof(SpecTheoryData))]
+        public void SpecTestSuite(Spec spec)
         {
-            SpecData specData = SpecData.GetInstance();
-            Output.WriteLine("Test suite path: {0}", specData.TestSuitePath);
-            foreach (Spec spec in specData)
-            {
-                Output.WriteLine("");
-                Output.WriteLine("Spec: {0}", spec);
-                AssertEqual(
-                    spec.Encoding,
-                    spec.Semantics.EncodeIntoByteArray(),
-                    spec.SemanticsPath
-                );
-            }
+            AssertEqual(
+                spec.Encoding,
+                spec.Semantics.EncodeIntoByteArray(),
+                spec.SemanticsPath
+            );
         }
     }
 }
