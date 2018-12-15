@@ -1,5 +1,16 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <PackageId>Bencodex</PackageId>
+    <Title>Bencodex codec</Title>
+    <Version>0.1.0-alpha</Version>
+    <PackageProjectUrl>https://github.com/planetarium/bencodex.net</PackageProjectUrl>
+    <Authors>hongminhee</Authors>
+    <Company>Planetarium</Company>
+    <PackageLicenseUrl>https://www.gnu.org/licenses/lgpl-3.0.html</PackageLicenseUrl>
+    <PackageReleaseNotes>https://github.com/planetarium/bencodex.net/blob/master/CHANGES.md</PackageReleaseNotes>
+    <PackageTags>bencodex;bencoding;serialization</PackageTags>
+    <RepositoryUrl>git://github.com/planetarium/bencodex.net.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsTestProject>false</IsTestProject>
