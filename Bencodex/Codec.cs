@@ -10,6 +10,10 @@ using Bencodex.Types;
 
 namespace Bencodex
 {
+    /// <summary>The most basic and the lowest-level interface to encode and
+    /// decode Bencodex values.  This provides two types of input and output:
+    /// <c cref="System.Byte">Byte</c> arrays and I/O
+    /// <c cref="System.IO.Stream">Stream</c>s.</summary>
     public class Codec
     {
         /// <summary>
@@ -29,18 +33,36 @@ namespace Bencodex
         }
 
         /// <summary>Encodes a <paramref name="value"/>,
-        /// and write it on a <paramref name="stream"/>.</summary>
+        /// and write it on an <paramref name="output"/> stream.</summary>
         /// <param name="value">A value to encode.</param>
-        /// <param name="stream">A stream that a value is printed on.</param>
-        /// <seealso cref="IValue.EncodeIntoChunks"/>
-        public void Encode(IValue value, Stream stream)
+        /// <param name="output">A stream that a value is printed on.</param>
+        /// <exception cref="ArgumentException">Thrown when a given
+        /// <paramref name="output"/> stream is not writable.</exception>
+        public void Encode(IValue value, Stream output)
         {
+            if (!output.CanWrite)
+            {
+                throw new ArgumentException(
+                    "stream cannot be written to",
+                    nameof(output)
+                );
+            }
+
             foreach (byte[] chunk in value.EncodeIntoChunks())
             {
-                stream.Write(chunk, 0, chunk.Length);
+                output.Write(chunk, 0, chunk.Length);
             }
         }
 
+        /// <summary>Decodes an encoded value from an <paramref name="input"/>
+        /// stream.</summary>
+        /// <param name="input">An input stream to decode.</param>
+        /// <returns>A decoded value.</returns>
+        /// <exception cref="ArgumentException">Thrown when a given
+        /// <paramref name="input"/> stream is not readable.</exception>
+        /// <exception cref="DecodingException">Thrown when a binary
+        /// representation of an <paramref name="input"/> stream is not a valid
+        /// Bencodex encoding.</exception>
         public IValue Decode(Stream input)
         {
             if (!input.CanRead)
@@ -69,6 +91,14 @@ namespace Bencodex
             return value;
         }
 
+        /// <summary>Decodes an encoded value from a
+        /// <c cref="System.Byte">Byte</c> array.</summary>
+        /// <param name="bytes">A <c cref="System.Byte">Byte</c> array of
+        /// Bencodex encoding.</param>
+        /// <returns>A decoded value.</returns>
+        /// <exception cref="DecodingException">Thrown when a binary
+        /// representation of an <paramref name="input"/> stream is not a valid
+        /// Bencodex encoding.</exception>
         [Pure]
         public IValue Decode(byte[] bytes)
         {
@@ -319,6 +349,8 @@ namespace Bencodex
         }
     }
 
+    /// <summary>Serves as the base class for codec exceptions.</summary>
+    /// <inheritdoc />
     public class CodecException : Exception
     {
         public CodecException(string message) : base(message)
@@ -331,6 +363,9 @@ namespace Bencodex
         }
     }
 
+    /// <summary>The exception that is thrown when an input is not
+    /// a valid Bencodex encoding so that a decoder cannot parse it.</summary>
+    /// <inheritdoc />
     public class DecodingException : CodecException
     {
         public DecodingException(string message) : base(message)
