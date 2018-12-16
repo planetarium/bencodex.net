@@ -96,9 +96,9 @@ namespace Bencodex
         /// <param name="bytes">A <c cref="System.Byte">Byte</c> array of
         /// Bencodex encoding.</param>
         /// <returns>A decoded value.</returns>
-        /// <exception cref="DecodingException">Thrown when a binary
-        /// representation of an <paramref name="input"/> stream is not a valid
-        /// Bencodex encoding.</exception>
+        /// <exception cref="DecodingException">Thrown when a
+        /// <paramref name="bytes"/> representation is not a valid Bencodex
+        /// encoding.</exception>
         [Pure]
         public IValue Decode(byte[] bytes)
         {

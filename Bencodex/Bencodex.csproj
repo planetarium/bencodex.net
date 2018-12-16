@@ -11,8 +11,11 @@
     <PackageTags>bencodex;bencoding;serialization</PackageTags>
     <RepositoryUrl>git://github.com/planetarium/bencodex.net.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
     <IsTestProject>false</IsTestProject>
     <DebugType>portable</DebugType>
     <TargetFramework>netstandard2.0</TargetFramework>

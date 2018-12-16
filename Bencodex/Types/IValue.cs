@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.IO;
 
 namespace Bencodex.Types
 {
@@ -19,7 +18,8 @@ namespace Bencodex.Types
         /// arrays.</summary>
         /// <returns><c cref="System.Byte">Byte</c> arrays of Bencodex
         /// representation of the value.</returns>
-        /// <seealso cref="ValueExtensions.EncodeIntoStream"/>
+        /// <seealso cref="Codec.Encode(IValue)"/>
+        /// <seealso cref="Codec.Encode(IValue, System.IO.Stream)"/>
         [Pure]
         IEnumerable<byte[]> EncodeIntoChunks();
     }
