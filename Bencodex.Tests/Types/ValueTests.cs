@@ -13,6 +13,12 @@ namespace Bencodex.Tests.Types
 {
     public class ValueTests
     {
+        private Codec _codec;
+
+        public ValueTests()
+        {
+            _codec = new Codec();
+        }
         private void AssertEqual(
             byte[] expected,
             byte[] actual,
@@ -45,7 +51,7 @@ namespace Bencodex.Tests.Types
         {
             AssertEqual(
                 new byte[] { 0x6e },  // "n"
-                new Null().EncodeIntoByteArray()
+                _codec.Encode(new Null())
             );
         }
 
@@ -54,11 +60,11 @@ namespace Bencodex.Tests.Types
         {
             AssertEqual(
                 new byte[] { 0x74 },  // "t"
-                new Bencodex.Types.Boolean(true).EncodeIntoByteArray()
+                _codec.Encode(new Bencodex.Types.Boolean(true))
             );
             AssertEqual(
                 new byte[] { 0x66 },  // "f"
-                new Bencodex.Types.Boolean(false).EncodeIntoByteArray()
+                _codec.Encode(new Bencodex.Types.Boolean(false))
             );
         }
 
@@ -66,7 +72,7 @@ namespace Bencodex.Tests.Types
         {
             AssertEqual(
                 new byte[] { 0x69, 0x31, 0x32, 0x33, 0x65 },  // "i123e"
-                convert(123).EncodeIntoByteArray()
+                _codec.Encode(convert(123))
             );
             Integer? i = convert(-123);
             if (i != null)
@@ -77,19 +83,19 @@ namespace Bencodex.Tests.Types
                         0x69, 0x2d, 0x31, 0x32, 0x33, 0x65
                         // "i-123e"
                     },
-                    i.EncodeIntoByteArray()
+                    _codec.Encode(i)
                 );
             }
             AssertEqual(
                 new byte[] { 0x69, 0x30, 0x65 },  // "i0e"
-                convert(0).EncodeIntoByteArray()
+                _codec.Encode(convert(0))
             );
             i = convert(-0);
             if (i != null)
             {
                 AssertEqual(
                     new byte[] { 0x69, 0x30, 0x65 },  // "i0e"
-                    i.EncodeIntoByteArray()
+                    _codec.Encode(i)
                 );
             }
         }
@@ -118,15 +124,15 @@ namespace Bencodex.Tests.Types
         {
             AssertEqual(
                 new byte[] { 0x30, 0x3a },  // "0:"
-                new Binary().EncodeIntoByteArray()
+                _codec.Encode(new Binary())
             );
             AssertEqual(
                 new byte[] { 0x35, 0x3a, 0x68, 0x65, 0x6c, 0x6c, 0x6f },
                 // "5:hello"
-                new Binary(
-                    new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f }
+                _codec.Encode(
+                    new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f })
                     // "hello"
-                ).EncodeIntoByteArray()
+                )
             );
         }
 
@@ -135,7 +141,7 @@ namespace Bencodex.Tests.Types
         {
             AssertEqual(
                 new byte[] { 0x75, 0x30, 0x3a },  // "u0:"
-                new Text().EncodeIntoByteArray()
+                _codec.Encode(new Text())
             );
             AssertEqual(
                 new byte[]
@@ -144,7 +150,7 @@ namespace Bencodex.Tests.Types
                     0xa0, 0xe5, 0xa5, 0xbd,
                     // "u6:\xe4\xbd\xa0\xe5\xa5\xbd"
                 },
-                new Text("\u4f60\u597d").EncodeIntoByteArray()  // "你好"
+                _codec.Encode(new Text("\u4f60\u597d"))  // "你好"
             );
         }
 
@@ -153,15 +159,15 @@ namespace Bencodex.Tests.Types
         {
             AssertEqual(
                 new byte[] { 0x6c, 0x65 },  // "le"
-                new List().EncodeIntoByteArray()
+                _codec.Encode(new List())
             );
             AssertEqual(
                 new byte[] { 0x6c, 0x65 },  // "le"
-                new List(new IValue[0]).EncodeIntoByteArray()
+                _codec.Encode(new List(new IValue[0]))
             );
             AssertEqual(
                 new byte[] { 0x6c, 0x65 },  // "le"
-                new List(ImmutableList<IValue>.Empty).EncodeIntoByteArray()
+                _codec.Encode(new List(ImmutableList<IValue>.Empty))
             );
             AssertEqual(
                 new byte[]
@@ -170,13 +176,9 @@ namespace Bencodex.Tests.Types
                     0x75, 0x35, 0x3a, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x65,
                     // "lu5:hellou5:worlde"
                 },
-                new List(
-                    new Text[]
-                    {
-                        "hello",
-                        "world",
-                    }.Cast<IValue>()
-                ).EncodeIntoByteArray()
+                _codec.Encode(
+                    new List(new Text[] { "hello", "world" }.Cast<IValue>())
+                )
             );
         }
 
@@ -185,15 +187,15 @@ namespace Bencodex.Tests.Types
         {
             AssertEqual(
                 new byte[] { 0x64, 0x65 },  // "de"
-                new Dictionary(
-                    ImmutableDictionary<IKey, IValue>.Empty
-                ).EncodeIntoByteArray()
+                _codec.Encode(
+                    new Dictionary(ImmutableDictionary<IKey, IValue>.Empty)
+                )
             );
             AssertEqual(
                 new byte[] { 0x64, 0x65 },  // "de"
-                new Dictionary(
-                    new KeyValuePair<IKey, IValue>[0]
-                ).EncodeIntoByteArray()
+                _codec.Encode(
+                    new Dictionary(new KeyValuePair<IKey, IValue>[0])
+                )
             );
             AssertEqual(
                 new byte[]
@@ -203,14 +205,19 @@ namespace Bencodex.Tests.Types
                     0x75, 0x31, 0x3a, 0x62, 0x69, 0x33, 0x65, 0x65,
                     // "d1:ci1eu1:ai2eu1:bi3ee"
                 },
-                new Dictionary(
-                    new Dictionary<IKey, IValue>()
-                    {
-                        {(Text) "a", (Integer) 2},
-                        {(Text) "b", (Integer) 3},
-                        {(Binary) new byte[] { 0x63 }, (Integer) 1}  // "c" => 3
-                    }
-                ).EncodeIntoByteArray()
+                _codec.Encode(
+                    new Dictionary(
+                        new Dictionary<IKey, IValue>()
+                        {
+                            {(Text) "a", (Integer) 2},
+                            {(Text) "b", (Integer) 3},
+                            {   // "c" => 3
+                                (Binary) new byte[] { 0x63 },
+                                (Integer) 1
+                            }
+                        }
+                    )
+                )
             );
         }
 
@@ -220,7 +227,7 @@ namespace Bencodex.Tests.Types
         {
             AssertEqual(
                 spec.Encoding,
-                spec.Semantics.EncodeIntoByteArray(),
+                _codec.Encode(spec.Semantics),
                 spec.SemanticsPath
             );
         }

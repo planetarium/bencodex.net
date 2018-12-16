@@ -6,7 +6,7 @@
     <PackageProjectUrl>https://github.com/planetarium/bencodex.net</PackageProjectUrl>
     <Authors>hongminhee</Authors>
     <Company>Planetarium</Company>
-    <PackageLicenseUrl>https://www.gnu.org/licenses/lgpl-3.0.html</PackageLicenseUrl>
+    <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
     <PackageReleaseNotes>https://github.com/planetarium/bencodex.net/blob/master/CHANGES.md</PackageReleaseNotes>
     <PackageTags>bencodex;bencoding;serialization</PackageTags>
     <RepositoryUrl>git://github.com/planetarium/bencodex.net.git</RepositoryUrl>

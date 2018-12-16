@@ -23,38 +23,4 @@ namespace Bencodex.Types
         [Pure]
         IEnumerable<byte[]> EncodeIntoChunks();
     }
-
-    /// <summary>Provides some façade methods upon <c cref="IValue">IValue</c>
-    /// instances.</summary>
-    public static class ValueExtensions
-    {
-        /// <summary>
-        /// Encodes a <paramref name="value"/> into a single
-        /// <c cref="System.Byte">Byte</c> array, rather than split into
-        /// multiple chunks.</summary>
-        /// <param name="value">A value to encode.</param>
-        /// <returns>A single <c cref="System.Byte">Byte</c> array which
-        /// contains the whole Bencodex representation of
-        /// the <paramref name="value"/>.</returns>
-        [Pure]
-        public static byte[] EncodeIntoByteArray(this IValue value)
-        {
-            var stream = new MemoryStream();
-            value.EncodeIntoStream(stream);
-            return stream.ToArray();
-        }
-
-        /// <summary>Encodes a <paramref name="value"/>,
-        /// and write it on a <paramref name="stream"/>.</summary>
-        /// <param name="value">A value to encode.</param>
-        /// <param name="stream">A stream that a value is printed on.</param>
-        /// <seealso cref="IValue.EncodeIntoChunks"/>
-        public static void EncodeIntoStream(this IValue value, Stream stream)
-        {
-            foreach (byte[] chunk in value.EncodeIntoChunks())
-            {
-                stream.Write(chunk, 0, chunk.Length);
-            }
-        }
-    }
 }

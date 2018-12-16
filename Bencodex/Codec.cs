@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -11,6 +12,35 @@ namespace Bencodex
 {
     public class Codec
     {
+        /// <summary>
+        /// Encodes a <paramref name="value"/> into a single
+        /// <c cref="System.Byte">Byte</c> array, rather than split into
+        /// multiple chunks.</summary>
+        /// <param name="value">A value to encode.</param>
+        /// <returns>A single <c cref="System.Byte">Byte</c> array which
+        /// contains the whole Bencodex representation of
+        /// the <paramref name="value"/>.</returns>
+        [Pure]
+        public byte[] Encode(IValue value)
+        {
+            var stream = new MemoryStream();
+            Encode(value, stream);
+            return stream.ToArray();
+        }
+
+        /// <summary>Encodes a <paramref name="value"/>,
+        /// and write it on a <paramref name="stream"/>.</summary>
+        /// <param name="value">A value to encode.</param>
+        /// <param name="stream">A stream that a value is printed on.</param>
+        /// <seealso cref="IValue.EncodeIntoChunks"/>
+        public void Encode(IValue value, Stream stream)
+        {
+            foreach (byte[] chunk in value.EncodeIntoChunks())
+            {
+                stream.Write(chunk, 0, chunk.Length);
+            }
+        }
+
         public IValue Decode(Stream input)
         {
             if (!input.CanRead)
@@ -39,6 +69,7 @@ namespace Bencodex
             return value;
         }
 
+        [Pure]
         public IValue Decode(byte[] bytes)
         {
             return Decode(new MemoryStream(bytes, false));
