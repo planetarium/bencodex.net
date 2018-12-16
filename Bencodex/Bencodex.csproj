@@ -1,16 +1,19 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>Bencodex</PackageId>
-    <Title>Bencodex codec</Title>
-    <Version>0.1.0-alpha</Version>
+    <Title>Bencodex</Title>
+    <Summary>Bencodex codec for .NET</Summary>
+    <Version>0.1.0</Version>
     <PackageProjectUrl>https://github.com/planetarium/bencodex.net</PackageProjectUrl>
-    <Authors>hongminhee</Authors>
+    <Authors>Hong Minhee</Authors>
     <Company>Planetarium</Company>
     <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
     <PackageReleaseNotes>https://github.com/planetarium/bencodex.net/blob/master/CHANGES.md</PackageReleaseNotes>
     <PackageTags>bencodex;bencoding;serialization</PackageTags>
     <RepositoryUrl>git://github.com/planetarium/bencodex.net.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <RootNamespace>Bencodex</RootNamespace>
+    <AssemblyName>Bencodex</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -20,6 +23,11 @@
     <DebugType>portable</DebugType>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\CHANGES.md" Pack="true" PackagePath="CHANGES.md" />
+    <None Include="..\LICENSE" Pack="true" PackagePath="LICENSE" />
+    <None Include="..\README.md" Pack="true" PackagePath="README.md" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Collections.Immutable" Version="1.*" />
   </ItemGroup>
