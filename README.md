@@ -25,6 +25,6 @@ It will provide type-extensible higher-level APIs as well in the future.
 License
 -------
 
-Distributed under LGPLv3_ or later.
+Distributed under [LGPLv3] or later.
 
-.. _LGPLv3: https://www.gnu.org/licenses/lgpl-3.0.html
+[LGPLv3]: https://www.gnu.org/licenses/lgpl-3.0.html
