@@ -1,0 +1,37 @@
+strategy:
+  matrix:
+    Linux:
+      imageName: 'ubuntu-16.04'
+    macOS:
+      imageName: 'macos-10.13'
+    Windows:
+      imageName: 'VS2017-Win2016'
+
+pool:
+  vmImage: $(imageName)
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: Release
+
+steps:
+- script: git submodule update --init --recursive
+- task: NuGetToolInstaller@0
+- task: DotNetCoreCLI@2
+  inputs:
+    command: restore
+- task: DotNetCoreCLI@2
+  inputs:
+    command: build
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+- task: CopyFiles@2
+  inputs:
+    contents: $(Build.Repository.LocalPath)\Bencodex\bin\**\?(*.exe|*.dll)
+    targetFolder: $(Build.ArtifactStagingDirectory)
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: artifact_$(Build.BuildId)_$(Build.BuildNumber)
