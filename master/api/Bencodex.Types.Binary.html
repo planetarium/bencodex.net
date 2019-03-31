@@ -1,0 +1,1023 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Struct Binary
+   | Bencodex </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Struct Binary
+   | Bencodex ">
+    <meta name="generator" content="docfx 2.40.12.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc">
+    <meta property="docfx:tocrel" content="toc">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <div style="padding:15px 15px 15px 0">
+                <a href="../" style="color:white;font-weight:bolder;">Bencodex</a>
+              </div>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+                
+                <ul class="nav level1 navbar-nav">
+                      <li>
+                          <a href="../api/Bencodex.html" title="API Reference">API Reference</a>
+                      </li>
+                      <li>
+                          <a href="../CHANGES.html" title="Changelog">Changelog</a>
+                      </li>
+                </ul>    </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div>
+              <div class="sidefilter">
+                <form class="toc-filter">
+                  <span class="glyphicon glyphicon-filter filter-icon"></span>
+                  <input type="text" id="toc_filter_input" placeholder="Enter here to filter..." onkeypress="if(event.keyCode==13) {return false;}">
+                </form>
+              </div>
+              <div class="sidetoc">
+                <div class="toc" id="toc">
+                  
+                  <ul class="nav level1">
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Bencodex.html" title="Bencodex" class="">Bencodex</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Bencodex.Codec.html" title="Codec" class="">Codec</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.CodecException.html" title="CodecException" class="">CodecException</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.DecodingException.html" title="DecodingException" class="">DecodingException</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Bencodex.Misc.html" title="Bencodex.Misc" class="">Bencodex.Misc</a>
+                        
+                        <ul class="nav level2">
+                          <li class="">
+                            <a href="Bencodex.Misc.ByteArrayComparer.html" title="ByteArrayComparer" class="">ByteArrayComparer</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.Misc.ByteChunkQueue.html" title="ByteChunkQueue" class="">ByteChunkQueue</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.Misc.CompositeComparer-2.html" title="CompositeComparer&lt;A, B&gt;" class="">CompositeComparer&lt;A, B&gt;</a>
+                          </li>
+                        </ul>  </li>
+                    <li class="">
+                      <span class="expand-stub"></span>
+                      <a href="Bencodex.Types.html" title="Bencodex.Types" class="">Bencodex.Types</a>
+                        
+                        <ul class="nav level2">
+                          <li class="active">
+                            <a href="Bencodex.Types.Binary.html" title="Binary" class="active">Binary</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.Types.Boolean.html" title="Boolean" class="">Boolean</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.Types.Dictionary.html" title="Dictionary" class="">Dictionary</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.Types.IKey.html" title="IKey" class="">IKey</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.Types.Integer.html" title="Integer" class="">Integer</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.Types.IValue.html" title="IValue" class="">IValue</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.Types.List.html" title="List" class="">List</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.Types.Null.html" title="Null" class="">Null</a>
+                          </li>
+                          <li class="">
+                            <a href="Bencodex.Types.Text.html" title="Text" class="">Text</a>
+                          </li>
+                        </ul>  </li>
+                  </ul>        </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Bencodex.Types.Binary">
+  
+  
+  <h1 id="Bencodex_Types_Binary" data-uid="Bencodex.Types.Binary" class="text-break">Struct Binary
+  </h1>
+  <div class="markdown level0 summary"><p>Represents a Bencodex byte string.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="Bencodex.Types.IKey.html">IKey</a></div>
+    <div><a class="xref" href="Bencodex.Types.IValue.html">IValue</a></div>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</div>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Bencodex.Types.Binary.html">Binary</a>&gt;</div>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</div>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">IComparable</a>&lt;<a class="xref" href="Bencodex.Types.Binary.html">Binary</a>&gt;</div>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.icomparable">IComparable</a></div>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</div>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.ienumerable">IEnumerable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#System_Object_Equals_System_Object_System_Object_">Object.Equals(Object, Object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gettype#System_Object_GetType">Object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.referenceequals#System_Object_ReferenceEquals_System_Object_System_Object_">Object.ReferenceEquals(Object, Object)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Bencodex.Types.html">Bencodex.Types</a></h6>
+  <h6><strong>Assembly</strong>: Bencodex.dll</h6>
+  <h5 id="Bencodex_Types_Binary_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public struct Binary : IKey, IValue, IEquatable&lt;byte[]&gt;, IEquatable&lt;Binary&gt;, IComparable&lt;byte[]&gt;, IComparable&lt;Binary&gt;, IComparable, IEnumerable&lt;byte&gt;, IEnumerable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary__ctor_System_Byte___.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.%23ctor(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L44">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary__ctor_" data-uid="Bencodex.Types.Binary.#ctor*"></a>
+  <h4 id="Bencodex_Types_Binary__ctor_System_Byte___" data-uid="Bencodex.Types.Binary.#ctor(System.Byte[])">Binary(Byte[])</h4>
+  <div class="markdown level1 summary"><p>Converts a <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a> array to
+a Bencodex's <a class="xref" href="Bencodex.Types.Binary.html">Binary</a> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Binary(byte[] value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td><p>A <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a> array to convert.
+Cannot be <code>null</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p>Thrown when the given
+<code data-dev-comment-type="paramref" class="paramref">value</code> is <code>null</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_Value.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.Value%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L34">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_Value_" data-uid="Bencodex.Types.Binary.Value*"></a>
+  <h4 id="Bencodex_Types_Binary_Value" data-uid="Bencodex.Types.Binary.Value">Value</h4>
+  <div class="markdown level1 summary"><p>A corresponding <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a> array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte[] Value { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><p>A new <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a> array.  As it is newly created
+every time, changing this value does not affect
+the corresponding <a class="xref" href="Bencodex.Types.Binary.html">Binary</a> value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_EncodeIntoChunks.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.EncodeIntoChunks%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L162">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_EncodeIntoChunks_" data-uid="Bencodex.Types.Binary.EncodeIntoChunks*"></a>
+  <h4 id="Bencodex_Types_Binary_EncodeIntoChunks" data-uid="Bencodex.Types.Binary.EncodeIntoChunks">EncodeIntoChunks()</h4>
+  <div class="markdown level1 summary"><p>Encodes the value into <code>Byte</code>
+arrays.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public IEnumerable&lt;byte[]&gt; EncodeIntoChunks()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]&gt;</td>
+        <td><p><code>Byte</code> arrays of Bencodex
+representation of the value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Bencodex_Types_Binary_EncodeIntoChunks_seealso">See Also</h5>
+  <div class="seealso">
+      <div><a class="xref" href="Bencodex.Codec.html#Bencodex_Codec_Encode_Bencodex_Types_IValue_">Encode(IValue)</a></div>
+      <div><a class="xref" href="Bencodex.Codec.html#Bencodex_Codec_Encode_Bencodex_Types_IValue_System_IO_Stream_">Encode(IValue, Stream)</a></div>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_Equals_System_Object_.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L74">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_Equals_" data-uid="Bencodex.Types.Binary.Equals*"></a>
+  <h4 id="Bencodex_Types_Binary_Equals_System_Object_" data-uid="Bencodex.Types.Binary.Equals(System.Object)">Equals(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.valuetype.equals#System_ValueType_Equals_System_Object_">ValueType.Equals(Object)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_GetEnumerator.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L137">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_GetEnumerator_" data-uid="Bencodex.Types.Binary.GetEnumerator*"></a>
+  <h4 id="Bencodex_Types_Binary_GetEnumerator" data-uid="Bencodex.Types.Binary.GetEnumerator">GetEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerator&lt;byte&gt; GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1">IEnumerator</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_GetHashCode.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L86">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_GetHashCode_" data-uid="Bencodex.Types.Binary.GetHashCode*"></a>
+  <h4 id="Bencodex_Types_Binary_GetHashCode" data-uid="Bencodex.Types.Binary.GetHashCode">GetHashCode()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.valuetype.gethashcode#System_ValueType_GetHashCode">ValueType.GetHashCode()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_ToString.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L171">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_ToString_" data-uid="Bencodex.Types.Binary.ToString*"></a>
+  <h4 id="Bencodex_Types_Binary_ToString" data-uid="Bencodex.Types.Binary.ToString">ToString()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+public override string ToString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.valuetype.tostring#System_ValueType_ToString">ValueType.ToString()</a></div>
+  <h3 id="operators">Operators
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_op_Equality_Bencodex_Types_Binary_Bencodex_Types_Binary_.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.op_Equality(Bencodex.Types.Binary%2CBencodex.Types.Binary)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L95">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_op_Equality_" data-uid="Bencodex.Types.Binary.op_Equality*"></a>
+  <h4 id="Bencodex_Types_Binary_op_Equality_Bencodex_Types_Binary_Bencodex_Types_Binary_" data-uid="Bencodex.Types.Binary.op_Equality(Bencodex.Types.Binary,Bencodex.Types.Binary)">Equality(Binary, Binary)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(Binary left, Binary right)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Bencodex.Types.Binary.html">Binary</a></td>
+        <td><span class="parametername">left</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Bencodex.Types.Binary.html">Binary</a></td>
+        <td><span class="parametername">right</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_op_Implicit_System_Byte____Bencodex_Types_Binary.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.op_Implicit(System.Byte%5B%5D)~Bencodex.Types.Binary%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L56">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_op_Implicit_" data-uid="Bencodex.Types.Binary.op_Implicit*"></a>
+  <h4 id="Bencodex_Types_Binary_op_Implicit_System_Byte____Bencodex_Types_Binary" data-uid="Bencodex.Types.Binary.op_Implicit(System.Byte[])~Bencodex.Types.Binary">Implicit(Byte[] to Binary)</h4>
+  <div class="markdown level1 summary"><p>Converts a <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a> array to
+a Bencodex's <a class="xref" href="Bencodex.Types.Binary.html">Binary</a> value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator Binary(byte[] bytes)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="parametername">bytes</span></td>
+        <td><p>A <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a> array to convert.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Bencodex.Types.Binary.html">Binary</a></td>
+        <td><p>A corresponding Bencodex <a class="xref" href="Bencodex.Types.Binary.html">Binary</a> value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_op_Inequality_Bencodex_Types_Binary_Bencodex_Types_Binary_.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.op_Inequality(Bencodex.Types.Binary%2CBencodex.Types.Binary)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L100">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_op_Inequality_" data-uid="Bencodex.Types.Binary.op_Inequality*"></a>
+  <h4 id="Bencodex_Types_Binary_op_Inequality_Bencodex_Types_Binary_Bencodex_Types_Binary_" data-uid="Bencodex.Types.Binary.op_Inequality(Bencodex.Types.Binary,Bencodex.Types.Binary)">Inequality(Binary, Binary)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(Binary left, Binary right)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Bencodex.Types.Binary.html">Binary</a></td>
+        <td><span class="parametername">left</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Bencodex.Types.Binary.html">Binary</a></td>
+        <td><span class="parametername">right</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_Bencodex_Types_IKey_EncodeAsByteArray.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.Bencodex%23Types%23IKey%23EncodeAsByteArray%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L149">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_Bencodex_Types_IKey_EncodeAsByteArray_" data-uid="Bencodex.Types.Binary.Bencodex#Types#IKey#EncodeAsByteArray*"></a>
+  <h4 id="Bencodex_Types_Binary_Bencodex_Types_IKey_EncodeAsByteArray" data-uid="Bencodex.Types.Binary.Bencodex#Types#IKey#EncodeAsByteArray">IKey.EncodeAsByteArray()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+byte[] IKey.EncodeAsByteArray()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_Bencodex_Types_IKey_KeyPrefix.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.Bencodex%23Types%23IKey%23KeyPrefix%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L158">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_Bencodex_Types_IKey_KeyPrefix_" data-uid="Bencodex.Types.Binary.Bencodex#Types#IKey#KeyPrefix*"></a>
+  <h4 id="Bencodex_Types_Binary_Bencodex_Types_IKey_KeyPrefix" data-uid="Bencodex.Types.Binary.Bencodex#Types#IKey#KeyPrefix">IKey.KeyPrefix</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Pure]
+byte? IKey.KeyPrefix { get; }</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_System_Collections_IEnumerable_GetEnumerator.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.System%23Collections%23IEnumerable%23GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L143">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_System_Collections_IEnumerable_GetEnumerator_" data-uid="Bencodex.Types.Binary.System#Collections#IEnumerable#GetEnumerator*"></a>
+  <h4 id="Bencodex_Types_Binary_System_Collections_IEnumerable_GetEnumerator" data-uid="Bencodex.Types.Binary.System#Collections#IEnumerable#GetEnumerator">IEnumerable.GetEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerator IEnumerable.GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.ienumerator">IEnumerator</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_System_IComparable_CompareTo_System_Object_.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.System%23IComparable%23CompareTo(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L118">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_System_IComparable_CompareTo_" data-uid="Bencodex.Types.Binary.System#IComparable#CompareTo*"></a>
+  <h4 id="Bencodex_Types_Binary_System_IComparable_CompareTo_System_Object_" data-uid="Bencodex.Types.Binary.System#IComparable#CompareTo(System.Object)">IComparable.CompareTo(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int IComparable.CompareTo(object obj)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_System_IComparable_Bencodex_Types_Binary__CompareTo_Bencodex_Types_Binary_.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.System%23IComparable%7BBencodex%23Types%23Binary%7D%23CompareTo(Bencodex.Types.Binary)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L112">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_System_IComparable_Bencodex_Types_Binary__CompareTo_" data-uid="Bencodex.Types.Binary.System#IComparable{Bencodex#Types#Binary}#CompareTo*"></a>
+  <h4 id="Bencodex_Types_Binary_System_IComparable_Bencodex_Types_Binary__CompareTo_Bencodex_Types_Binary_" data-uid="Bencodex.Types.Binary.System#IComparable{Bencodex#Types#Binary}#CompareTo(Bencodex.Types.Binary)">IComparable&lt;Binary&gt;.CompareTo(Binary)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int IComparable&lt;Binary&gt;.CompareTo(Binary other)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Bencodex.Types.Binary.html">Binary</a></td>
+        <td><span class="parametername">other</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_System_IComparable_System_Byte____CompareTo_System_Byte___.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.System%23IComparable%7BSystem%23Byte%5B%5D%7D%23CompareTo(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L106">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_System_IComparable_System_Byte____CompareTo_" data-uid="Bencodex.Types.Binary.System#IComparable{System#Byte[]}#CompareTo*"></a>
+  <h4 id="Bencodex_Types_Binary_System_IComparable_System_Byte____CompareTo_System_Byte___" data-uid="Bencodex.Types.Binary.System#IComparable{System#Byte[]}#CompareTo(System.Byte[])">IComparable&lt;Byte[]&gt;.CompareTo(Byte[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int IComparable&lt;byte[]&gt;.CompareTo(byte[] other)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="parametername">other</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_System_IEquatable_Bencodex_Types_Binary__Equals_Bencodex_Types_Binary_.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.System%23IEquatable%7BBencodex%23Types%23Binary%7D%23Equals(Bencodex.Types.Binary)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L68">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_System_IEquatable_Bencodex_Types_Binary__Equals_" data-uid="Bencodex.Types.Binary.System#IEquatable{Bencodex#Types#Binary}#Equals*"></a>
+  <h4 id="Bencodex_Types_Binary_System_IEquatable_Bencodex_Types_Binary__Equals_Bencodex_Types_Binary_" data-uid="Bencodex.Types.Binary.System#IEquatable{Bencodex#Types#Binary}#Equals(Bencodex.Types.Binary)">IEquatable&lt;Binary&gt;.Equals(Binary)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool IEquatable&lt;Binary&gt;.Equals(Binary other)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Bencodex.Types.Binary.html">Binary</a></td>
+        <td><span class="parametername">other</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary_System_IEquatable_System_Byte____Equals_System_Byte___.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary.System%23IEquatable%7BSystem%23Byte%5B%5D%7D%23Equals(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L62">View Source</a>
+  </span>
+  <a id="Bencodex_Types_Binary_System_IEquatable_System_Byte____Equals_" data-uid="Bencodex.Types.Binary.System#IEquatable{System#Byte[]}#Equals*"></a>
+  <h4 id="Bencodex_Types_Binary_System_IEquatable_System_Byte____Equals_System_Byte___" data-uid="Bencodex.Types.Binary.System#IEquatable{System#Byte[]}#Equals(System.Byte[])">IEquatable&lt;Byte[]&gt;.Equals(Byte[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool IEquatable&lt;byte[]&gt;.Equals(byte[] otherBytes)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.byte">Byte</a>[]</td>
+        <td><span class="parametername">otherBytes</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="Bencodex.Types.IKey.html">IKey</a>
+  </div>
+  <div>
+      <a class="xref" href="Bencodex.Types.IValue.html">IValue</a>
+  </div>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">System.IComparable&lt;T&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.icomparable-1">System.IComparable&lt;T&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.icomparable">System.IComparable</a>
+  </div>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">System.Collections.Generic.IEnumerable&lt;T&gt;</a>
+  </div>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.ienumerable">System.Collections.IEnumerable</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/planetarium/bencodex.net/new/master/apiSpec/new?filename=Bencodex_Types_Binary.md&amp;value=---%0Auid%3A%20Bencodex.Types.Binary%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/planetarium/bencodex.net/blob/master/Bencodex/Types/Binary.cs/#L14" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

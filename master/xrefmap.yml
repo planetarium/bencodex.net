@@ -1,0 +1,2243 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: Bencodex
+  name: Bencodex
+  href: api/Bencodex.html
+  commentId: N:Bencodex
+  fullName: Bencodex
+  nameWithType: Bencodex
+- uid: Bencodex.Codec
+  name: Codec
+  href: api/Bencodex.Codec.html
+  commentId: T:Bencodex.Codec
+  fullName: Bencodex.Codec
+  nameWithType: Codec
+- uid: Bencodex.Codec.Decode(System.Byte[])
+  name: Decode(Byte[])
+  href: api/Bencodex.Codec.html#Bencodex_Codec_Decode_System_Byte___
+  commentId: M:Bencodex.Codec.Decode(System.Byte[])
+  name.vb: Decode(Byte())
+  fullName: Bencodex.Codec.Decode(System.Byte[])
+  fullName.vb: Bencodex.Codec.Decode(System.Byte())
+  nameWithType: Codec.Decode(Byte[])
+  nameWithType.vb: Codec.Decode(Byte())
+- uid: Bencodex.Codec.Decode(System.IO.Stream)
+  name: Decode(Stream)
+  href: api/Bencodex.Codec.html#Bencodex_Codec_Decode_System_IO_Stream_
+  commentId: M:Bencodex.Codec.Decode(System.IO.Stream)
+  fullName: Bencodex.Codec.Decode(System.IO.Stream)
+  nameWithType: Codec.Decode(Stream)
+- uid: Bencodex.Codec.Decode*
+  name: Decode
+  href: api/Bencodex.Codec.html#Bencodex_Codec_Decode_
+  commentId: Overload:Bencodex.Codec.Decode
+  isSpec: "True"
+  fullName: Bencodex.Codec.Decode
+  nameWithType: Codec.Decode
+- uid: Bencodex.Codec.Encode(Bencodex.Types.IValue)
+  name: Encode(IValue)
+  href: api/Bencodex.Codec.html#Bencodex_Codec_Encode_Bencodex_Types_IValue_
+  commentId: M:Bencodex.Codec.Encode(Bencodex.Types.IValue)
+  fullName: Bencodex.Codec.Encode(Bencodex.Types.IValue)
+  nameWithType: Codec.Encode(IValue)
+- uid: Bencodex.Codec.Encode(Bencodex.Types.IValue,System.IO.Stream)
+  name: Encode(IValue, Stream)
+  href: api/Bencodex.Codec.html#Bencodex_Codec_Encode_Bencodex_Types_IValue_System_IO_Stream_
+  commentId: M:Bencodex.Codec.Encode(Bencodex.Types.IValue,System.IO.Stream)
+  fullName: Bencodex.Codec.Encode(Bencodex.Types.IValue, System.IO.Stream)
+  nameWithType: Codec.Encode(IValue, Stream)
+- uid: Bencodex.Codec.Encode*
+  name: Encode
+  href: api/Bencodex.Codec.html#Bencodex_Codec_Encode_
+  commentId: Overload:Bencodex.Codec.Encode
+  isSpec: "True"
+  fullName: Bencodex.Codec.Encode
+  nameWithType: Codec.Encode
+- uid: Bencodex.CodecException
+  name: CodecException
+  href: api/Bencodex.CodecException.html
+  commentId: T:Bencodex.CodecException
+  fullName: Bencodex.CodecException
+  nameWithType: CodecException
+- uid: Bencodex.CodecException.#ctor(System.String)
+  name: CodecException(String)
+  href: api/Bencodex.CodecException.html#Bencodex_CodecException__ctor_System_String_
+  commentId: M:Bencodex.CodecException.#ctor(System.String)
+  fullName: Bencodex.CodecException.CodecException(System.String)
+  nameWithType: CodecException.CodecException(String)
+- uid: Bencodex.CodecException.#ctor(System.String,System.Exception)
+  name: CodecException(String, Exception)
+  href: api/Bencodex.CodecException.html#Bencodex_CodecException__ctor_System_String_System_Exception_
+  commentId: M:Bencodex.CodecException.#ctor(System.String,System.Exception)
+  fullName: Bencodex.CodecException.CodecException(System.String, System.Exception)
+  nameWithType: CodecException.CodecException(String, Exception)
+- uid: Bencodex.CodecException.#ctor*
+  name: CodecException
+  href: api/Bencodex.CodecException.html#Bencodex_CodecException__ctor_
+  commentId: Overload:Bencodex.CodecException.#ctor
+  isSpec: "True"
+  fullName: Bencodex.CodecException.CodecException
+  nameWithType: CodecException.CodecException
+- uid: Bencodex.DecodingException
+  name: DecodingException
+  href: api/Bencodex.DecodingException.html
+  commentId: T:Bencodex.DecodingException
+  fullName: Bencodex.DecodingException
+  nameWithType: DecodingException
+- uid: Bencodex.DecodingException.#ctor(System.String)
+  name: DecodingException(String)
+  href: api/Bencodex.DecodingException.html#Bencodex_DecodingException__ctor_System_String_
+  commentId: M:Bencodex.DecodingException.#ctor(System.String)
+  fullName: Bencodex.DecodingException.DecodingException(System.String)
+  nameWithType: DecodingException.DecodingException(String)
+- uid: Bencodex.DecodingException.#ctor(System.String,System.Exception)
+  name: DecodingException(String, Exception)
+  href: api/Bencodex.DecodingException.html#Bencodex_DecodingException__ctor_System_String_System_Exception_
+  commentId: M:Bencodex.DecodingException.#ctor(System.String,System.Exception)
+  fullName: Bencodex.DecodingException.DecodingException(System.String, System.Exception)
+  nameWithType: DecodingException.DecodingException(String, Exception)
+- uid: Bencodex.DecodingException.#ctor*
+  name: DecodingException
+  href: api/Bencodex.DecodingException.html#Bencodex_DecodingException__ctor_
+  commentId: Overload:Bencodex.DecodingException.#ctor
+  isSpec: "True"
+  fullName: Bencodex.DecodingException.DecodingException
+  nameWithType: DecodingException.DecodingException
+- uid: Bencodex.Misc
+  name: Bencodex.Misc
+  href: api/Bencodex.Misc.html
+  commentId: N:Bencodex.Misc
+  fullName: Bencodex.Misc
+  nameWithType: Bencodex.Misc
+- uid: Bencodex.Misc.ByteArrayComparer
+  name: ByteArrayComparer
+  href: api/Bencodex.Misc.ByteArrayComparer.html
+  commentId: T:Bencodex.Misc.ByteArrayComparer
+  fullName: Bencodex.Misc.ByteArrayComparer
+  nameWithType: ByteArrayComparer
+- uid: Bencodex.Misc.ByteArrayComparer.Compare(System.Byte[],System.Byte[])
+  name: Compare(Byte[], Byte[])
+  href: api/Bencodex.Misc.ByteArrayComparer.html#Bencodex_Misc_ByteArrayComparer_Compare_System_Byte___System_Byte___
+  commentId: M:Bencodex.Misc.ByteArrayComparer.Compare(System.Byte[],System.Byte[])
+  name.vb: Compare(Byte(), Byte())
+  fullName: Bencodex.Misc.ByteArrayComparer.Compare(System.Byte[], System.Byte[])
+  fullName.vb: Bencodex.Misc.ByteArrayComparer.Compare(System.Byte(), System.Byte())
+  nameWithType: ByteArrayComparer.Compare(Byte[], Byte[])
+  nameWithType.vb: ByteArrayComparer.Compare(Byte(), Byte())
+- uid: Bencodex.Misc.ByteArrayComparer.Compare*
+  name: Compare
+  href: api/Bencodex.Misc.ByteArrayComparer.html#Bencodex_Misc_ByteArrayComparer_Compare_
+  commentId: Overload:Bencodex.Misc.ByteArrayComparer.Compare
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteArrayComparer.Compare
+  nameWithType: ByteArrayComparer.Compare
+- uid: Bencodex.Misc.ByteChunkQueue
+  name: ByteChunkQueue
+  href: api/Bencodex.Misc.ByteChunkQueue.html
+  commentId: T:Bencodex.Misc.ByteChunkQueue
+  fullName: Bencodex.Misc.ByteChunkQueue
+  nameWithType: ByteChunkQueue
+- uid: Bencodex.Misc.ByteChunkQueue.#ctor
+  name: ByteChunkQueue()
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue__ctor
+  commentId: M:Bencodex.Misc.ByteChunkQueue.#ctor
+  fullName: Bencodex.Misc.ByteChunkQueue.ByteChunkQueue()
+  nameWithType: ByteChunkQueue.ByteChunkQueue()
+- uid: Bencodex.Misc.ByteChunkQueue.#ctor*
+  name: ByteChunkQueue
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue__ctor_
+  commentId: Overload:Bencodex.Misc.ByteChunkQueue.#ctor
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteChunkQueue.ByteChunkQueue
+  nameWithType: ByteChunkQueue.ByteChunkQueue
+- uid: Bencodex.Misc.ByteChunkQueue.Append(System.Byte[])
+  name: Append(Byte[])
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_Append_System_Byte___
+  commentId: M:Bencodex.Misc.ByteChunkQueue.Append(System.Byte[])
+  name.vb: Append(Byte())
+  fullName: Bencodex.Misc.ByteChunkQueue.Append(System.Byte[])
+  fullName.vb: Bencodex.Misc.ByteChunkQueue.Append(System.Byte())
+  nameWithType: ByteChunkQueue.Append(Byte[])
+  nameWithType.vb: ByteChunkQueue.Append(Byte())
+- uid: Bencodex.Misc.ByteChunkQueue.Append*
+  name: Append
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_Append_
+  commentId: Overload:Bencodex.Misc.ByteChunkQueue.Append
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteChunkQueue.Append
+  nameWithType: ByteChunkQueue.Append
+- uid: Bencodex.Misc.ByteChunkQueue.ByteLength
+  name: ByteLength
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_ByteLength
+  commentId: P:Bencodex.Misc.ByteChunkQueue.ByteLength
+  fullName: Bencodex.Misc.ByteChunkQueue.ByteLength
+  nameWithType: ByteChunkQueue.ByteLength
+- uid: Bencodex.Misc.ByteChunkQueue.ByteLength*
+  name: ByteLength
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_ByteLength_
+  commentId: Overload:Bencodex.Misc.ByteChunkQueue.ByteLength
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteChunkQueue.ByteLength
+  nameWithType: ByteChunkQueue.ByteLength
+- uid: Bencodex.Misc.ByteChunkQueue.Empty
+  name: Empty
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_Empty
+  commentId: P:Bencodex.Misc.ByteChunkQueue.Empty
+  fullName: Bencodex.Misc.ByteChunkQueue.Empty
+  nameWithType: ByteChunkQueue.Empty
+- uid: Bencodex.Misc.ByteChunkQueue.Empty*
+  name: Empty
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_Empty_
+  commentId: Overload:Bencodex.Misc.ByteChunkQueue.Empty
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteChunkQueue.Empty
+  nameWithType: ByteChunkQueue.Empty
+- uid: Bencodex.Misc.ByteChunkQueue.FirstByte
+  name: FirstByte
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_FirstByte
+  commentId: P:Bencodex.Misc.ByteChunkQueue.FirstByte
+  fullName: Bencodex.Misc.ByteChunkQueue.FirstByte
+  nameWithType: ByteChunkQueue.FirstByte
+- uid: Bencodex.Misc.ByteChunkQueue.FirstByte*
+  name: FirstByte
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_FirstByte_
+  commentId: Overload:Bencodex.Misc.ByteChunkQueue.FirstByte
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteChunkQueue.FirstByte
+  nameWithType: ByteChunkQueue.FirstByte
+- uid: Bencodex.Misc.ByteChunkQueue.IndexOf(System.Byte)
+  name: IndexOf(Byte)
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_IndexOf_System_Byte_
+  commentId: M:Bencodex.Misc.ByteChunkQueue.IndexOf(System.Byte)
+  fullName: Bencodex.Misc.ByteChunkQueue.IndexOf(System.Byte)
+  nameWithType: ByteChunkQueue.IndexOf(Byte)
+- uid: Bencodex.Misc.ByteChunkQueue.IndexOf*
+  name: IndexOf
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_IndexOf_
+  commentId: Overload:Bencodex.Misc.ByteChunkQueue.IndexOf
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteChunkQueue.IndexOf
+  nameWithType: ByteChunkQueue.IndexOf
+- uid: Bencodex.Misc.ByteChunkQueue.Pop(System.Int64)
+  name: Pop(Int64)
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_Pop_System_Int64_
+  commentId: M:Bencodex.Misc.ByteChunkQueue.Pop(System.Int64)
+  fullName: Bencodex.Misc.ByteChunkQueue.Pop(System.Int64)
+  nameWithType: ByteChunkQueue.Pop(Int64)
+- uid: Bencodex.Misc.ByteChunkQueue.Pop*
+  name: Pop
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_Pop_
+  commentId: Overload:Bencodex.Misc.ByteChunkQueue.Pop
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteChunkQueue.Pop
+  nameWithType: ByteChunkQueue.Pop
+- uid: Bencodex.Misc.ByteChunkQueue.ReadFrom(System.IO.Stream,System.Int32)
+  name: ReadFrom(Stream, Int32)
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_ReadFrom_System_IO_Stream_System_Int32_
+  commentId: M:Bencodex.Misc.ByteChunkQueue.ReadFrom(System.IO.Stream,System.Int32)
+  fullName: Bencodex.Misc.ByteChunkQueue.ReadFrom(System.IO.Stream, System.Int32)
+  nameWithType: ByteChunkQueue.ReadFrom(Stream, Int32)
+- uid: Bencodex.Misc.ByteChunkQueue.ReadFrom*
+  name: ReadFrom
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_ReadFrom_
+  commentId: Overload:Bencodex.Misc.ByteChunkQueue.ReadFrom
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteChunkQueue.ReadFrom
+  nameWithType: ByteChunkQueue.ReadFrom
+- uid: Bencodex.Misc.ByteChunkQueue.StartsWith(System.Byte[])
+  name: StartsWith(Byte[])
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_StartsWith_System_Byte___
+  commentId: M:Bencodex.Misc.ByteChunkQueue.StartsWith(System.Byte[])
+  name.vb: StartsWith(Byte())
+  fullName: Bencodex.Misc.ByteChunkQueue.StartsWith(System.Byte[])
+  fullName.vb: Bencodex.Misc.ByteChunkQueue.StartsWith(System.Byte())
+  nameWithType: ByteChunkQueue.StartsWith(Byte[])
+  nameWithType.vb: ByteChunkQueue.StartsWith(Byte())
+- uid: Bencodex.Misc.ByteChunkQueue.StartsWith*
+  name: StartsWith
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_StartsWith_
+  commentId: Overload:Bencodex.Misc.ByteChunkQueue.StartsWith
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteChunkQueue.StartsWith
+  nameWithType: ByteChunkQueue.StartsWith
+- uid: Bencodex.Misc.ByteChunkQueue.ToString
+  name: ToString()
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_ToString
+  commentId: M:Bencodex.Misc.ByteChunkQueue.ToString
+  fullName: Bencodex.Misc.ByteChunkQueue.ToString()
+  nameWithType: ByteChunkQueue.ToString()
+- uid: Bencodex.Misc.ByteChunkQueue.ToString*
+  name: ToString
+  href: api/Bencodex.Misc.ByteChunkQueue.html#Bencodex_Misc_ByteChunkQueue_ToString_
+  commentId: Overload:Bencodex.Misc.ByteChunkQueue.ToString
+  isSpec: "True"
+  fullName: Bencodex.Misc.ByteChunkQueue.ToString
+  nameWithType: ByteChunkQueue.ToString
+- uid: Bencodex.Misc.CompositeComparer`2
+  name: CompositeComparer<A, B>
+  href: api/Bencodex.Misc.CompositeComparer-2.html
+  commentId: T:Bencodex.Misc.CompositeComparer`2
+  name.vb: CompositeComparer(Of A, B)
+  fullName: Bencodex.Misc.CompositeComparer<A, B>
+  fullName.vb: Bencodex.Misc.CompositeComparer(Of A, B)
+  nameWithType: CompositeComparer<A, B>
+  nameWithType.vb: CompositeComparer(Of A, B)
+- uid: Bencodex.Misc.CompositeComparer`2.#ctor(System.Collections.Generic.IComparer{`0},System.Collections.Generic.IComparer{`1})
+  name: CompositeComparer(IComparer<A>, IComparer<B>)
+  href: api/Bencodex.Misc.CompositeComparer-2.html#Bencodex_Misc_CompositeComparer_2__ctor_System_Collections_Generic_IComparer__0__System_Collections_Generic_IComparer__1__
+  commentId: M:Bencodex.Misc.CompositeComparer`2.#ctor(System.Collections.Generic.IComparer{`0},System.Collections.Generic.IComparer{`1})
+  name.vb: CompositeComparer(IComparer(Of A), IComparer(Of B))
+  fullName: Bencodex.Misc.CompositeComparer<A, B>.CompositeComparer(System.Collections.Generic.IComparer<A>, System.Collections.Generic.IComparer<B>)
+  fullName.vb: Bencodex.Misc.CompositeComparer(Of A, B).CompositeComparer(System.Collections.Generic.IComparer(Of A), System.Collections.Generic.IComparer(Of B))
+  nameWithType: CompositeComparer<A, B>.CompositeComparer(IComparer<A>, IComparer<B>)
+  nameWithType.vb: CompositeComparer(Of A, B).CompositeComparer(IComparer(Of A), IComparer(Of B))
+- uid: Bencodex.Misc.CompositeComparer`2.#ctor*
+  name: CompositeComparer
+  href: api/Bencodex.Misc.CompositeComparer-2.html#Bencodex_Misc_CompositeComparer_2__ctor_
+  commentId: Overload:Bencodex.Misc.CompositeComparer`2.#ctor
+  isSpec: "True"
+  fullName: Bencodex.Misc.CompositeComparer<A, B>.CompositeComparer
+  fullName.vb: Bencodex.Misc.CompositeComparer(Of A, B).CompositeComparer
+  nameWithType: CompositeComparer<A, B>.CompositeComparer
+  nameWithType.vb: CompositeComparer(Of A, B).CompositeComparer
+- uid: Bencodex.Misc.CompositeComparer`2.Compare(System.ValueTuple{`0,`1},System.ValueTuple{`0,`1})
+  name: Compare((A, B), (A, B))
+  href: api/Bencodex.Misc.CompositeComparer-2.html#Bencodex_Misc_CompositeComparer_2_Compare_System_ValueTuple__0__1__System_ValueTuple__0__1__
+  commentId: M:Bencodex.Misc.CompositeComparer`2.Compare(System.ValueTuple{`0,`1},System.ValueTuple{`0,`1})
+  fullName: Bencodex.Misc.CompositeComparer<A, B>.Compare(System.ValueTuple<A, B>, System.ValueTuple<A, B>)
+  fullName.vb: Bencodex.Misc.CompositeComparer(Of A, B).Compare(System.ValueTuple(Of A, B), System.ValueTuple(Of A, B))
+  nameWithType: CompositeComparer<A, B>.Compare((A, B), (A, B))
+  nameWithType.vb: CompositeComparer(Of A, B).Compare((A, B), (A, B))
+- uid: Bencodex.Misc.CompositeComparer`2.Compare*
+  name: Compare
+  href: api/Bencodex.Misc.CompositeComparer-2.html#Bencodex_Misc_CompositeComparer_2_Compare_
+  commentId: Overload:Bencodex.Misc.CompositeComparer`2.Compare
+  isSpec: "True"
+  fullName: Bencodex.Misc.CompositeComparer<A, B>.Compare
+  fullName.vb: Bencodex.Misc.CompositeComparer(Of A, B).Compare
+  nameWithType: CompositeComparer<A, B>.Compare
+  nameWithType.vb: CompositeComparer(Of A, B).Compare
+- uid: Bencodex.Misc.CompositeComparer`2.ComparerA
+  name: ComparerA
+  href: api/Bencodex.Misc.CompositeComparer-2.html#Bencodex_Misc_CompositeComparer_2_ComparerA
+  commentId: P:Bencodex.Misc.CompositeComparer`2.ComparerA
+  fullName: Bencodex.Misc.CompositeComparer<A, B>.ComparerA
+  fullName.vb: Bencodex.Misc.CompositeComparer(Of A, B).ComparerA
+  nameWithType: CompositeComparer<A, B>.ComparerA
+  nameWithType.vb: CompositeComparer(Of A, B).ComparerA
+- uid: Bencodex.Misc.CompositeComparer`2.ComparerA*
+  name: ComparerA
+  href: api/Bencodex.Misc.CompositeComparer-2.html#Bencodex_Misc_CompositeComparer_2_ComparerA_
+  commentId: Overload:Bencodex.Misc.CompositeComparer`2.ComparerA
+  isSpec: "True"
+  fullName: Bencodex.Misc.CompositeComparer<A, B>.ComparerA
+  fullName.vb: Bencodex.Misc.CompositeComparer(Of A, B).ComparerA
+  nameWithType: CompositeComparer<A, B>.ComparerA
+  nameWithType.vb: CompositeComparer(Of A, B).ComparerA
+- uid: Bencodex.Misc.CompositeComparer`2.ComparerB
+  name: ComparerB
+  href: api/Bencodex.Misc.CompositeComparer-2.html#Bencodex_Misc_CompositeComparer_2_ComparerB
+  commentId: P:Bencodex.Misc.CompositeComparer`2.ComparerB
+  fullName: Bencodex.Misc.CompositeComparer<A, B>.ComparerB
+  fullName.vb: Bencodex.Misc.CompositeComparer(Of A, B).ComparerB
+  nameWithType: CompositeComparer<A, B>.ComparerB
+  nameWithType.vb: CompositeComparer(Of A, B).ComparerB
+- uid: Bencodex.Misc.CompositeComparer`2.ComparerB*
+  name: ComparerB
+  href: api/Bencodex.Misc.CompositeComparer-2.html#Bencodex_Misc_CompositeComparer_2_ComparerB_
+  commentId: Overload:Bencodex.Misc.CompositeComparer`2.ComparerB
+  isSpec: "True"
+  fullName: Bencodex.Misc.CompositeComparer<A, B>.ComparerB
+  fullName.vb: Bencodex.Misc.CompositeComparer(Of A, B).ComparerB
+  nameWithType: CompositeComparer<A, B>.ComparerB
+  nameWithType.vb: CompositeComparer(Of A, B).ComparerB
+- uid: Bencodex.Types
+  name: Bencodex.Types
+  href: api/Bencodex.Types.html
+  commentId: N:Bencodex.Types
+  fullName: Bencodex.Types
+  nameWithType: Bencodex.Types
+- uid: Bencodex.Types.Binary
+  name: Binary
+  href: api/Bencodex.Types.Binary.html
+  commentId: T:Bencodex.Types.Binary
+  fullName: Bencodex.Types.Binary
+  nameWithType: Binary
+- uid: Bencodex.Types.Binary.#ctor(System.Byte[])
+  name: Binary(Byte[])
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary__ctor_System_Byte___
+  commentId: M:Bencodex.Types.Binary.#ctor(System.Byte[])
+  name.vb: Binary(Byte())
+  fullName: Bencodex.Types.Binary.Binary(System.Byte[])
+  fullName.vb: Bencodex.Types.Binary.Binary(System.Byte())
+  nameWithType: Binary.Binary(Byte[])
+  nameWithType.vb: Binary.Binary(Byte())
+- uid: Bencodex.Types.Binary.#ctor*
+  name: Binary
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary__ctor_
+  commentId: Overload:Bencodex.Types.Binary.#ctor
+  isSpec: "True"
+  fullName: Bencodex.Types.Binary.Binary
+  nameWithType: Binary.Binary
+- uid: Bencodex.Types.Binary.Bencodex#Types#IKey#EncodeAsByteArray
+  name: IKey.EncodeAsByteArray()
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_Bencodex_Types_IKey_EncodeAsByteArray
+  commentId: M:Bencodex.Types.Binary.Bencodex#Types#IKey#EncodeAsByteArray
+  name.vb: Bencodex.Types.IKey.EncodeAsByteArray()
+  fullName: Bencodex.Types.Binary.Bencodex.Types.IKey.EncodeAsByteArray()
+  nameWithType: Binary.IKey.EncodeAsByteArray()
+  nameWithType.vb: Binary.Bencodex.Types.IKey.EncodeAsByteArray()
+- uid: Bencodex.Types.Binary.Bencodex#Types#IKey#EncodeAsByteArray*
+  name: IKey.EncodeAsByteArray
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_Bencodex_Types_IKey_EncodeAsByteArray_
+  commentId: Overload:Bencodex.Types.Binary.Bencodex#Types#IKey#EncodeAsByteArray
+  isSpec: "True"
+  name.vb: Bencodex.Types.IKey.EncodeAsByteArray
+  fullName: Bencodex.Types.Binary.Bencodex.Types.IKey.EncodeAsByteArray
+  nameWithType: Binary.IKey.EncodeAsByteArray
+  nameWithType.vb: Binary.Bencodex.Types.IKey.EncodeAsByteArray
+- uid: Bencodex.Types.Binary.Bencodex#Types#IKey#KeyPrefix
+  name: IKey.KeyPrefix
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_Bencodex_Types_IKey_KeyPrefix
+  commentId: P:Bencodex.Types.Binary.Bencodex#Types#IKey#KeyPrefix
+  name.vb: Bencodex.Types.IKey.KeyPrefix
+  fullName: Bencodex.Types.Binary.Bencodex.Types.IKey.KeyPrefix
+  nameWithType: Binary.IKey.KeyPrefix
+  nameWithType.vb: Binary.Bencodex.Types.IKey.KeyPrefix
+- uid: Bencodex.Types.Binary.Bencodex#Types#IKey#KeyPrefix*
+  name: IKey.KeyPrefix
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_Bencodex_Types_IKey_KeyPrefix_
+  commentId: Overload:Bencodex.Types.Binary.Bencodex#Types#IKey#KeyPrefix
+  isSpec: "True"
+  name.vb: Bencodex.Types.IKey.KeyPrefix
+  fullName: Bencodex.Types.Binary.Bencodex.Types.IKey.KeyPrefix
+  nameWithType: Binary.IKey.KeyPrefix
+  nameWithType.vb: Binary.Bencodex.Types.IKey.KeyPrefix
+- uid: Bencodex.Types.Binary.EncodeIntoChunks
+  name: EncodeIntoChunks()
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_EncodeIntoChunks
+  commentId: M:Bencodex.Types.Binary.EncodeIntoChunks
+  fullName: Bencodex.Types.Binary.EncodeIntoChunks()
+  nameWithType: Binary.EncodeIntoChunks()
+- uid: Bencodex.Types.Binary.EncodeIntoChunks*
+  name: EncodeIntoChunks
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_EncodeIntoChunks_
+  commentId: Overload:Bencodex.Types.Binary.EncodeIntoChunks
+  isSpec: "True"
+  fullName: Bencodex.Types.Binary.EncodeIntoChunks
+  nameWithType: Binary.EncodeIntoChunks
+- uid: Bencodex.Types.Binary.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_Equals_System_Object_
+  commentId: M:Bencodex.Types.Binary.Equals(System.Object)
+  fullName: Bencodex.Types.Binary.Equals(System.Object)
+  nameWithType: Binary.Equals(Object)
+- uid: Bencodex.Types.Binary.Equals*
+  name: Equals
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_Equals_
+  commentId: Overload:Bencodex.Types.Binary.Equals
+  isSpec: "True"
+  fullName: Bencodex.Types.Binary.Equals
+  nameWithType: Binary.Equals
+- uid: Bencodex.Types.Binary.GetEnumerator
+  name: GetEnumerator()
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_GetEnumerator
+  commentId: M:Bencodex.Types.Binary.GetEnumerator
+  fullName: Bencodex.Types.Binary.GetEnumerator()
+  nameWithType: Binary.GetEnumerator()
+- uid: Bencodex.Types.Binary.GetEnumerator*
+  name: GetEnumerator
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_GetEnumerator_
+  commentId: Overload:Bencodex.Types.Binary.GetEnumerator
+  isSpec: "True"
+  fullName: Bencodex.Types.Binary.GetEnumerator
+  nameWithType: Binary.GetEnumerator
+- uid: Bencodex.Types.Binary.GetHashCode
+  name: GetHashCode()
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_GetHashCode
+  commentId: M:Bencodex.Types.Binary.GetHashCode
+  fullName: Bencodex.Types.Binary.GetHashCode()
+  nameWithType: Binary.GetHashCode()
+- uid: Bencodex.Types.Binary.GetHashCode*
+  name: GetHashCode
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_GetHashCode_
+  commentId: Overload:Bencodex.Types.Binary.GetHashCode
+  isSpec: "True"
+  fullName: Bencodex.Types.Binary.GetHashCode
+  nameWithType: Binary.GetHashCode
+- uid: Bencodex.Types.Binary.op_Equality(Bencodex.Types.Binary,Bencodex.Types.Binary)
+  name: Equality(Binary, Binary)
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_op_Equality_Bencodex_Types_Binary_Bencodex_Types_Binary_
+  commentId: M:Bencodex.Types.Binary.op_Equality(Bencodex.Types.Binary,Bencodex.Types.Binary)
+  fullName: Bencodex.Types.Binary.Equality(Bencodex.Types.Binary, Bencodex.Types.Binary)
+  nameWithType: Binary.Equality(Binary, Binary)
+- uid: Bencodex.Types.Binary.op_Equality*
+  name: Equality
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_op_Equality_
+  commentId: Overload:Bencodex.Types.Binary.op_Equality
+  isSpec: "True"
+  fullName: Bencodex.Types.Binary.Equality
+  nameWithType: Binary.Equality
+- uid: Bencodex.Types.Binary.op_Implicit(System.Byte[])~Bencodex.Types.Binary
+  name: Implicit(Byte[] to Binary)
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_op_Implicit_System_Byte____Bencodex_Types_Binary
+  commentId: M:Bencodex.Types.Binary.op_Implicit(System.Byte[])~Bencodex.Types.Binary
+  name.vb: Widening(Byte() to Binary)
+  fullName: Bencodex.Types.Binary.Implicit(System.Byte[] to Bencodex.Types.Binary)
+  fullName.vb: Bencodex.Types.Binary.Widening(System.Byte() to Bencodex.Types.Binary)
+  nameWithType: Binary.Implicit(Byte[] to Binary)
+  nameWithType.vb: Binary.Widening(Byte() to Binary)
+- uid: Bencodex.Types.Binary.op_Implicit*
+  name: Implicit
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_op_Implicit_
+  commentId: Overload:Bencodex.Types.Binary.op_Implicit
+  isSpec: "True"
+  name.vb: Widening
+  fullName: Bencodex.Types.Binary.Implicit
+  fullName.vb: Bencodex.Types.Binary.Widening
+  nameWithType: Binary.Implicit
+  nameWithType.vb: Binary.Widening
+- uid: Bencodex.Types.Binary.op_Inequality(Bencodex.Types.Binary,Bencodex.Types.Binary)
+  name: Inequality(Binary, Binary)
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_op_Inequality_Bencodex_Types_Binary_Bencodex_Types_Binary_
+  commentId: M:Bencodex.Types.Binary.op_Inequality(Bencodex.Types.Binary,Bencodex.Types.Binary)
+  fullName: Bencodex.Types.Binary.Inequality(Bencodex.Types.Binary, Bencodex.Types.Binary)
+  nameWithType: Binary.Inequality(Binary, Binary)
+- uid: Bencodex.Types.Binary.op_Inequality*
+  name: Inequality
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_op_Inequality_
+  commentId: Overload:Bencodex.Types.Binary.op_Inequality
+  isSpec: "True"
+  fullName: Bencodex.Types.Binary.Inequality
+  nameWithType: Binary.Inequality
+- uid: Bencodex.Types.Binary.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_Collections_IEnumerable_GetEnumerator
+  commentId: M:Bencodex.Types.Binary.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  fullName: Bencodex.Types.Binary.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType: Binary.IEnumerable.GetEnumerator()
+  nameWithType.vb: Binary.System.Collections.IEnumerable.GetEnumerator()
+- uid: Bencodex.Types.Binary.System#Collections#IEnumerable#GetEnumerator*
+  name: IEnumerable.GetEnumerator
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_Collections_IEnumerable_GetEnumerator_
+  commentId: Overload:Bencodex.Types.Binary.System#Collections#IEnumerable#GetEnumerator
+  isSpec: "True"
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+  fullName: Bencodex.Types.Binary.System.Collections.IEnumerable.GetEnumerator
+  nameWithType: Binary.IEnumerable.GetEnumerator
+  nameWithType.vb: Binary.System.Collections.IEnumerable.GetEnumerator
+- uid: Bencodex.Types.Binary.System#IComparable#CompareTo(System.Object)
+  name: IComparable.CompareTo(Object)
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_IComparable_CompareTo_System_Object_
+  commentId: M:Bencodex.Types.Binary.System#IComparable#CompareTo(System.Object)
+  name.vb: System.IComparable.CompareTo(Object)
+  fullName: Bencodex.Types.Binary.System.IComparable.CompareTo(System.Object)
+  nameWithType: Binary.IComparable.CompareTo(Object)
+  nameWithType.vb: Binary.System.IComparable.CompareTo(Object)
+- uid: Bencodex.Types.Binary.System#IComparable#CompareTo*
+  name: IComparable.CompareTo
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_IComparable_CompareTo_
+  commentId: Overload:Bencodex.Types.Binary.System#IComparable#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable.CompareTo
+  fullName: Bencodex.Types.Binary.System.IComparable.CompareTo
+  nameWithType: Binary.IComparable.CompareTo
+  nameWithType.vb: Binary.System.IComparable.CompareTo
+- uid: Bencodex.Types.Binary.System#IComparable{Bencodex#Types#Binary}#CompareTo(Bencodex.Types.Binary)
+  name: IComparable<Binary>.CompareTo(Binary)
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_IComparable_Bencodex_Types_Binary__CompareTo_Bencodex_Types_Binary_
+  commentId: M:Bencodex.Types.Binary.System#IComparable{Bencodex#Types#Binary}#CompareTo(Bencodex.Types.Binary)
+  name.vb: System.IComparable<Bencodex.Types.Binary>.CompareTo(Binary)
+  fullName: Bencodex.Types.Binary.System.IComparable<Bencodex.Types.Binary>.CompareTo(Bencodex.Types.Binary)
+  nameWithType: Binary.IComparable<Binary>.CompareTo(Binary)
+  nameWithType.vb: Binary.System.IComparable<Bencodex.Types.Binary>.CompareTo(Binary)
+- uid: Bencodex.Types.Binary.System#IComparable{Bencodex#Types#Binary}#CompareTo*
+  name: IComparable<Binary>.CompareTo
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_IComparable_Bencodex_Types_Binary__CompareTo_
+  commentId: Overload:Bencodex.Types.Binary.System#IComparable{Bencodex#Types#Binary}#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable<Bencodex.Types.Binary>.CompareTo
+  fullName: Bencodex.Types.Binary.System.IComparable<Bencodex.Types.Binary>.CompareTo
+  nameWithType: Binary.IComparable<Binary>.CompareTo
+  nameWithType.vb: Binary.System.IComparable<Bencodex.Types.Binary>.CompareTo
+- uid: Bencodex.Types.Binary.System#IComparable{System#Byte[]}#CompareTo(System.Byte[])
+  name: IComparable<Byte[]>.CompareTo(Byte[])
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_IComparable_System_Byte____CompareTo_System_Byte___
+  commentId: M:Bencodex.Types.Binary.System#IComparable{System#Byte[]}#CompareTo(System.Byte[])
+  name.vb: System.IComparable<System.Byte[]>.CompareTo(Byte())
+  fullName: Bencodex.Types.Binary.System.IComparable<System.Byte[]>.CompareTo(System.Byte[])
+  fullName.vb: Bencodex.Types.Binary.System.IComparable<System.Byte[]>.CompareTo(System.Byte())
+  nameWithType: Binary.IComparable<Byte[]>.CompareTo(Byte[])
+  nameWithType.vb: Binary.System.IComparable<System.Byte[]>.CompareTo(Byte())
+- uid: Bencodex.Types.Binary.System#IComparable{System#Byte[]}#CompareTo*
+  name: IComparable<Byte[]>.CompareTo
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_IComparable_System_Byte____CompareTo_
+  commentId: Overload:Bencodex.Types.Binary.System#IComparable{System#Byte[]}#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable<System.Byte[]>.CompareTo
+  fullName: Bencodex.Types.Binary.System.IComparable<System.Byte[]>.CompareTo
+  nameWithType: Binary.IComparable<Byte[]>.CompareTo
+  nameWithType.vb: Binary.System.IComparable<System.Byte[]>.CompareTo
+- uid: Bencodex.Types.Binary.System#IEquatable{Bencodex#Types#Binary}#Equals(Bencodex.Types.Binary)
+  name: IEquatable<Binary>.Equals(Binary)
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_IEquatable_Bencodex_Types_Binary__Equals_Bencodex_Types_Binary_
+  commentId: M:Bencodex.Types.Binary.System#IEquatable{Bencodex#Types#Binary}#Equals(Bencodex.Types.Binary)
+  name.vb: System.IEquatable<Bencodex.Types.Binary>.Equals(Binary)
+  fullName: Bencodex.Types.Binary.System.IEquatable<Bencodex.Types.Binary>.Equals(Bencodex.Types.Binary)
+  nameWithType: Binary.IEquatable<Binary>.Equals(Binary)
+  nameWithType.vb: Binary.System.IEquatable<Bencodex.Types.Binary>.Equals(Binary)
+- uid: Bencodex.Types.Binary.System#IEquatable{Bencodex#Types#Binary}#Equals*
+  name: IEquatable<Binary>.Equals
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_IEquatable_Bencodex_Types_Binary__Equals_
+  commentId: Overload:Bencodex.Types.Binary.System#IEquatable{Bencodex#Types#Binary}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<Bencodex.Types.Binary>.Equals
+  fullName: Bencodex.Types.Binary.System.IEquatable<Bencodex.Types.Binary>.Equals
+  nameWithType: Binary.IEquatable<Binary>.Equals
+  nameWithType.vb: Binary.System.IEquatable<Bencodex.Types.Binary>.Equals
+- uid: Bencodex.Types.Binary.System#IEquatable{System#Byte[]}#Equals(System.Byte[])
+  name: IEquatable<Byte[]>.Equals(Byte[])
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_IEquatable_System_Byte____Equals_System_Byte___
+  commentId: M:Bencodex.Types.Binary.System#IEquatable{System#Byte[]}#Equals(System.Byte[])
+  name.vb: System.IEquatable<System.Byte[]>.Equals(Byte())
+  fullName: Bencodex.Types.Binary.System.IEquatable<System.Byte[]>.Equals(System.Byte[])
+  fullName.vb: Bencodex.Types.Binary.System.IEquatable<System.Byte[]>.Equals(System.Byte())
+  nameWithType: Binary.IEquatable<Byte[]>.Equals(Byte[])
+  nameWithType.vb: Binary.System.IEquatable<System.Byte[]>.Equals(Byte())
+- uid: Bencodex.Types.Binary.System#IEquatable{System#Byte[]}#Equals*
+  name: IEquatable<Byte[]>.Equals
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_System_IEquatable_System_Byte____Equals_
+  commentId: Overload:Bencodex.Types.Binary.System#IEquatable{System#Byte[]}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<System.Byte[]>.Equals
+  fullName: Bencodex.Types.Binary.System.IEquatable<System.Byte[]>.Equals
+  nameWithType: Binary.IEquatable<Byte[]>.Equals
+  nameWithType.vb: Binary.System.IEquatable<System.Byte[]>.Equals
+- uid: Bencodex.Types.Binary.ToString
+  name: ToString()
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_ToString
+  commentId: M:Bencodex.Types.Binary.ToString
+  fullName: Bencodex.Types.Binary.ToString()
+  nameWithType: Binary.ToString()
+- uid: Bencodex.Types.Binary.ToString*
+  name: ToString
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_ToString_
+  commentId: Overload:Bencodex.Types.Binary.ToString
+  isSpec: "True"
+  fullName: Bencodex.Types.Binary.ToString
+  nameWithType: Binary.ToString
+- uid: Bencodex.Types.Binary.Value
+  name: Value
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_Value
+  commentId: P:Bencodex.Types.Binary.Value
+  fullName: Bencodex.Types.Binary.Value
+  nameWithType: Binary.Value
+- uid: Bencodex.Types.Binary.Value*
+  name: Value
+  href: api/Bencodex.Types.Binary.html#Bencodex_Types_Binary_Value_
+  commentId: Overload:Bencodex.Types.Binary.Value
+  isSpec: "True"
+  fullName: Bencodex.Types.Binary.Value
+  nameWithType: Binary.Value
+- uid: Bencodex.Types.Boolean
+  name: Boolean
+  href: api/Bencodex.Types.Boolean.html
+  commentId: T:Bencodex.Types.Boolean
+  fullName: Bencodex.Types.Boolean
+  nameWithType: Boolean
+- uid: Bencodex.Types.Boolean.#ctor(System.Boolean)
+  name: Boolean(Boolean)
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean__ctor_System_Boolean_
+  commentId: M:Bencodex.Types.Boolean.#ctor(System.Boolean)
+  fullName: Bencodex.Types.Boolean.Boolean(System.Boolean)
+  nameWithType: Boolean.Boolean(Boolean)
+- uid: Bencodex.Types.Boolean.#ctor*
+  name: Boolean
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean__ctor_
+  commentId: Overload:Bencodex.Types.Boolean.#ctor
+  isSpec: "True"
+  fullName: Bencodex.Types.Boolean.Boolean
+  nameWithType: Boolean.Boolean
+- uid: Bencodex.Types.Boolean.CompareTo(System.Object)
+  name: CompareTo(Object)
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_CompareTo_System_Object_
+  commentId: M:Bencodex.Types.Boolean.CompareTo(System.Object)
+  fullName: Bencodex.Types.Boolean.CompareTo(System.Object)
+  nameWithType: Boolean.CompareTo(Object)
+- uid: Bencodex.Types.Boolean.CompareTo*
+  name: CompareTo
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_CompareTo_
+  commentId: Overload:Bencodex.Types.Boolean.CompareTo
+  isSpec: "True"
+  fullName: Bencodex.Types.Boolean.CompareTo
+  nameWithType: Boolean.CompareTo
+- uid: Bencodex.Types.Boolean.EncodeIntoChunks
+  name: EncodeIntoChunks()
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_EncodeIntoChunks
+  commentId: M:Bencodex.Types.Boolean.EncodeIntoChunks
+  fullName: Bencodex.Types.Boolean.EncodeIntoChunks()
+  nameWithType: Boolean.EncodeIntoChunks()
+- uid: Bencodex.Types.Boolean.EncodeIntoChunks*
+  name: EncodeIntoChunks
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_EncodeIntoChunks_
+  commentId: Overload:Bencodex.Types.Boolean.EncodeIntoChunks
+  isSpec: "True"
+  fullName: Bencodex.Types.Boolean.EncodeIntoChunks
+  nameWithType: Boolean.EncodeIntoChunks
+- uid: Bencodex.Types.Boolean.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_Equals_System_Object_
+  commentId: M:Bencodex.Types.Boolean.Equals(System.Object)
+  fullName: Bencodex.Types.Boolean.Equals(System.Object)
+  nameWithType: Boolean.Equals(Object)
+- uid: Bencodex.Types.Boolean.Equals*
+  name: Equals
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_Equals_
+  commentId: Overload:Bencodex.Types.Boolean.Equals
+  isSpec: "True"
+  fullName: Bencodex.Types.Boolean.Equals
+  nameWithType: Boolean.Equals
+- uid: Bencodex.Types.Boolean.GetHashCode
+  name: GetHashCode()
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_GetHashCode
+  commentId: M:Bencodex.Types.Boolean.GetHashCode
+  fullName: Bencodex.Types.Boolean.GetHashCode()
+  nameWithType: Boolean.GetHashCode()
+- uid: Bencodex.Types.Boolean.GetHashCode*
+  name: GetHashCode
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_GetHashCode_
+  commentId: Overload:Bencodex.Types.Boolean.GetHashCode
+  isSpec: "True"
+  fullName: Bencodex.Types.Boolean.GetHashCode
+  nameWithType: Boolean.GetHashCode
+- uid: Bencodex.Types.Boolean.System#IComparable{Bencodex#Types#Boolean}#CompareTo(Bencodex.Types.Boolean)
+  name: IComparable<Boolean>.CompareTo(Boolean)
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_System_IComparable_Bencodex_Types_Boolean__CompareTo_Bencodex_Types_Boolean_
+  commentId: M:Bencodex.Types.Boolean.System#IComparable{Bencodex#Types#Boolean}#CompareTo(Bencodex.Types.Boolean)
+  name.vb: System.IComparable<Bencodex.Types.Boolean>.CompareTo(Boolean)
+  fullName: Bencodex.Types.Boolean.System.IComparable<Bencodex.Types.Boolean>.CompareTo(Bencodex.Types.Boolean)
+  nameWithType: Boolean.IComparable<Boolean>.CompareTo(Boolean)
+  nameWithType.vb: Boolean.System.IComparable<Bencodex.Types.Boolean>.CompareTo(Boolean)
+- uid: Bencodex.Types.Boolean.System#IComparable{Bencodex#Types#Boolean}#CompareTo*
+  name: IComparable<Boolean>.CompareTo
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_System_IComparable_Bencodex_Types_Boolean__CompareTo_
+  commentId: Overload:Bencodex.Types.Boolean.System#IComparable{Bencodex#Types#Boolean}#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable<Bencodex.Types.Boolean>.CompareTo
+  fullName: Bencodex.Types.Boolean.System.IComparable<Bencodex.Types.Boolean>.CompareTo
+  nameWithType: Boolean.IComparable<Boolean>.CompareTo
+  nameWithType.vb: Boolean.System.IComparable<Bencodex.Types.Boolean>.CompareTo
+- uid: Bencodex.Types.Boolean.System#IComparable{System#Boolean}#CompareTo(System.Boolean)
+  name: IComparable<Boolean>.CompareTo(Boolean)
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_System_IComparable_System_Boolean__CompareTo_System_Boolean_
+  commentId: M:Bencodex.Types.Boolean.System#IComparable{System#Boolean}#CompareTo(System.Boolean)
+  name.vb: System.IComparable<System.Boolean>.CompareTo(Boolean)
+  fullName: Bencodex.Types.Boolean.System.IComparable<System.Boolean>.CompareTo(System.Boolean)
+  nameWithType: Boolean.IComparable<Boolean>.CompareTo(Boolean)
+  nameWithType.vb: Boolean.System.IComparable<System.Boolean>.CompareTo(Boolean)
+- uid: Bencodex.Types.Boolean.System#IComparable{System#Boolean}#CompareTo*
+  name: IComparable<Boolean>.CompareTo
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_System_IComparable_System_Boolean__CompareTo_
+  commentId: Overload:Bencodex.Types.Boolean.System#IComparable{System#Boolean}#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable<System.Boolean>.CompareTo
+  fullName: Bencodex.Types.Boolean.System.IComparable<System.Boolean>.CompareTo
+  nameWithType: Boolean.IComparable<Boolean>.CompareTo
+  nameWithType.vb: Boolean.System.IComparable<System.Boolean>.CompareTo
+- uid: Bencodex.Types.Boolean.System#IEquatable{Bencodex#Types#Boolean}#Equals(Bencodex.Types.Boolean)
+  name: IEquatable<Boolean>.Equals(Boolean)
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_System_IEquatable_Bencodex_Types_Boolean__Equals_Bencodex_Types_Boolean_
+  commentId: M:Bencodex.Types.Boolean.System#IEquatable{Bencodex#Types#Boolean}#Equals(Bencodex.Types.Boolean)
+  name.vb: System.IEquatable<Bencodex.Types.Boolean>.Equals(Boolean)
+  fullName: Bencodex.Types.Boolean.System.IEquatable<Bencodex.Types.Boolean>.Equals(Bencodex.Types.Boolean)
+  nameWithType: Boolean.IEquatable<Boolean>.Equals(Boolean)
+  nameWithType.vb: Boolean.System.IEquatable<Bencodex.Types.Boolean>.Equals(Boolean)
+- uid: Bencodex.Types.Boolean.System#IEquatable{Bencodex#Types#Boolean}#Equals*
+  name: IEquatable<Boolean>.Equals
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_System_IEquatable_Bencodex_Types_Boolean__Equals_
+  commentId: Overload:Bencodex.Types.Boolean.System#IEquatable{Bencodex#Types#Boolean}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<Bencodex.Types.Boolean>.Equals
+  fullName: Bencodex.Types.Boolean.System.IEquatable<Bencodex.Types.Boolean>.Equals
+  nameWithType: Boolean.IEquatable<Boolean>.Equals
+  nameWithType.vb: Boolean.System.IEquatable<Bencodex.Types.Boolean>.Equals
+- uid: Bencodex.Types.Boolean.System#IEquatable{System#Boolean}#Equals(System.Boolean)
+  name: IEquatable<Boolean>.Equals(Boolean)
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_System_IEquatable_System_Boolean__Equals_System_Boolean_
+  commentId: M:Bencodex.Types.Boolean.System#IEquatable{System#Boolean}#Equals(System.Boolean)
+  name.vb: System.IEquatable<System.Boolean>.Equals(Boolean)
+  fullName: Bencodex.Types.Boolean.System.IEquatable<System.Boolean>.Equals(System.Boolean)
+  nameWithType: Boolean.IEquatable<Boolean>.Equals(Boolean)
+  nameWithType.vb: Boolean.System.IEquatable<System.Boolean>.Equals(Boolean)
+- uid: Bencodex.Types.Boolean.System#IEquatable{System#Boolean}#Equals*
+  name: IEquatable<Boolean>.Equals
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_System_IEquatable_System_Boolean__Equals_
+  commentId: Overload:Bencodex.Types.Boolean.System#IEquatable{System#Boolean}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<System.Boolean>.Equals
+  fullName: Bencodex.Types.Boolean.System.IEquatable<System.Boolean>.Equals
+  nameWithType: Boolean.IEquatable<Boolean>.Equals
+  nameWithType.vb: Boolean.System.IEquatable<System.Boolean>.Equals
+- uid: Bencodex.Types.Boolean.Value
+  name: Value
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_Value
+  commentId: P:Bencodex.Types.Boolean.Value
+  fullName: Bencodex.Types.Boolean.Value
+  nameWithType: Boolean.Value
+- uid: Bencodex.Types.Boolean.Value*
+  name: Value
+  href: api/Bencodex.Types.Boolean.html#Bencodex_Types_Boolean_Value_
+  commentId: Overload:Bencodex.Types.Boolean.Value
+  isSpec: "True"
+  fullName: Bencodex.Types.Boolean.Value
+  nameWithType: Boolean.Value
+- uid: Bencodex.Types.Dictionary
+  name: Dictionary
+  href: api/Bencodex.Types.Dictionary.html
+  commentId: T:Bencodex.Types.Dictionary
+  fullName: Bencodex.Types.Dictionary
+  nameWithType: Dictionary
+- uid: Bencodex.Types.Dictionary.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{Bencodex.Types.IKey,Bencodex.Types.IValue}})
+  name: Dictionary(IEnumerable<KeyValuePair<IKey, IValue>>)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary__ctor_System_Collections_Generic_IEnumerable_System_Collections_Generic_KeyValuePair_Bencodex_Types_IKey_Bencodex_Types_IValue___
+  commentId: M:Bencodex.Types.Dictionary.#ctor(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{Bencodex.Types.IKey,Bencodex.Types.IValue}})
+  name.vb: Dictionary(IEnumerable(Of KeyValuePair(Of IKey, IValue)))
+  fullName: Bencodex.Types.Dictionary.Dictionary(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<Bencodex.Types.IKey, Bencodex.Types.IValue>>)
+  fullName.vb: Bencodex.Types.Dictionary.Dictionary(System.Collections.Generic.IEnumerable(Of System.Collections.Generic.KeyValuePair(Of Bencodex.Types.IKey, Bencodex.Types.IValue)))
+  nameWithType: Dictionary.Dictionary(IEnumerable<KeyValuePair<IKey, IValue>>)
+  nameWithType.vb: Dictionary.Dictionary(IEnumerable(Of KeyValuePair(Of IKey, IValue)))
+- uid: Bencodex.Types.Dictionary.#ctor*
+  name: Dictionary
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary__ctor_
+  commentId: Overload:Bencodex.Types.Dictionary.#ctor
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.Dictionary
+  nameWithType: Dictionary.Dictionary
+- uid: Bencodex.Types.Dictionary.Add(Bencodex.Types.IKey,Bencodex.Types.IValue)
+  name: Add(IKey, IValue)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Add_Bencodex_Types_IKey_Bencodex_Types_IValue_
+  commentId: M:Bencodex.Types.Dictionary.Add(Bencodex.Types.IKey,Bencodex.Types.IValue)
+  fullName: Bencodex.Types.Dictionary.Add(Bencodex.Types.IKey, Bencodex.Types.IValue)
+  nameWithType: Dictionary.Add(IKey, IValue)
+- uid: Bencodex.Types.Dictionary.Add*
+  name: Add
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Add_
+  commentId: Overload:Bencodex.Types.Dictionary.Add
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.Add
+  nameWithType: Dictionary.Add
+- uid: Bencodex.Types.Dictionary.AddRange(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{Bencodex.Types.IKey,Bencodex.Types.IValue}})
+  name: AddRange(IEnumerable<KeyValuePair<IKey, IValue>>)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_AddRange_System_Collections_Generic_IEnumerable_System_Collections_Generic_KeyValuePair_Bencodex_Types_IKey_Bencodex_Types_IValue___
+  commentId: M:Bencodex.Types.Dictionary.AddRange(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{Bencodex.Types.IKey,Bencodex.Types.IValue}})
+  name.vb: AddRange(IEnumerable(Of KeyValuePair(Of IKey, IValue)))
+  fullName: Bencodex.Types.Dictionary.AddRange(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<Bencodex.Types.IKey, Bencodex.Types.IValue>>)
+  fullName.vb: Bencodex.Types.Dictionary.AddRange(System.Collections.Generic.IEnumerable(Of System.Collections.Generic.KeyValuePair(Of Bencodex.Types.IKey, Bencodex.Types.IValue)))
+  nameWithType: Dictionary.AddRange(IEnumerable<KeyValuePair<IKey, IValue>>)
+  nameWithType.vb: Dictionary.AddRange(IEnumerable(Of KeyValuePair(Of IKey, IValue)))
+- uid: Bencodex.Types.Dictionary.AddRange*
+  name: AddRange
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_AddRange_
+  commentId: Overload:Bencodex.Types.Dictionary.AddRange
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.AddRange
+  nameWithType: Dictionary.AddRange
+- uid: Bencodex.Types.Dictionary.Clear
+  name: Clear()
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Clear
+  commentId: M:Bencodex.Types.Dictionary.Clear
+  fullName: Bencodex.Types.Dictionary.Clear()
+  nameWithType: Dictionary.Clear()
+- uid: Bencodex.Types.Dictionary.Clear*
+  name: Clear
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Clear_
+  commentId: Overload:Bencodex.Types.Dictionary.Clear
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.Clear
+  nameWithType: Dictionary.Clear
+- uid: Bencodex.Types.Dictionary.Contains(System.Collections.Generic.KeyValuePair{Bencodex.Types.IKey,Bencodex.Types.IValue})
+  name: Contains(KeyValuePair<IKey, IValue>)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Contains_System_Collections_Generic_KeyValuePair_Bencodex_Types_IKey_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.Dictionary.Contains(System.Collections.Generic.KeyValuePair{Bencodex.Types.IKey,Bencodex.Types.IValue})
+  name.vb: Contains(KeyValuePair(Of IKey, IValue))
+  fullName: Bencodex.Types.Dictionary.Contains(System.Collections.Generic.KeyValuePair<Bencodex.Types.IKey, Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.Dictionary.Contains(System.Collections.Generic.KeyValuePair(Of Bencodex.Types.IKey, Bencodex.Types.IValue))
+  nameWithType: Dictionary.Contains(KeyValuePair<IKey, IValue>)
+  nameWithType.vb: Dictionary.Contains(KeyValuePair(Of IKey, IValue))
+- uid: Bencodex.Types.Dictionary.Contains*
+  name: Contains
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Contains_
+  commentId: Overload:Bencodex.Types.Dictionary.Contains
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.Contains
+  nameWithType: Dictionary.Contains
+- uid: Bencodex.Types.Dictionary.ContainsKey(Bencodex.Types.IKey)
+  name: ContainsKey(IKey)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_ContainsKey_Bencodex_Types_IKey_
+  commentId: M:Bencodex.Types.Dictionary.ContainsKey(Bencodex.Types.IKey)
+  fullName: Bencodex.Types.Dictionary.ContainsKey(Bencodex.Types.IKey)
+  nameWithType: Dictionary.ContainsKey(IKey)
+- uid: Bencodex.Types.Dictionary.ContainsKey*
+  name: ContainsKey
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_ContainsKey_
+  commentId: Overload:Bencodex.Types.Dictionary.ContainsKey
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.ContainsKey
+  nameWithType: Dictionary.ContainsKey
+- uid: Bencodex.Types.Dictionary.Count
+  name: Count
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Count
+  commentId: P:Bencodex.Types.Dictionary.Count
+  fullName: Bencodex.Types.Dictionary.Count
+  nameWithType: Dictionary.Count
+- uid: Bencodex.Types.Dictionary.Count*
+  name: Count
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Count_
+  commentId: Overload:Bencodex.Types.Dictionary.Count
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.Count
+  nameWithType: Dictionary.Count
+- uid: Bencodex.Types.Dictionary.EncodeIntoChunks
+  name: EncodeIntoChunks()
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_EncodeIntoChunks
+  commentId: M:Bencodex.Types.Dictionary.EncodeIntoChunks
+  fullName: Bencodex.Types.Dictionary.EncodeIntoChunks()
+  nameWithType: Dictionary.EncodeIntoChunks()
+- uid: Bencodex.Types.Dictionary.EncodeIntoChunks*
+  name: EncodeIntoChunks
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_EncodeIntoChunks_
+  commentId: Overload:Bencodex.Types.Dictionary.EncodeIntoChunks
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.EncodeIntoChunks
+  nameWithType: Dictionary.EncodeIntoChunks
+- uid: Bencodex.Types.Dictionary.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Equals_System_Object_
+  commentId: M:Bencodex.Types.Dictionary.Equals(System.Object)
+  fullName: Bencodex.Types.Dictionary.Equals(System.Object)
+  nameWithType: Dictionary.Equals(Object)
+- uid: Bencodex.Types.Dictionary.Equals*
+  name: Equals
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Equals_
+  commentId: Overload:Bencodex.Types.Dictionary.Equals
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.Equals
+  nameWithType: Dictionary.Equals
+- uid: Bencodex.Types.Dictionary.GetEnumerator
+  name: GetEnumerator()
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_GetEnumerator
+  commentId: M:Bencodex.Types.Dictionary.GetEnumerator
+  fullName: Bencodex.Types.Dictionary.GetEnumerator()
+  nameWithType: Dictionary.GetEnumerator()
+- uid: Bencodex.Types.Dictionary.GetEnumerator*
+  name: GetEnumerator
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_GetEnumerator_
+  commentId: Overload:Bencodex.Types.Dictionary.GetEnumerator
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.GetEnumerator
+  nameWithType: Dictionary.GetEnumerator
+- uid: Bencodex.Types.Dictionary.GetHashCode
+  name: GetHashCode()
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_GetHashCode
+  commentId: M:Bencodex.Types.Dictionary.GetHashCode
+  fullName: Bencodex.Types.Dictionary.GetHashCode()
+  nameWithType: Dictionary.GetHashCode()
+- uid: Bencodex.Types.Dictionary.GetHashCode*
+  name: GetHashCode
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_GetHashCode_
+  commentId: Overload:Bencodex.Types.Dictionary.GetHashCode
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.GetHashCode
+  nameWithType: Dictionary.GetHashCode
+- uid: Bencodex.Types.Dictionary.Item(Bencodex.Types.IKey)
+  name: Item[IKey]
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Item_Bencodex_Types_IKey_
+  commentId: P:Bencodex.Types.Dictionary.Item(Bencodex.Types.IKey)
+  name.vb: Item(IKey)
+  fullName: Bencodex.Types.Dictionary.Item[Bencodex.Types.IKey]
+  fullName.vb: Bencodex.Types.Dictionary.Item(Bencodex.Types.IKey)
+  nameWithType: Dictionary.Item[IKey]
+  nameWithType.vb: Dictionary.Item(IKey)
+- uid: Bencodex.Types.Dictionary.Item*
+  name: Item
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Item_
+  commentId: Overload:Bencodex.Types.Dictionary.Item
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.Item
+  nameWithType: Dictionary.Item
+- uid: Bencodex.Types.Dictionary.Keys
+  name: Keys
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Keys
+  commentId: P:Bencodex.Types.Dictionary.Keys
+  fullName: Bencodex.Types.Dictionary.Keys
+  nameWithType: Dictionary.Keys
+- uid: Bencodex.Types.Dictionary.Keys*
+  name: Keys
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Keys_
+  commentId: Overload:Bencodex.Types.Dictionary.Keys
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.Keys
+  nameWithType: Dictionary.Keys
+- uid: Bencodex.Types.Dictionary.Remove(Bencodex.Types.IKey)
+  name: Remove(IKey)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Remove_Bencodex_Types_IKey_
+  commentId: M:Bencodex.Types.Dictionary.Remove(Bencodex.Types.IKey)
+  fullName: Bencodex.Types.Dictionary.Remove(Bencodex.Types.IKey)
+  nameWithType: Dictionary.Remove(IKey)
+- uid: Bencodex.Types.Dictionary.Remove*
+  name: Remove
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Remove_
+  commentId: Overload:Bencodex.Types.Dictionary.Remove
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.Remove
+  nameWithType: Dictionary.Remove
+- uid: Bencodex.Types.Dictionary.RemoveRange(System.Collections.Generic.IEnumerable{Bencodex.Types.IKey})
+  name: RemoveRange(IEnumerable<IKey>)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_RemoveRange_System_Collections_Generic_IEnumerable_Bencodex_Types_IKey__
+  commentId: M:Bencodex.Types.Dictionary.RemoveRange(System.Collections.Generic.IEnumerable{Bencodex.Types.IKey})
+  name.vb: RemoveRange(IEnumerable(Of IKey))
+  fullName: Bencodex.Types.Dictionary.RemoveRange(System.Collections.Generic.IEnumerable<Bencodex.Types.IKey>)
+  fullName.vb: Bencodex.Types.Dictionary.RemoveRange(System.Collections.Generic.IEnumerable(Of Bencodex.Types.IKey))
+  nameWithType: Dictionary.RemoveRange(IEnumerable<IKey>)
+  nameWithType.vb: Dictionary.RemoveRange(IEnumerable(Of IKey))
+- uid: Bencodex.Types.Dictionary.RemoveRange*
+  name: RemoveRange
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_RemoveRange_
+  commentId: Overload:Bencodex.Types.Dictionary.RemoveRange
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.RemoveRange
+  nameWithType: Dictionary.RemoveRange
+- uid: Bencodex.Types.Dictionary.SetItem(Bencodex.Types.IKey,Bencodex.Types.IValue)
+  name: SetItem(IKey, IValue)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_SetItem_Bencodex_Types_IKey_Bencodex_Types_IValue_
+  commentId: M:Bencodex.Types.Dictionary.SetItem(Bencodex.Types.IKey,Bencodex.Types.IValue)
+  fullName: Bencodex.Types.Dictionary.SetItem(Bencodex.Types.IKey, Bencodex.Types.IValue)
+  nameWithType: Dictionary.SetItem(IKey, IValue)
+- uid: Bencodex.Types.Dictionary.SetItem*
+  name: SetItem
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_SetItem_
+  commentId: Overload:Bencodex.Types.Dictionary.SetItem
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.SetItem
+  nameWithType: Dictionary.SetItem
+- uid: Bencodex.Types.Dictionary.SetItems(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{Bencodex.Types.IKey,Bencodex.Types.IValue}})
+  name: SetItems(IEnumerable<KeyValuePair<IKey, IValue>>)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_SetItems_System_Collections_Generic_IEnumerable_System_Collections_Generic_KeyValuePair_Bencodex_Types_IKey_Bencodex_Types_IValue___
+  commentId: M:Bencodex.Types.Dictionary.SetItems(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{Bencodex.Types.IKey,Bencodex.Types.IValue}})
+  name.vb: SetItems(IEnumerable(Of KeyValuePair(Of IKey, IValue)))
+  fullName: Bencodex.Types.Dictionary.SetItems(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<Bencodex.Types.IKey, Bencodex.Types.IValue>>)
+  fullName.vb: Bencodex.Types.Dictionary.SetItems(System.Collections.Generic.IEnumerable(Of System.Collections.Generic.KeyValuePair(Of Bencodex.Types.IKey, Bencodex.Types.IValue)))
+  nameWithType: Dictionary.SetItems(IEnumerable<KeyValuePair<IKey, IValue>>)
+  nameWithType.vb: Dictionary.SetItems(IEnumerable(Of KeyValuePair(Of IKey, IValue)))
+- uid: Bencodex.Types.Dictionary.SetItems*
+  name: SetItems
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_SetItems_
+  commentId: Overload:Bencodex.Types.Dictionary.SetItems
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.SetItems
+  nameWithType: Dictionary.SetItems
+- uid: Bencodex.Types.Dictionary.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_System_Collections_IEnumerable_GetEnumerator
+  commentId: M:Bencodex.Types.Dictionary.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  fullName: Bencodex.Types.Dictionary.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType: Dictionary.IEnumerable.GetEnumerator()
+  nameWithType.vb: Dictionary.System.Collections.IEnumerable.GetEnumerator()
+- uid: Bencodex.Types.Dictionary.System#Collections#IEnumerable#GetEnumerator*
+  name: IEnumerable.GetEnumerator
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_System_Collections_IEnumerable_GetEnumerator_
+  commentId: Overload:Bencodex.Types.Dictionary.System#Collections#IEnumerable#GetEnumerator
+  isSpec: "True"
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+  fullName: Bencodex.Types.Dictionary.System.Collections.IEnumerable.GetEnumerator
+  nameWithType: Dictionary.IEnumerable.GetEnumerator
+  nameWithType.vb: Dictionary.System.Collections.IEnumerable.GetEnumerator
+- uid: Bencodex.Types.Dictionary.System#IEquatable{System#Collections#Immutable#IImmutableDictionary{Bencodex#Types#IKey,Bencodex#Types#IValue}}#Equals(System.Collections.Immutable.IImmutableDictionary{Bencodex.Types.IKey,Bencodex.Types.IValue})
+  name: IEquatable<IImmutableDictionary<IKey, IValue>>.Equals(IImmutableDictionary<IKey, IValue>)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_System_IEquatable_System_Collections_Immutable_IImmutableDictionary_Bencodex_Types_IKey_Bencodex_Types_IValue___Equals_System_Collections_Immutable_IImmutableDictionary_Bencodex_Types_IKey_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.Dictionary.System#IEquatable{System#Collections#Immutable#IImmutableDictionary{Bencodex#Types#IKey,Bencodex#Types#IValue}}#Equals(System.Collections.Immutable.IImmutableDictionary{Bencodex.Types.IKey,Bencodex.Types.IValue})
+  name.vb: System.IEquatable<System.Collections.Immutable.IImmutableDictionary<Bencodex.Types.IKey,Bencodex.Types.IValue>>.Equals(IImmutableDictionary(Of IKey, IValue))
+  fullName: Bencodex.Types.Dictionary.System.IEquatable<System.Collections.Immutable.IImmutableDictionary<Bencodex.Types.IKey, Bencodex.Types.IValue>>.Equals(System.Collections.Immutable.IImmutableDictionary<Bencodex.Types.IKey, Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.Dictionary.System.IEquatable<System.Collections.Immutable.IImmutableDictionary<Bencodex.Types.IKey,Bencodex.Types.IValue>>.Equals(System.Collections.Immutable.IImmutableDictionary(Of Bencodex.Types.IKey, Bencodex.Types.IValue))
+  nameWithType: Dictionary.IEquatable<IImmutableDictionary<IKey, IValue>>.Equals(IImmutableDictionary<IKey, IValue>)
+  nameWithType.vb: Dictionary.System.IEquatable<System.Collections.Immutable.IImmutableDictionary<Bencodex.Types.IKey,Bencodex.Types.IValue>>.Equals(IImmutableDictionary(Of IKey, IValue))
+- uid: Bencodex.Types.Dictionary.System#IEquatable{System#Collections#Immutable#IImmutableDictionary{Bencodex#Types#IKey,Bencodex#Types#IValue}}#Equals*
+  name: IEquatable<IImmutableDictionary<IKey, IValue>>.Equals
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_System_IEquatable_System_Collections_Immutable_IImmutableDictionary_Bencodex_Types_IKey_Bencodex_Types_IValue___Equals_
+  commentId: Overload:Bencodex.Types.Dictionary.System#IEquatable{System#Collections#Immutable#IImmutableDictionary{Bencodex#Types#IKey,Bencodex#Types#IValue}}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<System.Collections.Immutable.IImmutableDictionary<Bencodex.Types.IKey,Bencodex.Types.IValue>>.Equals
+  fullName: Bencodex.Types.Dictionary.System.IEquatable<System.Collections.Immutable.IImmutableDictionary<Bencodex.Types.IKey, Bencodex.Types.IValue>>.Equals
+  fullName.vb: Bencodex.Types.Dictionary.System.IEquatable<System.Collections.Immutable.IImmutableDictionary<Bencodex.Types.IKey,Bencodex.Types.IValue>>.Equals
+  nameWithType: Dictionary.IEquatable<IImmutableDictionary<IKey, IValue>>.Equals
+  nameWithType.vb: Dictionary.System.IEquatable<System.Collections.Immutable.IImmutableDictionary<Bencodex.Types.IKey,Bencodex.Types.IValue>>.Equals
+- uid: Bencodex.Types.Dictionary.ToString
+  name: ToString()
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_ToString
+  commentId: M:Bencodex.Types.Dictionary.ToString
+  fullName: Bencodex.Types.Dictionary.ToString()
+  nameWithType: Dictionary.ToString()
+- uid: Bencodex.Types.Dictionary.ToString*
+  name: ToString
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_ToString_
+  commentId: Overload:Bencodex.Types.Dictionary.ToString
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.ToString
+  nameWithType: Dictionary.ToString
+- uid: Bencodex.Types.Dictionary.TryGetKey(Bencodex.Types.IKey,Bencodex.Types.IKey@)
+  name: TryGetKey(IKey, out IKey)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_TryGetKey_Bencodex_Types_IKey_Bencodex_Types_IKey__
+  commentId: M:Bencodex.Types.Dictionary.TryGetKey(Bencodex.Types.IKey,Bencodex.Types.IKey@)
+  name.vb: TryGetKey(IKey, ByRef IKey)
+  fullName: Bencodex.Types.Dictionary.TryGetKey(Bencodex.Types.IKey, out Bencodex.Types.IKey)
+  fullName.vb: Bencodex.Types.Dictionary.TryGetKey(Bencodex.Types.IKey, ByRef Bencodex.Types.IKey)
+  nameWithType: Dictionary.TryGetKey(IKey, out IKey)
+  nameWithType.vb: Dictionary.TryGetKey(IKey, ByRef IKey)
+- uid: Bencodex.Types.Dictionary.TryGetKey*
+  name: TryGetKey
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_TryGetKey_
+  commentId: Overload:Bencodex.Types.Dictionary.TryGetKey
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.TryGetKey
+  nameWithType: Dictionary.TryGetKey
+- uid: Bencodex.Types.Dictionary.TryGetValue(Bencodex.Types.IKey,Bencodex.Types.IValue@)
+  name: TryGetValue(IKey, out IValue)
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_TryGetValue_Bencodex_Types_IKey_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.Dictionary.TryGetValue(Bencodex.Types.IKey,Bencodex.Types.IValue@)
+  name.vb: TryGetValue(IKey, ByRef IValue)
+  fullName: Bencodex.Types.Dictionary.TryGetValue(Bencodex.Types.IKey, out Bencodex.Types.IValue)
+  fullName.vb: Bencodex.Types.Dictionary.TryGetValue(Bencodex.Types.IKey, ByRef Bencodex.Types.IValue)
+  nameWithType: Dictionary.TryGetValue(IKey, out IValue)
+  nameWithType.vb: Dictionary.TryGetValue(IKey, ByRef IValue)
+- uid: Bencodex.Types.Dictionary.TryGetValue*
+  name: TryGetValue
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_TryGetValue_
+  commentId: Overload:Bencodex.Types.Dictionary.TryGetValue
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.TryGetValue
+  nameWithType: Dictionary.TryGetValue
+- uid: Bencodex.Types.Dictionary.Values
+  name: Values
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Values
+  commentId: P:Bencodex.Types.Dictionary.Values
+  fullName: Bencodex.Types.Dictionary.Values
+  nameWithType: Dictionary.Values
+- uid: Bencodex.Types.Dictionary.Values*
+  name: Values
+  href: api/Bencodex.Types.Dictionary.html#Bencodex_Types_Dictionary_Values_
+  commentId: Overload:Bencodex.Types.Dictionary.Values
+  isSpec: "True"
+  fullName: Bencodex.Types.Dictionary.Values
+  nameWithType: Dictionary.Values
+- uid: Bencodex.Types.IKey
+  name: IKey
+  href: api/Bencodex.Types.IKey.html
+  commentId: T:Bencodex.Types.IKey
+  fullName: Bencodex.Types.IKey
+  nameWithType: IKey
+- uid: Bencodex.Types.IKey.EncodeAsByteArray
+  name: EncodeAsByteArray()
+  href: api/Bencodex.Types.IKey.html#Bencodex_Types_IKey_EncodeAsByteArray
+  commentId: M:Bencodex.Types.IKey.EncodeAsByteArray
+  fullName: Bencodex.Types.IKey.EncodeAsByteArray()
+  nameWithType: IKey.EncodeAsByteArray()
+- uid: Bencodex.Types.IKey.EncodeAsByteArray*
+  name: EncodeAsByteArray
+  href: api/Bencodex.Types.IKey.html#Bencodex_Types_IKey_EncodeAsByteArray_
+  commentId: Overload:Bencodex.Types.IKey.EncodeAsByteArray
+  isSpec: "True"
+  fullName: Bencodex.Types.IKey.EncodeAsByteArray
+  nameWithType: IKey.EncodeAsByteArray
+- uid: Bencodex.Types.IKey.KeyPrefix
+  name: KeyPrefix
+  href: api/Bencodex.Types.IKey.html#Bencodex_Types_IKey_KeyPrefix
+  commentId: P:Bencodex.Types.IKey.KeyPrefix
+  fullName: Bencodex.Types.IKey.KeyPrefix
+  nameWithType: IKey.KeyPrefix
+- uid: Bencodex.Types.IKey.KeyPrefix*
+  name: KeyPrefix
+  href: api/Bencodex.Types.IKey.html#Bencodex_Types_IKey_KeyPrefix_
+  commentId: Overload:Bencodex.Types.IKey.KeyPrefix
+  isSpec: "True"
+  fullName: Bencodex.Types.IKey.KeyPrefix
+  nameWithType: IKey.KeyPrefix
+- uid: Bencodex.Types.Integer
+  name: Integer
+  href: api/Bencodex.Types.Integer.html
+  commentId: T:Bencodex.Types.Integer
+  fullName: Bencodex.Types.Integer
+  nameWithType: Integer
+- uid: Bencodex.Types.Integer.#ctor(System.Int16)
+  name: Integer(Int16)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer__ctor_System_Int16_
+  commentId: M:Bencodex.Types.Integer.#ctor(System.Int16)
+  fullName: Bencodex.Types.Integer.Integer(System.Int16)
+  nameWithType: Integer.Integer(Int16)
+- uid: Bencodex.Types.Integer.#ctor(System.Int32)
+  name: Integer(Int32)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer__ctor_System_Int32_
+  commentId: M:Bencodex.Types.Integer.#ctor(System.Int32)
+  fullName: Bencodex.Types.Integer.Integer(System.Int32)
+  nameWithType: Integer.Integer(Int32)
+- uid: Bencodex.Types.Integer.#ctor(System.Int64)
+  name: Integer(Int64)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer__ctor_System_Int64_
+  commentId: M:Bencodex.Types.Integer.#ctor(System.Int64)
+  fullName: Bencodex.Types.Integer.Integer(System.Int64)
+  nameWithType: Integer.Integer(Int64)
+- uid: Bencodex.Types.Integer.#ctor(System.Numerics.BigInteger)
+  name: Integer(BigInteger)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer__ctor_System_Numerics_BigInteger_
+  commentId: M:Bencodex.Types.Integer.#ctor(System.Numerics.BigInteger)
+  fullName: Bencodex.Types.Integer.Integer(System.Numerics.BigInteger)
+  nameWithType: Integer.Integer(BigInteger)
+- uid: Bencodex.Types.Integer.#ctor(System.String)
+  name: Integer(String)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer__ctor_System_String_
+  commentId: M:Bencodex.Types.Integer.#ctor(System.String)
+  fullName: Bencodex.Types.Integer.Integer(System.String)
+  nameWithType: Integer.Integer(String)
+- uid: Bencodex.Types.Integer.#ctor(System.UInt16)
+  name: Integer(UInt16)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer__ctor_System_UInt16_
+  commentId: M:Bencodex.Types.Integer.#ctor(System.UInt16)
+  fullName: Bencodex.Types.Integer.Integer(System.UInt16)
+  nameWithType: Integer.Integer(UInt16)
+- uid: Bencodex.Types.Integer.#ctor(System.UInt32)
+  name: Integer(UInt32)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer__ctor_System_UInt32_
+  commentId: M:Bencodex.Types.Integer.#ctor(System.UInt32)
+  fullName: Bencodex.Types.Integer.Integer(System.UInt32)
+  nameWithType: Integer.Integer(UInt32)
+- uid: Bencodex.Types.Integer.#ctor(System.UInt64)
+  name: Integer(UInt64)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer__ctor_System_UInt64_
+  commentId: M:Bencodex.Types.Integer.#ctor(System.UInt64)
+  fullName: Bencodex.Types.Integer.Integer(System.UInt64)
+  nameWithType: Integer.Integer(UInt64)
+- uid: Bencodex.Types.Integer.#ctor*
+  name: Integer
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer__ctor_
+  commentId: Overload:Bencodex.Types.Integer.#ctor
+  isSpec: "True"
+  fullName: Bencodex.Types.Integer.Integer
+  nameWithType: Integer.Integer
+- uid: Bencodex.Types.Integer.EncodeIntoChunks
+  name: EncodeIntoChunks()
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_EncodeIntoChunks
+  commentId: M:Bencodex.Types.Integer.EncodeIntoChunks
+  fullName: Bencodex.Types.Integer.EncodeIntoChunks()
+  nameWithType: Integer.EncodeIntoChunks()
+- uid: Bencodex.Types.Integer.EncodeIntoChunks*
+  name: EncodeIntoChunks
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_EncodeIntoChunks_
+  commentId: Overload:Bencodex.Types.Integer.EncodeIntoChunks
+  isSpec: "True"
+  fullName: Bencodex.Types.Integer.EncodeIntoChunks
+  nameWithType: Integer.EncodeIntoChunks
+- uid: Bencodex.Types.Integer.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_Equals_System_Object_
+  commentId: M:Bencodex.Types.Integer.Equals(System.Object)
+  fullName: Bencodex.Types.Integer.Equals(System.Object)
+  nameWithType: Integer.Equals(Object)
+- uid: Bencodex.Types.Integer.Equals*
+  name: Equals
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_Equals_
+  commentId: Overload:Bencodex.Types.Integer.Equals
+  isSpec: "True"
+  fullName: Bencodex.Types.Integer.Equals
+  nameWithType: Integer.Equals
+- uid: Bencodex.Types.Integer.GetHashCode
+  name: GetHashCode()
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_GetHashCode
+  commentId: M:Bencodex.Types.Integer.GetHashCode
+  fullName: Bencodex.Types.Integer.GetHashCode()
+  nameWithType: Integer.GetHashCode()
+- uid: Bencodex.Types.Integer.GetHashCode*
+  name: GetHashCode
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_GetHashCode_
+  commentId: Overload:Bencodex.Types.Integer.GetHashCode
+  isSpec: "True"
+  fullName: Bencodex.Types.Integer.GetHashCode
+  nameWithType: Integer.GetHashCode
+- uid: Bencodex.Types.Integer.op_Equality(Bencodex.Types.Integer,Bencodex.Types.Integer)
+  name: Equality(Integer, Integer)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Equality_Bencodex_Types_Integer_Bencodex_Types_Integer_
+  commentId: M:Bencodex.Types.Integer.op_Equality(Bencodex.Types.Integer,Bencodex.Types.Integer)
+  fullName: Bencodex.Types.Integer.Equality(Bencodex.Types.Integer, Bencodex.Types.Integer)
+  nameWithType: Integer.Equality(Integer, Integer)
+- uid: Bencodex.Types.Integer.op_Equality(Bencodex.Types.Integer,System.Numerics.BigInteger)
+  name: Equality(Integer, BigInteger)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Equality_Bencodex_Types_Integer_System_Numerics_BigInteger_
+  commentId: M:Bencodex.Types.Integer.op_Equality(Bencodex.Types.Integer,System.Numerics.BigInteger)
+  fullName: Bencodex.Types.Integer.Equality(Bencodex.Types.Integer, System.Numerics.BigInteger)
+  nameWithType: Integer.Equality(Integer, BigInteger)
+- uid: Bencodex.Types.Integer.op_Equality(System.Numerics.BigInteger,Bencodex.Types.Integer)
+  name: Equality(BigInteger, Integer)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Equality_System_Numerics_BigInteger_Bencodex_Types_Integer_
+  commentId: M:Bencodex.Types.Integer.op_Equality(System.Numerics.BigInteger,Bencodex.Types.Integer)
+  fullName: Bencodex.Types.Integer.Equality(System.Numerics.BigInteger, Bencodex.Types.Integer)
+  nameWithType: Integer.Equality(BigInteger, Integer)
+- uid: Bencodex.Types.Integer.op_Equality*
+  name: Equality
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Equality_
+  commentId: Overload:Bencodex.Types.Integer.op_Equality
+  isSpec: "True"
+  fullName: Bencodex.Types.Integer.Equality
+  nameWithType: Integer.Equality
+- uid: Bencodex.Types.Integer.op_Implicit(Bencodex.Types.Integer)~System.Numerics.BigInteger
+  name: Implicit(Integer to BigInteger)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Implicit_Bencodex_Types_Integer__System_Numerics_BigInteger
+  commentId: M:Bencodex.Types.Integer.op_Implicit(Bencodex.Types.Integer)~System.Numerics.BigInteger
+  name.vb: Widening(Integer to BigInteger)
+  fullName: Bencodex.Types.Integer.Implicit(Bencodex.Types.Integer to System.Numerics.BigInteger)
+  fullName.vb: Bencodex.Types.Integer.Widening(Bencodex.Types.Integer to System.Numerics.BigInteger)
+  nameWithType: Integer.Implicit(Integer to BigInteger)
+  nameWithType.vb: Integer.Widening(Integer to BigInteger)
+- uid: Bencodex.Types.Integer.op_Implicit(System.Int32)~Bencodex.Types.Integer
+  name: Implicit(Int32 to Integer)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Implicit_System_Int32__Bencodex_Types_Integer
+  commentId: M:Bencodex.Types.Integer.op_Implicit(System.Int32)~Bencodex.Types.Integer
+  name.vb: Widening(Int32 to Integer)
+  fullName: Bencodex.Types.Integer.Implicit(System.Int32 to Bencodex.Types.Integer)
+  fullName.vb: Bencodex.Types.Integer.Widening(System.Int32 to Bencodex.Types.Integer)
+  nameWithType: Integer.Implicit(Int32 to Integer)
+  nameWithType.vb: Integer.Widening(Int32 to Integer)
+- uid: Bencodex.Types.Integer.op_Implicit(System.Numerics.BigInteger)~Bencodex.Types.Integer
+  name: Implicit(BigInteger to Integer)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Implicit_System_Numerics_BigInteger__Bencodex_Types_Integer
+  commentId: M:Bencodex.Types.Integer.op_Implicit(System.Numerics.BigInteger)~Bencodex.Types.Integer
+  name.vb: Widening(BigInteger to Integer)
+  fullName: Bencodex.Types.Integer.Implicit(System.Numerics.BigInteger to Bencodex.Types.Integer)
+  fullName.vb: Bencodex.Types.Integer.Widening(System.Numerics.BigInteger to Bencodex.Types.Integer)
+  nameWithType: Integer.Implicit(BigInteger to Integer)
+  nameWithType.vb: Integer.Widening(BigInteger to Integer)
+- uid: Bencodex.Types.Integer.op_Implicit*
+  name: Implicit
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Implicit_
+  commentId: Overload:Bencodex.Types.Integer.op_Implicit
+  isSpec: "True"
+  name.vb: Widening
+  fullName: Bencodex.Types.Integer.Implicit
+  fullName.vb: Bencodex.Types.Integer.Widening
+  nameWithType: Integer.Implicit
+  nameWithType.vb: Integer.Widening
+- uid: Bencodex.Types.Integer.op_Inequality(Bencodex.Types.Integer,Bencodex.Types.Integer)
+  name: Inequality(Integer, Integer)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Inequality_Bencodex_Types_Integer_Bencodex_Types_Integer_
+  commentId: M:Bencodex.Types.Integer.op_Inequality(Bencodex.Types.Integer,Bencodex.Types.Integer)
+  fullName: Bencodex.Types.Integer.Inequality(Bencodex.Types.Integer, Bencodex.Types.Integer)
+  nameWithType: Integer.Inequality(Integer, Integer)
+- uid: Bencodex.Types.Integer.op_Inequality(Bencodex.Types.Integer,System.Numerics.BigInteger)
+  name: Inequality(Integer, BigInteger)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Inequality_Bencodex_Types_Integer_System_Numerics_BigInteger_
+  commentId: M:Bencodex.Types.Integer.op_Inequality(Bencodex.Types.Integer,System.Numerics.BigInteger)
+  fullName: Bencodex.Types.Integer.Inequality(Bencodex.Types.Integer, System.Numerics.BigInteger)
+  nameWithType: Integer.Inequality(Integer, BigInteger)
+- uid: Bencodex.Types.Integer.op_Inequality(System.Numerics.BigInteger,Bencodex.Types.Integer)
+  name: Inequality(BigInteger, Integer)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Inequality_System_Numerics_BigInteger_Bencodex_Types_Integer_
+  commentId: M:Bencodex.Types.Integer.op_Inequality(System.Numerics.BigInteger,Bencodex.Types.Integer)
+  fullName: Bencodex.Types.Integer.Inequality(System.Numerics.BigInteger, Bencodex.Types.Integer)
+  nameWithType: Integer.Inequality(BigInteger, Integer)
+- uid: Bencodex.Types.Integer.op_Inequality*
+  name: Inequality
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_op_Inequality_
+  commentId: Overload:Bencodex.Types.Integer.op_Inequality
+  isSpec: "True"
+  fullName: Bencodex.Types.Integer.Inequality
+  nameWithType: Integer.Inequality
+- uid: Bencodex.Types.Integer.System#IComparable#CompareTo(System.Object)
+  name: IComparable.CompareTo(Object)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_System_IComparable_CompareTo_System_Object_
+  commentId: M:Bencodex.Types.Integer.System#IComparable#CompareTo(System.Object)
+  name.vb: System.IComparable.CompareTo(Object)
+  fullName: Bencodex.Types.Integer.System.IComparable.CompareTo(System.Object)
+  nameWithType: Integer.IComparable.CompareTo(Object)
+  nameWithType.vb: Integer.System.IComparable.CompareTo(Object)
+- uid: Bencodex.Types.Integer.System#IComparable#CompareTo*
+  name: IComparable.CompareTo
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_System_IComparable_CompareTo_
+  commentId: Overload:Bencodex.Types.Integer.System#IComparable#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable.CompareTo
+  fullName: Bencodex.Types.Integer.System.IComparable.CompareTo
+  nameWithType: Integer.IComparable.CompareTo
+  nameWithType.vb: Integer.System.IComparable.CompareTo
+- uid: Bencodex.Types.Integer.System#IComparable{Bencodex#Types#Integer}#CompareTo(Bencodex.Types.Integer)
+  name: IComparable<Integer>.CompareTo(Integer)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_System_IComparable_Bencodex_Types_Integer__CompareTo_Bencodex_Types_Integer_
+  commentId: M:Bencodex.Types.Integer.System#IComparable{Bencodex#Types#Integer}#CompareTo(Bencodex.Types.Integer)
+  name.vb: System.IComparable<Bencodex.Types.Integer>.CompareTo(Integer)
+  fullName: Bencodex.Types.Integer.System.IComparable<Bencodex.Types.Integer>.CompareTo(Bencodex.Types.Integer)
+  nameWithType: Integer.IComparable<Integer>.CompareTo(Integer)
+  nameWithType.vb: Integer.System.IComparable<Bencodex.Types.Integer>.CompareTo(Integer)
+- uid: Bencodex.Types.Integer.System#IComparable{Bencodex#Types#Integer}#CompareTo*
+  name: IComparable<Integer>.CompareTo
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_System_IComparable_Bencodex_Types_Integer__CompareTo_
+  commentId: Overload:Bencodex.Types.Integer.System#IComparable{Bencodex#Types#Integer}#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable<Bencodex.Types.Integer>.CompareTo
+  fullName: Bencodex.Types.Integer.System.IComparable<Bencodex.Types.Integer>.CompareTo
+  nameWithType: Integer.IComparable<Integer>.CompareTo
+  nameWithType.vb: Integer.System.IComparable<Bencodex.Types.Integer>.CompareTo
+- uid: Bencodex.Types.Integer.System#IComparable{System#Numerics#BigInteger}#CompareTo(System.Numerics.BigInteger)
+  name: IComparable<BigInteger>.CompareTo(BigInteger)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_System_IComparable_System_Numerics_BigInteger__CompareTo_System_Numerics_BigInteger_
+  commentId: M:Bencodex.Types.Integer.System#IComparable{System#Numerics#BigInteger}#CompareTo(System.Numerics.BigInteger)
+  name.vb: System.IComparable<System.Numerics.BigInteger>.CompareTo(BigInteger)
+  fullName: Bencodex.Types.Integer.System.IComparable<System.Numerics.BigInteger>.CompareTo(System.Numerics.BigInteger)
+  nameWithType: Integer.IComparable<BigInteger>.CompareTo(BigInteger)
+  nameWithType.vb: Integer.System.IComparable<System.Numerics.BigInteger>.CompareTo(BigInteger)
+- uid: Bencodex.Types.Integer.System#IComparable{System#Numerics#BigInteger}#CompareTo*
+  name: IComparable<BigInteger>.CompareTo
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_System_IComparable_System_Numerics_BigInteger__CompareTo_
+  commentId: Overload:Bencodex.Types.Integer.System#IComparable{System#Numerics#BigInteger}#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable<System.Numerics.BigInteger>.CompareTo
+  fullName: Bencodex.Types.Integer.System.IComparable<System.Numerics.BigInteger>.CompareTo
+  nameWithType: Integer.IComparable<BigInteger>.CompareTo
+  nameWithType.vb: Integer.System.IComparable<System.Numerics.BigInteger>.CompareTo
+- uid: Bencodex.Types.Integer.System#IEquatable{Bencodex#Types#Integer}#Equals(Bencodex.Types.Integer)
+  name: IEquatable<Integer>.Equals(Integer)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_System_IEquatable_Bencodex_Types_Integer__Equals_Bencodex_Types_Integer_
+  commentId: M:Bencodex.Types.Integer.System#IEquatable{Bencodex#Types#Integer}#Equals(Bencodex.Types.Integer)
+  name.vb: System.IEquatable<Bencodex.Types.Integer>.Equals(Integer)
+  fullName: Bencodex.Types.Integer.System.IEquatable<Bencodex.Types.Integer>.Equals(Bencodex.Types.Integer)
+  nameWithType: Integer.IEquatable<Integer>.Equals(Integer)
+  nameWithType.vb: Integer.System.IEquatable<Bencodex.Types.Integer>.Equals(Integer)
+- uid: Bencodex.Types.Integer.System#IEquatable{Bencodex#Types#Integer}#Equals*
+  name: IEquatable<Integer>.Equals
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_System_IEquatable_Bencodex_Types_Integer__Equals_
+  commentId: Overload:Bencodex.Types.Integer.System#IEquatable{Bencodex#Types#Integer}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<Bencodex.Types.Integer>.Equals
+  fullName: Bencodex.Types.Integer.System.IEquatable<Bencodex.Types.Integer>.Equals
+  nameWithType: Integer.IEquatable<Integer>.Equals
+  nameWithType.vb: Integer.System.IEquatable<Bencodex.Types.Integer>.Equals
+- uid: Bencodex.Types.Integer.System#IEquatable{System#Numerics#BigInteger}#Equals(System.Numerics.BigInteger)
+  name: IEquatable<BigInteger>.Equals(BigInteger)
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_System_IEquatable_System_Numerics_BigInteger__Equals_System_Numerics_BigInteger_
+  commentId: M:Bencodex.Types.Integer.System#IEquatable{System#Numerics#BigInteger}#Equals(System.Numerics.BigInteger)
+  name.vb: System.IEquatable<System.Numerics.BigInteger>.Equals(BigInteger)
+  fullName: Bencodex.Types.Integer.System.IEquatable<System.Numerics.BigInteger>.Equals(System.Numerics.BigInteger)
+  nameWithType: Integer.IEquatable<BigInteger>.Equals(BigInteger)
+  nameWithType.vb: Integer.System.IEquatable<System.Numerics.BigInteger>.Equals(BigInteger)
+- uid: Bencodex.Types.Integer.System#IEquatable{System#Numerics#BigInteger}#Equals*
+  name: IEquatable<BigInteger>.Equals
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_System_IEquatable_System_Numerics_BigInteger__Equals_
+  commentId: Overload:Bencodex.Types.Integer.System#IEquatable{System#Numerics#BigInteger}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<System.Numerics.BigInteger>.Equals
+  fullName: Bencodex.Types.Integer.System.IEquatable<System.Numerics.BigInteger>.Equals
+  nameWithType: Integer.IEquatable<BigInteger>.Equals
+  nameWithType.vb: Integer.System.IEquatable<System.Numerics.BigInteger>.Equals
+- uid: Bencodex.Types.Integer.ToString
+  name: ToString()
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_ToString
+  commentId: M:Bencodex.Types.Integer.ToString
+  fullName: Bencodex.Types.Integer.ToString()
+  nameWithType: Integer.ToString()
+- uid: Bencodex.Types.Integer.ToString*
+  name: ToString
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_ToString_
+  commentId: Overload:Bencodex.Types.Integer.ToString
+  isSpec: "True"
+  fullName: Bencodex.Types.Integer.ToString
+  nameWithType: Integer.ToString
+- uid: Bencodex.Types.Integer.Value
+  name: Value
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_Value
+  commentId: P:Bencodex.Types.Integer.Value
+  fullName: Bencodex.Types.Integer.Value
+  nameWithType: Integer.Value
+- uid: Bencodex.Types.Integer.Value*
+  name: Value
+  href: api/Bencodex.Types.Integer.html#Bencodex_Types_Integer_Value_
+  commentId: Overload:Bencodex.Types.Integer.Value
+  isSpec: "True"
+  fullName: Bencodex.Types.Integer.Value
+  nameWithType: Integer.Value
+- uid: Bencodex.Types.IValue
+  name: IValue
+  href: api/Bencodex.Types.IValue.html
+  commentId: T:Bencodex.Types.IValue
+  fullName: Bencodex.Types.IValue
+  nameWithType: IValue
+- uid: Bencodex.Types.IValue.EncodeIntoChunks
+  name: EncodeIntoChunks()
+  href: api/Bencodex.Types.IValue.html#Bencodex_Types_IValue_EncodeIntoChunks
+  commentId: M:Bencodex.Types.IValue.EncodeIntoChunks
+  fullName: Bencodex.Types.IValue.EncodeIntoChunks()
+  nameWithType: IValue.EncodeIntoChunks()
+- uid: Bencodex.Types.IValue.EncodeIntoChunks*
+  name: EncodeIntoChunks
+  href: api/Bencodex.Types.IValue.html#Bencodex_Types_IValue_EncodeIntoChunks_
+  commentId: Overload:Bencodex.Types.IValue.EncodeIntoChunks
+  isSpec: "True"
+  fullName: Bencodex.Types.IValue.EncodeIntoChunks
+  nameWithType: IValue.EncodeIntoChunks
+- uid: Bencodex.Types.List
+  name: List
+  href: api/Bencodex.Types.List.html
+  commentId: T:Bencodex.Types.List
+  fullName: Bencodex.Types.List
+  nameWithType: List
+- uid: Bencodex.Types.List.#ctor(System.Collections.Generic.IEnumerable{Bencodex.Types.IValue})
+  name: List(IEnumerable<IValue>)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List__ctor_System_Collections_Generic_IEnumerable_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.List.#ctor(System.Collections.Generic.IEnumerable{Bencodex.Types.IValue})
+  name.vb: List(IEnumerable(Of IValue))
+  fullName: Bencodex.Types.List.List(System.Collections.Generic.IEnumerable<Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.List.List(System.Collections.Generic.IEnumerable(Of Bencodex.Types.IValue))
+  nameWithType: List.List(IEnumerable<IValue>)
+  nameWithType.vb: List.List(IEnumerable(Of IValue))
+- uid: Bencodex.Types.List.#ctor*
+  name: List
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List__ctor_
+  commentId: Overload:Bencodex.Types.List.#ctor
+  isSpec: "True"
+  fullName: Bencodex.Types.List.List
+  nameWithType: List.List
+- uid: Bencodex.Types.List.EncodeIntoChunks
+  name: EncodeIntoChunks()
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_EncodeIntoChunks
+  commentId: M:Bencodex.Types.List.EncodeIntoChunks
+  fullName: Bencodex.Types.List.EncodeIntoChunks()
+  nameWithType: List.EncodeIntoChunks()
+- uid: Bencodex.Types.List.EncodeIntoChunks*
+  name: EncodeIntoChunks
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_EncodeIntoChunks_
+  commentId: Overload:Bencodex.Types.List.EncodeIntoChunks
+  isSpec: "True"
+  fullName: Bencodex.Types.List.EncodeIntoChunks
+  nameWithType: List.EncodeIntoChunks
+- uid: Bencodex.Types.List.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_Equals_System_Object_
+  commentId: M:Bencodex.Types.List.Equals(System.Object)
+  fullName: Bencodex.Types.List.Equals(System.Object)
+  nameWithType: List.Equals(Object)
+- uid: Bencodex.Types.List.Equals*
+  name: Equals
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_Equals_
+  commentId: Overload:Bencodex.Types.List.Equals
+  isSpec: "True"
+  fullName: Bencodex.Types.List.Equals
+  nameWithType: List.Equals
+- uid: Bencodex.Types.List.GetHashCode
+  name: GetHashCode()
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_GetHashCode
+  commentId: M:Bencodex.Types.List.GetHashCode
+  fullName: Bencodex.Types.List.GetHashCode()
+  nameWithType: List.GetHashCode()
+- uid: Bencodex.Types.List.GetHashCode*
+  name: GetHashCode
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_GetHashCode_
+  commentId: Overload:Bencodex.Types.List.GetHashCode
+  isSpec: "True"
+  fullName: Bencodex.Types.List.GetHashCode
+  nameWithType: List.GetHashCode
+- uid: Bencodex.Types.List.System#Collections#Generic#IEnumerable{Bencodex#Types#IValue}#GetEnumerator
+  name: IEnumerable<IValue>.GetEnumerator()
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Generic_IEnumerable_Bencodex_Types_IValue__GetEnumerator
+  commentId: M:Bencodex.Types.List.System#Collections#Generic#IEnumerable{Bencodex#Types#IValue}#GetEnumerator
+  name.vb: System.Collections.Generic.IEnumerable<Bencodex.Types.IValue>.GetEnumerator()
+  fullName: Bencodex.Types.List.System.Collections.Generic.IEnumerable<Bencodex.Types.IValue>.GetEnumerator()
+  nameWithType: List.IEnumerable<IValue>.GetEnumerator()
+  nameWithType.vb: List.System.Collections.Generic.IEnumerable<Bencodex.Types.IValue>.GetEnumerator()
+- uid: Bencodex.Types.List.System#Collections#Generic#IEnumerable{Bencodex#Types#IValue}#GetEnumerator*
+  name: IEnumerable<IValue>.GetEnumerator
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Generic_IEnumerable_Bencodex_Types_IValue__GetEnumerator_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Generic#IEnumerable{Bencodex#Types#IValue}#GetEnumerator
+  isSpec: "True"
+  name.vb: System.Collections.Generic.IEnumerable<Bencodex.Types.IValue>.GetEnumerator
+  fullName: Bencodex.Types.List.System.Collections.Generic.IEnumerable<Bencodex.Types.IValue>.GetEnumerator
+  nameWithType: List.IEnumerable<IValue>.GetEnumerator
+  nameWithType.vb: List.System.Collections.Generic.IEnumerable<Bencodex.Types.IValue>.GetEnumerator
+- uid: Bencodex.Types.List.System#Collections#Generic#IReadOnlyCollection{Bencodex#Types#IValue}#Count
+  name: IReadOnlyCollection<IValue>.Count
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Generic_IReadOnlyCollection_Bencodex_Types_IValue__Count
+  commentId: P:Bencodex.Types.List.System#Collections#Generic#IReadOnlyCollection{Bencodex#Types#IValue}#Count
+  name.vb: System.Collections.Generic.IReadOnlyCollection<Bencodex.Types.IValue>.Count
+  fullName: Bencodex.Types.List.System.Collections.Generic.IReadOnlyCollection<Bencodex.Types.IValue>.Count
+  nameWithType: List.IReadOnlyCollection<IValue>.Count
+  nameWithType.vb: List.System.Collections.Generic.IReadOnlyCollection<Bencodex.Types.IValue>.Count
+- uid: Bencodex.Types.List.System#Collections#Generic#IReadOnlyCollection{Bencodex#Types#IValue}#Count*
+  name: IReadOnlyCollection<IValue>.Count
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Generic_IReadOnlyCollection_Bencodex_Types_IValue__Count_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Generic#IReadOnlyCollection{Bencodex#Types#IValue}#Count
+  isSpec: "True"
+  name.vb: System.Collections.Generic.IReadOnlyCollection<Bencodex.Types.IValue>.Count
+  fullName: Bencodex.Types.List.System.Collections.Generic.IReadOnlyCollection<Bencodex.Types.IValue>.Count
+  nameWithType: List.IReadOnlyCollection<IValue>.Count
+  nameWithType.vb: List.System.Collections.Generic.IReadOnlyCollection<Bencodex.Types.IValue>.Count
+- uid: Bencodex.Types.List.System#Collections#Generic#IReadOnlyList{Bencodex#Types#IValue}#Item(System.Int32)
+  name: IReadOnlyList<IValue>.Item[Int32]
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Generic_IReadOnlyList_Bencodex_Types_IValue__Item_System_Int32_
+  commentId: P:Bencodex.Types.List.System#Collections#Generic#IReadOnlyList{Bencodex#Types#IValue}#Item(System.Int32)
+  name.vb: System.Collections.Generic.IReadOnlyList<Bencodex.Types.IValue>.Item(Int32)
+  fullName: Bencodex.Types.List.System.Collections.Generic.IReadOnlyList<Bencodex.Types.IValue>.Item[System.Int32]
+  fullName.vb: Bencodex.Types.List.System.Collections.Generic.IReadOnlyList<Bencodex.Types.IValue>.Item(System.Int32)
+  nameWithType: List.IReadOnlyList<IValue>.Item[Int32]
+  nameWithType.vb: List.System.Collections.Generic.IReadOnlyList<Bencodex.Types.IValue>.Item(Int32)
+- uid: Bencodex.Types.List.System#Collections#Generic#IReadOnlyList{Bencodex#Types#IValue}#Item*
+  name: IReadOnlyList<IValue>.Item
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Generic_IReadOnlyList_Bencodex_Types_IValue__Item_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Generic#IReadOnlyList{Bencodex#Types#IValue}#Item
+  isSpec: "True"
+  name.vb: System.Collections.Generic.IReadOnlyList<Bencodex.Types.IValue>.Item
+  fullName: Bencodex.Types.List.System.Collections.Generic.IReadOnlyList<Bencodex.Types.IValue>.Item
+  nameWithType: List.IReadOnlyList<IValue>.Item
+  nameWithType.vb: List.System.Collections.Generic.IReadOnlyList<Bencodex.Types.IValue>.Item
+- uid: Bencodex.Types.List.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_IEnumerable_GetEnumerator
+  commentId: M:Bencodex.Types.List.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  fullName: Bencodex.Types.List.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType: List.IEnumerable.GetEnumerator()
+  nameWithType.vb: List.System.Collections.IEnumerable.GetEnumerator()
+- uid: Bencodex.Types.List.System#Collections#IEnumerable#GetEnumerator*
+  name: IEnumerable.GetEnumerator
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_IEnumerable_GetEnumerator_
+  commentId: Overload:Bencodex.Types.List.System#Collections#IEnumerable#GetEnumerator
+  isSpec: "True"
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+  fullName: Bencodex.Types.List.System.Collections.IEnumerable.GetEnumerator
+  nameWithType: List.IEnumerable.GetEnumerator
+  nameWithType.vb: List.System.Collections.IEnumerable.GetEnumerator
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Add(Bencodex.Types.IValue)
+  name: IImmutableList<IValue>.Add(IValue)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__Add_Bencodex_Types_IValue_
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Add(Bencodex.Types.IValue)
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Add(IValue)
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Add(Bencodex.Types.IValue)
+  nameWithType: List.IImmutableList<IValue>.Add(IValue)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Add(IValue)
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Add*
+  name: IImmutableList<IValue>.Add
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__Add_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Add
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Add
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Add
+  nameWithType: List.IImmutableList<IValue>.Add
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Add
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#AddRange(System.Collections.Generic.IEnumerable{Bencodex.Types.IValue})
+  name: IImmutableList<IValue>.AddRange(IEnumerable<IValue>)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__AddRange_System_Collections_Generic_IEnumerable_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#AddRange(System.Collections.Generic.IEnumerable{Bencodex.Types.IValue})
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.AddRange(IEnumerable(Of IValue))
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.AddRange(System.Collections.Generic.IEnumerable<Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.AddRange(System.Collections.Generic.IEnumerable(Of Bencodex.Types.IValue))
+  nameWithType: List.IImmutableList<IValue>.AddRange(IEnumerable<IValue>)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.AddRange(IEnumerable(Of IValue))
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#AddRange*
+  name: IImmutableList<IValue>.AddRange
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__AddRange_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#AddRange
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.AddRange
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.AddRange
+  nameWithType: List.IImmutableList<IValue>.AddRange
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.AddRange
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Clear
+  name: IImmutableList<IValue>.Clear()
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__Clear
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Clear
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Clear()
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Clear()
+  nameWithType: List.IImmutableList<IValue>.Clear()
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Clear()
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Clear*
+  name: IImmutableList<IValue>.Clear
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__Clear_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Clear
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Clear
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Clear
+  nameWithType: List.IImmutableList<IValue>.Clear
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Clear
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#IndexOf(Bencodex.Types.IValue,System.Int32,System.Int32,System.Collections.Generic.IEqualityComparer{Bencodex.Types.IValue})
+  name: IImmutableList<IValue>.IndexOf(IValue, Int32, Int32, IEqualityComparer<IValue>)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__IndexOf_Bencodex_Types_IValue_System_Int32_System_Int32_System_Collections_Generic_IEqualityComparer_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#IndexOf(Bencodex.Types.IValue,System.Int32,System.Int32,System.Collections.Generic.IEqualityComparer{Bencodex.Types.IValue})
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.IndexOf(IValue, Int32, Int32, IEqualityComparer(Of IValue))
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.IndexOf(Bencodex.Types.IValue, System.Int32, System.Int32, System.Collections.Generic.IEqualityComparer<Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.IndexOf(Bencodex.Types.IValue, System.Int32, System.Int32, System.Collections.Generic.IEqualityComparer(Of Bencodex.Types.IValue))
+  nameWithType: List.IImmutableList<IValue>.IndexOf(IValue, Int32, Int32, IEqualityComparer<IValue>)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.IndexOf(IValue, Int32, Int32, IEqualityComparer(Of IValue))
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#IndexOf*
+  name: IImmutableList<IValue>.IndexOf
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__IndexOf_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#IndexOf
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.IndexOf
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.IndexOf
+  nameWithType: List.IImmutableList<IValue>.IndexOf
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.IndexOf
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Insert(System.Int32,Bencodex.Types.IValue)
+  name: IImmutableList<IValue>.Insert(Int32, IValue)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__Insert_System_Int32_Bencodex_Types_IValue_
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Insert(System.Int32,Bencodex.Types.IValue)
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Insert(Int32, IValue)
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Insert(System.Int32, Bencodex.Types.IValue)
+  nameWithType: List.IImmutableList<IValue>.Insert(Int32, IValue)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Insert(Int32, IValue)
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Insert*
+  name: IImmutableList<IValue>.Insert
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__Insert_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Insert
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Insert
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Insert
+  nameWithType: List.IImmutableList<IValue>.Insert
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Insert
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#InsertRange(System.Int32,System.Collections.Generic.IEnumerable{Bencodex.Types.IValue})
+  name: IImmutableList<IValue>.InsertRange(Int32, IEnumerable<IValue>)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__InsertRange_System_Int32_System_Collections_Generic_IEnumerable_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#InsertRange(System.Int32,System.Collections.Generic.IEnumerable{Bencodex.Types.IValue})
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.InsertRange(Int32, IEnumerable(Of IValue))
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.InsertRange(System.Int32, System.Collections.Generic.IEnumerable<Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.InsertRange(System.Int32, System.Collections.Generic.IEnumerable(Of Bencodex.Types.IValue))
+  nameWithType: List.IImmutableList<IValue>.InsertRange(Int32, IEnumerable<IValue>)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.InsertRange(Int32, IEnumerable(Of IValue))
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#InsertRange*
+  name: IImmutableList<IValue>.InsertRange
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__InsertRange_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#InsertRange
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.InsertRange
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.InsertRange
+  nameWithType: List.IImmutableList<IValue>.InsertRange
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.InsertRange
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#LastIndexOf(Bencodex.Types.IValue,System.Int32,System.Int32,System.Collections.Generic.IEqualityComparer{Bencodex.Types.IValue})
+  name: IImmutableList<IValue>.LastIndexOf(IValue, Int32, Int32, IEqualityComparer<IValue>)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__LastIndexOf_Bencodex_Types_IValue_System_Int32_System_Int32_System_Collections_Generic_IEqualityComparer_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#LastIndexOf(Bencodex.Types.IValue,System.Int32,System.Int32,System.Collections.Generic.IEqualityComparer{Bencodex.Types.IValue})
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.LastIndexOf(IValue, Int32, Int32, IEqualityComparer(Of IValue))
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.LastIndexOf(Bencodex.Types.IValue, System.Int32, System.Int32, System.Collections.Generic.IEqualityComparer<Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.LastIndexOf(Bencodex.Types.IValue, System.Int32, System.Int32, System.Collections.Generic.IEqualityComparer(Of Bencodex.Types.IValue))
+  nameWithType: List.IImmutableList<IValue>.LastIndexOf(IValue, Int32, Int32, IEqualityComparer<IValue>)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.LastIndexOf(IValue, Int32, Int32, IEqualityComparer(Of IValue))
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#LastIndexOf*
+  name: IImmutableList<IValue>.LastIndexOf
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__LastIndexOf_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#LastIndexOf
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.LastIndexOf
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.LastIndexOf
+  nameWithType: List.IImmutableList<IValue>.LastIndexOf
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.LastIndexOf
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Remove(Bencodex.Types.IValue,System.Collections.Generic.IEqualityComparer{Bencodex.Types.IValue})
+  name: IImmutableList<IValue>.Remove(IValue, IEqualityComparer<IValue>)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__Remove_Bencodex_Types_IValue_System_Collections_Generic_IEqualityComparer_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Remove(Bencodex.Types.IValue,System.Collections.Generic.IEqualityComparer{Bencodex.Types.IValue})
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Remove(IValue, IEqualityComparer(Of IValue))
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Remove(Bencodex.Types.IValue, System.Collections.Generic.IEqualityComparer<Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Remove(Bencodex.Types.IValue, System.Collections.Generic.IEqualityComparer(Of Bencodex.Types.IValue))
+  nameWithType: List.IImmutableList<IValue>.Remove(IValue, IEqualityComparer<IValue>)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Remove(IValue, IEqualityComparer(Of IValue))
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Remove*
+  name: IImmutableList<IValue>.Remove
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__Remove_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Remove
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Remove
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Remove
+  nameWithType: List.IImmutableList<IValue>.Remove
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Remove
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveAll(System.Predicate{Bencodex.Types.IValue})
+  name: IImmutableList<IValue>.RemoveAll(Predicate<IValue>)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__RemoveAll_System_Predicate_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveAll(System.Predicate{Bencodex.Types.IValue})
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAll(Predicate(Of IValue))
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAll(System.Predicate<Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAll(System.Predicate(Of Bencodex.Types.IValue))
+  nameWithType: List.IImmutableList<IValue>.RemoveAll(Predicate<IValue>)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAll(Predicate(Of IValue))
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveAll*
+  name: IImmutableList<IValue>.RemoveAll
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__RemoveAll_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveAll
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAll
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAll
+  nameWithType: List.IImmutableList<IValue>.RemoveAll
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAll
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveAt(System.Int32)
+  name: IImmutableList<IValue>.RemoveAt(Int32)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__RemoveAt_System_Int32_
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveAt(System.Int32)
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAt(Int32)
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAt(System.Int32)
+  nameWithType: List.IImmutableList<IValue>.RemoveAt(Int32)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAt(Int32)
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveAt*
+  name: IImmutableList<IValue>.RemoveAt
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__RemoveAt_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveAt
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAt
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAt
+  nameWithType: List.IImmutableList<IValue>.RemoveAt
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveAt
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveRange(System.Collections.Generic.IEnumerable{Bencodex.Types.IValue},System.Collections.Generic.IEqualityComparer{Bencodex.Types.IValue})
+  name: IImmutableList<IValue>.RemoveRange(IEnumerable<IValue>, IEqualityComparer<IValue>)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__RemoveRange_System_Collections_Generic_IEnumerable_Bencodex_Types_IValue__System_Collections_Generic_IEqualityComparer_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveRange(System.Collections.Generic.IEnumerable{Bencodex.Types.IValue},System.Collections.Generic.IEqualityComparer{Bencodex.Types.IValue})
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveRange(IEnumerable(Of IValue), IEqualityComparer(Of IValue))
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveRange(System.Collections.Generic.IEnumerable<Bencodex.Types.IValue>, System.Collections.Generic.IEqualityComparer<Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveRange(System.Collections.Generic.IEnumerable(Of Bencodex.Types.IValue), System.Collections.Generic.IEqualityComparer(Of Bencodex.Types.IValue))
+  nameWithType: List.IImmutableList<IValue>.RemoveRange(IEnumerable<IValue>, IEqualityComparer<IValue>)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveRange(IEnumerable(Of IValue), IEqualityComparer(Of IValue))
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveRange(System.Int32,System.Int32)
+  name: IImmutableList<IValue>.RemoveRange(Int32, Int32)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__RemoveRange_System_Int32_System_Int32_
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveRange(System.Int32,System.Int32)
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveRange(Int32, Int32)
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveRange(System.Int32, System.Int32)
+  nameWithType: List.IImmutableList<IValue>.RemoveRange(Int32, Int32)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveRange(Int32, Int32)
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveRange*
+  name: IImmutableList<IValue>.RemoveRange
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__RemoveRange_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#RemoveRange
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveRange
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveRange
+  nameWithType: List.IImmutableList<IValue>.RemoveRange
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.RemoveRange
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Replace(Bencodex.Types.IValue,Bencodex.Types.IValue,System.Collections.Generic.IEqualityComparer{Bencodex.Types.IValue})
+  name: IImmutableList<IValue>.Replace(IValue, IValue, IEqualityComparer<IValue>)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__Replace_Bencodex_Types_IValue_Bencodex_Types_IValue_System_Collections_Generic_IEqualityComparer_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Replace(Bencodex.Types.IValue,Bencodex.Types.IValue,System.Collections.Generic.IEqualityComparer{Bencodex.Types.IValue})
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Replace(IValue, IValue, IEqualityComparer(Of IValue))
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Replace(Bencodex.Types.IValue, Bencodex.Types.IValue, System.Collections.Generic.IEqualityComparer<Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Replace(Bencodex.Types.IValue, Bencodex.Types.IValue, System.Collections.Generic.IEqualityComparer(Of Bencodex.Types.IValue))
+  nameWithType: List.IImmutableList<IValue>.Replace(IValue, IValue, IEqualityComparer<IValue>)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Replace(IValue, IValue, IEqualityComparer(Of IValue))
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Replace*
+  name: IImmutableList<IValue>.Replace
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__Replace_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#Replace
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Replace
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Replace
+  nameWithType: List.IImmutableList<IValue>.Replace
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.Replace
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#SetItem(System.Int32,Bencodex.Types.IValue)
+  name: IImmutableList<IValue>.SetItem(Int32, IValue)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__SetItem_System_Int32_Bencodex_Types_IValue_
+  commentId: M:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#SetItem(System.Int32,Bencodex.Types.IValue)
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.SetItem(Int32, IValue)
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.SetItem(System.Int32, Bencodex.Types.IValue)
+  nameWithType: List.IImmutableList<IValue>.SetItem(Int32, IValue)
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.SetItem(Int32, IValue)
+- uid: Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#SetItem*
+  name: IImmutableList<IValue>.SetItem
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__SetItem_
+  commentId: Overload:Bencodex.Types.List.System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}#SetItem
+  isSpec: "True"
+  name.vb: System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.SetItem
+  fullName: Bencodex.Types.List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.SetItem
+  nameWithType: List.IImmutableList<IValue>.SetItem
+  nameWithType.vb: List.System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>.SetItem
+- uid: Bencodex.Types.List.System#IEquatable{System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}}#Equals(System.Collections.Immutable.IImmutableList{Bencodex.Types.IValue})
+  name: IEquatable<IImmutableList<IValue>>.Equals(IImmutableList<IValue>)
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_IEquatable_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue___Equals_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue__
+  commentId: M:Bencodex.Types.List.System#IEquatable{System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}}#Equals(System.Collections.Immutable.IImmutableList{Bencodex.Types.IValue})
+  name.vb: System.IEquatable<System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>>.Equals(IImmutableList(Of IValue))
+  fullName: Bencodex.Types.List.System.IEquatable<System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>>.Equals(System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>)
+  fullName.vb: Bencodex.Types.List.System.IEquatable<System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>>.Equals(System.Collections.Immutable.IImmutableList(Of Bencodex.Types.IValue))
+  nameWithType: List.IEquatable<IImmutableList<IValue>>.Equals(IImmutableList<IValue>)
+  nameWithType.vb: List.System.IEquatable<System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>>.Equals(IImmutableList(Of IValue))
+- uid: Bencodex.Types.List.System#IEquatable{System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}}#Equals*
+  name: IEquatable<IImmutableList<IValue>>.Equals
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_System_IEquatable_System_Collections_Immutable_IImmutableList_Bencodex_Types_IValue___Equals_
+  commentId: Overload:Bencodex.Types.List.System#IEquatable{System#Collections#Immutable#IImmutableList{Bencodex#Types#IValue}}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>>.Equals
+  fullName: Bencodex.Types.List.System.IEquatable<System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>>.Equals
+  nameWithType: List.IEquatable<IImmutableList<IValue>>.Equals
+  nameWithType.vb: List.System.IEquatable<System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>>.Equals
+- uid: Bencodex.Types.List.ToString
+  name: ToString()
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_ToString
+  commentId: M:Bencodex.Types.List.ToString
+  fullName: Bencodex.Types.List.ToString()
+  nameWithType: List.ToString()
+- uid: Bencodex.Types.List.ToString*
+  name: ToString
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_ToString_
+  commentId: Overload:Bencodex.Types.List.ToString
+  isSpec: "True"
+  fullName: Bencodex.Types.List.ToString
+  nameWithType: List.ToString
+- uid: Bencodex.Types.List.Value
+  name: Value
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_Value
+  commentId: P:Bencodex.Types.List.Value
+  fullName: Bencodex.Types.List.Value
+  nameWithType: List.Value
+- uid: Bencodex.Types.List.Value*
+  name: Value
+  href: api/Bencodex.Types.List.html#Bencodex_Types_List_Value_
+  commentId: Overload:Bencodex.Types.List.Value
+  isSpec: "True"
+  fullName: Bencodex.Types.List.Value
+  nameWithType: List.Value
+- uid: Bencodex.Types.Null
+  name: "Null"
+  href: api/Bencodex.Types.Null.html
+  commentId: T:Bencodex.Types.Null
+  fullName: Bencodex.Types.Null
+  nameWithType: "Null"
+- uid: Bencodex.Types.Null.EncodeIntoChunks
+  name: EncodeIntoChunks()
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_EncodeIntoChunks
+  commentId: M:Bencodex.Types.Null.EncodeIntoChunks
+  fullName: Bencodex.Types.Null.EncodeIntoChunks()
+  nameWithType: Null.EncodeIntoChunks()
+- uid: Bencodex.Types.Null.EncodeIntoChunks*
+  name: EncodeIntoChunks
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_EncodeIntoChunks_
+  commentId: Overload:Bencodex.Types.Null.EncodeIntoChunks
+  isSpec: "True"
+  fullName: Bencodex.Types.Null.EncodeIntoChunks
+  nameWithType: Null.EncodeIntoChunks
+- uid: Bencodex.Types.Null.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_Equals_System_Object_
+  commentId: M:Bencodex.Types.Null.Equals(System.Object)
+  fullName: Bencodex.Types.Null.Equals(System.Object)
+  nameWithType: Null.Equals(Object)
+- uid: Bencodex.Types.Null.Equals*
+  name: Equals
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_Equals_
+  commentId: Overload:Bencodex.Types.Null.Equals
+  isSpec: "True"
+  fullName: Bencodex.Types.Null.Equals
+  nameWithType: Null.Equals
+- uid: Bencodex.Types.Null.GetHashCode
+  name: GetHashCode()
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_GetHashCode
+  commentId: M:Bencodex.Types.Null.GetHashCode
+  fullName: Bencodex.Types.Null.GetHashCode()
+  nameWithType: Null.GetHashCode()
+- uid: Bencodex.Types.Null.GetHashCode*
+  name: GetHashCode
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_GetHashCode_
+  commentId: Overload:Bencodex.Types.Null.GetHashCode
+  isSpec: "True"
+  fullName: Bencodex.Types.Null.GetHashCode
+  nameWithType: Null.GetHashCode
+- uid: Bencodex.Types.Null.System#IComparable#CompareTo(System.Object)
+  name: IComparable.CompareTo(Object)
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_System_IComparable_CompareTo_System_Object_
+  commentId: M:Bencodex.Types.Null.System#IComparable#CompareTo(System.Object)
+  name.vb: System.IComparable.CompareTo(Object)
+  fullName: Bencodex.Types.Null.System.IComparable.CompareTo(System.Object)
+  nameWithType: Null.IComparable.CompareTo(Object)
+  nameWithType.vb: Null.System.IComparable.CompareTo(Object)
+- uid: Bencodex.Types.Null.System#IComparable#CompareTo*
+  name: IComparable.CompareTo
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_System_IComparable_CompareTo_
+  commentId: Overload:Bencodex.Types.Null.System#IComparable#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable.CompareTo
+  fullName: Bencodex.Types.Null.System.IComparable.CompareTo
+  nameWithType: Null.IComparable.CompareTo
+  nameWithType.vb: Null.System.IComparable.CompareTo
+- uid: Bencodex.Types.Null.System#IComparable{Bencodex#Types#Null}#CompareTo(Bencodex.Types.Null)
+  name: IComparable<Null>.CompareTo(Null)
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_System_IComparable_Bencodex_Types_Null__CompareTo_Bencodex_Types_Null_
+  commentId: M:Bencodex.Types.Null.System#IComparable{Bencodex#Types#Null}#CompareTo(Bencodex.Types.Null)
+  name.vb: System.IComparable<Bencodex.Types.Null>.CompareTo(Null)
+  fullName: Bencodex.Types.Null.System.IComparable<Bencodex.Types.Null>.CompareTo(Bencodex.Types.Null)
+  nameWithType: Null.IComparable<Null>.CompareTo(Null)
+  nameWithType.vb: Null.System.IComparable<Bencodex.Types.Null>.CompareTo(Null)
+- uid: Bencodex.Types.Null.System#IComparable{Bencodex#Types#Null}#CompareTo*
+  name: IComparable<Null>.CompareTo
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_System_IComparable_Bencodex_Types_Null__CompareTo_
+  commentId: Overload:Bencodex.Types.Null.System#IComparable{Bencodex#Types#Null}#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable<Bencodex.Types.Null>.CompareTo
+  fullName: Bencodex.Types.Null.System.IComparable<Bencodex.Types.Null>.CompareTo
+  nameWithType: Null.IComparable<Null>.CompareTo
+  nameWithType.vb: Null.System.IComparable<Bencodex.Types.Null>.CompareTo
+- uid: Bencodex.Types.Null.System#IEquatable{Bencodex#Types#Null}#Equals(Bencodex.Types.Null)
+  name: IEquatable<Null>.Equals(Null)
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_System_IEquatable_Bencodex_Types_Null__Equals_Bencodex_Types_Null_
+  commentId: M:Bencodex.Types.Null.System#IEquatable{Bencodex#Types#Null}#Equals(Bencodex.Types.Null)
+  name.vb: System.IEquatable<Bencodex.Types.Null>.Equals(Null)
+  fullName: Bencodex.Types.Null.System.IEquatable<Bencodex.Types.Null>.Equals(Bencodex.Types.Null)
+  nameWithType: Null.IEquatable<Null>.Equals(Null)
+  nameWithType.vb: Null.System.IEquatable<Bencodex.Types.Null>.Equals(Null)
+- uid: Bencodex.Types.Null.System#IEquatable{Bencodex#Types#Null}#Equals*
+  name: IEquatable<Null>.Equals
+  href: api/Bencodex.Types.Null.html#Bencodex_Types_Null_System_IEquatable_Bencodex_Types_Null__Equals_
+  commentId: Overload:Bencodex.Types.Null.System#IEquatable{Bencodex#Types#Null}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<Bencodex.Types.Null>.Equals
+  fullName: Bencodex.Types.Null.System.IEquatable<Bencodex.Types.Null>.Equals
+  nameWithType: Null.IEquatable<Null>.Equals
+  nameWithType.vb: Null.System.IEquatable<Bencodex.Types.Null>.Equals
+- uid: Bencodex.Types.Text
+  name: Text
+  href: api/Bencodex.Types.Text.html
+  commentId: T:Bencodex.Types.Text
+  fullName: Bencodex.Types.Text
+  nameWithType: Text
+- uid: Bencodex.Types.Text.#ctor(System.String)
+  name: Text(String)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text__ctor_System_String_
+  commentId: M:Bencodex.Types.Text.#ctor(System.String)
+  fullName: Bencodex.Types.Text.Text(System.String)
+  nameWithType: Text.Text(String)
+- uid: Bencodex.Types.Text.#ctor*
+  name: Text
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text__ctor_
+  commentId: Overload:Bencodex.Types.Text.#ctor
+  isSpec: "True"
+  fullName: Bencodex.Types.Text.Text
+  nameWithType: Text.Text
+- uid: Bencodex.Types.Text.Bencodex#Types#IKey#EncodeAsByteArray
+  name: IKey.EncodeAsByteArray()
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_Bencodex_Types_IKey_EncodeAsByteArray
+  commentId: M:Bencodex.Types.Text.Bencodex#Types#IKey#EncodeAsByteArray
+  name.vb: Bencodex.Types.IKey.EncodeAsByteArray()
+  fullName: Bencodex.Types.Text.Bencodex.Types.IKey.EncodeAsByteArray()
+  nameWithType: Text.IKey.EncodeAsByteArray()
+  nameWithType.vb: Text.Bencodex.Types.IKey.EncodeAsByteArray()
+- uid: Bencodex.Types.Text.Bencodex#Types#IKey#EncodeAsByteArray*
+  name: IKey.EncodeAsByteArray
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_Bencodex_Types_IKey_EncodeAsByteArray_
+  commentId: Overload:Bencodex.Types.Text.Bencodex#Types#IKey#EncodeAsByteArray
+  isSpec: "True"
+  name.vb: Bencodex.Types.IKey.EncodeAsByteArray
+  fullName: Bencodex.Types.Text.Bencodex.Types.IKey.EncodeAsByteArray
+  nameWithType: Text.IKey.EncodeAsByteArray
+  nameWithType.vb: Text.Bencodex.Types.IKey.EncodeAsByteArray
+- uid: Bencodex.Types.Text.Bencodex#Types#IKey#KeyPrefix
+  name: IKey.KeyPrefix
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_Bencodex_Types_IKey_KeyPrefix
+  commentId: P:Bencodex.Types.Text.Bencodex#Types#IKey#KeyPrefix
+  name.vb: Bencodex.Types.IKey.KeyPrefix
+  fullName: Bencodex.Types.Text.Bencodex.Types.IKey.KeyPrefix
+  nameWithType: Text.IKey.KeyPrefix
+  nameWithType.vb: Text.Bencodex.Types.IKey.KeyPrefix
+- uid: Bencodex.Types.Text.Bencodex#Types#IKey#KeyPrefix*
+  name: IKey.KeyPrefix
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_Bencodex_Types_IKey_KeyPrefix_
+  commentId: Overload:Bencodex.Types.Text.Bencodex#Types#IKey#KeyPrefix
+  isSpec: "True"
+  name.vb: Bencodex.Types.IKey.KeyPrefix
+  fullName: Bencodex.Types.Text.Bencodex.Types.IKey.KeyPrefix
+  nameWithType: Text.IKey.KeyPrefix
+  nameWithType.vb: Text.Bencodex.Types.IKey.KeyPrefix
+- uid: Bencodex.Types.Text.CompareTo(System.Object)
+  name: CompareTo(Object)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_CompareTo_System_Object_
+  commentId: M:Bencodex.Types.Text.CompareTo(System.Object)
+  fullName: Bencodex.Types.Text.CompareTo(System.Object)
+  nameWithType: Text.CompareTo(Object)
+- uid: Bencodex.Types.Text.CompareTo*
+  name: CompareTo
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_CompareTo_
+  commentId: Overload:Bencodex.Types.Text.CompareTo
+  isSpec: "True"
+  fullName: Bencodex.Types.Text.CompareTo
+  nameWithType: Text.CompareTo
+- uid: Bencodex.Types.Text.EncodeIntoChunks
+  name: EncodeIntoChunks()
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_EncodeIntoChunks
+  commentId: M:Bencodex.Types.Text.EncodeIntoChunks
+  fullName: Bencodex.Types.Text.EncodeIntoChunks()
+  nameWithType: Text.EncodeIntoChunks()
+- uid: Bencodex.Types.Text.EncodeIntoChunks*
+  name: EncodeIntoChunks
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_EncodeIntoChunks_
+  commentId: Overload:Bencodex.Types.Text.EncodeIntoChunks
+  isSpec: "True"
+  fullName: Bencodex.Types.Text.EncodeIntoChunks
+  nameWithType: Text.EncodeIntoChunks
+- uid: Bencodex.Types.Text.Equals(System.Object)
+  name: Equals(Object)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_Equals_System_Object_
+  commentId: M:Bencodex.Types.Text.Equals(System.Object)
+  fullName: Bencodex.Types.Text.Equals(System.Object)
+  nameWithType: Text.Equals(Object)
+- uid: Bencodex.Types.Text.Equals*
+  name: Equals
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_Equals_
+  commentId: Overload:Bencodex.Types.Text.Equals
+  isSpec: "True"
+  fullName: Bencodex.Types.Text.Equals
+  nameWithType: Text.Equals
+- uid: Bencodex.Types.Text.GetHashCode
+  name: GetHashCode()
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_GetHashCode
+  commentId: M:Bencodex.Types.Text.GetHashCode
+  fullName: Bencodex.Types.Text.GetHashCode()
+  nameWithType: Text.GetHashCode()
+- uid: Bencodex.Types.Text.GetHashCode*
+  name: GetHashCode
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_GetHashCode_
+  commentId: Overload:Bencodex.Types.Text.GetHashCode
+  isSpec: "True"
+  fullName: Bencodex.Types.Text.GetHashCode
+  nameWithType: Text.GetHashCode
+- uid: Bencodex.Types.Text.op_Equality(Bencodex.Types.Text,Bencodex.Types.Text)
+  name: Equality(Text, Text)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_op_Equality_Bencodex_Types_Text_Bencodex_Types_Text_
+  commentId: M:Bencodex.Types.Text.op_Equality(Bencodex.Types.Text,Bencodex.Types.Text)
+  fullName: Bencodex.Types.Text.Equality(Bencodex.Types.Text, Bencodex.Types.Text)
+  nameWithType: Text.Equality(Text, Text)
+- uid: Bencodex.Types.Text.op_Equality*
+  name: Equality
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_op_Equality_
+  commentId: Overload:Bencodex.Types.Text.op_Equality
+  isSpec: "True"
+  fullName: Bencodex.Types.Text.Equality
+  nameWithType: Text.Equality
+- uid: Bencodex.Types.Text.op_Implicit(Bencodex.Types.Text)~System.String
+  name: Implicit(Text to String)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_op_Implicit_Bencodex_Types_Text__System_String
+  commentId: M:Bencodex.Types.Text.op_Implicit(Bencodex.Types.Text)~System.String
+  name.vb: Widening(Text to String)
+  fullName: Bencodex.Types.Text.Implicit(Bencodex.Types.Text to System.String)
+  fullName.vb: Bencodex.Types.Text.Widening(Bencodex.Types.Text to System.String)
+  nameWithType: Text.Implicit(Text to String)
+  nameWithType.vb: Text.Widening(Text to String)
+- uid: Bencodex.Types.Text.op_Implicit(System.String)~Bencodex.Types.Text
+  name: Implicit(String to Text)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_op_Implicit_System_String__Bencodex_Types_Text
+  commentId: M:Bencodex.Types.Text.op_Implicit(System.String)~Bencodex.Types.Text
+  name.vb: Widening(String to Text)
+  fullName: Bencodex.Types.Text.Implicit(System.String to Bencodex.Types.Text)
+  fullName.vb: Bencodex.Types.Text.Widening(System.String to Bencodex.Types.Text)
+  nameWithType: Text.Implicit(String to Text)
+  nameWithType.vb: Text.Widening(String to Text)
+- uid: Bencodex.Types.Text.op_Implicit*
+  name: Implicit
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_op_Implicit_
+  commentId: Overload:Bencodex.Types.Text.op_Implicit
+  isSpec: "True"
+  name.vb: Widening
+  fullName: Bencodex.Types.Text.Implicit
+  fullName.vb: Bencodex.Types.Text.Widening
+  nameWithType: Text.Implicit
+  nameWithType.vb: Text.Widening
+- uid: Bencodex.Types.Text.op_Inequality(Bencodex.Types.Text,Bencodex.Types.Text)
+  name: Inequality(Text, Text)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_op_Inequality_Bencodex_Types_Text_Bencodex_Types_Text_
+  commentId: M:Bencodex.Types.Text.op_Inequality(Bencodex.Types.Text,Bencodex.Types.Text)
+  fullName: Bencodex.Types.Text.Inequality(Bencodex.Types.Text, Bencodex.Types.Text)
+  nameWithType: Text.Inequality(Text, Text)
+- uid: Bencodex.Types.Text.op_Inequality*
+  name: Inequality
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_op_Inequality_
+  commentId: Overload:Bencodex.Types.Text.op_Inequality
+  isSpec: "True"
+  fullName: Bencodex.Types.Text.Inequality
+  nameWithType: Text.Inequality
+- uid: Bencodex.Types.Text.System#IComparable{Bencodex#Types#Text}#CompareTo(Bencodex.Types.Text)
+  name: IComparable<Text>.CompareTo(Text)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_System_IComparable_Bencodex_Types_Text__CompareTo_Bencodex_Types_Text_
+  commentId: M:Bencodex.Types.Text.System#IComparable{Bencodex#Types#Text}#CompareTo(Bencodex.Types.Text)
+  name.vb: System.IComparable<Bencodex.Types.Text>.CompareTo(Text)
+  fullName: Bencodex.Types.Text.System.IComparable<Bencodex.Types.Text>.CompareTo(Bencodex.Types.Text)
+  nameWithType: Text.IComparable<Text>.CompareTo(Text)
+  nameWithType.vb: Text.System.IComparable<Bencodex.Types.Text>.CompareTo(Text)
+- uid: Bencodex.Types.Text.System#IComparable{Bencodex#Types#Text}#CompareTo*
+  name: IComparable<Text>.CompareTo
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_System_IComparable_Bencodex_Types_Text__CompareTo_
+  commentId: Overload:Bencodex.Types.Text.System#IComparable{Bencodex#Types#Text}#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable<Bencodex.Types.Text>.CompareTo
+  fullName: Bencodex.Types.Text.System.IComparable<Bencodex.Types.Text>.CompareTo
+  nameWithType: Text.IComparable<Text>.CompareTo
+  nameWithType.vb: Text.System.IComparable<Bencodex.Types.Text>.CompareTo
+- uid: Bencodex.Types.Text.System#IComparable{System#String}#CompareTo(System.String)
+  name: IComparable<String>.CompareTo(String)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_System_IComparable_System_String__CompareTo_System_String_
+  commentId: M:Bencodex.Types.Text.System#IComparable{System#String}#CompareTo(System.String)
+  name.vb: System.IComparable<System.String>.CompareTo(String)
+  fullName: Bencodex.Types.Text.System.IComparable<System.String>.CompareTo(System.String)
+  nameWithType: Text.IComparable<String>.CompareTo(String)
+  nameWithType.vb: Text.System.IComparable<System.String>.CompareTo(String)
+- uid: Bencodex.Types.Text.System#IComparable{System#String}#CompareTo*
+  name: IComparable<String>.CompareTo
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_System_IComparable_System_String__CompareTo_
+  commentId: Overload:Bencodex.Types.Text.System#IComparable{System#String}#CompareTo
+  isSpec: "True"
+  name.vb: System.IComparable<System.String>.CompareTo
+  fullName: Bencodex.Types.Text.System.IComparable<System.String>.CompareTo
+  nameWithType: Text.IComparable<String>.CompareTo
+  nameWithType.vb: Text.System.IComparable<System.String>.CompareTo
+- uid: Bencodex.Types.Text.System#IEquatable{Bencodex#Types#Text}#Equals(Bencodex.Types.Text)
+  name: IEquatable<Text>.Equals(Text)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_System_IEquatable_Bencodex_Types_Text__Equals_Bencodex_Types_Text_
+  commentId: M:Bencodex.Types.Text.System#IEquatable{Bencodex#Types#Text}#Equals(Bencodex.Types.Text)
+  name.vb: System.IEquatable<Bencodex.Types.Text>.Equals(Text)
+  fullName: Bencodex.Types.Text.System.IEquatable<Bencodex.Types.Text>.Equals(Bencodex.Types.Text)
+  nameWithType: Text.IEquatable<Text>.Equals(Text)
+  nameWithType.vb: Text.System.IEquatable<Bencodex.Types.Text>.Equals(Text)
+- uid: Bencodex.Types.Text.System#IEquatable{Bencodex#Types#Text}#Equals*
+  name: IEquatable<Text>.Equals
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_System_IEquatable_Bencodex_Types_Text__Equals_
+  commentId: Overload:Bencodex.Types.Text.System#IEquatable{Bencodex#Types#Text}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<Bencodex.Types.Text>.Equals
+  fullName: Bencodex.Types.Text.System.IEquatable<Bencodex.Types.Text>.Equals
+  nameWithType: Text.IEquatable<Text>.Equals
+  nameWithType.vb: Text.System.IEquatable<Bencodex.Types.Text>.Equals
+- uid: Bencodex.Types.Text.System#IEquatable{System#String}#Equals(System.String)
+  name: IEquatable<String>.Equals(String)
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_System_IEquatable_System_String__Equals_System_String_
+  commentId: M:Bencodex.Types.Text.System#IEquatable{System#String}#Equals(System.String)
+  name.vb: System.IEquatable<System.String>.Equals(String)
+  fullName: Bencodex.Types.Text.System.IEquatable<System.String>.Equals(System.String)
+  nameWithType: Text.IEquatable<String>.Equals(String)
+  nameWithType.vb: Text.System.IEquatable<System.String>.Equals(String)
+- uid: Bencodex.Types.Text.System#IEquatable{System#String}#Equals*
+  name: IEquatable<String>.Equals
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_System_IEquatable_System_String__Equals_
+  commentId: Overload:Bencodex.Types.Text.System#IEquatable{System#String}#Equals
+  isSpec: "True"
+  name.vb: System.IEquatable<System.String>.Equals
+  fullName: Bencodex.Types.Text.System.IEquatable<System.String>.Equals
+  nameWithType: Text.IEquatable<String>.Equals
+  nameWithType.vb: Text.System.IEquatable<System.String>.Equals
+- uid: Bencodex.Types.Text.ToString
+  name: ToString()
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_ToString
+  commentId: M:Bencodex.Types.Text.ToString
+  fullName: Bencodex.Types.Text.ToString()
+  nameWithType: Text.ToString()
+- uid: Bencodex.Types.Text.ToString*
+  name: ToString
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_ToString_
+  commentId: Overload:Bencodex.Types.Text.ToString
+  isSpec: "True"
+  fullName: Bencodex.Types.Text.ToString
+  nameWithType: Text.ToString
+- uid: Bencodex.Types.Text.Value
+  name: Value
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_Value
+  commentId: P:Bencodex.Types.Text.Value
+  fullName: Bencodex.Types.Text.Value
+  nameWithType: Text.Value
+- uid: Bencodex.Types.Text.Value*
+  name: Value
+  href: api/Bencodex.Types.Text.html#Bencodex_Types_Text_Value_
+  commentId: Overload:Bencodex.Types.Text.Value
+  isSpec: "True"
+  fullName: Bencodex.Types.Text.Value
+  nameWithType: Text.Value
