@@ -24,12 +24,12 @@ namespace Bencodex.Tests
 
         public Stream OpenEncodingStream()
         {
-            return new FileStream(EncodingPath, FileMode.Open);
+            return new FileStream(EncodingPath, FileMode.Open, FileAccess.Read);
         }
 
         public Stream OpenSemanticsStream()
         {
-            return new FileStream(SemanticsPath, FileMode.Open);
+            return new FileStream(SemanticsPath, FileMode.Open, FileAccess.Read);
         }
 
         public byte[] Encoding

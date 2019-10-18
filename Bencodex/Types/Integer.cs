@@ -54,12 +54,67 @@ namespace Bencodex.Types
             return i.Value;
         }
 
+        public static implicit operator short(Integer i)
+        {
+            return (short)i.Value;
+        }
+
+        public static implicit operator ushort(Integer i)
+        {
+            return (ushort)i.Value;
+        }
+
+        public static implicit operator int(Integer i)
+        {
+            return (int)i.Value;
+        }
+
+        public static implicit operator uint(Integer i)
+        {
+            return (uint)i.Value;
+        }
+
+        public static implicit operator long(Integer i)
+        {
+            return (long)i.Value;
+        }
+
+        public static implicit operator ulong(Integer i)
+        {
+            return (ulong)i.Value;
+        }
+
         public static implicit operator Integer(BigInteger i)
         {
             return new Integer(i);
         }
 
+        public static implicit operator Integer(short i)
+        {
+            return new Integer(i);
+        }
+
+        public static implicit operator Integer(ushort i)
+        {
+            return new Integer(i);
+        }
+
         public static implicit operator Integer(int i)
+        {
+            return new Integer(i);
+        }
+
+        public static implicit operator Integer(uint i)
+        {
+            return new Integer(i);
+        }
+
+        public static implicit operator Integer(long i)
+        {
+            return new Integer(i);
+        }
+
+        public static implicit operator Integer(ulong i)
         {
             return new Integer(i);
         }

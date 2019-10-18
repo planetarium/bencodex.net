@@ -7,9 +7,18 @@ Version 0.1.1
 To be released.
 
  -  Relicensed under [LGPL 2.1] or later.
+ -  Added more implicit conversions.  [[#1]]
+     -  `Integer` ↔ `short`
+     -  `Integer` ↔ `ushort`
+     -  `Integer` → `int`
+     -  `Integer` ↔ `uint`
+     -  `Integer` ↔ `long`
+     -  `Integer` ↔ `ulong`
+     -  `Binary` → `bytes`
+     -  `Boolean` ↔ `bool`
 
 [LGPL 2.1]: https://www.gnu.org/licenses/lgpl-2.1.html
-
+[#1]: https://github.com/planetarium/bencodex.net/pull/1
 
 Version 0.1.0
 -------------

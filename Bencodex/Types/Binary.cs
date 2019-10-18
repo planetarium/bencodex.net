@@ -34,6 +34,11 @@ namespace Bencodex.Types
             return new Binary(bytes);
         }
 
+        public static implicit operator byte[](Binary binary)
+        {
+            return binary.Value;
+        }
+
         bool IEquatable<byte[]>.Equals(byte[] otherBytes)
         {
             return Value.SequenceEqual(otherBytes);

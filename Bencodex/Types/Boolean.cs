@@ -31,6 +31,16 @@ namespace Bencodex.Types
             return Value.CompareTo(obj);
         }
 
+        public static implicit operator bool(Boolean boolean)
+        {
+            return boolean.Value;
+        }
+
+        public static implicit operator Boolean(bool b)
+        {
+            return new Boolean(b);
+        }
+
         int IComparable<bool>.CompareTo(bool other) => Value.CompareTo(other);
 
         int IComparable<Boolean>.CompareTo(Boolean other)
