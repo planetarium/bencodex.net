@@ -17,14 +17,18 @@ variables:
 
 steps:
 - script: git submodule update --init --recursive
+  displayName: git submodule update --init --recursive
 - task: NuGetToolInstaller@0
 - task: DotNetCoreCLI@2
+  displayName: dotnet restore
   inputs:
     command: restore
 - task: DotNetCoreCLI@2
+  displayName: dotnet build
   inputs:
     command: build
 - task: DotNetCoreCLI@2
+  displayName: dotnet test
   inputs:
     command: test
 - task: CopyFiles@2
