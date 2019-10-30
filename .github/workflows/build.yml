@@ -1,0 +1,36 @@
+on:
+  push:
+    branch: master
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-16.04
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-dotnet@v1.3.0
+      with:
+        dotnet-version: '2.2.401'
+    - run: git submodule update --init --recursive
+    - run: dotnet build
+    - run: dotnet test
+  deploy:
+    needs: build_and_test
+    runs-on: ubuntu-16.04
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-dotnet@v1.3.0
+      with:
+        dotnet-version: '2.2.401'
+    - name: bulid_and_push
+      run: |
+        dotnet_args="-c Release -p:NoPackageAnalysis=true"
+        if [[ ! "$GITHUB_REF" =~ ^/refs/tags/* ]]; then
+          project_suffix=dev.${{ github.sha }}
+          dotnet_args="$dotnet_args --version-suffix $project_suffix"
+        fi
+
+        dotnet build $dotnet_args
+        dotnet pack  $dotnet_args
+        dotnet nuget push ./Bencodex/bin/Release/Bencodex.*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
