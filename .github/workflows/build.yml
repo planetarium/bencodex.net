@@ -22,7 +22,7 @@ jobs:
     - name: bulid_and_push
       run: |
         dotnet_args="-c Release -p:NoPackageAnalysis=true"
-        if [[ ! "$GITHUB_REF" =~ ^/refs/tags/* ]]; then
+        if [[ ! "$GITHUB_REF" =~ ^refs/tags/* ]]; then
           project_suffix=dev.${{ github.sha }}
           dotnet_args="$dotnet_args --version-suffix $project_suffix"
         fi
