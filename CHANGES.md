@@ -1,10 +1,10 @@
 Changelog
 =========
 
-Version 0.1.1
+Version 0.2.0
 -------------
 
-To be released.
+Released on October 30, 2019.
 
  -  Relicensed under [LGPL 2.1] or later.
  -  Added more implicit conversions.  [[#1]]
