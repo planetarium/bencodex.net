@@ -11,7 +11,7 @@ namespace Bencodex.Types
 {
     public struct Dictionary :
         IValue,
-        IEquatable<Dictionary>,
+        IEquatable<IImmutableDictionary<IKey, IValue>>,
         IImmutableDictionary<IKey, IValue>
     {
         private ImmutableDictionary<IKey, IValue> _value;
@@ -95,7 +95,7 @@ namespace Bencodex.Types
 
         public Dictionary Add(string key, IEnumerable<IValue> value)
         {
-            return Add(key, (IValue)new Bencodex.Types.List(value));
+            return Add(key, (IValue) new Bencodex.Types.List(value));
         }
 
         public Dictionary Add(byte[] key, IValue value)
@@ -175,7 +175,7 @@ namespace Bencodex.Types
             string value
         )
         {
-            return (Dictionary)SetItem(key, (IValue)(Text)value);
+            return (Dictionary)SetItem(key, (IValue)(Text) value);
         }
 
         public Dictionary SetItem(
@@ -183,7 +183,7 @@ namespace Bencodex.Types
             byte[] value
         )
         {
-            return (Dictionary)SetItem(key, (IValue)(Binary)value);
+            return (Dictionary)SetItem(key, (IValue)(Binary) value);
         }
 
         public Dictionary SetItem(
@@ -191,7 +191,7 @@ namespace Bencodex.Types
             long value
         )
         {
-            return (Dictionary)SetItem(key, (IValue)(Integer)value);
+            return (Dictionary)SetItem(key, (IValue)(Integer) value);
         }
 
         public Dictionary SetItem(
@@ -199,7 +199,7 @@ namespace Bencodex.Types
             ulong value
         )
         {
-            return (Dictionary)SetItem(key, (IValue)(Integer)value);
+            return (Dictionary)SetItem(key, (IValue)(Integer) value);
         }
 
         public Dictionary SetItem(
@@ -207,7 +207,7 @@ namespace Bencodex.Types
             bool value
         )
         {
-            return (Dictionary)SetItem(key, (IValue)(Bencodex.Types.Boolean)value);
+            return (Dictionary)SetItem(key, (IValue)(Bencodex.Types.Boolean) value);
         }
 
         public Dictionary SetItem(
@@ -215,7 +215,7 @@ namespace Bencodex.Types
             IEnumerable<IValue> value
         )
         {
-            return (Dictionary)SetItem(key, (IValue)new Bencodex.Types.List(value));
+            return (Dictionary)SetItem(key, (IValue) new Bencodex.Types.List(value));
         }
 
         public Dictionary SetItem(
@@ -231,7 +231,7 @@ namespace Bencodex.Types
             string value
         )
         {
-            return SetItem(key, (IValue)(Text)value);
+            return SetItem(key, (IValue)(Text) value);
         }
 
         public Dictionary SetItem(
@@ -239,7 +239,7 @@ namespace Bencodex.Types
             byte[] value
         )
         {
-            return SetItem(key, (IValue)(Binary)value);
+            return SetItem(key, (IValue)(Binary) value);
         }
 
         public Dictionary SetItem(
@@ -247,7 +247,7 @@ namespace Bencodex.Types
             long value
         )
         {
-            return SetItem(key, (IValue)(Integer)value);
+            return SetItem(key, (IValue)(Integer) value);
         }
 
         public Dictionary SetItem(
@@ -255,7 +255,7 @@ namespace Bencodex.Types
             ulong value
         )
         {
-            return SetItem(key, (IValue)(Integer)value);
+            return SetItem(key, (IValue)(Integer) value);
         }
 
         public Dictionary SetItem(
@@ -263,7 +263,7 @@ namespace Bencodex.Types
             bool value
         )
         {
-            return SetItem(key, (IValue)(Bencodex.Types.Boolean)value);
+            return SetItem(key, (IValue)(Bencodex.Types.Boolean) value);
         }
 
         public Dictionary SetItem(
@@ -271,7 +271,7 @@ namespace Bencodex.Types
             IEnumerable<IValue> value
         )
         {
-            return SetItem(key, (IValue)new Bencodex.Types.List(value));
+            return SetItem(key, (IValue) new Bencodex.Types.List(value));
         }
 
         public Dictionary SetItem(
@@ -279,7 +279,7 @@ namespace Bencodex.Types
             IValue value
         )
         {
-            return (Dictionary) SetItem((IKey) (Binary) key, value);
+            return (Dictionary) SetItem((IKey)(Binary) key, value);
         }
 
         public Dictionary SetItem(
@@ -287,7 +287,7 @@ namespace Bencodex.Types
             string value
         )
         {
-            return SetItem(key, (IValue)(Text)value);
+            return SetItem(key, (IValue)(Text) value);
         }
 
         public Dictionary SetItem(
@@ -295,7 +295,7 @@ namespace Bencodex.Types
             byte[] value
         )
         {
-            return SetItem(key, (IValue)(Binary)value);
+            return SetItem(key, (IValue)(Binary) value);
         }
 
         public Dictionary SetItem(
@@ -303,7 +303,7 @@ namespace Bencodex.Types
             long value
         )
         {
-            return SetItem(key, (IValue)(Integer)value);
+            return SetItem(key, (IValue)(Integer) value);
         }
 
         public Dictionary SetItem(
@@ -311,7 +311,7 @@ namespace Bencodex.Types
             ulong value
         )
         {
-            return SetItem(key, (IValue)(Integer)value);
+            return SetItem(key, (IValue)(Integer) value);
         }
 
         public Dictionary SetItem(
@@ -319,7 +319,7 @@ namespace Bencodex.Types
             bool value
         )
         {
-            return SetItem(key, (IValue)(Bencodex.Types.Boolean)value);
+            return SetItem(key, (IValue)(Bencodex.Types.Boolean) value);
         }
 
         public Dictionary SetItem(
@@ -327,7 +327,7 @@ namespace Bencodex.Types
             IEnumerable<IValue> value
         )
         {
-            return SetItem(key, (IValue)new Bencodex.Types.List(value));
+            return SetItem(key, (IValue) new Bencodex.Types.List(value));
         }
 
         public IImmutableDictionary<IKey, IValue> SetItems(
@@ -345,7 +345,7 @@ namespace Bencodex.Types
         public T GetValue<T>(string name)
             where T : IValue
         {
-            return (T)this[name];
+            return (T) this[name];
         }
 
         public static Dictionary Empty => new Dictionary();
@@ -358,18 +358,18 @@ namespace Bencodex.Types
                     return false;
                 case Dictionary d:
                     return (
-                        (IEquatable<Dictionary>) this
+                        (IEquatable<IImmutableDictionary<IKey, IValue>>) this
                     ).Equals(d);
                 default:
                     return false;
             }
         }
 
-        bool IEquatable<Dictionary>.Equals(
-            Dictionary other
+        bool IEquatable<IImmutableDictionary<IKey, IValue>>.Equals(
+            IImmutableDictionary<IKey, IValue> other
         )
         {
-            if (Value.LongCount() != other.Value.LongCount()) return false;
+            if (Value.LongCount() != other.LongCount()) return false;
             foreach (KeyValuePair<IKey, IValue> kv in this)
             {
                 if (!other.ContainsKey(kv.Key)) return false;
@@ -394,8 +394,12 @@ namespace Bencodex.Types
         {
             yield return new byte[1] { 0x64 }; // 'd'
             IEnumerable<ValueTuple<byte?, byte[], IValue>> rawPairs =
-                Value.Select(pair => (pair.Key.KeyPrefix,
-                    pair.Key.EncodeAsByteArray(), pair.Value));
+                from pair in this
+                select (
+                    pair.Key.KeyPrefix,
+                    pair.Key.EncodeAsByteArray(),
+                    pair.Value
+                );
             IEnumerable<ValueTuple<byte?, byte[], IValue>> orderedPairs =
                 rawPairs.OrderBy(
                     (triple) => ValueTuple.Create(triple.Item1, triple.Item2),
@@ -423,7 +427,7 @@ namespace Bencodex.Types
         [Pure]
         public override string ToString()
         {
-            IEnumerable<string> pairs = Value.Select(
+            IEnumerable<string> pairs = this.Select(
                 kv => $"{kv.Key}: {kv.Value}"
             );
             string pairsString = string.Join(", ", pairs);

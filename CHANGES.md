@@ -6,46 +6,58 @@ Version 0.3.0
 
 To be released.
 
- -  `Dictionary.SetItem` became to have more overloads.  [#7]
-     -  (IKey, string)
-     -  (IKey, byte[])
-     -  (IKey, long)
-     -  (IKey, ulong)
-     -  (IKey, bool)
-     -  (IKey, IEnumerable<IValue>)
-     -  (string, IValue)
-     -  (string, string)
-     -  (string, byte[])
-     -  (string, long)
-     -  (string, ulong)
-     -  (string, bool)
-     -  (string, IEnumerable<IValue>)
-     -  (byte[], IValue)
-     -  (byte[], string)
-     -  (byte[], byte[])
-     -  (byte[], long)
-     -  (byte[], ulong)
-     -  (byte[], bool)
-     -  (byte[], IEnumerable<IValue>)
- -  `Dictionary.Add` became to have more overloads.  [#7]
-      -  (string, IValue)
-      -  (string, string)
-      -  (string, byte[])
-      -  (string, long)
-      -  (string, ulong)
-      -  (string, bool)
-      -  (string, IEnumerable<IValue>)
-      -  (byte[], IValue)
-      -  (byte[], string)
-      -  (byte[], byte[])
-      -  (byte[], long)
-      -  (byte[], ulong)
-      -  (byte[], bool)
-      -  (byte[], IEnumerable<IValue>)
- -  Added `Dictionary[string]` indexer. [#7]
- -  Added `Dictionary[byte[]]` indexer. [#7]
+ -  `Bencodex.Types.Dictionary.SetItem()` became
+    to have more overloads.  [[#7]]
+     -  Added overloads, which is listed below,
+        return `Bencodex.Types.Dictionary` instead of
+        `IImmutableDictionary<IKey, IValue>`. Note that existing
+        `SetItem(IKey, IValue)` method which implements
+        `IImmutableDictionary<IKey, IValue>` is still remained as it had been.
+     -  (`IKey`, `string`)
+     -  (`IKey`, `byte[]`)
+     -  (`IKey`, `long`)
+     -  (`IKey`, `ulong`)
+     -  (`IKey`, `bool`)
+     -  (`IKey`, `IEnumerable<IValue>`)
+     -  (`string`, `IValue`)
+     -  (`string`, `string`)
+     -  (`string`, `byte[]`)
+     -  (`string`, `long`)
+     -  (`string`, `ulong`)
+     -  (`string`, `bool`)
+     -  (`string`, `IEnumerable<IValue>`)
+     -  (`byte[]`, `IValue`)
+     -  (`byte[]`, `string`)
+     -  (`byte[]`, `byte[]`)
+     -  (`byte[]`, `long`)
+     -  (`byte[]`, `ulong`)
+     -  (`byte[]`, `bool`)
+     -  (`byte[]`, `IEnumerable<IValue>`)
+ -  `Bencodex.Types.Dictionary.Add()` became to have more overloads.  [[#7]]
+      -  Added overloads, which is listed below,
+         return `Bencodex.Types.Dictionary` instead of
+         `IImmutableDictionary<IKey, IValue>`. Note that existing
+         `Add(IKey, IValue)` method which implements
+         `IImmutableDictionary<IKey, IValue>` is still remained as it had been.
+      -  (`string`, `IValue`)
+      -  (`string`, `string`)
+      -  (`string`, `byte[]`)
+      -  (`string`, `long`)
+      -  (`string`, `ulong`)
+      -  (`string`, `bool`)
+      -  (`string`, `IEnumerable<IValue>`)
+      -  (`byte[]`, `IValue`)
+      -  (`byte[]`, `string`)
+      -  (`byte[]`, `byte[]`)
+      -  (`byte[]`, `long`)
+      -  (`byte[]`, `ulong`)
+      -  (`byte[]`, `bool`)
+      -  (`byte[]`, `IEnumerable<IValue>`)
+ -  Added `Bencodex.Types.Dictionary[string]` indexer. [[#7]]
+ -  Added `Bencodex.Types.Dictionary[byte[]]` indexer. [[#7]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
+
 
 Version 0.2.0
 -------------
