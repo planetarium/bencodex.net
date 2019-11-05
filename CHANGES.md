@@ -6,6 +6,47 @@ Version 0.3.0
 
 To be released.
 
+ -  `Dictionary.SetItem` became to have more overloads.  [#7]
+     -  (IKey, string)
+     -  (IKey, byte[])
+     -  (IKey, long)
+     -  (IKey, ulong)
+     -  (IKey, bool)
+     -  (IKey, IEnumerable<IValue>)
+     -  (string, IValue)
+     -  (string, string)
+     -  (string, byte[])
+     -  (string, long)
+     -  (string, ulong)
+     -  (string, bool)
+     -  (string, IEnumerable<IValue>)
+     -  (byte[], IValue)
+     -  (byte[], string)
+     -  (byte[], byte[])
+     -  (byte[], long)
+     -  (byte[], ulong)
+     -  (byte[], bool)
+     -  (byte[], IEnumerable<IValue>)
+ -  `Dictionary.Add` became to have more overloads.  [#7]
+      -  (string, IValue)
+      -  (string, string)
+      -  (string, byte[])
+      -  (string, long)
+      -  (string, ulong)
+      -  (string, bool)
+      -  (string, IEnumerable<IValue>)
+      -  (byte[], IValue)
+      -  (byte[], string)
+      -  (byte[], byte[])
+      -  (byte[], long)
+      -  (byte[], ulong)
+      -  (byte[], bool)
+      -  (byte[], IEnumerable<IValue>)
+ -  Added `Dictionary[string]` indexer. [#7]
+ -  Added `Dictionary[byte[]]` indexer. [#7]
+
+[#7]: https://github.com/planetarium/bencodex.net/pull/7
+
 Version 0.2.0
 -------------
 
