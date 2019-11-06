@@ -6,6 +6,7 @@
     <IsTestProject>true</IsTestProject>
     <DebugType>portable</DebugType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>7.2</LangVersion>
     <CodeAnalysisRuleSet>../Bencodex.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 

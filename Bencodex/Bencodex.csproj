@@ -11,6 +11,7 @@
     <PackageReleaseNotes>https://github.com/planetarium/bencodex.net/blob/master/CHANGES.md</PackageReleaseNotes>
     <PackageTags>bencodex;bencoding;serialization</PackageTags>
     <RepositoryUrl>git://github.com/planetarium/bencodex.net.git</RepositoryUrl>
+    <LangVersion>7.2</LangVersion>
     <RepositoryType>git</RepositoryType>
     <RootNamespace>Bencodex</RootNamespace>
     <AssemblyName>Bencodex</AssemblyName>
