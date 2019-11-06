@@ -10,7 +10,8 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Equality()
         {
-            var a = new Dictionary(new KeyValuePair<IKey, IValue>[] {
+            var a = new Dictionary(new KeyValuePair<IKey, IValue>[]
+            {
                 new KeyValuePair<IKey, IValue>(
                     new Binary(new byte[] { 0x61 }),  // 'a'
                     new Integer(1)
@@ -26,7 +27,8 @@ namespace Bencodex.Tests.Types
             });
             Assert.Equal(a, a);
 
-            var a2 = new Dictionary(new KeyValuePair<IKey, IValue>[] {
+            var a2 = new Dictionary(new KeyValuePair<IKey, IValue>[]
+            {
                 new KeyValuePair<IKey, IValue>(
                     new Binary(new byte[] { 0x62 }),  // 'b'
                     new Integer(2)
@@ -42,10 +44,11 @@ namespace Bencodex.Tests.Types
             });
             Assert.Equal(a, a2);
 
-            var b = new Dictionary(new KeyValuePair<IKey, IValue>[] {
+            var b = new Dictionary(new KeyValuePair<IKey, IValue>[]
+            {
                 new KeyValuePair<IKey, IValue>(
                     new Binary(new byte[] { 0x61 }),  // 'a'
-                    new Integer(2)  // diffrent
+                    new Integer(2) // diffrent
                 ),
                 new KeyValuePair<IKey, IValue>(
                     new Binary(new byte[] { 0x62 }),  // 'b'
@@ -58,7 +61,8 @@ namespace Bencodex.Tests.Types
             });
             Assert.NotEqual(a, b);
 
-            var c = new Dictionary(new KeyValuePair<IKey, IValue>[] {
+            var c = new Dictionary(new KeyValuePair<IKey, IValue>[]
+            {
                 new KeyValuePair<IKey, IValue>(
                     new Binary(new byte[] { 0x61 }),  // 'a'
                     new Integer(2)
@@ -83,9 +87,9 @@ namespace Bencodex.Tests.Types
                 .SetItem("integer", 1337)
                 .SetItem("binary", new byte[] { 0x01, 0x02, 0x03, 0x04 })
                 .SetItem("boolean", true)
-                .SetItem("list", new IValue[] { (Text) "bar", (Integer) 1337 });
+                .SetItem("list", new IValue[] { (Text)"bar", (Integer)1337 });
 
-            Assert.Equal("foo", (Text) dictionary["text"]);
+            Assert.Equal("foo", (Text)dictionary["text"]);
             Assert.Equal("foo", dictionary.GetValue<Text>("text"));
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Integer>("text"));
@@ -94,8 +98,9 @@ namespace Bencodex.Tests.Types
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Bencodex.Types.Boolean>("text"));
 
-            Assert.Equal((Integer) 1337, (Integer) dictionary["integer"]);
-            Assert.Equal((Integer) 1337,
+            Assert.Equal((Integer)1337, (Integer)dictionary["integer"]);
+            Assert.Equal(
+                (Integer)1337,
                 dictionary.GetValue<Integer>("integer"));
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Binary>("integer"));
@@ -106,7 +111,7 @@ namespace Bencodex.Tests.Types
 
             Assert.Equal(
                 new byte[] { 0x01, 0x02, 0x03, 0x04 },
-                (Binary) dictionary["binary"]);
+                (Binary)dictionary["binary"]);
             Assert.Equal(
                 new byte[] { 0x01, 0x02, 0x03, 0x04 },
                 dictionary.GetValue<Binary>("binary"));
@@ -118,10 +123,10 @@ namespace Bencodex.Tests.Types
                 () => dictionary.GetValue<Bencodex.Types.Boolean>("binary"));
 
             Assert.Equal(
-                (Bencodex.Types.Boolean) true,
-                (Bencodex.Types.Boolean) dictionary["boolean"]);
+                (Bencodex.Types.Boolean)true,
+                (Bencodex.Types.Boolean)dictionary["boolean"]);
             Assert.Equal(
-                (Bencodex.Types.Boolean) true,
+                (Bencodex.Types.Boolean)true,
                 dictionary.GetValue<Bencodex.Types.Boolean>("boolean"));
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Integer>("boolean"));
@@ -131,10 +136,10 @@ namespace Bencodex.Tests.Types
                 () => dictionary.GetValue<Text>("boolean"));
 
             Assert.Equal(
-                new IValue[] { (Text) "bar", (Integer) 1337 },
-                (Bencodex.Types.List) dictionary["list"]);
+                new IValue[] { (Text)"bar", (Integer)1337 },
+                (Bencodex.Types.List)dictionary["list"]);
             Assert.Equal(
-                new IValue[] { (Text) "bar", (Integer) 1337 },
+                new IValue[] { (Text)"bar", (Integer)1337 },
                 dictionary.GetValue<Bencodex.Types.List>("list"));
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Integer>("list"));
@@ -152,10 +157,9 @@ namespace Bencodex.Tests.Types
                 .Add("integer", 1337)
                 .Add("binary", new byte[] { 0x01, 0x02, 0x03, 0x04 })
                 .Add("boolean", true)
-                .Add("list", new IValue[] { (Text) "bar", (Integer) 1337 });
+                .Add("list", new IValue[] { (Text)"bar", (Integer)1337 });
 
-
-            Assert.Equal("foo", (Text) dictionary["text"]);
+            Assert.Equal("foo", (Text)dictionary["text"]);
             Assert.Equal("foo", dictionary.GetValue<Text>("text"));
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Integer>("text"));
@@ -164,8 +168,9 @@ namespace Bencodex.Tests.Types
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Bencodex.Types.Boolean>("text"));
 
-            Assert.Equal((Integer) 1337, (Integer) dictionary["integer"]);
-            Assert.Equal((Integer) 1337,
+            Assert.Equal((Integer)1337, (Integer)dictionary["integer"]);
+            Assert.Equal(
+                (Integer)1337,
                 dictionary.GetValue<Integer>("integer"));
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Binary>("integer"));
@@ -176,7 +181,7 @@ namespace Bencodex.Tests.Types
 
             Assert.Equal(
                 new byte[] { 0x01, 0x02, 0x03, 0x04 },
-                (Binary) dictionary["binary"]);
+                (Binary)dictionary["binary"]);
             Assert.Equal(
                 new byte[] { 0x01, 0x02, 0x03, 0x04 },
                 dictionary.GetValue<Binary>("binary"));
@@ -188,10 +193,10 @@ namespace Bencodex.Tests.Types
                 () => dictionary.GetValue<Bencodex.Types.Boolean>("binary"));
 
             Assert.Equal(
-                (Bencodex.Types.Boolean) true,
-                (Bencodex.Types.Boolean) dictionary["boolean"]);
+                (Bencodex.Types.Boolean)true,
+                (Bencodex.Types.Boolean)dictionary["boolean"]);
             Assert.Equal(
-                (Bencodex.Types.Boolean) true,
+                (Bencodex.Types.Boolean)true,
                 dictionary.GetValue<Bencodex.Types.Boolean>("boolean"));
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Integer>("boolean"));
@@ -201,10 +206,10 @@ namespace Bencodex.Tests.Types
                 () => dictionary.GetValue<Text>("boolean"));
 
             Assert.Equal(
-                new IValue[] { (Text) "bar", (Integer) 1337 },
-                (Bencodex.Types.List) dictionary["list"]);
+                new IValue[] { (Text)"bar", (Integer)1337 },
+                (Bencodex.Types.List)dictionary["list"]);
             Assert.Equal(
-                new IValue[] { (Text) "bar", (Integer) 1337 },
+                new IValue[] { (Text)"bar", (Integer)1337 },
                 dictionary.GetValue<Bencodex.Types.List>("list"));
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Integer>("list"));

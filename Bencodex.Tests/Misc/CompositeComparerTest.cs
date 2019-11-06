@@ -19,13 +19,13 @@ namespace Bencodex.Tests.Misc
                 comparer,
                 new List<(string, string)>()
                 {
-                    ("", ""),
-                    ("", "world"),
-                    ("", "world1"),
-                    ("hello", ""),
+                    (string.Empty, string.Empty),
+                    (string.Empty, "world"),
+                    (string.Empty, "world1"),
+                    ("hello", string.Empty),
                     ("hello", "world"),
                     ("hello", "world1"),
-                    ("hello1", ""),
+                    ("hello1", string.Empty),
                     ("hello1", "world"),
                     ("hello1", "world1"),
                 }

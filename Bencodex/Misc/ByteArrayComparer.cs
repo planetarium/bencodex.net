@@ -5,8 +5,8 @@ using System.Linq;
 namespace Bencodex.Misc
 {
     /// <summary>Similar to <c cref="StringComparer">StringComparer</c>
-    /// but for <c cref="Byte">Byte</c> arrays instead of
-    /// Unicode <c cref="String">String</c>s.</summary>
+    /// but for <c cref="byte">Byte</c> arrays instead of
+    /// Unicode <c cref="string">String</c>s.</summary>
     public struct ByteArrayComparer : IComparer<byte[]>
     {
         public int Compare(byte[] x, byte[] y)

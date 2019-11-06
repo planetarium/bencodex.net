@@ -18,16 +18,19 @@ namespace Bencodex.Types
         IEnumerable<byte>
     {
         private static readonly ByteArrayComparer ByteArrayComparer =
-            new ByteArrayComparer();
+            default(ByteArrayComparer);
 
         private byte[] _value;
-
-        public byte[] Value => _value ?? (_value = new byte[0]);
 
         public Binary(byte[] value)
         {
             _value = value ?? throw new ArgumentNullException(nameof(value));
         }
+
+        [Pure]
+        byte? IKey.KeyPrefix => null;
+
+        public byte[] Value => _value ?? (_value = new byte[0]);
 
         public static implicit operator Binary(byte[] bytes)
         {
@@ -37,36 +40,6 @@ namespace Bencodex.Types
         public static implicit operator byte[](Binary binary)
         {
             return binary.Value;
-        }
-
-        bool IEquatable<byte[]>.Equals(byte[] otherBytes)
-        {
-            return Value.SequenceEqual(otherBytes);
-        }
-
-        bool IEquatable<Binary>.Equals(Binary other)
-        {
-            return ((IEquatable<byte[]>) this).Equals(other.Value);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (obj is byte[] otherBytes)
-            {
-                return ((IEquatable<byte[]>) this).Equals(otherBytes);
-            }
-            return obj is Binary other &&
-                ((IEquatable<Binary>) this).Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            int length = Value.Length;
-            return Value.Aggregate(
-                0,
-                (current, t) => unchecked(current * (length + 1) + t)
-            );
         }
 
         public static bool operator ==(Binary left, Binary right)
@@ -79,6 +52,41 @@ namespace Bencodex.Types
             return !left.Equals(right);
         }
 
+        bool IEquatable<byte[]>.Equals(byte[] otherBytes)
+        {
+            return Value.SequenceEqual(otherBytes);
+        }
+
+        bool IEquatable<Binary>.Equals(Binary other)
+        {
+            return ((IEquatable<byte[]>)this).Equals(other.Value);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (obj is byte[] otherBytes)
+            {
+                return ((IEquatable<byte[]>)this).Equals(otherBytes);
+            }
+
+            return obj is Binary other &&
+                ((IEquatable<Binary>)this).Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            int length = Value.Length;
+            return Value.Aggregate(
+                0,
+                (current, t) => unchecked(current * (length + 1) + t)
+            );
+        }
+
         int IComparable<byte[]>.CompareTo(byte[] other)
         {
             return ByteArrayComparer.Compare(Value, other);
@@ -86,7 +94,7 @@ namespace Bencodex.Types
 
         int IComparable<Binary>.CompareTo(Binary other)
         {
-            return ((IComparable<byte[]>) this).CompareTo(other.Value);
+            return ((IComparable<byte[]>)this).CompareTo(other.Value);
         }
 
         int IComparable.CompareTo(object obj)
@@ -96,9 +104,9 @@ namespace Bencodex.Types
                 case null:
                     return 1;
                 case Binary binary:
-                    return ((IComparable<Binary>) this).CompareTo(binary);
+                    return ((IComparable<Binary>)this).CompareTo(binary);
                 case byte[] bytes:
-                    return ((IComparable<byte[]>) this).CompareTo(bytes);
+                    return ((IComparable<byte[]>)this).CompareTo(bytes);
                 default:
                     throw new ArgumentException(
                         "the argument is neither Binary nor Byte[]",
@@ -109,7 +117,7 @@ namespace Bencodex.Types
 
         public IEnumerator<byte> GetEnumerator()
         {
-            return ((IEnumerable<byte>) Value).GetEnumerator();
+            return ((IEnumerable<byte>)Value).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -126,20 +134,17 @@ namespace Bencodex.Types
         }
 
         [Pure]
-        byte? IKey.KeyPrefix => null;
-
-        [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
             yield return Encoding.ASCII.GetBytes(Value.Length.ToString());
             yield return new byte[1] { 0x3a };  // ':'
-            yield return ((IKey) this).EncodeAsByteArray();
+            yield return ((IKey)this).EncodeAsByteArray();
         }
 
         [Pure]
         public override string ToString()
         {
-            return BitConverter.ToString(Value).Replace("-", "").ToLower();
+            return BitConverter.ToString(Value).Replace("-", string.Empty).ToLower();
         }
     }
 }

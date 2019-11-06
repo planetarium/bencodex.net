@@ -14,13 +14,17 @@ namespace Bencodex.Types
     {
         private ImmutableArray<IValue> _value;
 
-        public ImmutableArray<IValue> Value =>
-            _value.IsDefault ? (_value = ImmutableArray<IValue>.Empty) : _value;
-
         public List(IEnumerable<IValue> value)
         {
             _value = value?.ToImmutableArray() ?? ImmutableArray<IValue>.Empty;
         }
+
+        public ImmutableArray<IValue> Value =>
+            _value.IsDefault ? (_value = ImmutableArray<IValue>.Empty) : _value;
+
+        int IReadOnlyCollection<IValue>.Count => Value.Length;
+
+        IValue IReadOnlyList<IValue>.this[int index] => Value[index];
 
         bool IEquatable<IImmutableList<IValue>>.Equals(
             IImmutableList<IValue> other
@@ -39,24 +43,24 @@ namespace Bencodex.Types
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
             return obj is List other &&
-                ((IEquatable<IImmutableList<IValue>>) this).Equals(other);
+                ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
         }
 
         public override int GetHashCode()
         {
-            return (Value != null ? Value.GetHashCode() : 0);
+            return Value != null ? Value.GetHashCode() : 0;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable) Value).GetEnumerator();
+            return ((IEnumerable)Value).GetEnumerator();
         }
-
-        int IReadOnlyCollection<IValue>.Count => Value.Length;
-
-        IValue IReadOnlyList<IValue>.this[int index] => Value[index];
 
         IImmutableList<IValue> IImmutableList<IValue>.Add(IValue value)
         {
@@ -177,6 +181,7 @@ namespace Bencodex.Types
                     yield return chunk;
                 }
             }
+
             yield return new byte[1] { 0x65 };  // 'e'
         }
 
@@ -184,7 +189,7 @@ namespace Bencodex.Types
         public override string ToString()
         {
             IEnumerable<string> elements = this.Select(v => v.ToString());
-            string elementsString = String.Join(", ", elements);
+            string elementsString = string.Join(", ", elements);
             return $"[{elementsString}]";
         }
     }

@@ -22,13 +22,21 @@
     <IsTestProject>false</IsTestProject>
     <DebugType>portable</DebugType>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <CodeAnalysisRuleSet>../Bencodex.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\CHANGES.md" Pack="true" PackagePath="CHANGES.md" />
     <None Include="..\LICENSE" Pack="true" PackagePath="LICENSE" />
     <None Include="..\README.md" Pack="true" PackagePath="README.md" />
+    <AdditionalFiles Include="..\stylecop.json" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.66">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>
+        runtime; build; native; contentfiles; analyzers
+      </IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.Collections.Immutable" Version="1.*" />
   </ItemGroup>
 </Project>

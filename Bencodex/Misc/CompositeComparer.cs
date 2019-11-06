@@ -4,14 +4,11 @@ using System.Collections.Generic;
 namespace Bencodex.Misc
 {
     /// <summary>Compose given two comparers into one comparer.</summary>
-    /// <typeparam name="A">An element type of the first comparer.</typeparam>
-    /// <typeparam name="B">An element type of the second comparer.</typeparam>
-    public struct CompositeComparer<A, B> : IComparer<ValueTuple<A, B>>
+    /// <typeparam name="TA">An element type of the first comparer.</typeparam>
+    /// <typeparam name="TB">An element type of the second comparer.</typeparam>
+    public struct CompositeComparer<TA, TB> : IComparer<ValueTuple<TA, TB>>
     {
-        public IComparer<A> ComparerA { get; }
-        public IComparer<B> ComparerB { get; }
-
-        public CompositeComparer(IComparer<A> comparerA, IComparer<B> comparerB)
+        public CompositeComparer(IComparer<TA> comparerA, IComparer<TB> comparerB)
         {
             ComparerA =
                 comparerA ?? throw new ArgumentNullException(nameof(comparerA));
@@ -19,12 +16,20 @@ namespace Bencodex.Misc
                 comparerB ?? throw new ArgumentNullException(nameof(comparerB));
         }
 
-        public int Compare((A, B) x, (A, B) y)
+        public IComparer<TA> ComparerA { get; }
+
+        public IComparer<TB> ComparerB { get; }
+
+        public int Compare((TA, TB) x, (TA, TB) y)
         {
-            (A xA, B xB) = x;
-            (A yA, B yB) = y;
+            (TA xA, TB xB) = x;
+            (TA yA, TB yB) = y;
             int resultA = ComparerA.Compare(xA, yA);
-            if (resultA != 0) return resultA;
+            if (resultA != 0)
+            {
+                return resultA;
+            }
+
             return ComparerB.Compare(xB, yB);
         }
     }

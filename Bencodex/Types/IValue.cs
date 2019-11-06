@@ -14,9 +14,9 @@ namespace Bencodex.Types
     /// <seealso cref="Dictionary"/>
     public interface IValue
     {
-        /// <summary>Encodes the value into <c cref="System.Byte">Byte</c>
+        /// <summary>Encodes the value into <c cref="byte">Byte</c>
         /// arrays.</summary>
-        /// <returns><c cref="System.Byte">Byte</c> arrays of Bencodex
+        /// <returns><c cref="byte">Byte</c> arrays of Bencodex
         /// representation of the value.</returns>
         /// <seealso cref="Codec.Encode(IValue)"/>
         /// <seealso cref="Codec.Encode(IValue, System.IO.Stream)"/>

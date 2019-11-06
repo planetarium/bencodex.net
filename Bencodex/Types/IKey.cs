@@ -5,9 +5,9 @@ namespace Bencodex.Types
     public interface IKey : IValue
     {
         [Pure]
-        byte[] EncodeAsByteArray();
+        byte? KeyPrefix { get; }
 
         [Pure]
-        byte? KeyPrefix { get; }
+        byte[] EncodeAsByteArray();
     }
 }
