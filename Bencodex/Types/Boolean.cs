@@ -14,22 +14,12 @@ namespace Bencodex.Types
         IComparable<Boolean>,
         IComparable
     {
-        public bool Value { get; }
-
         public Boolean(bool value)
         {
             Value = value;
         }
 
-        public int CompareTo(object obj)
-        {
-            if (obj is bool b)
-            {
-                return ((IComparable<bool>) this).CompareTo(b);
-            }
-
-            return Value.CompareTo(obj);
-        }
+        public bool Value { get; }
 
         public static implicit operator bool(Boolean boolean)
         {
@@ -39,6 +29,16 @@ namespace Bencodex.Types
         public static implicit operator Boolean(bool b)
         {
             return new Boolean(b);
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is bool b)
+            {
+                return ((IComparable<bool>)this).CompareTo(b);
+            }
+
+            return Value.CompareTo(obj);
         }
 
         int IComparable<bool>.CompareTo(bool other) => Value.CompareTo(other);
@@ -83,11 +83,11 @@ namespace Bencodex.Types
         {
             if (Value)
             {
-                yield return new byte[1] {0x74};  // 't'
+                yield return new byte[1] { 0x74 };  // 't'
             }
             else
             {
-                yield return new byte[1] {0x66};  // 'f'
+                yield return new byte[1] { 0x66 };  // 'f'
             }
         }
     }

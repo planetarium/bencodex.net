@@ -12,16 +12,16 @@ namespace Bencodex
 {
     /// <summary>The most basic and the lowest-level interface to encode and
     /// decode Bencodex values.  This provides two types of input and output:
-    /// <c cref="System.Byte">Byte</c> arrays and I/O
+    /// <c cref="byte">Byte</c> arrays and I/O
     /// <c cref="System.IO.Stream">Stream</c>s.</summary>
     public class Codec
     {
         /// <summary>
         /// Encodes a <paramref name="value"/> into a single
-        /// <c cref="System.Byte">Byte</c> array, rather than split into
+        /// <c cref="byte">Byte</c> array, rather than split into
         /// multiple chunks.</summary>
         /// <param name="value">A value to encode.</param>
-        /// <returns>A single <c cref="System.Byte">Byte</c> array which
+        /// <returns>A single <c cref="byte">Byte</c> array which
         /// contains the whole Bencodex representation of
         /// the <paramref name="value"/>.</returns>
         [Pure]
@@ -88,12 +88,13 @@ namespace Bencodex
                     $"0x{buffer.FirstByte:x}"
                 );
             }
+
             return value;
         }
 
         /// <summary>Decodes an encoded value from a
-        /// <c cref="System.Byte">Byte</c> array.</summary>
-        /// <param name="bytes">A <c cref="System.Byte">Byte</c> array of
+        /// <c cref="byte">Byte</c> array.</summary>
+        /// <param name="bytes">A <c cref="byte">Byte</c> array of
         /// Bencodex encoding.</param>
         /// <returns>A decoded value.</returns>
         /// <exception cref="DecodingException">Thrown when a
@@ -120,19 +121,19 @@ namespace Bencodex
                         $"stream terminates unexpectedly at {pos}"
                     );
 
-                case 0x6e:  // 'n'
+                case 0x6e: // 'n'
                     buffer.Pop(1);
-                    return new Null();
+                    return default(Null);
 
-                case 0x74:  // 't'
+                case 0x74: // 't'
                     buffer.Pop(1);
                     return new Bencodex.Types.Boolean(true);
 
-                case 0x66:  // 'f'
+                case 0x66: // 'f'
                     buffer.Pop(1);
                     return new Bencodex.Types.Boolean(false);
 
-                case 0x69:  // 'i'
+                case 0x69: // 'i'
                     buffer.Pop(1);
                     if (buffer.Empty)
                     {
@@ -140,7 +141,7 @@ namespace Bencodex
                     }
 
                     bool negative = false;
-                    if (buffer.FirstByte == 0x2d)  // '-'
+                    if (buffer.FirstByte == 0x2d) // '-'
                     {
                         buffer.Pop(1);
                         negative = true;
@@ -151,11 +152,11 @@ namespace Bencodex
                         DecodeDigits(e, buffer, input, BigInteger.Parse);
                     return new Integer(negative ? -integer : integer);
 
-                case 0x75:  // 'u'
+                case 0x75: // 'u'
                     string text = DecodeText(buffer, input);
                     return new Text(text);
 
-                case 0x6c:  // 'l'
+                case 0x6c: // 'l'
                     buffer.Pop(1);
                     var elements = new List<IValue>();
                     while (true)
@@ -165,7 +166,7 @@ namespace Bencodex
                             buffer.ReadFrom(input, 1);
                         }
 
-                        if (buffer.FirstByte == 0x65)  // 'e'
+                        if (buffer.FirstByte == 0x65) // 'e'
                         {
                             buffer.Pop(1);
                             break;
@@ -174,9 +175,10 @@ namespace Bencodex
                         IValue element = Decode(buffer, input);
                         elements.Add(element);
                     }
+
                     return new List(elements);
 
-                case 0x64:  // 'd'
+                case 0x64: // 'd'
                     buffer.Pop(1);
                     var pairs = new List<KeyValuePair<IKey, IValue>>();
                     while (true)
@@ -195,19 +197,19 @@ namespace Bencodex
                             );
                         }
 
-                        if (firstByte == 0x65)  // 'e'
+                        if (firstByte == 0x65) // 'e'
                         {
                             buffer.Pop(1);
                             break;
                         }
 
                         IKey key;
-                        if (firstByte == 0x75)  // 'u'
+                        if (firstByte == 0x75) // 'u'
                         {
                             string textKey = DecodeText(buffer, input);
                             key = new Text(textKey);
                         }
-                        else if (0x30 <= firstByte && firstByte < 0x40)
+                        else if (firstByte >= 0x30 && firstByte < 0x40)
                         {
                             byte[] binaryKey = DecodeBinary(buffer, input);
                             key = new Binary(binaryKey);
@@ -222,18 +224,19 @@ namespace Bencodex
                         IValue value = Decode(buffer, input);
                         pairs.Add(new KeyValuePair<IKey, IValue>(key, value));
                     }
+
                     return new Dictionary(pairs);
 
-                case 0x30:  // '0'
-                case 0x31:  // '1'
-                case 0x32:  // '2'
-                case 0x33:  // '3'
-                case 0x34:  // '4'
-                case 0x35:  // '5'
-                case 0x36:  // '6'
-                case 0x37:  // '7'
-                case 0x38:  // '8'
-                case 0x39:  // '9'
+                case 0x30: // '0'
+                case 0x31: // '1'
+                case 0x32: // '2'
+                case 0x33: // '3'
+                case 0x34: // '4'
+                case 0x35: // '5'
+                case 0x36: // '6'
+                case 0x37: // '7'
+                case 0x38: // '8'
+                case 0x39: // '9'
                     byte[] binary = DecodeBinary(buffer, input);
                     return new Binary(binary);
             }
@@ -253,6 +256,7 @@ namespace Bencodex
                     "but the stream terminates"
                 );
             }
+
             if (singleByteBuffer[0] != 0x75)
             {
                 throw new DecodingException(
@@ -284,16 +288,18 @@ namespace Bencodex
             {
                 return new byte[0];
             }
+
             byte[] popped = buffer.Pop(length);
             if (popped.LongLength < length)
             {
                 byte[] result = new byte[length];
                 popped.CopyTo(result, 0);
+
+                // FIXME: These Int64 to Int32 casts should be corrected.
                 input.Read(
                     result,
-                    // FIXME: These Int64 to Int32 casts should be corrected.
-                    (int) popped.LongLength,
-                    (int) (length - popped.LongLength)
+                    (int)popped.LongLength,
+                    (int)(length - popped.LongLength)
                 );
                 return result;
             }
@@ -321,7 +327,7 @@ namespace Bencodex
             }
 
             long pos;
-            while (0 > (pos = buffer.IndexOf(terminator)))
+            while ((pos = buffer.IndexOf(terminator)) < 0)
             {
                 int read = buffer.ReadFrom(input, 8);
                 if (read < 0)
@@ -334,7 +340,7 @@ namespace Bencodex
             }
 
             byte[] digitBytes = buffer.Pop(pos);
-            if (!digitBytes.All(b => 0x30 <= b && b < 0x40))
+            if (!digitBytes.All(b => b >= 0x30 && b < 0x40))
             {
                 long digitsOffset =
                     input.Position - buffer.ByteLength - digitBytes.LongLength;
@@ -343,38 +349,10 @@ namespace Bencodex
                     BitConverter.ToString(digitBytes)
                 );
             }
+
             buffer.Pop(1);  // pop terminator
             string digits = Encoding.ASCII.GetString(digitBytes);
             return converter(digits);
-        }
-    }
-
-    /// <summary>Serves as the base class for codec exceptions.</summary>
-    /// <inheritdoc />
-    public class CodecException : Exception
-    {
-        public CodecException(string message) : base(message)
-        {
-        }
-
-        public CodecException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
-    }
-
-    /// <summary>The exception that is thrown when an input is not
-    /// a valid Bencodex encoding so that a decoder cannot parse it.</summary>
-    /// <inheritdoc />
-    public class DecodingException : CodecException
-    {
-        public DecodingException(string message) : base(message)
-        {
-        }
-
-        public DecodingException(string message, Exception innerException)
-            : base(message, innerException)
-        {
         }
     }
 }

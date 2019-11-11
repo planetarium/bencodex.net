@@ -1,6 +1,5 @@
 using Bencodex.Types;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Bencodex.Tests
 {

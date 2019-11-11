@@ -9,12 +9,12 @@ namespace Bencodex.Tests.Misc
         [Fact]
         public void TestComparison()
         {
-            var comparer = new ByteArrayComparer();
+            var comparer = default(ByteArrayComparer);
             ComparerTestUtils.TestComparison(
                 comparer,
                 new List<byte[]>()
                 {
-                    new byte[] {},
+                    new byte[] { },
                     new byte[] { 0x00 },
                     new byte[] { 0x00, 0x00 },
                     new byte[] { 0x00, 0x80 },

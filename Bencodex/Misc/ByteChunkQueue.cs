@@ -6,8 +6,8 @@ using System.IO;
 namespace Bencodex.Misc
 {
     /// <summary>A special-purpose queue for internal use, which accepts
-    /// inserting a chunk of <c cref="System.Byte">Byte</c>s into and
-    /// removing the number of <c cref="System.Byte">Byte</c>s from.
+    /// inserting a chunk of <c cref="byte">Byte</c>s into and
+    /// removing the number of <c cref="byte">Byte</c>s from.
     /// <para>For example, if <c>foo</c>, <c>bar</c>, and <c>baz</c> were
     /// <c cref="Append">Push</c>ed into a queue, the first
     /// <c cref="Pop">Pop(5)</c> returns <c>fooba</c> and the second
@@ -18,10 +18,6 @@ namespace Bencodex.Misc
         private readonly Queue<byte[]> _chunks;
         private long _subOffset;
 
-        /// <summary>The total size of <c cref="System.Byte">Byte</c>s that
-        /// the queue contains.</summary>
-        public long ByteLength { get; private set; }
-
         /// <summary>Creates a new empty queue.</summary>
         public ByteChunkQueue()
         {
@@ -30,12 +26,23 @@ namespace Bencodex.Misc
             ByteLength = 0;
         }
 
+        /// <summary>The total size of <c cref="byte">Byte</c>s that
+        /// the queue contains.</summary>
+        public long ByteLength { get; private set; }
+
         /// <summary>Whether the queue is empty or not.</summary>
         public bool Empty => ByteLength < 1;
 
-        /// <summary>Insert an array of <c cref="System.Byte">Byte</c>s chunk
+        /// <summary>A first <c cref="byte">Byte</c> in the queue,
+        /// unless it's empty.  If the queue is empty, it is <c>null</c>.
+        /// </summary>
+        [Pure]
+        public byte? FirstByte =>
+            Empty ? (byte?)null : _chunks.Peek()[_subOffset];
+
+        /// <summary>Insert an array of <c cref="byte">Byte</c>s chunk
         /// into the end of the queue.</summary>
-        /// <param name="chunk">A chunk of <c cref="System.Byte">Byte</c>s to
+        /// <param name="chunk">A chunk of <c cref="byte">Byte</c>s to
         /// insert.</param>
         public void Append(byte[] chunk)
         {
@@ -46,13 +53,13 @@ namespace Bencodex.Misc
         }
 
         /// <summary>Fetches the specified size (<paramref name="byteSize"/>)
-        /// of leading <c cref="System.Byte">Byte</c>s and removes them from
+        /// of leading <c cref="byte">Byte</c>s and removes them from
         /// the queue.</summary>
-        /// <param name="byteSize">The length of <c cref="System.Byte">Byte</c>s
+        /// <param name="byteSize">The length of <c cref="byte">Byte</c>s
         /// to request.</param>
-        /// <returns>An array of <c cref="System.Byte">Byte</c>s.  Its size is
+        /// <returns>An array of <c cref="byte">Byte</c>s.  Its size is
         /// probably the requested <paramref name="byteSize"/>, but also may be
-        /// less than that if there's not enough <c cref="System.Byte">Byte</c>s
+        /// less than that if there's not enough <c cref="byte">Byte</c>s
         /// left.</returns>
         /// <exception cref="ArgumentException">Thrown when a requested
         /// <paramref name="byteSize"/> is negative or zero.</exception>
@@ -65,6 +72,7 @@ namespace Bencodex.Misc
                     nameof(byteSize)
                 );
             }
+
             byteSize = Math.Min(byteSize, ByteLength);
             var result = new byte[byteSize];
             long index = 0;
@@ -89,18 +97,20 @@ namespace Bencodex.Misc
                     _chunks.Dequeue();
                     consumed = 0;
                 }
+
                 _subOffset = 0;
                 index += lengthToCopy;
             }
+
             _subOffset = consumed;
             ByteLength -= index;
             return result;
         }
 
         /// <summary>Tests whether the queue shares the same leading
-        /// <c cref="System.Byte">Byte</c>s with the given
+        /// <c cref="byte">Byte</c>s with the given
         /// <paramref name="prefix"/>.</summary>
-        /// <param name="prefix">An array of <c cref="System.Byte">Byte</c>s to
+        /// <param name="prefix">An array of <c cref="byte">Byte</c>s to
         /// test if it's appeared in the queue at first.</param>
         /// <returns>A <c>true</c> if the given <paramref name="prefix"/> is
         /// appeared in the queue at first, or <c>false</c>.</returns>
@@ -134,16 +144,9 @@ namespace Bencodex.Misc
             return true;
         }
 
-        /// <summary>A first <c cref="System.Byte">Byte</c> in the queue,
-        /// unless it's empty.  If the queue is empty, it is <c>null</c>.
-        /// </summary>
-        [Pure]
-        public byte? FirstByte =>
-            Empty ? (byte?) null : _chunks.Peek()[_subOffset];
-
         /// <summary>Determines the position of the given
         /// <paramref name="element"/> is appeared first in the queue.</summary>
-        /// <param name="element">A <c cref="System.Byte">Byte</c> to look
+        /// <param name="element">A <c cref="byte">Byte</c> to look
         /// up.</param>
         /// <returns>A zero-indexed offset the given <paramref name="element"/>
         /// is appeared in the queue.  It could be <c>-1</c> if
@@ -162,6 +165,7 @@ namespace Bencodex.Misc
                         return i;
                     }
                 }
+
                 subOffset = 0;
             }
 
@@ -202,12 +206,14 @@ namespace Bencodex.Misc
                 string chunkString = BitConverter.ToString(chunk);
                 if (i == 0 && _subOffset > 0)
                 {
-                    int pos = (int) (_subOffset * 2 + (_subOffset - 1));
+                    int pos = (int)(_subOffset * 2 + (_subOffset - 1));
                     chunkString = chunkString.Remove(pos) +
                         "|" + chunkString.Substring(pos + 1);
                 }
+
                 chunkStrings[i++] = chunkString;
             }
+
             return $"{base.ToString()} [{string.Join(" ", chunkStrings)}]";
         }
     }
