@@ -7,7 +7,7 @@ Version 0.3.0
 To be released.
 
  -  `Bencodex.Types.Dictionary.SetItem()` became
-    to have more overloads.  [[#7]]
+    to have more overloads.  [[#6], [#7]]
      -  Added overloads, which is listed below,
         return `Bencodex.Types.Dictionary` instead of
         `IImmutableDictionary<IKey, IValue>`. Note that existing
@@ -33,7 +33,7 @@ To be released.
      -  (`byte[]`, `ulong`)
      -  (`byte[]`, `bool`)
      -  (`byte[]`, `IEnumerable<IValue>`)
- -  `Bencodex.Types.Dictionary.Add()` became to have more overloads.  [[#7]]
+ -  `Bencodex.Types.Dictionary.Add()` became to have more overloads.  [[#6], [#7]]
       -  Added overloads, which is listed below,
          return `Bencodex.Types.Dictionary` instead of
          `IImmutableDictionary<IKey, IValue>`. Note that existing
@@ -53,10 +53,17 @@ To be released.
       -  (`byte[]`, `ulong`)
       -  (`byte[]`, `bool`)
       -  (`byte[]`, `IEnumerable<IValue>`)
- -  Added `Bencodex.Types.Dictionary[string]` indexer. [[#7]]
- -  Added `Bencodex.Types.Dictionary[byte[]]` indexer. [[#7]]
+ -  Added `Bencodex.Types.Dictionary[string]` indexer. [[#6], [#7]]
+ -  Added `Bencodex.Types.Dictionary[byte[]]` indexer. [[#6], [#7]]
+ -  Added `Bencodex.Declarative.BencodexSerializer<T>
+ .Serialize(object)`.  [[#6], [#9]]
+ -  Added `Bencodex.Declarative.BencodexSerializer<T>
+ .Deserialize(Bencodex.Types.Dictionary)`.  [[#6], [#9]]
 
+
+[#6]: https://github.com/planetarium/bencodex.net/issues/6
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
+[#9]: https://github.com/planetarium/bencodex.net/pull/9
 
 
 Version 0.2.0
