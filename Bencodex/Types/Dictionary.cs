@@ -356,6 +356,12 @@ namespace Bencodex.Types
             return (T)this[name];
         }
 
+        public T GetValue<T>(byte[] name)
+            where T : IValue
+        {
+            return (T)this[name];
+        }
+
         public override bool Equals(object obj)
         {
             switch (obj)
