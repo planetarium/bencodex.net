@@ -138,7 +138,7 @@ namespace Bencodex.Types
 
         public Dictionary Add(byte[] key, IEnumerable<IValue> value)
         {
-            return Add(key, (IValue)(List)value);
+            return Add(key, (IValue)new List(value));
         }
 
         public IImmutableDictionary<IKey, IValue> AddRange(
