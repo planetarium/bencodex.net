@@ -55,6 +55,7 @@ To be released.
       -  (`byte[]`, `IEnumerable<IValue>`)
  -  Added `Bencodex.Types.Dictionary[string]` indexer. [[#7]]
  -  Added `Bencodex.Types.Dictionary[byte[]]` indexer. [[#7]]
+ -  Added `Bencodex.Types.Dictionary.GetValue<T>(byte[])` method. [[#11]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 
