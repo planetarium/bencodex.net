@@ -152,13 +152,24 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Add()
         {
+            byte[] textKey = new byte[] { 0x00 };
+            byte[] integerKey = new byte[] { 0x01 };
+            byte[] binaryKey = new byte[] { 0x02 };
+            byte[] booleanKey = new byte[] { 0x03 };
+            byte[] listKey = new byte[] { 0x04 };
             var dictionary = Dictionary.Empty
                 .Add("text", "foo")
                 .Add("integer", 1337)
                 .Add("binary", new byte[] { 0x01, 0x02, 0x03, 0x04 })
                 .Add("boolean", true)
-                .Add("list", new IValue[] { (Text)"bar", (Integer)1337 });
+                .Add("list", new IValue[] { (Text)"bar", (Integer)1337 })
+                .Add(textKey, "baz")
+                .Add(integerKey, 2020)
+                .Add(binaryKey, new byte[] { 0x05, 0x06, 0x07, 0x08 })
+                .Add(booleanKey, false)
+                .Add(listKey, new IValue[] { (Text)"qux", (Integer)2020 });
 
+            // String keys
             Assert.Equal("foo", (Text)dictionary["text"]);
             Assert.Equal("foo", dictionary.GetValue<Text>("text"));
             Assert.Throws<InvalidCastException>(
@@ -217,6 +228,66 @@ namespace Bencodex.Tests.Types
                 () => dictionary.GetValue<Binary>("list"));
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Text>("list"));
+
+            // Byte array keys
+            Assert.Equal("baz", (Text)dictionary[textKey]);
+            Assert.Equal("baz", dictionary.GetValue<Text>(textKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Integer>(textKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Binary>(textKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(textKey));
+
+            Assert.Equal((Integer)2020, (Integer)dictionary[integerKey]);
+            Assert.Equal(
+                (Integer)2020,
+                dictionary.GetValue<Integer>(integerKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Binary>(integerKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Text>(integerKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(integerKey));
+
+            Assert.Equal(
+                new byte[] { 0x05, 0x06, 0x07, 0x08 },
+                (Binary)dictionary[binaryKey]);
+            Assert.Equal(
+                new byte[] { 0x05, 0x06, 0x07, 0x08 },
+                dictionary.GetValue<Binary>(binaryKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Integer>(binaryKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Text>(binaryKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(binaryKey));
+
+            Assert.Equal(
+                (Bencodex.Types.Boolean)false,
+                (Bencodex.Types.Boolean)dictionary[booleanKey]);
+            Assert.Equal(
+                (Bencodex.Types.Boolean)false,
+                dictionary.GetValue<Bencodex.Types.Boolean>(booleanKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Integer>(booleanKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Binary>(booleanKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Text>(booleanKey));
+
+            Assert.Equal(
+                new IValue[] { (Text)"qux", (Integer)2020 },
+                (Bencodex.Types.List)dictionary[listKey]);
+            Assert.Equal(
+                new IValue[] { (Text)"qux", (Integer)2020 },
+                dictionary.GetValue<Bencodex.Types.List>(listKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Integer>(listKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Binary>(listKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Text>(listKey));
         }
     }
 }
