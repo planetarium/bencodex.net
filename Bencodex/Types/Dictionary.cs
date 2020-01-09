@@ -138,7 +138,7 @@ namespace Bencodex.Types
 
         public Dictionary Add(byte[] key, IEnumerable<IValue> value)
         {
-            return Add(key, (IValue)(List)value);
+            return Add(key, (IValue)new List(value));
         }
 
         public IImmutableDictionary<IKey, IValue> AddRange(
@@ -351,6 +351,12 @@ namespace Bencodex.Types
         }
 
         public T GetValue<T>(string name)
+            where T : IValue
+        {
+            return (T)this[name];
+        }
+
+        public T GetValue<T>(byte[] name)
             where T : IValue
         {
             return (T)this[name];
