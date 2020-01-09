@@ -37,6 +37,24 @@ namespace Bencodex.Types
 
         public IEnumerable<IValue> Values => Value.Values;
 
+        [Pure]
+        public string Inspection
+        {
+            get
+            {
+                if (!this.Any())
+                {
+                    return "{}";
+                }
+
+                IEnumerable<string> pairs = this.Select(kv =>
+                    $"{kv.Key.Inspection}: {kv.Value.Inspection.Replace("\n", "\n  ")}"
+                ).OrderBy(s => s);
+                string pairsString = string.Join(",\n  ", pairs);
+                return $"{{\n  {pairsString}\n}}";
+            }
+        }
+
         private ImmutableDictionary<IKey, IValue> Value =>
             _value ?? (_value = ImmutableDictionary<IKey, IValue>.Empty);
 
@@ -445,13 +463,7 @@ namespace Bencodex.Types
         }
 
         [Pure]
-        public override string ToString()
-        {
-            IEnumerable<string> pairs = this.Select(
-                kv => $"{kv.Key}: {kv.Value}"
-            );
-            string pairsString = string.Join(", ", pairs);
-            return $"{{{pairsString}}}";
-        }
+        public override string ToString() =>
+            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Dictionary)} {Inspection}";
     }
 }

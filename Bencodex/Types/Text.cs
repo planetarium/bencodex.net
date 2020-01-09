@@ -25,6 +25,19 @@ namespace Bencodex.Types
         [Pure]
         byte? IKey.KeyPrefix => 0x75;  // 'u'
 
+        [Pure]
+        public string Inspection
+        {
+            get
+            {
+                string contents = Value
+                    .Replace("\\", "\\\\")
+                    .Replace("\n", "\\n")
+                    .Replace("\"", "\\\"");
+                return $"\"{contents}\"";
+            }
+        }
+
         public static implicit operator string(Text t)
         {
             return t.Value;
@@ -117,9 +130,8 @@ namespace Bencodex.Types
             }
         }
 
-        public override string ToString()
-        {
-            return Value;
-        }
+        [Pure]
+        public override string ToString() =>
+            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Text)} {Inspection}";
     }
 }

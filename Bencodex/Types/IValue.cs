@@ -14,6 +14,12 @@ namespace Bencodex.Types
     /// <seealso cref="Dictionary"/>
     public interface IValue
     {
+        /// <summary>A JSON-like human-readable representation for
+        /// debugging.</summary>
+        /// <returns>A JSON-like representation.</returns>
+        [Pure]
+        string Inspection { get; }
+
         /// <summary>Encodes the value into <c cref="byte">Byte</c>
         /// arrays.</summary>
         /// <returns><c cref="byte">Byte</c> arrays of Bencodex

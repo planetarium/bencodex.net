@@ -32,6 +32,16 @@ namespace Bencodex.Types
 
         public byte[] Value => _value ?? (_value = new byte[0]);
 
+        [Pure]
+        public string Inspection
+        {
+            get
+            {
+                IEnumerable<string> contents = this.Select(b => $"\\x{b:x2}");
+                return $"b\"{string.Join(string.Empty, contents)}\"";
+            }
+        }
+
         public static implicit operator Binary(byte[] bytes)
         {
             return new Binary(bytes);
@@ -142,9 +152,7 @@ namespace Bencodex.Types
         }
 
         [Pure]
-        public override string ToString()
-        {
-            return BitConverter.ToString(Value).Replace("-", string.Empty).ToLower();
-        }
+        public override string ToString() =>
+            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Binary)} {Inspection}";
     }
 }

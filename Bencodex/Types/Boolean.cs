@@ -21,6 +21,10 @@ namespace Bencodex.Types
 
         public bool Value { get; }
 
+        [Pure]
+        public string Inspection =>
+            Value ? "true" : "false";
+
         public static implicit operator bool(Boolean boolean)
         {
             return boolean.Value;
@@ -90,5 +94,9 @@ namespace Bencodex.Types
                 yield return new byte[1] { 0x66 };  // 'f'
             }
         }
+
+        [Pure]
+        public override string ToString() =>
+            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Boolean)} {Inspection}";
     }
 }

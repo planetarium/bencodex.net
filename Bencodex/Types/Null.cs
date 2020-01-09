@@ -11,6 +11,9 @@ namespace Bencodex.Types
         IComparable<Null>,
         IComparable
     {
+        [Pure]
+        public string Inspection => $"null";
+
         public override int GetHashCode() => 0;
 
         int IComparable.CompareTo(object obj) => obj is Null ? 0 : -1;
@@ -29,5 +32,9 @@ namespace Bencodex.Types
         {
             yield return new byte[1] { 0x6e }; // 'n'
         }
+
+        [Pure]
+        public override string ToString() =>
+            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Null)}";
     }
 }
