@@ -22,6 +22,34 @@ namespace Bencodex.Types
         public ImmutableArray<IValue> Value =>
             _value.IsDefault ? (_value = ImmutableArray<IValue>.Empty) : _value;
 
+        [Pure]
+        public string Inspection
+        {
+            get
+            {
+                switch (Value.Length)
+                {
+                    case 0:
+                        return "[]";
+
+                    case 1:
+                        var el = this.First();
+                        if (el is List || el is Dictionary)
+                        {
+                            goto default;
+                        }
+
+                        return $"[{el.Inspection}]";
+
+                    default:
+                        IEnumerable<string> elements = this.Select(v =>
+                            v.Inspection.Replace("\n", "\n  ")
+                        );
+                        return $"[\n  {string.Join(",\n  ", elements)}\n]";
+                }
+            }
+        }
+
         int IReadOnlyCollection<IValue>.Count => Value.Length;
 
         IValue IReadOnlyList<IValue>.this[int index] => Value[index];
@@ -186,11 +214,7 @@ namespace Bencodex.Types
         }
 
         [Pure]
-        public override string ToString()
-        {
-            IEnumerable<string> elements = this.Select(v => v.ToString());
-            string elementsString = string.Join(", ", elements);
-            return $"[{elementsString}]";
-        }
+        public override string ToString() =>
+            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(List)} {Inspection}";
     }
 }

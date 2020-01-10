@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Numerics;
 using System.Text;
 
@@ -55,6 +56,10 @@ namespace Bencodex.Types
         }
 
         public BigInteger Value { get; }
+
+        [Pure]
+        public string Inspection =>
+            Value.ToString(CultureInfo.InvariantCulture);
 
         public static implicit operator BigInteger(Integer i)
         {
@@ -214,9 +219,8 @@ namespace Bencodex.Types
             yield return new byte[1] { 0x65 };  // 'e'
         }
 
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
+        [Pure]
+        public override string ToString() =>
+            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Integer)} {Inspection}";
     }
 }

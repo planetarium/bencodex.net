@@ -6,8 +6,7 @@ Version 0.3.0
 
 To be released.
 
- -  `Bencodex.Types.Dictionary.SetItem()` became
-    to have more overloads.  [[#7]]
+ -  `Bencodex.Types.Dictionary.SetItem()` became to have more overloads.  [[#7]]
      -  Added overloads, which is listed below,
         return `Bencodex.Types.Dictionary` instead of
         `IImmutableDictionary<IKey, IValue>`. Note that existing
@@ -56,8 +55,15 @@ To be released.
  -  Added `Bencodex.Types.Dictionary[string]` indexer. [[#7]]
  -  Added `Bencodex.Types.Dictionary[byte[]]` indexer. [[#7]]
  -  Added `Bencodex.Types.Dictionary.GetValue<T>(byte[])` method. [[#11]]
+ -  Added `IValue.Inspection` property to get a JSON-like human-readable
+    representation for the sake of debugging.  [[#12], [#13]]
+ -  `ToString()` method of `IValue` subclasses became to return its `Inspection`
+    with a prefix of the qualified class name.  [[#12], [#13]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
+[#11]: https://github.com/planetarium/bencodex.net/pull/11
+[#12]: https://github.com/planetarium/bencodex.net/issues/12
+[#13]: https://github.com/planetarium/bencodex.net/pull/13
 
 
 Version 0.2.0
