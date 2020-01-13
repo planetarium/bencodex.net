@@ -90,14 +90,6 @@ namespace Bencodex.Tests.Types
                 new byte[] { 0x35, 0x3a, 0x68, 0x65, 0x6c, 0x6c, 0x6f },
                 _codec.Encode(hello) // "5:hello"
             );
-
-            Assert.Equal("b\"\"", empty.Inspection);
-            Assert.Equal(@"b""\x68\x65\x6c\x6c\x6f""", hello.Inspection);
-            Assert.Equal("Bencodex.Types.Binary b\"\"", empty.ToString());
-            Assert.Equal(
-                @"Bencodex.Types.Binary b""\x68\x65\x6c\x6c\x6f""",
-                hello.ToString()
-            );
         }
 
         [Fact]
