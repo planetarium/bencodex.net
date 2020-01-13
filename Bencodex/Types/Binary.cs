@@ -8,7 +8,7 @@ using Bencodex.Misc;
 
 namespace Bencodex.Types
 {
-    public struct Binary :
+    public readonly struct Binary :
         IKey,
         IEquatable<byte[]>,
         IEquatable<Binary>,
@@ -20,7 +20,7 @@ namespace Bencodex.Types
         private static readonly ByteArrayComparer ByteArrayComparer =
             default(ByteArrayComparer);
 
-        private byte[] _value;
+        private readonly byte[] _value;
 
         public Binary(byte[] value)
         {
@@ -35,7 +35,20 @@ namespace Bencodex.Types
         [Pure]
         byte? IKey.KeyPrefix => null;
 
-        public byte[] Value => _value ?? (_value = new byte[0]);
+        public byte[] Value
+        {
+            get
+            {
+                if (_value is null)
+                {
+                    return new byte[0];
+                }
+
+                var copy = new byte[_value.LongLength];
+                _value.CopyTo(copy, 0L);
+                return copy;
+            }
+        }
 
         [Pure]
         public string Inspection

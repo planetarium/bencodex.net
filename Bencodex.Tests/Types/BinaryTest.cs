@@ -32,6 +32,21 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void Immutability()
+        {
+            Assert.Equal(
+                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f },
+                _hello.Value
+            );
+
+            _hello.Value[3] = 0x6f;
+            Assert.Equal(
+                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f },
+                _hello.Value
+            );
+        }
+
+        [Fact]
         public void Equality()
         {
             Assert.Equal(_empty, new Binary(new byte[0]));

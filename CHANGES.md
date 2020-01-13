@@ -59,7 +59,11 @@ To be released.
     representation for the sake of debugging.  [[#12], [#13]]
  -  `ToString()` method of `IValue` subclasses became to return its `Inspection`
     with a prefix of the qualified class name.  [[#12], [#13]]
+ -  `Binary` became a readonly struct.  [[#14]]
  -  Added `Binary(string, System.Text.Encoding)` constructor.  [[#14]]
+ -  Fixed a bug that changing on an array returned by `Binary.Value` property
+    had changed the `Binary` as well.  `Binary.Value` property became to
+    return always a new copy of its internal array.  [[#14]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
