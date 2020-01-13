@@ -1,3 +1,4 @@
+using System.Text;
 using Bencodex.Types;
 using Xunit;
 
@@ -12,6 +13,22 @@ namespace Bencodex.Tests.Types
         {
             _empty = default(Binary);
             _hello = new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f });
+        }
+
+        [Fact]
+        public void Constructor()
+        {
+            Assert.NotNull(default(Binary).Value);
+            Assert.Empty(default(Binary).Value);
+
+            var hello = new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f });
+            Assert.Equal(
+                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f },
+                hello.Value
+            );
+
+            var fromString = new Binary("hello", Encoding.ASCII);
+            Assert.Equal(hello.Value, fromString.Value);
         }
 
         [Fact]

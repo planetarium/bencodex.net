@@ -27,6 +27,11 @@ namespace Bencodex.Types
             _value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
+        public Binary(string text, Encoding encoding)
+            : this(encoding.GetBytes(text))
+        {
+        }
+
         [Pure]
         byte? IKey.KeyPrefix => null;
 

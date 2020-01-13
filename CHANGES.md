@@ -59,11 +59,13 @@ To be released.
     representation for the sake of debugging.  [[#12], [#13]]
  -  `ToString()` method of `IValue` subclasses became to return its `Inspection`
     with a prefix of the qualified class name.  [[#12], [#13]]
+ -  Added `Binary(string, System.Text.Encoding)` constructor.  [[#14]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
 [#12]: https://github.com/planetarium/bencodex.net/issues/12
 [#13]: https://github.com/planetarium/bencodex.net/pull/13
+[#14]: https://github.com/planetarium/bencodex.net/pull/14
 
 
 Version 0.2.0
