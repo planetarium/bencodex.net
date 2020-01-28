@@ -311,7 +311,7 @@ namespace Bencodex.Tests.Types
     ""foo"": ""bar""
   },
   ""foo"": ""bar""
-}",
+}".NoCr(),
                 one.SetItem("baz", one).Inspection
             );
         }

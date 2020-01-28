@@ -42,7 +42,7 @@ namespace Bencodex.Tests.Types
     ""hello"",
     ""world""
   ]
-]";
+]".NoCr();
             Assert.Equal(expected, _nest.Inspection);
 
             // If any element is a list/dict it should be indented
