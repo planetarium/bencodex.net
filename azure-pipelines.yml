@@ -16,10 +16,6 @@ variables:
   buildConfiguration: Release
 
 steps:
-- script: git config --global core.autocrlf false
-  displayName: git config core.autocrlf false
-- checkout: self
-  fetchDepth: 10
 - script: git submodule update --init --recursive
   displayName: git submodule update --init --recursive
 - task: NuGetToolInstaller@0
