@@ -64,7 +64,8 @@ To be released.
  -  Fixed a bug that changing on an array returned by `Binary.Value` property
     had changed the `Binary` as well.  `Binary.Value` property became to
     return always a new copy of its internal array.  [[#14]]
- -  Extended `Bencodex.Types.Dictionary.ContainsKey()`.  [[#15]]
+ -  Added overloads to `Bencodex.Types.Dictionary.ContainsKey()`
+    for the sake of convenience.  [[#15]]
      -  `Bencodex.Types.Dictionary.ContainsKey(string)`
      -  `Bencodex.Types.Dictionary.ContainsKey(byte[])`
 
