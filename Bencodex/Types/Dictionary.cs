@@ -79,6 +79,16 @@ namespace Bencodex.Types
             return Value.ContainsKey(key);
         }
 
+        public bool ContainsKey(string key)
+        {
+            return Value.ContainsKey((Text)key);
+        }
+
+        public bool ContainsKey(byte[] key)
+        {
+            return Value.ContainsKey((Binary)key);
+        }
+
         public bool TryGetValue(IKey key, out IValue value)
         {
             return Value.TryGetValue(key, out value);

@@ -292,6 +292,24 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void ContainsKey()
+        {
+            byte[] byteKey = { 0x00 };
+            byte[] invalidKey = { 0x01 };
+            var dictionary = Dictionary.Empty
+                .Add("stringKey", "string")
+                .Add(byteKey, "byte");
+            Assert.True(dictionary.ContainsKey((IKey)(Text)"stringKey"));
+            Assert.True(dictionary.ContainsKey("stringKey"));
+            Assert.True(dictionary.ContainsKey((IKey)(Binary)byteKey));
+            Assert.True(dictionary.ContainsKey(byteKey));
+            Assert.False(dictionary.ContainsKey((IKey)(Text)"invalidKey"));
+            Assert.False(dictionary.ContainsKey("invalidKey"));
+            Assert.False(dictionary.ContainsKey((IKey)(Binary)invalidKey));
+            Assert.False(dictionary.ContainsKey(invalidKey));
+        }
+
+        [Fact]
         public void Inspection()
         {
             Assert.Equal("{}", Dictionary.Empty.Inspection);
