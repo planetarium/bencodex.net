@@ -1,11 +1,15 @@
 Bencodex codec for .NET
 =======================
 
+[![Build Status][]][build]
+
 This library implements [Bencodex] serialization format which extends
 [Bencoding].
 
 [Bencodex]: https://github.com/planetarium/bencodex
 [Bencoding]: http://www.bittorrent.org/beps/bep_0003.html#bencoding
+[build]: https://github.com/planetarium/bencodex.net/actions
+[Build Status]: https://github.com/planetarium/bencodex.net/workflows/build/badge.svg?event=push
 
 
 Usage

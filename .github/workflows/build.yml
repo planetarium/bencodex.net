@@ -1,25 +1,43 @@
-on: push
+name: build
+on:
+  push: []
+  pull_request: []
 
 jobs:
   build_and_test:
     runs-on: ubuntu-16.04
     steps:
-    - uses: actions/checkout@master
-    - uses: actions/setup-dotnet@v1.3.0
+    - uses: actions/checkout@v2
+      if: github.event_name != 'pull_request'
       with:
-        dotnet-version: '2.2.401'
-    - run: git submodule update --init --recursive
+        submodules: recursive
+    - uses: actions/checkout@v2
+      if: github.event_name == 'pull_request'
+      with:
+        submodules: recursive
+        ref: ${{ github.pull_request.head.sha }}
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.x'
     - run: dotnet build
     - run: dotnet test
   deploy:
     needs: build_and_test
     runs-on: ubuntu-16.04
     steps:
-    - uses: actions/checkout@master
-    - uses: actions/setup-dotnet@v1.3.0
+    - uses: actions/checkout@v2
+      if: github.event_name != 'pull_request'
       with:
-        dotnet-version: '2.2.401'
-    - name: bulid_and_push
+        submodules: recursive
+    - uses: actions/checkout@v2
+      if: github.event_name == 'pull_request'
+      with:
+        submodules: recursive
+        ref: ${{ github.pull_request.head.sha }}
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.x'
+    - name: bulid
       run: |
         dotnet_args="-c Release -p:NoPackageAnalysis=true"
         if [[ ! "$GITHUB_REF" =~ ^refs/tags/* ]]; then
@@ -29,6 +47,13 @@ jobs:
 
         dotnet build $dotnet_args
         dotnet pack  $dotnet_args
-        dotnet nuget push ./Bencodex/bin/Release/Bencodex.*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+    - name: push
+      if: github.event_name != 'pull_request'
+      run: |
+        if [[ "$NUGET_API_KEY" != "" ]]; then
+          dotnet nuget push ./Bencodex/bin/Release/Bencodex.*.nupkg \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json
+        fi
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
