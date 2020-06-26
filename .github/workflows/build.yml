@@ -18,7 +18,12 @@ jobs:
         ref: ${{ github.pull_request.head.sha }}
     - uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '2.2.x'
+        dotnet-version: '2.2.207'
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.301'
+    # https://github.com/actions/setup-dotnet/issues/25#issuecomment-557570168
+    - run: 'rsync -a ${DOTNET_ROOT/3.1.301/2.2.207}/* $DOTNET_ROOT/'
     - run: dotnet build
     - run: dotnet test
     - run: LANG=ar_SA.UTF8 LANGUAGE="$LANG" LC_ALL="$LANG" dotnet test
@@ -39,7 +44,7 @@ jobs:
         ref: ${{ github.pull_request.head.sha }}
     - uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '2.2.x'
+        dotnet-version: '3.1.301'
     - name: bulid
       run: |
         dotnet_args="-c Release -p:NoPackageAnalysis=true"
