@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using Bencodex.Types;
 using SharpYaml;
@@ -121,14 +123,20 @@ namespace Bencodex.Tests
                                         return default(Bencodex.Types.Boolean);
                                 }
 
+                                BigInteger i;
                                 try
                                 {
-                                    return new Integer(scalar.Value);
+                                    i = BigInteger.Parse(
+                                        scalar.Value,
+                                        CultureInfo.InvariantCulture
+                                    );
                                 }
                                 catch (FormatException)
                                 {
                                     return new Text(scalar.Value);
                                 }
+
+                                return new Integer(i);
                             }
 
                             return new Text(scalar.Value);

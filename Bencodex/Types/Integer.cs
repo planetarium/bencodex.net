@@ -50,8 +50,8 @@ namespace Bencodex.Types
         {
         }
 
-        public Integer(string value)
-            : this(BigInteger.Parse(value))
+        public Integer(string value, IFormatProvider provider = default)
+            : this(BigInteger.Parse(value, provider))
         {
         }
 
@@ -215,7 +215,8 @@ namespace Bencodex.Types
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
             yield return new byte[1] { 0x69 };  // 'i'
-            yield return Encoding.ASCII.GetBytes(Value.ToString());
+            string digits = Value.ToString(CultureInfo.InvariantCulture);
+            yield return Encoding.ASCII.GetBytes(digits);
             yield return new byte[1] { 0x65 };  // 'e'
         }
 

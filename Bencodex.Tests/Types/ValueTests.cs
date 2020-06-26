@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -69,6 +70,8 @@ namespace Bencodex.Tests.Types
             );
             IntegerGeneric(i => new Integer(new BigInteger(i)));
             IntegerGeneric(i => new Integer(i.ToString()));
+            var locale = new CultureInfo("ar-SA");
+            IntegerGeneric(i => new Integer(i.ToString(locale), locale));
 
             Assert.Equal("123", new Integer(123).Inspection);
             Assert.Equal("-456", new Integer(-456).Inspection);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Bencodex.Misc;
@@ -164,7 +165,8 @@ namespace Bencodex.Types
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
-            yield return Encoding.ASCII.GetBytes(Value.Length.ToString());
+            string len = Value.Length.ToString(CultureInfo.InvariantCulture);
+            yield return Encoding.ASCII.GetBytes(len);
             yield return new byte[1] { 0x3a };  // ':'
             yield return ((IKey)this).EncodeAsByteArray();
         }
