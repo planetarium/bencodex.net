@@ -68,6 +68,11 @@ To be released.
     for the sake of convenience.  [[#15]]
      -  `Bencodex.Types.Dictionary.ContainsKey(string)`
      -  `Bencodex.Types.Dictionary.ContainsKey(byte[])`
+ -  `Bencodex.Types.Integer(string value)` constructor was replaced by
+    `Bencodex.Types.Integer(string value, IFormatProvider provider = default)`
+    which is still compatible in source code level.
+ -  Fixed encoding and decoding bugs that had been occurred on some locales
+    writing [RTL] scripts, e.g., Arabic (`ar`).
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
@@ -75,6 +80,7 @@ To be released.
 [#13]: https://github.com/planetarium/bencodex.net/pull/13
 [#14]: https://github.com/planetarium/bencodex.net/pull/14
 [#15]: https://github.com/planetarium/bencodex.net/pull/15
+[RTL]: https://en.wikipedia.org/wiki/Right-to-left
 
 
 Version 0.2.0

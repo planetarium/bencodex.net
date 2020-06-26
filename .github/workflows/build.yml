@@ -21,6 +21,9 @@ jobs:
         dotnet-version: '2.2.x'
     - run: dotnet build
     - run: dotnet test
+    - run: LANG=ar_SA.UTF8 LANGUAGE="$LANG" LC_ALL="$LANG" dotnet test
+    - run: LANG=he_IL.UTF8 LANGUAGE="$LANG" LC_ALL="$LANG" dotnet test
+    - run: LANG=fr_FR.UTF8 LANGUAGE="$LANG" LC_ALL="$LANG" dotnet test
   deploy:
     needs: build_and_test
     runs-on: ubuntu-16.04

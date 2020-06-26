@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -311,7 +312,7 @@ namespace Bencodex
             byte terminator,
             ByteChunkQueue buffer,
             Stream input,
-            Func<string, T> converter
+            Func<string, IFormatProvider, T> converter
         )
         {
             if (buffer.Empty)
@@ -352,7 +353,7 @@ namespace Bencodex
 
             buffer.Pop(1);  // pop terminator
             string digits = Encoding.ASCII.GetString(digitBytes);
-            return converter(digits);
+            return converter(digits, CultureInfo.InvariantCulture);
         }
     }
 }
