@@ -6,6 +6,12 @@ Version 0.3.0
 
 To be released.
 
+ -  The package became to have an assembly for .NET Standard 2.1 besides
+    an existing assembly for .NET Standard 2.0.  The new assembly purposes
+    to support [nullable reference types].  [[#24]]
+ -  `Bencodex.Types.Dictionary` became a readonly struct.  [[#24]]
+ -  `Bencodex.Types.Dictionary(IEnumerable<KeyValuePair<IKey, IValue>>)`
+    constructor now has no default value for the parameter.  [[#24]]
  -  `Bencodex.Types.Dictionary.SetItem()` became to have more overloads.  [[#7]]
      -  Added overloads, which is listed below,
         return `Bencodex.Types.Dictionary` instead of
@@ -55,6 +61,10 @@ To be released.
  -  Added `Bencodex.Types.Dictionary[string]` indexer. [[#7]]
  -  Added `Bencodex.Types.Dictionary[byte[]]` indexer. [[#7]]
  -  Added `Bencodex.Types.Dictionary.GetValue<T>(byte[])` method. [[#11]]
+ -  `Bencodex.Types.Dictionary.TryGetKey()` became to fill its `out` parameter
+    with an empty `Binary` value when it returns `false`.  [[#24]]
+ -  `Bencodex.Types.Dictionary.TryGetValue()` became to fill its `out` parameter
+    with a `Bencodex.Types.Null` value when it returns `false`.  [[#24]]
  -  Added `IValue.Inspection` property to get a JSON-like human-readable
     representation for the sake of debugging.  [[#12], [#13]]
  -  `ToString()` method of `IValue` subclasses became to return its `Inspection`
@@ -69,10 +79,10 @@ To be released.
      -  `Bencodex.Types.Dictionary.ContainsKey(string)`
      -  `Bencodex.Types.Dictionary.ContainsKey(byte[])`
  -  `Bencodex.Types.Integer(string value)` constructor was replaced by
-    `Bencodex.Types.Integer(string value, IFormatProvider provider = default)`
-    which is still compatible in source code level.
+    `Bencodex.Types.Integer(string value, IFormatProvider? provider = null)`
+    which is still compatible in source code level.  [[#23]]
  -  Fixed encoding and decoding bugs that had been occurred on some locales
-    writing [RTL] scripts, e.g., Arabic (`ar`).
+    writing [RTL] scripts, e.g., Arabic (`ar`).  [[#23]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
@@ -80,6 +90,9 @@ To be released.
 [#13]: https://github.com/planetarium/bencodex.net/pull/13
 [#14]: https://github.com/planetarium/bencodex.net/pull/14
 [#15]: https://github.com/planetarium/bencodex.net/pull/15
+[#23]: https://github.com/planetarium/bencodex.net/pull/23
+[#24]: https://github.com/planetarium/bencodex.net/pull/24
+[nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
 
 

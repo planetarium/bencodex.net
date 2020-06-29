@@ -50,7 +50,7 @@ namespace Bencodex.Types
         {
         }
 
-        public Integer(string value, IFormatProvider provider = default)
+        public Integer(string value, IFormatProvider? provider = null)
             : this(BigInteger.Parse(value, provider))
         {
         }

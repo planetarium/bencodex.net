@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>Bencodex</PackageId>
     <Title>Bencodex</Title>
@@ -11,18 +11,19 @@
     <PackageReleaseNotes>https://github.com/planetarium/bencodex.net/blob/master/CHANGES.md</PackageReleaseNotes>
     <PackageTags>bencodex;bencoding;serialization</PackageTags>
     <RepositoryUrl>git://github.com/planetarium/bencodex.net.git</RepositoryUrl>
-    <LangVersion>7.2</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <RepositoryType>git</RepositoryType>
     <RootNamespace>Bencodex</RootNamespace>
     <AssemblyName>Bencodex</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>CS1591</NoWarn>
     <IsTestProject>false</IsTestProject>
     <DebugType>portable</DebugType>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <CodeAnalysisRuleSet>../Bencodex.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>

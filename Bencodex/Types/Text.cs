@@ -119,10 +119,14 @@ namespace Bencodex.Types
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
-            yield return new byte[1]
+            if (((IKey)this).KeyPrefix is { } prefix)
             {
-                (byte)((IKey)this).KeyPrefix,
-            };
+                yield return new byte[1]
+                {
+                    prefix,
+                };
+            }
+
             byte[] utf8 = ((IKey)this).EncodeAsByteArray();
             foreach (byte[] chunk in ((IValue)new Binary(utf8)).EncodeIntoChunks())
             {
