@@ -52,8 +52,6 @@ namespace Bencodex.Types
 
         int IReadOnlyCollection<IValue>.Count => Value.Length;
 
-        IValue IReadOnlyList<IValue>.this[int index] => Value[index];
-
         public IValue this[int index] => Value[index];
 
         bool IEquatable<IImmutableList<IValue>>.Equals(
