@@ -50,7 +50,7 @@ namespace Bencodex.Types
             }
         }
 
-        int IReadOnlyCollection<IValue>.Count => Value.Length;
+        public int Count => Value.Length;
 
         public IValue this[int index] => Value[index];
 

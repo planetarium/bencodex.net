@@ -84,6 +84,7 @@ To be released.
  -  Fixed encoding and decoding bugs that had been occurred on some locales
     writing [RTL] scripts, e.g., Arabic (`ar`).  [[#23]]
  -  Added `Bencodex.Types.List[int]` indexer.  [[#25]]
+ -  Added `Bencodex.Types.List.Count` property.  [[#25]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11

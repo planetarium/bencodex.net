@@ -68,5 +68,14 @@ namespace Bencodex.Tests.Types
             Assert.Equal((Text)"hello", _two[0]);
             Assert.Equal((Text)"world", _two[1]);
         }
+
+        [Fact]
+        public void Count()
+        {
+            // Compare with inner implementation, to avoid Xunit check.
+            Assert.Equal(_zero.Value.Length, _zero.Count);
+            Assert.Equal(_one.Value.Length, _one.Count);
+            Assert.Equal(_two.Value.Length, _two.Count);
+        }
     }
 }
