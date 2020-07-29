@@ -60,5 +60,13 @@ namespace Bencodex.Tests.Types
                 _two.ToString()
             );
         }
+
+        [Fact]
+        public void Indexer()
+        {
+            Assert.Equal(default(Null), _one[0]);
+            Assert.Equal((Text)"hello", _two[0]);
+            Assert.Equal((Text)"world", _two[1]);
+        }
     }
 }

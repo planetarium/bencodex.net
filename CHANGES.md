@@ -83,6 +83,7 @@ To be released.
     which is still compatible in source code level.  [[#23]]
  -  Fixed encoding and decoding bugs that had been occurred on some locales
     writing [RTL] scripts, e.g., Arabic (`ar`).  [[#23]]
+ -  Added `Bencodex.Types.List[int]` indexer.  [[#25]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
@@ -92,6 +93,7 @@ To be released.
 [#15]: https://github.com/planetarium/bencodex.net/pull/15
 [#23]: https://github.com/planetarium/bencodex.net/pull/23
 [#24]: https://github.com/planetarium/bencodex.net/pull/24
+[#25]: https://github.com/planetarium/bencodex.net/pull/25
 [nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
 

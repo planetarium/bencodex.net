@@ -54,6 +54,8 @@ namespace Bencodex.Types
 
         IValue IReadOnlyList<IValue>.this[int index] => Value[index];
 
+        public IValue this[int index] => Value[index];
+
         bool IEquatable<IImmutableList<IValue>>.Equals(
             IImmutableList<IValue> other
         )
