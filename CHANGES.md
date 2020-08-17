@@ -85,6 +85,17 @@ To be released.
     writing [RTL] scripts, e.g., Arabic (`ar`).  [[#23]]
  -  Added `Bencodex.Types.List[int]` indexer.  [[#25]]
  -  Added `Bencodex.Types.List.Count` property.  [[#25]]
+ -  `Bencodex.Types.List.Add()` became to have more overloads.  [[#26]]
+     -  Added overloads, which is listed below,
+        return `Bencodex.Types.List` instead of
+        `IImmutableList<IValue>`. Note that existing
+        `Add(IValue)` method which implements
+        `IImmutableList<IValue>` is still remained as it had been.
+     -  (`string`)
+     -  (`byte[]`)
+     -  (`bool`)
+     -  (`BigInteger`)
+ -  Added `Bencodex.Types.List.Empty` static property.  [[#26]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
@@ -95,6 +106,7 @@ To be released.
 [#23]: https://github.com/planetarium/bencodex.net/pull/23
 [#24]: https://github.com/planetarium/bencodex.net/pull/24
 [#25]: https://github.com/planetarium/bencodex.net/pull/25
+[#26]: https://github.com/planetarium/bencodex.net/pull/26
 [nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
 
