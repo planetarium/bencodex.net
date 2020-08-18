@@ -60,6 +60,7 @@ To be released.
       -  (`byte[]`, `IEnumerable<IValue>`)
  -  Added `Bencodex.Types.Dictionary[string]` indexer. [[#7]]
  -  Added `Bencodex.Types.Dictionary[byte[]]` indexer. [[#7]]
+ -  Added `Bencodex.Types.Dictionary.Empty` static property.  [[#7]]
  -  Added `Bencodex.Types.Dictionary.GetValue<T>(byte[])` method. [[#11]]
  -  `Bencodex.Types.Dictionary.TryGetKey()` became to fill its `out` parameter
     with an empty `Binary` value when it returns `false`.  [[#24]]
