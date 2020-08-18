@@ -86,17 +86,14 @@ To be released.
     writing [RTL] scripts, e.g., Arabic (`ar`).  [[#23]]
  -  Added `Bencodex.Types.List[int]` indexer.  [[#25]]
  -  Added `Bencodex.Types.List.Count` property.  [[#25]]
- -  `Bencodex.Types.List.Add()` became to have more overloads.  [[#26]]
-     -  Added overloads, which is listed below,
-        return `Bencodex.Types.List` instead of
-        `IImmutableList<IValue>`. Note that existing
-        `IImmutableList<IValue>.Add(IValue)` method which implements
-        `IImmutableList<IValue>` is still remained as it had been.
-     -  (`IValue`)
-     -  (`string`)
-     -  (`byte[]`)
-     -  (`bool`)
-     -  (`BigInteger`)
+ -  `Bencodex.Types.List.Add()` became to have more overloads,
+     which return `Bencodex.Types.List` so that it is convenient to chain
+     method calls.  [[#26]]
+     -  `Add(IValue)`
+     -  `Add(string)`
+     -  `Add(byte[])`
+     -  `Add(bool)`
+     -  `Add(BigInteger)`
  -  Added `Bencodex.Types.List.Empty` static property.  [[#26]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
