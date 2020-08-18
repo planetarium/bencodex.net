@@ -93,7 +93,12 @@ namespace Bencodex.Types
             return ((IEnumerable)Value).GetEnumerator();
         }
 
-        public IImmutableList<IValue> Add(IValue value)
+        IImmutableList<IValue> IImmutableList<IValue>.Add(IValue value)
+        {
+            return new List(Value.Add(value));
+        }
+
+        public List Add(IValue value)
         {
             return new List(Value.Add(value));
         }
