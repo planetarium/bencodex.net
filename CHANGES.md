@@ -90,8 +90,9 @@ To be released.
      -  Added overloads, which is listed below,
         return `Bencodex.Types.List` instead of
         `IImmutableList<IValue>`. Note that existing
-        `Add(IValue)` method which implements
+        `IImmutableList<IValue>.Add(IValue)` method which implements
         `IImmutableList<IValue>` is still remained as it had been.
+     -  (`IValue`)
      -  (`string`)
      -  (`byte[]`)
      -  (`bool`)
