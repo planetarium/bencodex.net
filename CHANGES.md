@@ -60,6 +60,7 @@ To be released.
       -  (`byte[]`, `IEnumerable<IValue>`)
  -  Added `Bencodex.Types.Dictionary[string]` indexer. [[#7]]
  -  Added `Bencodex.Types.Dictionary[byte[]]` indexer. [[#7]]
+ -  Added `Bencodex.Types.Dictionary.Empty` static property.  [[#7]]
  -  Added `Bencodex.Types.Dictionary.GetValue<T>(byte[])` method. [[#11]]
  -  `Bencodex.Types.Dictionary.TryGetKey()` became to fill its `out` parameter
     with an empty `Binary` value when it returns `false`.  [[#24]]
@@ -85,6 +86,15 @@ To be released.
     writing [RTL] scripts, e.g., Arabic (`ar`).  [[#23]]
  -  Added `Bencodex.Types.List[int]` indexer.  [[#25]]
  -  Added `Bencodex.Types.List.Count` property.  [[#25]]
+ -  `Bencodex.Types.List.Add()` became to have more overloads,
+     which return `Bencodex.Types.List` so that it is convenient to chain
+     method calls.  [[#26]]
+     -  `Add(IValue)`
+     -  `Add(string)`
+     -  `Add(byte[])`
+     -  `Add(bool)`
+     -  `Add(BigInteger)`
+ -  Added `Bencodex.Types.List.Empty` static property.  [[#26]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
@@ -95,6 +105,7 @@ To be released.
 [#23]: https://github.com/planetarium/bencodex.net/pull/23
 [#24]: https://github.com/planetarium/bencodex.net/pull/24
 [#25]: https://github.com/planetarium/bencodex.net/pull/25
+[#26]: https://github.com/planetarium/bencodex.net/pull/26
 [nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
 

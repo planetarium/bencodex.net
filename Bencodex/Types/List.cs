@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Numerics;
 
 namespace Bencodex.Types
 {
@@ -18,6 +19,8 @@ namespace Bencodex.Types
         {
             _value = value?.ToImmutableArray() ?? ImmutableArray<IValue>.Empty;
         }
+
+        public static List Empty => default(List);
 
         public ImmutableArray<IValue> Value =>
             _value.IsDefault ? (_value = ImmutableArray<IValue>.Empty) : _value;
@@ -93,6 +96,31 @@ namespace Bencodex.Types
         IImmutableList<IValue> IImmutableList<IValue>.Add(IValue value)
         {
             return new List(Value.Add(value));
+        }
+
+        public List Add(IValue value)
+        {
+            return new List(Value.Add(value));
+        }
+
+        public List Add(string value)
+        {
+            return new List(Value.Add((Text)value));
+        }
+
+        public List Add(bool value)
+        {
+            return new List(Value.Add((Boolean)value));
+        }
+
+        public List Add(BigInteger value)
+        {
+            return new List(Value.Add((Integer)value));
+        }
+
+        public List Add(byte[] value)
+        {
+            return new List(Value.Add((Binary)value));
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.AddRange(
