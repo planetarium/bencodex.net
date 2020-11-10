@@ -167,7 +167,7 @@ namespace Bencodex.Types
         {
             string len = Value.Length.ToString(CultureInfo.InvariantCulture);
             yield return Encoding.ASCII.GetBytes(len);
-            yield return new byte[1] { 0x3a };  // ':'
+            yield return CommonVariables.Separator;  // ':'
             yield return ((IKey)this).EncodeAsByteArray();
         }
 

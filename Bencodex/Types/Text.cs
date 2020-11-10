@@ -13,6 +13,10 @@ namespace Bencodex.Types
         IEquatable<string>,
         IComparable
     {
+        private const byte _keyPrefix = 0x75;
+
+        private static readonly byte[] _keyPrefixByteArray = new byte[1] { _keyPrefix };
+
         private string _value;
 
         public Text(string value)
@@ -23,7 +27,7 @@ namespace Bencodex.Types
         public string Value => _value ?? (_value = string.Empty);
 
         [Pure]
-        byte? IKey.KeyPrefix => 0x75;  // 'u'
+        byte? IKey.KeyPrefix => _keyPrefix;  // 'u'
 
         [Pure]
         public string Inspection
@@ -119,14 +123,7 @@ namespace Bencodex.Types
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
-            if (((IKey)this).KeyPrefix is { } prefix)
-            {
-                yield return new byte[1]
-                {
-                    prefix,
-                };
-            }
-
+            yield return _keyPrefixByteArray;
             byte[] utf8 = ((IKey)this).EncodeAsByteArray();
             foreach (byte[] chunk in ((IValue)new Binary(utf8)).EncodeIntoChunks())
             {

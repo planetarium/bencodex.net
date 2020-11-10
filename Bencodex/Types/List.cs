@@ -13,6 +13,8 @@ namespace Bencodex.Types
         IImmutableList<IValue>,
         IEquatable<IImmutableList<IValue>>
     {
+        private static readonly byte[] _listPrefix = new byte[1] { 0x6c };  // 'l'
+
         private ImmutableArray<IValue> _value;
 
         public List(IEnumerable<IValue> value)
@@ -229,7 +231,7 @@ namespace Bencodex.Types
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
-            yield return new byte[1] { 0x6c }; // 'l'
+            yield return _listPrefix;
             foreach (IValue element in this)
             {
                 foreach (byte[] chunk in element.EncodeIntoChunks())
@@ -238,7 +240,7 @@ namespace Bencodex.Types
                 }
             }
 
-            yield return new byte[1] { 0x65 };  // 'e'
+            yield return CommonVariables.Suffix;
         }
 
         [Pure]

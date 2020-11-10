@@ -14,6 +14,10 @@ namespace Bencodex.Types
         IComparable<Boolean>,
         IComparable
     {
+        private static readonly byte[] _true = new byte[1] { 0x74 };  // 't'
+
+        private static readonly byte[] _false = new byte[1] { 0x66 };  // 'f'
+
         public Boolean(bool value)
         {
             Value = value;
@@ -87,11 +91,11 @@ namespace Bencodex.Types
         {
             if (Value)
             {
-                yield return new byte[1] { 0x74 };  // 't'
+                yield return _true;
             }
             else
             {
-                yield return new byte[1] { 0x66 };  // 'f'
+                yield return _false;
             }
         }
 

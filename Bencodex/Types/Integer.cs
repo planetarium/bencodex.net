@@ -15,6 +15,8 @@ namespace Bencodex.Types
         IComparable<Integer>,
         IComparable
     {
+        private static readonly byte[] _prefix = new byte[1] { 0x69 };  // 'i'
+
         public Integer(BigInteger value)
         {
             Value = value;
@@ -214,10 +216,10 @@ namespace Bencodex.Types
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
-            yield return new byte[1] { 0x69 };  // 'i'
+            yield return _prefix;
             string digits = Value.ToString(CultureInfo.InvariantCulture);
             yield return Encoding.ASCII.GetBytes(digits);
-            yield return new byte[1] { 0x65 };  // 'e'
+            yield return CommonVariables.Suffix;
         }
 
         [Pure]
