@@ -86,30 +86,59 @@ namespace Bencodex.Benchmarks
 
         public static void Main(string[] args)
         {
-            const string envVarName = "BENCODEX_BENCHMARKS_DATA_DIR";
+            const string dataDirVar = "BENCODEX_BENCHMARKS_DATA_DIR";
+            const string simpleModeVar = "BENCODEX_BENCHMARKS_SIMPLE";
+            const int simpleModeSample = 50;
             string dirPath =
-                Environment.GetEnvironmentVariable(envVarName) ?? ".";
+                Environment.GetEnvironmentVariable(dataDirVar) ?? ".";
             Console.Error.WriteLine("Look up Bencodex benchmark data files in {0}...", dirPath);
             Console.Error.WriteLine("(You can configure the directory to look up by setting {0}.)",
-                                    envVarName);
-            string[] files;
+                                    dataDirVar);
+
+            bool simpleMode = new string[] { "1", "t", "true", "y", "yes", "on" }.Contains(
+                (Environment.GetEnvironmentVariable(simpleModeVar) ?? "").ToLowerInvariant()
+            );
+            if (simpleMode)
+            {
+                Console.Error.WriteLine(
+                    "Run benchmarks on the simple mode, which samples only the heaviest {0} files" +
+                    "and also does not use BenchmarkDotNet...",
+                    simpleModeSample
+                );
+                Console.Error.WriteLine("You can profile the benchmarks on the simple mode.");
+            }
+            else
+            {
+                Console.Error.WriteLine("Run benchmarks using BenchmarkDotNet...");
+                Console.Error.WriteLine(
+                    "There is the simple mode too, which can be turned on by setting {0}=true.",
+                    simpleModeVar
+                );
+            }
+
+
+            FileInfo[] files;
             if (Directory.Exists(dirPath))
             {
                 files = Directory.EnumerateFiles(dirPath, "*.dat", SearchOption.AllDirectories)
-                    .Select(Path.GetFullPath)
+                    .Select(p => new FileInfo(p))
                     .ToArray();
             }
             else
             {
-                files = new string[] { Path.GetFullPath(dirPath) };
+                files = new[] { new FileInfo(dirPath) };
+            }
+
+            if (simpleMode)
+            {
+                files = files.OrderByDescending(f => f.Length).Take(simpleModeSample).ToArray();
             }
 
             int count = 0;
             long size = 0;
-            foreach (string file in files)
+            foreach (FileInfo file in files)
             {
-                var fileInfo = new FileInfo(file);
-                size += fileInfo.Length;
+                size += file.Length;
                 Console.Error.WriteLine("{0}", file);
                 count++;
             }
@@ -117,9 +146,43 @@ namespace Bencodex.Benchmarks
             ByteSize byteSize = ByteSize.FromBytes(size);
             Console.Error.WriteLine(
                 "Loading {0} files ({1} = {2} bytes)...", count, byteSize, size);
-            DataFiles = files;
 
-            BenchmarkSwitcher.FromAssembly(typeof(CodecBenchmark).Assembly).Run(args);
+            if (simpleMode)
+            {
+                SimpleMode(files);
+            }
+            else
+            {
+                DataFiles = files.Select(f => f.FullName).ToArray();
+                BenchmarkSwitcher.FromAssembly(typeof(CodecBenchmark).Assembly).Run(args);
+            }
+        }
+
+        private static void SimpleMode(FileInfo[] files)
+        {
+            DateTimeOffset started = DateTimeOffset.UtcNow;
+            (FileInfo, byte[])[] data = files.Select(f =>
+            {
+                byte[] bytes;
+                using (var reader = new BinaryReader(f.OpenRead()))
+                {
+                    bytes = reader.ReadBytes((int)f.Length);
+                }
+
+                return (f, bytes);
+            }).ToArray();
+            DateTimeOffset loaded = DateTimeOffset.UtcNow;
+
+            foreach ((FileInfo file, byte[] bytes) in data)
+            {
+                IValue decoded = Codec.Decode(bytes);
+                byte[] _ = Codec.Encode(decoded);
+            }
+
+            DateTimeOffset ended = DateTimeOffset.UtcNow;
+            Console.WriteLine("Loading\t{0}", loaded - started);
+            Console.WriteLine("Codec\t{0}", ended - loaded);
+            Console.WriteLine("Total\t{0}", ended - started);
         }
     }
 }
