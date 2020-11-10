@@ -14,7 +14,7 @@ namespace Bencodex.Benchmarks
     public class CodecBenchmark
     {
         [ParamsSource(nameof(DataFiles))]
-        public string DataFile { get; set; }
+        public string DataFile { get; set; } = string.Empty;
 
         public IValue Value { get; private set; } = new Null();
 
@@ -88,16 +88,20 @@ namespace Bencodex.Benchmarks
         {
             const string dataDirVar = "BENCODEX_BENCHMARKS_DATA_DIR";
             const string simpleModeVar = "BENCODEX_BENCHMARKS_SIMPLE";
+            const string decodeOnlyVar = "BENCODEX_BENCHMARKS_DECODE_ONLY";
             const int simpleModeSample = 50;
+
+            bool ToBool(string? v) =>
+                new[] {"1", "t", "true", "y", "yes", "on"}.Contains(v?.ToLowerInvariant());
+
             string dirPath =
                 Environment.GetEnvironmentVariable(dataDirVar) ?? ".";
             Console.Error.WriteLine("Look up Bencodex benchmark data files in {0}...", dirPath);
             Console.Error.WriteLine("(You can configure the directory to look up by setting {0}.)",
                                     dataDirVar);
 
-            bool simpleMode = new string[] { "1", "t", "true", "y", "yes", "on" }.Contains(
-                (Environment.GetEnvironmentVariable(simpleModeVar) ?? "").ToLowerInvariant()
-            );
+            bool simpleMode = ToBool(Environment.GetEnvironmentVariable(simpleModeVar));
+            bool decodeOnly = false;
             if (simpleMode)
             {
                 Console.Error.WriteLine(
@@ -106,6 +110,19 @@ namespace Bencodex.Benchmarks
                     simpleModeSample
                 );
                 Console.Error.WriteLine("You can profile the benchmarks on the simple mode.");
+
+                decodeOnly = ToBool(Environment.GetEnvironmentVariable(decodeOnlyVar));
+                if (decodeOnly)
+                {
+                    Console.Error.WriteLine("Benchmark only decoding...");
+                }
+                else
+                {
+                    Console.Error.WriteLine(
+                        "If you want to benchmark only decoding, configure {0}=true.",
+                        decodeOnlyVar
+                    );
+                }
             }
             else
             {
@@ -149,7 +166,7 @@ namespace Bencodex.Benchmarks
 
             if (simpleMode)
             {
-                SimpleMode(files);
+                SimpleMode(files, decodeOnly);
             }
             else
             {
@@ -158,10 +175,10 @@ namespace Bencodex.Benchmarks
             }
         }
 
-        private static void SimpleMode(FileInfo[] files)
+        private static void SimpleMode(FileInfo[] files, bool decodeOnly)
         {
             DateTimeOffset started = DateTimeOffset.UtcNow;
-            (FileInfo, byte[])[] data = files.Select(f =>
+            (FileInfo, MemoryStream)[] data = files.Select(f =>
             {
                 byte[] bytes;
                 using (var reader = new BinaryReader(f.OpenRead()))
@@ -169,20 +186,48 @@ namespace Bencodex.Benchmarks
                     bytes = reader.ReadBytes((int)f.Length);
                 }
 
-                return (f, bytes);
+                return (f, new MemoryStream(bytes));
             }).ToArray();
             DateTimeOffset loaded = DateTimeOffset.UtcNow;
+            Console.Error.WriteLine("Loaded {0} files.", data.Length);
+            DateTimeOffset ended;
 
-            foreach ((FileInfo file, byte[] bytes) in data)
+            try
             {
-                IValue decoded = Codec.Decode(bytes);
-                byte[] _ = Codec.Encode(decoded);
+                foreach ((FileInfo file, MemoryStream stream) in data)
+                {
+                    IValue decoded = Codec.Decode(stream);
+                    if (!decodeOnly)
+                    {
+                        stream.Seek(0, SeekOrigin.Begin);
+                        Codec.Encode(decoded, stream);
+                    }
+                }
+
+                ended = DateTimeOffset.UtcNow;
+            }
+            finally
+            {
+                foreach ((FileInfo _, MemoryStream stream) in data)
+                {
+                    stream.Close();
+                }
             }
 
-            DateTimeOffset ended = DateTimeOffset.UtcNow;
             Console.WriteLine("Loading\t{0}", loaded - started);
-            Console.WriteLine("Codec\t{0}", ended - loaded);
+            Console.WriteLine(
+                "{0}\t{1}",
+                decodeOnly ? "Decoding" : "Codec",
+                ended - loaded
+            );
             Console.WriteLine("Total\t{0}", ended - started);
+        }
+
+        private enum SimpleModeFilter
+        {
+            Both,
+            Encoding,
+            Decoding,
         }
     }
 }
