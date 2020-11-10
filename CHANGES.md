@@ -95,6 +95,9 @@ To be released.
      -  `Add(bool)`
      -  `Add(BigInteger)`
  -  Added `Bencodex.Types.List.Empty` static property.  [[#26]]
+ -  Removed `Bencodex.Misc.ByteChunkQueue` class.  [[#28]]
+ -  `Codec.Decode()` method was entirely rewritten to optimize.
+    [[#28]]
  -  Optimized `Bencodex.Types.Binary.GetHashCode()` method. Now the hash code is
     calculated using the modified [FNV], and cached after it is once calculated.
     [[#28]]
