@@ -22,15 +22,13 @@ namespace Bencodex.Misc
 
         public int Compare((TA, TB) x, (TA, TB) y)
         {
-            (TA xA, TB xB) = x;
-            (TA yA, TB yB) = y;
-            int resultA = ComparerA.Compare(xA, yA);
+            int resultA = ComparerA.Compare(x.Item1, y.Item1);
             if (resultA != 0)
             {
                 return resultA;
             }
 
-            return ComparerB.Compare(xB, yB);
+            return ComparerB.Compare(x.Item2, y.Item2);
         }
     }
 }
