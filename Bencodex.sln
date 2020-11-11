@@ -1,8 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bencodex", "Bencodex\Bencodex.csproj", "{2E0DBCAE-A203-429D-A36F-D5F4583278DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bencodex.Tests", "Bencodex.Tests\Bencodex.Tests.csproj", "{D0EEFE59-8703-4527-A865-A596EBE672A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bencodex.Benchmarks", "Bencodex.Benchmarks\Bencodex.Benchmarks.csproj", "{FD5C06D6-A616-4560-9E15-C8938EDC724B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +21,9 @@ Global
 		{D0EEFE59-8703-4527-A865-A596EBE672A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0EEFE59-8703-4527-A865-A596EBE672A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0EEFE59-8703-4527-A865-A596EBE672A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD5C06D6-A616-4560-9E15-C8938EDC724B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD5C06D6-A616-4560-9E15-C8938EDC724B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD5C06D6-A616-4560-9E15-C8938EDC724B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD5C06D6-A616-4560-9E15-C8938EDC724B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
