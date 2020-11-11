@@ -29,6 +29,15 @@ jobs:
     - run: LANG=ar_SA.UTF8 LANGUAGE="$LANG" LC_ALL="$LANG" dotnet test
     - run: LANG=he_IL.UTF8 LANGUAGE="$LANG" LC_ALL="$LANG" dotnet test
     - run: LANG=fr_FR.UTF8 LANGUAGE="$LANG" LC_ALL="$LANG" dotnet test
+    - name: benchmarks
+      run: |
+        export BENCODEX_BENCHMARKS_DATA_DIR="$(mktemp -d)"
+        tar xvfJ \
+          Bencodex.Benchmarks/bencodex-data.tar.xz \
+          -C "$BENCODEX_BENCHMARKS_DATA_DIR"
+        dotnet run -c Release -p Bencodex.Benchmarks
+      env:
+        BENCODEX_BENCHMARKS_SIMPLE: true
   deploy:
     needs: build_and_test
     runs-on: ubuntu-16.04
