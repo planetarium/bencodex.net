@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using System.IO;
 using System.Numerics;
 using System.Text;
 
@@ -220,6 +221,15 @@ namespace Bencodex.Types
             string digits = Value.ToString(CultureInfo.InvariantCulture);
             yield return Encoding.ASCII.GetBytes(digits);
             yield return CommonVariables.Suffix;
+        }
+
+        public void EncodeToStream(Stream stream)
+        {
+            stream.WriteByte(_prefix[0]);
+            string digits = Value.ToString(CultureInfo.InvariantCulture);
+            byte[] digitsAscii = Encoding.ASCII.GetBytes(digits);
+            stream.Write(digitsAscii, 0, digitsAscii.Length);
+            stream.WriteByte(CommonVariables.Suffix[0]);
         }
 
         [Pure]

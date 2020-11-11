@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Bencodex.Misc;
@@ -195,6 +196,16 @@ namespace Bencodex.Types
             yield return Encoding.ASCII.GetBytes(len);
             yield return CommonVariables.Separator;  // ':'
             yield return ((IKey)this).EncodeAsByteArray();
+        }
+
+        public void EncodeToStream(Stream stream)
+        {
+            byte[] value = _value ?? new byte[0];
+            string len = value.Length.ToString(CultureInfo.InvariantCulture);
+            byte[] lenBytes = Encoding.ASCII.GetBytes(len);
+            stream.Write(lenBytes, 0, lenBytes.Length);
+            stream.WriteByte(CommonVariables.Separator[0]);
+            stream.Write(value, 0, value.Length);
         }
 
         [Pure]

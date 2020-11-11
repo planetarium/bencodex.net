@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.IO;
-using Bencodex.Misc;
 using Bencodex.Types;
 
 namespace Bencodex
@@ -44,10 +43,7 @@ namespace Bencodex
                 );
             }
 
-            foreach (byte[] chunk in value.EncodeIntoChunks())
-            {
-                output.Write(chunk, 0, chunk.Length);
-            }
+            value.EncodeToStream(output);
         }
 
         /// <summary>Decodes an encoded value from an <paramref name="input"/>

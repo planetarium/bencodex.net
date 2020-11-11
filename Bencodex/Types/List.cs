@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 
@@ -241,6 +242,17 @@ namespace Bencodex.Types
             }
 
             yield return CommonVariables.Suffix;
+        }
+
+        public void EncodeToStream(Stream stream)
+        {
+            stream.WriteByte(_listPrefix[0]);
+            foreach (IValue element in Value)
+            {
+                element.EncodeToStream(stream);
+            }
+
+            stream.WriteByte(CommonVariables.Suffix[0]);
         }
 
         [Pure]

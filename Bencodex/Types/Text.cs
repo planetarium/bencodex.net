@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using System.IO;
 using System.Text;
 
 namespace Bencodex.Types
@@ -130,6 +131,17 @@ namespace Bencodex.Types
             yield return Encoding.ASCII.GetBytes(len);
             yield return CommonVariables.Separator;
             yield return utf8;
+        }
+
+        public void EncodeToStream(Stream stream)
+        {
+            stream.WriteByte(_keyPrefix);
+            byte[] utf8 = ((IKey)this).EncodeAsByteArray();
+            string len = utf8.Length.ToString(CultureInfo.InvariantCulture);
+            byte[] lenBytes = Encoding.ASCII.GetBytes(len);
+            stream.Write(lenBytes, 0, lenBytes.Length);
+            stream.WriteByte(CommonVariables.Separator[0]);
+            stream.Write(utf8, 0, utf8.Length);
         }
 
         [Pure]

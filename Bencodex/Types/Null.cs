@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.IO;
 
 namespace Bencodex.Types
 {
@@ -31,6 +32,11 @@ namespace Bencodex.Types
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
             yield return new byte[1] { 0x6e }; // 'n'
+        }
+
+        public void EncodeToStream(Stream stream)
+        {
+            stream.WriteByte(0x6e); // 'n'
         }
 
         [Pure]
