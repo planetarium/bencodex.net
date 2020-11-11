@@ -11,15 +11,17 @@ namespace Bencodex.Misc
     {
         public int Compare(byte[] x, byte[] y)
         {
-            IEnumerable<int> cmps = x.Zip(y, (a, b) => a.CompareTo(b));
-            try
+            int shortestLength = Math.Min(x.Length, y.Length);
+            for (int i = 0; i < shortestLength; i++)
             {
-                return cmps.First(cmp => cmp != 0);
+                int c = x[i].CompareTo(y[i]);
+                if (c != 0)
+                {
+                    return c;
+                }
             }
-            catch (InvalidOperationException)
-            {
-                return x.Length.CompareTo(y.Length);
-            }
+
+            return x.Length.CompareTo(y.Length);
         }
     }
 }

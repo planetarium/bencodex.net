@@ -15,6 +15,10 @@ namespace Bencodex.Types
         IEquatable<IImmutableDictionary<IKey, IValue>>,
         IImmutableDictionary<IKey, IValue>
     {
+        private static readonly byte[] _dictionaryPrefix = new byte[1] { 0x64 };  // 'd'
+
+        private static readonly byte[] _unicodeKeyPrefix = new byte[1] { 0x75 };  // 'u'
+
         private static IComparer<ValueTuple<byte?, byte[]>> keyPairComparer =
             new CompositeComparer<byte?, byte[]>(
                 Comparer<byte?>.Default,
@@ -272,7 +276,7 @@ namespace Bencodex.Types
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
-            yield return new byte[1] { 0x64 }; // 'd'
+            yield return _dictionaryPrefix;
 
             if (!(_value is null))
             {
@@ -291,13 +295,13 @@ namespace Bencodex.Types
                 {
                     if (keyPrefix != null)
                     {
-                        yield return new byte[1] { 0x75 }; // 'u'
+                        yield return _unicodeKeyPrefix;
                     }
 
                     yield return Encoding.ASCII.GetBytes(
                         key.Length.ToString(CultureInfo.InvariantCulture)
                     );
-                    yield return new byte[1] { 0x3a }; // ':'
+                    yield return CommonVariables.Separator;
                     yield return key;
                     foreach (byte[] chunk in value.EncodeIntoChunks())
                     {
@@ -306,7 +310,7 @@ namespace Bencodex.Types
                 }
             }
 
-            yield return new byte[1] { 0x65 }; // 'e'
+            yield return CommonVariables.Suffix;
         }
 
         [Pure]
