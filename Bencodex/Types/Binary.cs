@@ -22,10 +22,12 @@ namespace Bencodex.Types
             default(ByteArrayComparer);
 
         private readonly byte[] _value;
+        private readonly int?[] _hashCode;
 
         public Binary(byte[] value)
         {
             _value = value ?? throw new ArgumentNullException(nameof(value));
+            _hashCode = new int?[1];
         }
 
         public Binary(string text, Encoding encoding)
@@ -110,10 +112,34 @@ namespace Bencodex.Types
         public override int GetHashCode()
         {
             int length = Value.Length;
-            return Value.Aggregate(
-                0,
-                (current, t) => unchecked(current * (length + 1) + t)
-            );
+
+            if (length < 1)
+            {
+                return 0;
+            }
+
+            if (!(_hashCode[0] is { } hash))
+            {
+                unchecked
+                {
+                    const int p = 16777619;
+                    hash = (int)2166136261;
+                    foreach (byte t in Value)
+                    {
+                        hash = (hash ^ t) * p;
+                    }
+
+                    hash += hash << 13;
+                    hash ^= hash >> 7;
+                    hash += hash << 3;
+                    hash ^= hash >> 17;
+                    hash += hash << 5;
+                }
+
+                _hashCode[0] = hash;
+            }
+
+            return hash;
         }
 
         int IComparable<byte[]>.CompareTo(byte[] other)

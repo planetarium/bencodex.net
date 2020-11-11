@@ -95,6 +95,12 @@ To be released.
      -  `Add(bool)`
      -  `Add(BigInteger)`
  -  Added `Bencodex.Types.List.Empty` static property.  [[#26]]
+ -  Removed `Bencodex.Misc.ByteChunkQueue` class.  [[#28]]
+ -  `Codec.Decode()` method was entirely rewritten to optimize.
+    [[#28]]
+ -  Optimized `Bencodex.Types.Binary.GetHashCode()` method. Now the hash code is
+    calculated using the modified [FNV], and cached after it is once calculated.
+    [[#28]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
@@ -106,8 +112,10 @@ To be released.
 [#24]: https://github.com/planetarium/bencodex.net/pull/24
 [#25]: https://github.com/planetarium/bencodex.net/pull/25
 [#26]: https://github.com/planetarium/bencodex.net/pull/26
+[#28]: https://github.com/planetarium/bencodex.net/pull/28
 [nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
+[FNV]: https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
 
 
 Version 0.2.0
