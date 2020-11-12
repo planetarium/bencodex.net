@@ -101,6 +101,10 @@ To be released.
  -  Optimized `Bencodex.Types.Binary.GetHashCode()` method. Now the hash code is
     calculated using the modified [FNV], and cached after it is once calculated.
     [[#28]]
+ -  `Bencodex.Types.Dictionary` became not to immediately realize the inner
+    hash table, but do it when it needs (e.g., when to look up a key) instead.
+    Note that this change does not cause any API changes, but just purposes
+    faster instantiation.  [[#32]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
@@ -113,6 +117,7 @@ To be released.
 [#25]: https://github.com/planetarium/bencodex.net/pull/25
 [#26]: https://github.com/planetarium/bencodex.net/pull/26
 [#28]: https://github.com/planetarium/bencodex.net/pull/28
+[#32]: https://github.com/planetarium/bencodex.net/pull/32
 [nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
 [FNV]: https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function

@@ -209,11 +209,7 @@ namespace Bencodex
             _offset--;
         }
 
-        private T ReadDigits<T>(
-            bool takeMinusSign,
-            byte delimiter,
-            Func<string, IFormatProvider, T> converter
-        )
+        private byte[] ReadDigits(bool takeMinusSign, byte delimiter)
         {
             byte[] buffer = Read(1);
 
@@ -253,14 +249,49 @@ namespace Bencodex
             }
 #pragma warning restore SA1131
 
-            string digits = Encoding.ASCII.GetString(buffer, 0, buffer.Length - 1);
-            return converter(minus ? $"-{digits}" : digits, CultureInfo.InvariantCulture);
+            if (minus)
+            {
+                for (int i = buffer.Length - 1; i > 0; i--)
+                {
+                    buffer[i] = buffer[i - 1];
+                }
+
+                buffer[0] = 0x2d; // '-'
+            }
+            else
+            {
+                Array.Resize(ref buffer, buffer.Length - 1);
+            }
+
+            return buffer;
+        }
+
+        private T ReadDigits<T>(bool takeMinusSign, byte delimiter, Func<byte[], T> converter)
+        {
+            byte[] digits = ReadDigits(takeMinusSign, delimiter);
+            return converter(digits);
+        }
+
+        private T ReadDigits<T>(
+            bool takeMinusSign,
+            byte delimiter,
+            Func<string, IFormatProvider, T> converter
+        )
+        {
+            byte[] buffer = ReadDigits(takeMinusSign, delimiter);
+            var digits = new char[buffer.Length];
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                digits[i] = (char)buffer[i];
+            }
+
+            return converter(new string(digits), CultureInfo.InvariantCulture);
         }
 
         private (byte[] byteArray, int offsetAfterColon) ReadByteArray()
         {
             const byte colon = 0x3a;  // ':'
-            int length = ReadDigits(false, colon, int.Parse);
+            int length = ReadDigits(false, colon, Atoi);
             if (length < 1)
             {
                 return (new byte[0], _offset);
@@ -300,6 +331,28 @@ namespace Bencodex
             }
 
             return new Text(textContent);
+        }
+
+        private int Atoi(byte[] b)
+        {
+            int result = 0;
+            int offset = 0;
+            int sign = 1;
+
+            if (b[offset] == 0x2d) // '-'
+            {
+                sign = -1;
+                offset++;
+            }
+
+            const int asciiZero = 0x30;  // '0'
+            for (; offset < b.Length; offset++)
+            {
+                int digit = b[offset] - asciiZero;
+                result = result * 10 + digit;
+            }
+
+            return sign * result;
         }
     }
 }
