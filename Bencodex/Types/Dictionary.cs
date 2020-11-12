@@ -25,29 +25,32 @@ namespace Bencodex.Types
                 default(ByteArrayComparer)
             );
 
-        private readonly ImmutableDictionary<IKey, IValue>? _value;
+        private readonly ValueUnion? _value;
 
         public Dictionary(IEnumerable<KeyValuePair<IKey, IValue>> value)
         {
-            _value = value.ToImmutableDictionary();
+            KeyValuePair<IKey, IValue>[] pairs = value.ToArray();
+            _value = pairs.Any()
+                ? new ValueUnion { Pairs = pairs }
+                : new ValueUnion { Dict = ImmutableDictionary<IKey, IValue>.Empty };
         }
 
         public static Dictionary Empty => default;
 
-        public int Count => _value?.Count ?? 0;
+        public int Count => Value?.Count ?? 0;
 
         public IEnumerable<IKey> Keys =>
-            _value?.Keys ?? Enumerable.Empty<IKey>();
+            Value?.Keys ?? Enumerable.Empty<IKey>();
 
         public IEnumerable<IValue> Values =>
-            _value?.Values ?? Enumerable.Empty<IValue>();
+            Value?.Values ?? Enumerable.Empty<IValue>();
 
         [Pure]
         public string Inspection
         {
             get
             {
-                if (_value is null || !this.Any())
+                if (Value is null || !this.Any())
                 {
                     return "{}";
                 }
@@ -60,24 +63,41 @@ namespace Bencodex.Types
             }
         }
 
-        private ImmutableDictionary<IKey, IValue> Value =>
-            _value ?? ImmutableDictionary<IKey, IValue>.Empty;
+        private ImmutableDictionary<IKey, IValue> Value
+        {
+            get
+            {
+                if (!(_value is { } union))
+                {
+                    return ImmutableDictionary<IKey, IValue>.Empty;
+                }
 
-        public IValue this[IKey key] => _value is null
+                if (!(union.Dict is { } dict))
+                {
+                    dict = union.Pairs.ToImmutableDictionary();
+                    union.Dict = dict;
+                    union.Pairs = null;
+                }
+
+                return dict;
+            }
+        }
+
+        public IValue this[IKey key] => Value is null
             ? throw new KeyNotFoundException("The dictionary is empty.")
-            : _value[key];
+            : Value[key];
 
         public IValue this[string key] => this[(IKey)new Text(key)];
 
         public IValue this[byte[] key] => this[(IKey)new Binary(key)];
 
-        public IEnumerator<KeyValuePair<IKey, IValue>> GetEnumerator() => _value?.GetEnumerator()
+        public IEnumerator<KeyValuePair<IKey, IValue>> GetEnumerator() => Value?.GetEnumerator()
             ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>
             (IEnumerator<KeyValuePair<IKey, IValue>>)GetEnumerator();
 
-        public bool ContainsKey(IKey key) => !(_value is null) && _value.ContainsKey(key);
+        public bool ContainsKey(IKey key) => !(Value is null) && Value.ContainsKey(key);
 
         public bool ContainsKey(string key) => ContainsKey((IKey)new Text(key));
 
@@ -85,7 +105,7 @@ namespace Bencodex.Types
 
         public bool TryGetValue(IKey key, out IValue value)
         {
-            if (_value is null)
+            if (Value is null)
             {
 #pragma warning disable SA1129
                 value = new Null();
@@ -93,7 +113,7 @@ namespace Bencodex.Types
                 return false;
             }
 
-            return _value.TryGetValue(key, out value);
+            return Value.TryGetValue(key, out value);
         }
 
         public IImmutableDictionary<IKey, IValue> Add(IKey key, IValue value) =>
@@ -138,13 +158,13 @@ namespace Bencodex.Types
 
         public IImmutableDictionary<IKey, IValue> Clear() => default(Dictionary);
 
-        public bool Contains(KeyValuePair<IKey, IValue> pair) => _value?.Contains(pair) ?? false;
+        public bool Contains(KeyValuePair<IKey, IValue> pair) => Value?.Contains(pair) ?? false;
 
         public IImmutableDictionary<IKey, IValue> Remove(IKey key) =>
-            _value is null ? this : new Dictionary(_value.Remove(key));
+            Value is null ? this : new Dictionary(Value.Remove(key));
 
         public IImmutableDictionary<IKey, IValue> RemoveRange(IEnumerable<IKey> keys) =>
-            _value is null ? this : new Dictionary(_value.RemoveRange(keys));
+            Value is null ? this : new Dictionary(Value.RemoveRange(keys));
 
         public IImmutableDictionary<IKey, IValue> SetItem(IKey key, IValue value) =>
             new Dictionary(Value.SetItem(key, value));
@@ -216,13 +236,13 @@ namespace Bencodex.Types
 
         public bool TryGetKey(IKey equalKey, out IKey actualKey)
         {
-            if (_value is null)
+            if (Value is null)
             {
                 actualKey = default(Binary);
                 return false;
             }
 
-            return _value.TryGetKey(equalKey, out actualKey);
+            return Value.TryGetKey(equalKey, out actualKey);
         }
 
         public T GetValue<T>(string name)
@@ -249,8 +269,8 @@ namespace Bencodex.Types
             IImmutableDictionary<IKey, IValue> other
         )
         {
-            if ((_value is null && other.LongCount() > 0) ||
-                _value.LongCount() != other.LongCount())
+            if ((Value is null && other.LongCount() > 0) ||
+                Value.LongCount() != other.LongCount())
             {
                 return false;
             }
@@ -271,14 +291,14 @@ namespace Bencodex.Types
             return true;
         }
 
-        public override int GetHashCode() => _value is null ? 0 : _value.GetHashCode();
+        public override int GetHashCode() => Value is null ? 0 : Value.GetHashCode();
 
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
             yield return _dictionaryPrefix;
 
-            if (!(_value is null))
+            if (!(Value is null))
             {
                 IEnumerable<ValueTuple<byte?, byte[], IValue>> rawPairs =
                     from pair in this
@@ -316,5 +336,13 @@ namespace Bencodex.Types
         [Pure]
         public override string ToString() =>
             $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Dictionary)} {Inspection}";
+
+#pragma warning disable SA1401
+        private class ValueUnion
+        {
+            internal ImmutableDictionary<IKey, IValue>? Dict;
+            internal KeyValuePair<IKey, IValue>[]? Pairs;
+        }
+#pragma warning restore SA1401
     }
 }
