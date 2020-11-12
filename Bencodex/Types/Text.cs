@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Text;
 
 namespace Bencodex.Types
@@ -125,10 +126,10 @@ namespace Bencodex.Types
         {
             yield return _keyPrefixByteArray;
             byte[] utf8 = ((IKey)this).EncodeAsByteArray();
-            foreach (byte[] chunk in ((IValue)new Binary(utf8)).EncodeIntoChunks())
-            {
-                yield return chunk;
-            }
+            string len = utf8.Length.ToString(CultureInfo.InvariantCulture);
+            yield return Encoding.ASCII.GetBytes(len);
+            yield return CommonVariables.Separator;
+            yield return utf8;
         }
 
         [Pure]
