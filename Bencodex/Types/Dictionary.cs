@@ -38,20 +38,20 @@ namespace Bencodex.Types
 
         public static Dictionary Empty => default;
 
-        public int Count => Value?.Count ?? 0;
+        public int Count => Value.Count;
 
         public IEnumerable<IKey> Keys =>
-            Value?.Keys ?? Enumerable.Empty<IKey>();
+            Value.Keys;
 
         public IEnumerable<IValue> Values =>
-            Value?.Values ?? Enumerable.Empty<IValue>();
+            Value.Values;
 
         [Pure]
         public string Inspection
         {
             get
             {
-                if (Value is null || !this.Any())
+                if (_value is null || !Value.Any())
                 {
                     return "{}";
                 }
@@ -297,12 +297,16 @@ namespace Bencodex.Types
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
+            // FIXME: avoid duplication between this and EncodeToStream()
             yield return _dictionaryPrefix;
 
-            if (!(Value is null))
+            if (!(_value is null))
             {
+                var @enum = _value.Dict
+                    ?? _value.Pairs
+                    ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>();
                 IEnumerable<ValueTuple<byte?, byte[], IValue>> rawPairs =
-                    from pair in this
+                    from pair in @enum
                     select (
                         pair.Key.KeyPrefix,
                         pair.Key.EncodeAsByteArray(),
@@ -312,8 +316,19 @@ namespace Bencodex.Types
                     triple => (triple.Item1, triple.Item2),
                     keyPairComparer
                 );
+                var byteArrayComparer = default(ByteArrayComparer);
+                (byte? keyPrefix, byte[] key)? prev = null;
                 foreach ((byte? keyPrefix, byte[] key, IValue value) in orderedPairs)
                 {
+                    // Skip duplicates
+                    if (_value.Dict is null && prev is { } p)
+                    {
+                        if (p.keyPrefix == keyPrefix && byteArrayComparer.Compare(p.key, key) == 0)
+                        {
+                            continue;
+                        }
+                    }
+
                     if (keyPrefix != null)
                     {
                         yield return _unicodeKeyPrefix;
@@ -328,6 +343,8 @@ namespace Bencodex.Types
                     {
                         yield return chunk;
                     }
+
+                    prev = (keyPrefix, key);
                 }
             }
 
@@ -336,12 +353,16 @@ namespace Bencodex.Types
 
         public void EncodeToStream(Stream stream)
         {
+            // FIXME: avoid duplication between this and EncodeIntoChunks()
             stream.WriteByte(_dictionaryPrefix[0]);
 
             if (!(_value is null))
             {
+                var @enum = _value.Dict
+                    ?? _value.Pairs
+                    ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>();
                 IEnumerable<ValueTuple<byte?, byte[], IValue>> rawPairs =
-                    from pair in this
+                    from pair in @enum
                     select (
                         pair.Key.KeyPrefix,
                         pair.Key.EncodeAsByteArray(),
@@ -351,8 +372,19 @@ namespace Bencodex.Types
                     triple => (triple.Item1, triple.Item2),
                     keyPairComparer
                 );
+                var byteArrayComparer = default(ByteArrayComparer);
+                (byte? keyPrefix, byte[] key)? prev = null;
                 foreach ((byte? keyPrefix, byte[] key, IValue value) in orderedPairs)
                 {
+                    // Skip duplicates
+                    if (_value.Dict is null && prev is { } p)
+                    {
+                        if (p.keyPrefix == keyPrefix && byteArrayComparer.Compare(p.key, key) == 0)
+                        {
+                            continue;
+                        }
+                    }
+
                     if (keyPrefix != null)
                     {
                         stream.WriteByte(_unicodeKeyPrefix[0]);
@@ -365,6 +397,7 @@ namespace Bencodex.Types
                     stream.WriteByte(CommonVariables.Separator[0]);
                     stream.Write(key, 0, key.Length);
                     value.EncodeToStream(stream);
+                    prev = (keyPrefix, key);
                 }
             }
 
