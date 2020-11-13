@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.IO;
 
 namespace Bencodex.Types
 {
@@ -28,5 +29,13 @@ namespace Bencodex.Types
         /// <seealso cref="Codec.Encode(IValue, System.IO.Stream)"/>
         [Pure]
         IEnumerable<byte[]> EncodeIntoChunks();
+
+        /// <summary>Writes the encoded value into <paramref name="stream"/>.
+        /// </summary>
+        /// <param name="stream">A stream to write the encoded value.</param>
+        /// <seealso cref="Codec.Encode(IValue)"/>
+        /// <seealso cref="Codec.Encode(IValue, System.IO.Stream)"/>
+        /// <seealso cref="EncodeIntoChunks"/>
+        void EncodeToStream(Stream stream);
     }
 }

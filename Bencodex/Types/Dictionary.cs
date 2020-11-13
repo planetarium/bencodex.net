@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Bencodex.Misc;
@@ -331,6 +332,43 @@ namespace Bencodex.Types
             }
 
             yield return CommonVariables.Suffix;
+        }
+
+        public void EncodeToStream(Stream stream)
+        {
+            stream.WriteByte(_dictionaryPrefix[0]);
+
+            if (!(_value is null))
+            {
+                IEnumerable<ValueTuple<byte?, byte[], IValue>> rawPairs =
+                    from pair in this
+                    select (
+                        pair.Key.KeyPrefix,
+                        pair.Key.EncodeAsByteArray(),
+                        pair.Value
+                    );
+                IEnumerable<ValueTuple<byte?, byte[], IValue>> orderedPairs = rawPairs.OrderBy(
+                    triple => (triple.Item1, triple.Item2),
+                    keyPairComparer
+                );
+                foreach ((byte? keyPrefix, byte[] key, IValue value) in orderedPairs)
+                {
+                    if (keyPrefix != null)
+                    {
+                        stream.WriteByte(_unicodeKeyPrefix[0]);
+                    }
+
+                    var keyLen =
+                        key.Length.ToString(CultureInfo.InvariantCulture);
+                    var keyLenBytes = Encoding.ASCII.GetBytes(keyLen);
+                    stream.Write(keyLenBytes, 0, keyLenBytes.Length);
+                    stream.WriteByte(CommonVariables.Separator[0]);
+                    stream.Write(key, 0, key.Length);
+                    value.EncodeToStream(stream);
+                }
+            }
+
+            stream.WriteByte(CommonVariables.Suffix[0]);
         }
 
         [Pure]

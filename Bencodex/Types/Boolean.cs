@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.IO;
 
 namespace Bencodex.Types
 {
@@ -97,6 +98,12 @@ namespace Bencodex.Types
             {
                 yield return _false;
             }
+        }
+
+        public void EncodeToStream(Stream stream)
+        {
+            var value = Value ? _true[0] : _false[0];
+            stream.WriteByte(value);
         }
 
         [Pure]
