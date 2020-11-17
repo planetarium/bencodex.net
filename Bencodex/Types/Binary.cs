@@ -182,12 +182,7 @@ namespace Bencodex.Types
         }
 
         [Pure]
-        byte[] IKey.EncodeAsByteArray()
-        {
-            byte[] dest = new byte[Value.Length];
-            Array.Copy(Value, dest, Value.Length);
-            return dest;
-        }
+        byte[] IKey.EncodeAsByteArray() => Value;
 
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
