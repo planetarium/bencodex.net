@@ -212,10 +212,12 @@ namespace Bencodex
 
         private byte[] ReadDigits(bool takeMinusSign, byte delimiter)
         {
-            byte[] buffer = new byte[1];
-            buffer = Read(buffer);
+            const int defaultBufferSize = 10;
+            byte[] buffer = new byte[defaultBufferSize];
 
-            if (buffer.Length < 1)
+            var b = ReadByte();
+
+            if (b is null)
             {
                 const string minusSignOr = "a minus sign or ";
                 throw new DecodingException(
@@ -225,45 +227,62 @@ namespace Bencodex
             }
 
             bool minus = false;
-            if (takeMinusSign && buffer[0] == 0x2d) // '-'
+            if (takeMinusSign && b == 0x2d) // '-'
             {
                 minus = true;
-                buffer = Read(buffer);
+                b = ReadByte();
+
+                if (b is null)
+                {
+                    throw new DecodingException(
+                        $"Expected digits, but the byte stream terminates at {_offset}."
+                    );
+                }
             }
 
-            byte lastByte = buffer[0];
-#pragma warning disable SA1131
+            int digitsLength;
+
+            if (minus)
+            {
+                buffer[0] = 0x2d;
+                buffer[1] = b.Value;
+                digitsLength = 2;
+            }
+            else
+            {
+                buffer[0] = b.Value;
+                digitsLength = 1;
+            }
+
+            byte lastByte = b.Value;
+
             while (lastByte != delimiter)
             {
+#pragma warning disable SA1131
                 if (!(0x30 <= lastByte && lastByte < 0x40)) // not '0'-'9'
                 {
                     throw new DecodingException(
                         $"Expected a digit (0x30-0x40), but got 0x{lastByte:x} at {_offset}."
                     );
                 }
+#pragma warning restore SA1131
 
                 lastByte = ReadByte() ?? throw new DecodingException(
                     $"Expected a delimiter byte 0x{delimiter:x}, but the byte stream terminates " +
                     $"at {_offset}."
                 );
-                Array.Resize(ref buffer, buffer.Length + 1);
-                buffer[buffer.Length - 1] = lastByte;
-            }
-#pragma warning restore SA1131
 
-            if (minus)
-            {
-                for (int i = buffer.Length - 1; i > 0; i--)
+                if (digitsLength >= buffer.Length)
                 {
-                    buffer[i] = buffer[i - 1];
+                    Array.Resize(ref buffer, buffer.Length * 2);
                 }
 
-                buffer[0] = 0x2d; // '-'
+                buffer[digitsLength] = lastByte;
+                digitsLength++;
             }
-            else
-            {
-                Array.Resize(ref buffer, buffer.Length - 1);
-            }
+
+            digitsLength--;
+            Array.Resize(ref buffer, digitsLength);
 
             return buffer;
         }
