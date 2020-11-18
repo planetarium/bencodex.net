@@ -10,6 +10,7 @@ namespace Bencodex
 {
     internal sealed class Decoder
     {
+        private static readonly byte[] TinyBuffer = new byte[1];
         private readonly Stream _stream;
         private byte _lastRead;
         private bool _didBack;
@@ -157,9 +158,9 @@ namespace Bencodex
             }
         }
 
-        private byte[] Read(int length)
+        private byte[] Read(byte[] buffer)
         {
-            byte[] buffer = new byte[length];
+            var length = buffer.Length;
             if (_didBack)
             {
                 buffer[0] = _lastRead;
@@ -192,7 +193,7 @@ namespace Bencodex
                 return _lastRead;
             }
 
-            byte[] buffer = Read(1);
+            byte[] buffer = Read(TinyBuffer);
             return buffer.Length > 0 ? buffer[0] : (byte?)null;
         }
 
@@ -211,7 +212,8 @@ namespace Bencodex
 
         private byte[] ReadDigits(bool takeMinusSign, byte delimiter)
         {
-            byte[] buffer = Read(1);
+            byte[] buffer = new byte[1];
+            buffer = Read(buffer);
 
             if (buffer.Length < 1)
             {
@@ -226,7 +228,7 @@ namespace Bencodex
             if (takeMinusSign && buffer[0] == 0x2d) // '-'
             {
                 minus = true;
-                buffer = Read(1);
+                buffer = Read(buffer);
             }
 
             byte lastByte = buffer[0];
@@ -298,7 +300,8 @@ namespace Bencodex
             }
 
             int pos = _offset;
-            byte[] bytes = Read(length);
+            byte[] buffer = new byte[length];
+            byte[] bytes = Read(buffer);
             if (bytes.Length < length)
             {
                 throw new DecodingException(
