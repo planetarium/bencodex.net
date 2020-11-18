@@ -193,8 +193,15 @@ namespace Bencodex
                 return _lastRead;
             }
 
-            byte[] buffer = Read(TinyBuffer);
-            return buffer.Length > 0 ? buffer[0] : (byte?)null;
+            int read = _stream.Read(TinyBuffer, 0, 1);
+            if (read > 0)
+            {
+                _lastRead = TinyBuffer[0];
+            }
+
+            _offset++;
+            _didBack = false;
+            return read == 0 ? (byte?)null : TinyBuffer[0];
         }
 
         private void Back()
