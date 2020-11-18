@@ -294,12 +294,6 @@ namespace Bencodex
             return buffer;
         }
 
-        private T ReadDigits<T>(bool takeMinusSign, byte delimiter, Func<byte[], T> converter)
-        {
-            byte[] digits = ReadDigits(takeMinusSign, delimiter);
-            return converter(digits);
-        }
-
         private T ReadDigits<T>(
             bool takeMinusSign,
             byte delimiter,
@@ -319,7 +313,8 @@ namespace Bencodex
         private (byte[] byteArray, int offsetAfterColon) ReadByteArray()
         {
             const byte colon = 0x3a;  // ':'
-            int length = ReadDigits(false, colon, Atoi);
+            byte[] digits = ReadDigits(false, colon);
+            int length = Atoi(digits);
             if (length < 1)
             {
                 return (new byte[0], _offset);
