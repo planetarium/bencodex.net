@@ -10,6 +10,7 @@ namespace Bencodex
 {
     internal sealed class Decoder
     {
+        private static readonly byte[] TinyBuffer = new byte[1];
         private readonly Stream _stream;
         private byte _lastRead;
         private bool _didBack;
@@ -157,9 +158,9 @@ namespace Bencodex
             }
         }
 
-        private byte[] Read(int length)
+        private byte[] Read(byte[] buffer)
         {
-            byte[] buffer = new byte[length];
+            var length = buffer.Length;
             if (_didBack)
             {
                 buffer[0] = _lastRead;
@@ -192,8 +193,15 @@ namespace Bencodex
                 return _lastRead;
             }
 
-            byte[] buffer = Read(1);
-            return buffer.Length > 0 ? buffer[0] : (byte?)null;
+            int read = _stream.Read(TinyBuffer, 0, 1);
+            if (read > 0)
+            {
+                _lastRead = TinyBuffer[0];
+            }
+
+            _offset++;
+            _didBack = false;
+            return read == 0 ? (byte?)null : TinyBuffer[0];
         }
 
         private void Back()
@@ -211,9 +219,12 @@ namespace Bencodex
 
         private byte[] ReadDigits(bool takeMinusSign, byte delimiter)
         {
-            byte[] buffer = Read(1);
+            const int defaultBufferSize = 10;
+            byte[] buffer = new byte[defaultBufferSize];
 
-            if (buffer.Length < 1)
+            var b = ReadByte();
+
+            if (b is null)
             {
                 const string minusSignOr = "a minus sign or ";
                 throw new DecodingException(
@@ -223,53 +234,64 @@ namespace Bencodex
             }
 
             bool minus = false;
-            if (takeMinusSign && buffer[0] == 0x2d) // '-'
+            if (takeMinusSign && b == 0x2d) // '-'
             {
                 minus = true;
-                buffer = Read(1);
+                b = ReadByte();
+
+                if (b is null)
+                {
+                    throw new DecodingException(
+                        $"Expected digits, but the byte stream terminates at {_offset}."
+                    );
+                }
             }
 
-            byte lastByte = buffer[0];
-#pragma warning disable SA1131
+            int digitsLength;
+
+            if (minus)
+            {
+                buffer[0] = 0x2d;
+                buffer[1] = b.Value;
+                digitsLength = 2;
+            }
+            else
+            {
+                buffer[0] = b.Value;
+                digitsLength = 1;
+            }
+
+            byte lastByte = b.Value;
+
             while (lastByte != delimiter)
             {
+#pragma warning disable SA1131
                 if (!(0x30 <= lastByte && lastByte < 0x40)) // not '0'-'9'
                 {
                     throw new DecodingException(
                         $"Expected a digit (0x30-0x40), but got 0x{lastByte:x} at {_offset}."
                     );
                 }
+#pragma warning restore SA1131
 
                 lastByte = ReadByte() ?? throw new DecodingException(
                     $"Expected a delimiter byte 0x{delimiter:x}, but the byte stream terminates " +
                     $"at {_offset}."
                 );
-                Array.Resize(ref buffer, buffer.Length + 1);
-                buffer[buffer.Length - 1] = lastByte;
-            }
-#pragma warning restore SA1131
 
-            if (minus)
-            {
-                for (int i = buffer.Length - 1; i > 0; i--)
+                if (digitsLength >= buffer.Length)
                 {
-                    buffer[i] = buffer[i - 1];
+                    Array.Resize(ref buffer, buffer.Length * 2);
                 }
 
-                buffer[0] = 0x2d; // '-'
+                buffer[digitsLength] = lastByte;
+                digitsLength++;
             }
-            else
-            {
-                Array.Resize(ref buffer, buffer.Length - 1);
-            }
+
+            digitsLength--;
+            Array.Resize(ref buffer, digitsLength);
 
             return buffer;
-        }
-
-        private T ReadDigits<T>(bool takeMinusSign, byte delimiter, Func<byte[], T> converter)
-        {
-            byte[] digits = ReadDigits(takeMinusSign, delimiter);
-            return converter(digits);
         }
 
         private T ReadDigits<T>(
@@ -291,14 +313,16 @@ namespace Bencodex
         private (byte[] byteArray, int offsetAfterColon) ReadByteArray()
         {
             const byte colon = 0x3a;  // ':'
-            int length = ReadDigits(false, colon, Atoi);
+            byte[] digits = ReadDigits(false, colon);
+            int length = Atoi(digits);
             if (length < 1)
             {
                 return (new byte[0], _offset);
             }
 
             int pos = _offset;
-            byte[] bytes = Read(length);
+            byte[] buffer = new byte[length];
+            byte[] bytes = Read(buffer);
             if (bytes.Length < length)
             {
                 throw new DecodingException(
