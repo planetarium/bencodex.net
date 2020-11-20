@@ -10,7 +10,7 @@ namespace Bencodex
 {
     internal sealed class Decoder
     {
-        private static readonly byte[] TinyBuffer = new byte[1];
+        private readonly byte[] _tinyBuffer = new byte[1];
         private readonly Stream _stream;
         private byte _lastRead;
         private bool _didBack;
@@ -193,15 +193,15 @@ namespace Bencodex
                 return _lastRead;
             }
 
-            int read = _stream.Read(TinyBuffer, 0, 1);
+            int read = _stream.Read(_tinyBuffer, 0, 1);
             if (read > 0)
             {
-                _lastRead = TinyBuffer[0];
+                _lastRead = _tinyBuffer[0];
             }
 
             _offset++;
             _didBack = false;
-            return read == 0 ? (byte?)null : TinyBuffer[0];
+            return read == 0 ? (byte?)null : _tinyBuffer[0];
         }
 
         private void Back()
