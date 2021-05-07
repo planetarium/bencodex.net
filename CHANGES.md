@@ -9,7 +9,9 @@ To be released.
  -  The package became to have an assembly for .NET Standard 2.1 besides
     an existing assembly for .NET Standard 2.0.  The new assembly purposes
     to support [nullable reference types].  [[#24]]
- -  `Bencodex.Types.Dictionary` became a readonly struct.  [[#24]]
+ -  `Bencodex.Types.Null` became a read-only struct.  [[#37]]
+ -  Added `Bencodex.Types.Null.Value` read-only field.  [[#20], [#37]]
+ -  `Bencodex.Types.Dictionary` became a read-only struct.  [[#24]]
  -  `Bencodex.Types.Dictionary(IEnumerable<KeyValuePair<IKey, IValue>>)`
     constructor now has no default value for the parameter.  [[#24]]
  -  `Bencodex.Types.Dictionary.SetItem()` became to have more overloads.  [[#7]]
@@ -70,7 +72,7 @@ To be released.
     representation for the sake of debugging.  [[#12], [#13]]
  -  `ToString()` method of `IValue` subclasses became to return its `Inspection`
     with a prefix of the qualified class name.  [[#12], [#13]]
- -  `Binary` became a readonly struct.  [[#14]]
+ -  `Binary` became a read-only struct.  [[#14]]
  -  Added `Binary(string, System.Text.Encoding)` constructor.  [[#14]]
  -  Fixed a bug that changing on an array returned by `Binary.Value` property
     had changed the `Binary` as well.  `Binary.Value` property became to
@@ -113,6 +115,7 @@ To be released.
 [#13]: https://github.com/planetarium/bencodex.net/pull/13
 [#14]: https://github.com/planetarium/bencodex.net/pull/14
 [#15]: https://github.com/planetarium/bencodex.net/pull/15
+[#20]: https://github.com/planetarium/bencodex.net/issues/20
 [#23]: https://github.com/planetarium/bencodex.net/pull/23
 [#24]: https://github.com/planetarium/bencodex.net/pull/24
 [#25]: https://github.com/planetarium/bencodex.net/pull/25
@@ -121,6 +124,7 @@ To be released.
 [#32]: https://github.com/planetarium/bencodex.net/pull/32
 [#33]: https://github.com/planetarium/bencodex.net/pull/33
 [#34]: https://github.com/planetarium/bencodex.net/pull/34
+[#37]: https://github.com/planetarium/bencodex.net/pull/37
 [nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
 [FNV]: https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function

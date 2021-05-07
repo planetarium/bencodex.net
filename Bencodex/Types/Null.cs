@@ -6,12 +6,21 @@ using System.IO;
 namespace Bencodex.Types
 {
     /// <summary>Represents a Bencodex null value (i.e., <c>n</c>).</summary>
-    public struct Null :
+    public readonly struct Null :
         IValue,
         IEquatable<Null>,
         IComparable<Null>,
         IComparable
     {
+        /// <summary>
+        /// Represents a <see cref="Null"/> instance.  Recommends to prefer this over using
+        /// the default constructor or a <c>default</c> keyword.  This field is read-only.
+        /// </summary>
+        public static readonly Null Value =
+#pragma warning disable SA1129
+            new Null();
+#pragma warning restore SA1129
+
         [Pure]
         public string Inspection => $"null";
 
