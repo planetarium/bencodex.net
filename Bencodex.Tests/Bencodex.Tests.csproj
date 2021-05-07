@@ -5,7 +5,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsTestProject>true</IsTestProject>
     <DebugType>portable</DebugType>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <LangVersion>7.2</LangVersion>
     <CodeAnalysisRuleSet>../Bencodex.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

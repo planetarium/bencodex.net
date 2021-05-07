@@ -1,3 +1,4 @@
+*.DotSettings.user
 .idea/
 .vs/
 .vscode/
