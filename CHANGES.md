@@ -10,6 +10,7 @@ To be released.
     an existing assembly for .NET Standard 2.0.  The new assembly purposes
     to support [nullable reference types].  [[#24]]
  -  `Bencodex.Types.Null` became a read-only struct.  [[#37]]
+ -  Added `Bencodex.Types.Null.Value` read-only field.  [[#20], [#37]]
  -  `Bencodex.Types.Dictionary` became a read-only struct.  [[#24]]
  -  `Bencodex.Types.Dictionary(IEnumerable<KeyValuePair<IKey, IValue>>)`
     constructor now has no default value for the parameter.  [[#24]]
@@ -114,6 +115,7 @@ To be released.
 [#13]: https://github.com/planetarium/bencodex.net/pull/13
 [#14]: https://github.com/planetarium/bencodex.net/pull/14
 [#15]: https://github.com/planetarium/bencodex.net/pull/15
+[#20]: https://github.com/planetarium/bencodex.net/issues/20
 [#23]: https://github.com/planetarium/bencodex.net/pull/23
 [#24]: https://github.com/planetarium/bencodex.net/pull/24
 [#25]: https://github.com/planetarium/bencodex.net/pull/25
