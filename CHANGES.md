@@ -108,7 +108,12 @@ To be released.
     hash table, but do it when it needs (e.g., when to look up a key) instead.
     Note that this change does not cause any API changes, but just purposes
     faster instantiation.  [[#33], [#34]]
+ -  Added `Bencodex.Declarative.BencodexSerializer<T>.Serialize(object)`.  [[#6], [#38]]
+ -  Added `Bencodex.Declarative.BencodexSerializer<T>
+    .Deserialize(Bencodex.Types.Dictionary)`.  [[#6], [#38]]
 
+
+[#6]: https://github.com/planetarium/bencodex.net/issues/6
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
 [#12]: https://github.com/planetarium/bencodex.net/issues/12
@@ -125,6 +130,7 @@ To be released.
 [#33]: https://github.com/planetarium/bencodex.net/pull/33
 [#34]: https://github.com/planetarium/bencodex.net/pull/34
 [#37]: https://github.com/planetarium/bencodex.net/pull/37
+[#38]: https://github.com/planetarium/bencodex.net/pull/38
 [nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
 [FNV]: https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
