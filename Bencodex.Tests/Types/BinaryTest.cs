@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Text;
 using Bencodex.Types;
 using Xunit;
@@ -16,33 +17,54 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void Constructor()
+        public void DefaultConstructor()
         {
-            Assert.NotNull(default(Binary).Value);
-            Assert.Empty(default(Binary).Value);
-
-            var hello = new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f });
-            Assert.Equal(
-                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f },
-                hello.Value
-            );
-
-            var fromString = new Binary("hello", Encoding.ASCII);
-            Assert.Equal(hello.Value, fromString.Value);
+            Assert.Empty(default(Binary).ByteArray);
+            Assert.NotNull(default(Binary).ToByteArray());
+            Assert.Empty(default(Binary).ToByteArray());
         }
 
         [Fact]
-        public void Immutability()
+        public void ConstructorTakingImmutableByteArray()
         {
+            ImmutableArray<byte> bytes =
+                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f }.ToImmutableArray();
+            var hello = new Binary(bytes);
+            Assert.Equal(bytes, hello.ByteArray);
             Assert.Equal(
                 new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f },
-                _hello.Value
+                hello.ToByteArray()
             );
+        }
 
-            _hello.Value[3] = 0x6f;
+        [Fact]
+        public void ConstructorTakingByteArray()
+        {
+            var hello = new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f });
             Assert.Equal(
                 new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f },
-                _hello.Value
+                hello.ToByteArray()
+            );
+        }
+
+        [Fact]
+        public void ConstructorTakingString()
+        {
+            var hello = new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f });
+            var fromString = new Binary("hello", Encoding.ASCII);
+            Assert.Equal(hello, fromString);
+        }
+
+        [Fact]
+        public void ToByteArray()
+        {
+            byte[] a = _hello.ToByteArray();
+            Assert.Equal(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f }, a);
+
+            a[3] = 0x6f;
+            Assert.Equal(
+                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f },
+                _hello.ToByteArray()
             );
         }
 
@@ -50,9 +72,20 @@ namespace Bencodex.Tests.Types
         public void Equality()
         {
             Assert.Equal(_empty, new Binary(new byte[0]));
+            Assert.Equal(_empty, ImmutableArray<byte>.Empty);
+            Assert.Equal(_empty, new byte[0]);
+
             Assert.Equal(
                 _hello,
                 new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f })
+            );
+            Assert.Equal(
+                _hello,
+                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f }.ToImmutableArray<byte>()
+            );
+            Assert.Equal(
+                _hello,
+                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f }
             );
 
             Assert.NotEqual(_empty, _hello);
