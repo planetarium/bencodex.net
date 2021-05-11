@@ -90,6 +90,8 @@ namespace Bencodex.Types
 
         public IValue this[string key] => this[(IKey)new Text(key)];
 
+        public IValue this[ImmutableArray<byte> key] => this[(IKey)new Binary(key)];
+
         public IValue this[byte[] key] => this[(IKey)new Binary(key)];
 
         public IEnumerator<KeyValuePair<IKey, IValue>> GetEnumerator() => Value?.GetEnumerator()
@@ -101,6 +103,8 @@ namespace Bencodex.Types
         public bool ContainsKey(IKey key) => !(Value is null) && Value.ContainsKey(key);
 
         public bool ContainsKey(string key) => ContainsKey((IKey)new Text(key));
+
+        public bool ContainsKey(ImmutableArray<byte> key) => ContainsKey((IKey)new Binary(key));
 
         public bool ContainsKey(byte[] key) => ContainsKey((IKey)new Binary(key));
 
@@ -129,11 +133,33 @@ namespace Bencodex.Types
 
         public Dictionary Add(string key, ulong value) => Add(key, (IValue)new Integer(value));
 
+        public Dictionary Add(string key, ImmutableArray<byte> value) =>
+            Add(key, (IValue)new Binary(value));
+
         public Dictionary Add(string key, byte[] value) => Add(key, (IValue)new Binary(value));
 
         public Dictionary Add(string key, bool value) => Add(key, (IValue)new Boolean(value));
 
         public Dictionary Add(string key, IEnumerable<IValue> value) =>
+            Add(key, (IValue)new List(value));
+
+        public Dictionary Add(ImmutableArray<byte> key, IValue value) =>
+            (Dictionary)Add((IKey)new Binary(key), value);
+
+        public Dictionary Add(ImmutableArray<byte> key, string value) => Add(key, (IValue)new Text(value));
+
+        public Dictionary Add(ImmutableArray<byte> key, long value) => Add(key, (IValue)new Integer(value));
+
+        public Dictionary Add(ImmutableArray<byte> key, ulong value) => Add(key, (IValue)new Integer(value));
+
+        public Dictionary Add(ImmutableArray<byte> key, ImmutableArray<byte> value) =>
+            Add(key, (IValue)new Binary(value));
+
+        public Dictionary Add(ImmutableArray<byte> key, byte[] value) => Add(key, (IValue)new Binary(value));
+
+        public Dictionary Add(ImmutableArray<byte> key, bool value) => Add(key, (IValue)new Boolean(value));
+
+        public Dictionary Add(ImmutableArray<byte> key, IEnumerable<IValue> value) =>
             Add(key, (IValue)new List(value));
 
         public Dictionary Add(byte[] key, IValue value) =>
@@ -144,6 +170,8 @@ namespace Bencodex.Types
         public Dictionary Add(byte[] key, long value) => Add(key, (IValue)new Integer(value));
 
         public Dictionary Add(byte[] key, ulong value) => Add(key, (IValue)new Integer(value));
+
+        public Dictionary Add(byte[] key, ImmutableArray<byte> value) => Add(key, (IValue)new Binary(value));
 
         public Dictionary Add(byte[] key, byte[] value) => Add(key, (IValue)new Binary(value));
 
@@ -173,6 +201,9 @@ namespace Bencodex.Types
         public Dictionary SetItem(IKey key, string value) =>
             (Dictionary)SetItem(key, (IValue)new Text(value));
 
+        public Dictionary SetItem(IKey key, ImmutableArray<byte> value) =>
+            (Dictionary)SetItem(key, (IValue)new Binary(value));
+
         public Dictionary SetItem(IKey key, byte[] value) =>
             (Dictionary)SetItem(key, (IValue)new Binary(value));
 
@@ -194,6 +225,9 @@ namespace Bencodex.Types
         public Dictionary SetItem(string key, string value) =>
             SetItem(key, (IValue)new Text(value));
 
+        public Dictionary SetItem(string key, ImmutableArray<byte> value) =>
+            SetItem(key, (IValue)new Binary(value));
+
         public Dictionary SetItem(string key, byte[] value) =>
             SetItem(key, (IValue)new Binary(value));
 
@@ -209,11 +243,38 @@ namespace Bencodex.Types
         public Dictionary SetItem(string key, IEnumerable<IValue> value) =>
             SetItem(key, (IValue)new List(value));
 
+        public Dictionary SetItem(ImmutableArray<byte> key, IValue value) =>
+            (Dictionary)SetItem((IKey)new Binary(key), value);
+
+        public Dictionary SetItem(ImmutableArray<byte> key, string value) =>
+            SetItem(key, (IValue)new Text(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, ImmutableArray<byte> value) =>
+            SetItem(key, (IValue)new Binary(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, byte[] value) =>
+            SetItem(key, (IValue)new Binary(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, long value) =>
+            SetItem(key, (IValue)new Integer(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, ulong value) =>
+            SetItem(key, (IValue)new Integer(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, bool value) =>
+            SetItem(key, (IValue)new Boolean(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, IEnumerable<IValue> value) =>
+            SetItem(key, (IValue)new List(value));
+
         public Dictionary SetItem(byte[] key, IValue value) =>
             (Dictionary)SetItem((IKey)new Binary(key), value);
 
         public Dictionary SetItem(byte[] key, string value) =>
             SetItem(key, (IValue)new Text(value));
+
+        public Dictionary SetItem(byte[] key, ImmutableArray<byte> value) =>
+            SetItem(key, (IValue)new Binary(value));
 
         public Dictionary SetItem(byte[] key, byte[] value) =>
             SetItem(key, (IValue)new Binary(value));
@@ -251,6 +312,11 @@ namespace Bencodex.Types
         {
             return (T)this[name];
         }
+
+        public T GetValue<T>(ImmutableArray<byte> name)
+            where T : IValue
+        =>
+            (T)this[name];
 
         public T GetValue<T>(byte[] name)
             where T : IValue

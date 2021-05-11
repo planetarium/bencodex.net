@@ -22,55 +22,79 @@ To be released.
  -  `Bencodex.Types.Dictionary` became a read-only struct.  [[#24]]
  -  `Bencodex.Types.Dictionary(IEnumerable<KeyValuePair<IKey, IValue>>)`
     constructor now has no default value for the parameter.  [[#24]]
- -  `Bencodex.Types.Dictionary.SetItem()` became to have more overloads.  [[#7]]
-     -  Added overloads, which is listed below,
-        return `Bencodex.Types.Dictionary` instead of
-        `IImmutableDictionary<IKey, IValue>`. Note that existing
-        `SetItem(IKey, IValue)` method which implements
-        `IImmutableDictionary<IKey, IValue>` is still remained as it had been.
-     -  (`IKey`, `string`)
-     -  (`IKey`, `byte[]`)
-     -  (`IKey`, `long`)
-     -  (`IKey`, `ulong`)
-     -  (`IKey`, `bool`)
-     -  (`IKey`, `IEnumerable<IValue>`)
-     -  (`string`, `IValue`)
-     -  (`string`, `string`)
-     -  (`string`, `byte[]`)
-     -  (`string`, `long`)
-     -  (`string`, `ulong`)
-     -  (`string`, `bool`)
-     -  (`string`, `IEnumerable<IValue>`)
-     -  (`byte[]`, `IValue`)
-     -  (`byte[]`, `string`)
-     -  (`byte[]`, `byte[]`)
-     -  (`byte[]`, `long`)
-     -  (`byte[]`, `ulong`)
-     -  (`byte[]`, `bool`)
-     -  (`byte[]`, `IEnumerable<IValue>`)
- -  `Bencodex.Types.Dictionary.Add()` became to have more overloads.  [[#7]]
-      -  Added overloads, which is listed below,
-         return `Bencodex.Types.Dictionary` instead of
-         `IImmutableDictionary<IKey, IValue>`. Note that existing
-         `Add(IKey, IValue)` method which implements
-         `IImmutableDictionary<IKey, IValue>` is still remained as it had been.
-      -  (`string`, `IValue`)
-      -  (`string`, `string`)
-      -  (`string`, `byte[]`)
-      -  (`string`, `long`)
-      -  (`string`, `ulong`)
-      -  (`string`, `bool`)
-      -  (`string`, `IEnumerable<IValue>`)
-      -  (`byte[]`, `IValue`)
-      -  (`byte[]`, `string`)
-      -  (`byte[]`, `byte[]`)
-      -  (`byte[]`, `long`)
-      -  (`byte[]`, `ulong`)
-      -  (`byte[]`, `bool`)
-      -  (`byte[]`, `IEnumerable<IValue>`)
+ -  `Bencodex.Types.Dictionary.SetItem()` became to have more overloads.  Added
+    overloads, which is listed below, return `Bencodex.Types.Dictionary` instead
+    of `IImmutableDictionary<IKey, IValue>`.  Note that existing
+    `SetItem(IKey, IValue)` method which implements
+    `IImmutableDictionary<IKey, IValue>` is still remained as it had been.
+    [[#7], [#40]]
+     -  (`IKey`, `string`)  [[#7]]
+     -  (`IKey`, `ImmutableArray<byte>`)  [[#40]]
+     -  (`IKey`, `byte[]`)  [[#7]]
+     -  (`IKey`, `long`)  [[#7]]
+     -  (`IKey`, `ulong`)  [[#7]]
+     -  (`IKey`, `bool`)  [[#7]]
+     -  (`IKey`, `IEnumerable<IValue>`)  [[#7]]
+     -  (`string`, `IValue`)  [[#7]]
+     -  (`string`, `string`)  [[#7]]
+     -  (`string`, `ImmutableArray<byte>`)  [[#40]]
+     -  (`string`, `byte[]`)  [[#7]]
+     -  (`string`, `long`)  [[#7]]
+     -  (`string`, `ulong`)  [[#7]]
+     -  (`string`, `bool`)  [[#7]]
+     -  (`string`, `IEnumerable<IValue>`)  [[#7]]
+     -  (`ImmutableArray<byte>`, `IValue`)  [[#7]]
+     -  (`ImmutableArray<byte>`, `string`)  [[#7]]
+     -  (`ImmutableArray<byte>`, `ImmutableArray<byte>`)  [[#40]]
+     -  (`ImmutableArray<byte>`, `byte[]`)  [[#7]]
+     -  (`ImmutableArray<byte>`, `long`)  [[#7]]
+     -  (`ImmutableArray<byte>`, `ulong`)  [[#7]]
+     -  (`ImmutableArray<byte>`, `bool`)  [[#7]]
+     -  (`ImmutableArray<byte>`, `IEnumerable<IValue>`)  [[#7]]
+     -  (`byte[]`, `IValue`)  [[#7]]
+     -  (`byte[]`, `string`)  [[#7]]
+     -  (`byte[]`, `ImmutableArray<byte>`)  [[#40]]
+     -  (`byte[]`, `byte[]`)  [[#7]]
+     -  (`byte[]`, `long`)  [[#7]]
+     -  (`byte[]`, `ulong`)  [[#7]]
+     -  (`byte[]`, `bool`)  [[#7]]
+     -  (`byte[]`, `IEnumerable<IValue>`)  [[#7]]
+ -  `Bencodex.Types.Dictionary.Add()` became to have more overloads.  Added
+    overloads, which is listed below, return `Bencodex.Types.Dictionary` instead
+    of `IImmutableDictionary<IKey, IValue>`.  Note that existing
+    `Add(IKey, IValue)` method which implements
+    `IImmutableDictionary<IKey, IValue>` is still remained as it had been.
+    [[#7], [#40]]
+      -  (`string`, `IValue`)  [[#7]]
+      -  (`string`, `string`)  [[#7]]
+      -  (`string`, `ImmutableArray<byte>`)  [[#40]]
+      -  (`string`, `byte[]`)  [[#7]]
+      -  (`string`, `long`)  [[#7]]
+      -  (`string`, `ulong`)  [[#7]]
+      -  (`string`, `bool`)  [[#7]]
+      -  (`string`, `IEnumerable<IValue>`)  [[#7]]
+      -  (`ImmutableArray<byte>`, `IValue`)  [[#40]]
+      -  (`ImmutableArray<byte>`, `string`)  [[#40]]
+      -  (`ImmutableArray<byte>`, `ImmutableArray<byte>`)  [[#40]]
+      -  (`ImmutableArray<byte>`, `byte[]`)  [[#40]]
+      -  (`ImmutableArray<byte>`, `long`)  [[#40]]
+      -  (`ImmutableArray<byte>`, `ulong`)  [[#40]]
+      -  (`ImmutableArray<byte>`, `bool`)  [[#40]]
+      -  (`ImmutableArray<byte>`, `IEnumerable<IValue>`)  [[#40]]
+      -  (`byte[]`, `IValue`)  [[#7]]
+      -  (`byte[]`, `string`)  [[#7]]
+      -  (`byte[]`, `byte[]`)  [[#7]]
+      -  (`byte[]`, `ImmutableArray<byte>`)  [[#40]]
+      -  (`byte[]`, `long`)  [[#7]]
+      -  (`byte[]`, `ulong`)  [[#7]]
+      -  (`byte[]`, `bool`)  [[#7]]
+      -  (`byte[]`, `IEnumerable<IValue>`)  [[#7]]
  -  Added `Bencodex.Types.Dictionary[string]` indexer. [[#7]]
+ -  Added `Bencodex.Types.Dictionary[ImmutableArray<byte>]` indexer. [[#40]]
  -  Added `Bencodex.Types.Dictionary[byte[]]` indexer. [[#7]]
  -  Added `Bencodex.Types.Dictionary.Empty` static property.  [[#7]]
+ -  Added `Bencodex.Types.Dictionary.GetValue<T>(string)` method. [[#7]]
+ -  Added `Bencodex.Types.Dictionary.GetValue<T>(ImmutableArray<byte>)` method. [[#40]]
  -  Added `Bencodex.Types.Dictionary.GetValue<T>(byte[])` method. [[#11]]
  -  `Bencodex.Types.Dictionary.TryGetKey()` became to fill its `out` parameter
     with an empty `Binary` value when it returns `false`.  [[#24]]
@@ -86,9 +110,10 @@ To be released.
     had changed the `Binary` as well.  `Binary.Value` property became to
     return always a new copy of its internal array.  [[#14]]
  -  Added overloads to `Bencodex.Types.Dictionary.ContainsKey()`
-    for the sake of convenience.  [[#15]]
-     -  `Bencodex.Types.Dictionary.ContainsKey(string)`
-     -  `Bencodex.Types.Dictionary.ContainsKey(byte[])`
+    for the sake of convenience.  [[#15], [#40]]
+     -  `Bencodex.Types.Dictionary.ContainsKey(string)`  [[#15]]
+     -  `Bencodex.Types.Dictionary.ContainsKey(ImmutableArray<byte>)`  [[#40]]
+     -  `Bencodex.Types.Dictionary.ContainsKey(byte[])`  [[#15]]
  -  `Bencodex.Types.Integer(string value)` constructor was replaced by
     `Bencodex.Types.Integer(string value, IFormatProvider? provider = null)`
     which is still compatible in source code level.  [[#23]]
@@ -136,6 +161,7 @@ To be released.
 [#34]: https://github.com/planetarium/bencodex.net/pull/34
 [#37]: https://github.com/planetarium/bencodex.net/pull/37
 [#39]: https://github.com/planetarium/bencodex.net/pull/39
+[#40]: https://github.com/planetarium/bencodex.net/pull/40
 [nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
 [FNV]: https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
