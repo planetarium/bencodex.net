@@ -11,6 +11,14 @@ To be released.
     to support [nullable reference types].  [[#24]]
  -  `Bencodex.Types.Null` became a read-only struct.  [[#37]]
  -  Added `Bencodex.Types.Null.Value` read-only field.  [[#20], [#37]]
+ -  `Bencodex.Types.Binary`'s internal representation became
+    `ImmutableArray<byte>` instead of `byte[]`.  [[#39]]
+    - `Binary` became to implement `IEquatable<ImmutableArray<byte>>`.
+    - `Binary` became to implement `IComparer<ImmutableArray<byte>>`.
+    - Added `Binary(ImmutableArray<byte>)` constructor.
+    - `Binary.Value` property became obsolete.
+    - Added `Binary.ByteArray` property.
+    - Added `Binary.ToByteArray()` method.
  -  `Bencodex.Types.Dictionary` became a read-only struct.  [[#24]]
  -  `Bencodex.Types.Dictionary(IEnumerable<KeyValuePair<IKey, IValue>>)`
     constructor now has no default value for the parameter.  [[#24]]
@@ -108,6 +116,8 @@ To be released.
     hash table, but do it when it needs (e.g., when to look up a key) instead.
     Note that this change does not cause any API changes, but just purposes
     faster instantiation.  [[#33], [#34]]
+ -  `Bencodex.Misc.ByteArrayComparer` now implements
+    `IComparer<ImmutableArray<byte>>` besides `IComparer<byte[]>`.  [[#39]]
 
 [#7]: https://github.com/planetarium/bencodex.net/pull/7
 [#11]: https://github.com/planetarium/bencodex.net/pull/11
@@ -125,6 +135,7 @@ To be released.
 [#33]: https://github.com/planetarium/bencodex.net/pull/33
 [#34]: https://github.com/planetarium/bencodex.net/pull/34
 [#37]: https://github.com/planetarium/bencodex.net/pull/37
+[#39]: https://github.com/planetarium/bencodex.net/pull/39
 [nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
 [FNV]: https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
@@ -12,8 +13,10 @@ namespace Bencodex.Types
 {
     public readonly struct Binary :
         IKey,
+        IEquatable<ImmutableArray<byte>>,
         IEquatable<byte[]>,
         IEquatable<Binary>,
+        IComparable<ImmutableArray<byte>>,
         IComparable<byte[]>,
         IComparable<Binary>,
         IComparable,
@@ -22,13 +25,20 @@ namespace Bencodex.Types
         private static readonly ByteArrayComparer ByteArrayComparer =
             default(ByteArrayComparer);
 
-        private readonly byte[] _value;
+        private readonly ImmutableArray<byte> _value;
         private readonly int?[] _hashCode;
 
-        public Binary(byte[] value)
+        public Binary(ImmutableArray<byte> value)
         {
-            _value = value ?? throw new ArgumentNullException(nameof(value));
+            _value = value;
             _hashCode = new int?[1];
+        }
+
+        public Binary(byte[] value)
+            : this(value is byte[] bytes
+                ? ImmutableArray.Create<byte>(bytes)
+                : throw new ArgumentNullException(nameof(value)))
+        {
         }
 
         public Binary(string text, Encoding encoding)
@@ -39,20 +49,13 @@ namespace Bencodex.Types
         [Pure]
         byte? IKey.KeyPrefix => null;
 
-        public byte[] Value
-        {
-            get
-            {
-                if (_value is null)
-                {
-                    return new byte[0];
-                }
+        public ImmutableArray<byte> ByteArray =>
+            _value.IsDefaultOrEmpty ? ImmutableArray<byte>.Empty : _value;
 
-                var copy = new byte[_value.LongLength];
-                _value.CopyTo(copy, 0L);
-                return copy;
-            }
-        }
+        [Obsolete(
+            "The Binary.Value property is obsolete; use Binary.ToByteArray() " +
+            "method or Binary.ByteArray property instead.")]
+        public byte[] Value => ToByteArray();
 
         [Pure]
         public string Inspection
@@ -64,15 +67,19 @@ namespace Bencodex.Types
             }
         }
 
+        public static implicit operator Binary(ImmutableArray<byte> bytes) =>
+            new Binary(bytes);
+
+        public static implicit operator ImmutableArray<byte>(Binary binary) =>
+            binary.ByteArray;
+
         public static implicit operator Binary(byte[] bytes)
         {
             return new Binary(bytes);
         }
 
-        public static implicit operator byte[](Binary binary)
-        {
-            return binary.Value;
-        }
+        public static implicit operator byte[](Binary binary) =>
+            binary.ToByteArray();
 
         public static bool operator ==(Binary left, Binary right)
         {
@@ -84,35 +91,31 @@ namespace Bencodex.Types
             return !left.Equals(right);
         }
 
-        bool IEquatable<byte[]>.Equals(byte[] otherBytes)
-        {
-            return Value.SequenceEqual(otherBytes);
-        }
+        bool IEquatable<ImmutableArray<byte>>.Equals(ImmutableArray<byte> other) =>
+            ByteArray.SequenceEqual(other);
 
-        bool IEquatable<Binary>.Equals(Binary other)
-        {
-            return ((IEquatable<byte[]>)this).Equals(other.Value);
-        }
+        bool IEquatable<byte[]>.Equals(byte[] other) =>
+            ByteArray.SequenceEqual(other);
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
+        bool IEquatable<Binary>.Equals(Binary other) =>
+            ((IEquatable<ImmutableArray<byte>>)this).Equals(other.ByteArray);
+
+        public override bool Equals(object obj) =>
+            obj switch
             {
-                return false;
-            }
-
-            if (obj is byte[] otherBytes)
-            {
-                return ((IEquatable<byte[]>)this).Equals(otherBytes);
-            }
-
-            return obj is Binary other &&
-                ((IEquatable<Binary>)this).Equals(other);
-        }
+                Binary b =>
+                    ((IEquatable<Binary>)this).Equals(b),
+                ImmutableArray<byte> b =>
+                    ((IEquatable<ImmutableArray<byte>>)this).Equals(b),
+                byte[] b =>
+                    ((IEquatable<byte[]>)this).Equals(b),
+                _ =>
+                    false,
+            };
 
         public override int GetHashCode()
         {
-            int length = Value.Length;
+            int length = ByteArray.Length;
 
             if (length < 1)
             {
@@ -125,7 +128,7 @@ namespace Bencodex.Types
                 {
                     const int p = 16777619;
                     hash = (int)2166136261;
-                    foreach (byte t in Value)
+                    foreach (byte t in ByteArray)
                     {
                         hash = (hash ^ t) * p;
                     }
@@ -143,51 +146,47 @@ namespace Bencodex.Types
             return hash;
         }
 
-        int IComparable<byte[]>.CompareTo(byte[] other)
-        {
-            return ByteArrayComparer.Compare(Value, other);
-        }
+        int IComparable<ImmutableArray<byte>>.CompareTo(ImmutableArray<byte> other) =>
+            ByteArrayComparer.Compare(ByteArray, other);
 
-        int IComparable<Binary>.CompareTo(Binary other)
-        {
-            return ((IComparable<byte[]>)this).CompareTo(other.Value);
-        }
+        int IComparable<byte[]>.CompareTo(byte[] other) =>
+            ByteArrayComparer.Compare(ByteArray, other);
 
-        int IComparable.CompareTo(object obj)
-        {
-            switch (obj)
+        int IComparable<Binary>.CompareTo(Binary other) =>
+            ((IComparable<ImmutableArray<byte>>)this).CompareTo(other.ByteArray);
+
+        int IComparable.CompareTo(object obj) =>
+            obj switch
             {
-                case null:
-                    return 1;
-                case Binary binary:
-                    return ((IComparable<Binary>)this).CompareTo(binary);
-                case byte[] bytes:
-                    return ((IComparable<byte[]>)this).CompareTo(bytes);
-                default:
+                null =>
+                    1,
+                Binary binary =>
+                    ((IComparable<Binary>)this).CompareTo(binary),
+                ImmutableArray<byte> bytes =>
+                    ((IComparable<ImmutableArray<byte>>)this).CompareTo(bytes),
+                byte[] bytes =>
+                    ((IComparable<byte[]>)this).CompareTo(bytes),
+                _ =>
                     throw new ArgumentException(
                         "the argument is neither Binary nor Byte[]",
                         nameof(obj)
-                    );
-            }
-        }
+                    ),
+            };
 
-        public IEnumerator<byte> GetEnumerator()
-        {
-            return ((IEnumerable<byte>)Value).GetEnumerator();
-        }
+        public IEnumerator<byte> GetEnumerator() =>
+            ((IEnumerable<byte>)ByteArray).GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Value.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() =>
+            ((IEnumerable)ByteArray).GetEnumerator();
 
         [Pure]
-        byte[] IKey.EncodeAsByteArray() => Value;
+        byte[] IKey.EncodeAsByteArray() =>
+            ToByteArray();
 
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
-            string len = Value.Length.ToString(CultureInfo.InvariantCulture);
+            string len = ByteArray.Length.ToString(CultureInfo.InvariantCulture);
             yield return Encoding.ASCII.GetBytes(len);
             yield return CommonVariables.Separator;  // ':'
             yield return ((IKey)this).EncodeAsByteArray();
@@ -195,12 +194,23 @@ namespace Bencodex.Types
 
         public void EncodeToStream(Stream stream)
         {
-            byte[] value = _value ?? new byte[0];
+            byte[] value = ToByteArray();
             string len = value.Length.ToString(CultureInfo.InvariantCulture);
             byte[] lenBytes = Encoding.ASCII.GetBytes(len);
             stream.Write(lenBytes, 0, lenBytes.Length);
             stream.WriteByte(CommonVariables.Separator[0]);
             stream.Write(value, 0, value.Length);
+        }
+
+        [Pure]
+        public byte[] ToByteArray()
+        {
+            if (ByteArray.IsDefaultOrEmpty)
+            {
+                return new byte[0];
+            }
+
+            return ByteArray.ToBuilder().ToArray();
         }
 
         [Pure]
