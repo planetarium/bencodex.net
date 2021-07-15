@@ -56,9 +56,12 @@ jobs:
         dotnet-version: '3.1.301'
     - name: bulid
       run: |
+        timestamp=$(cat "$GITHUB_EVENT_PATH" | jq -r ".head_commit.timestamp")
+        timestamp=$(date --date="$timestamp" +%Y%m%d%H%M%S)
+        commit_hash=$(cat "$GITHUB_EVENT_PATH" | jq -r ".head_commit.id[0:8]")
         dotnet_args="-c Release -p:NoPackageAnalysis=true"
         if [[ ! "$GITHUB_REF" =~ ^refs/tags/* ]]; then
-          project_suffix=dev.${{ github.sha }}
+          project_suffix="dev.$timestamp+$commit_hash"
           dotnet_args="$dotnet_args --version-suffix $project_suffix"
         fi
 
