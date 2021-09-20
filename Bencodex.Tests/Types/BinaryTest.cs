@@ -72,6 +72,7 @@ namespace Bencodex.Tests.Types
         public void Equality()
         {
             Assert.Equal(_empty, new Binary(new byte[0]));
+            Assert.Equal<IValue>(_empty, new Binary(new byte[0]));
             Assert.Equal(_empty, ImmutableArray<byte>.Empty);
             Assert.Equal(_empty, new byte[0]);
 
@@ -89,10 +90,14 @@ namespace Bencodex.Tests.Types
             );
 
             Assert.NotEqual(_empty, _hello);
+            Assert.NotEqual<IValue>(_empty, _hello);
             Assert.NotEqual(
                 _hello,
                 new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6f, 0x6f })
             );
+
+            Assert.NotEqual<IValue>(Null.Value, _empty);
+            Assert.NotEqual<IValue>(Null.Value, _hello);
         }
 
         [Fact]

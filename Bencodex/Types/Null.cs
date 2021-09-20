@@ -35,6 +35,9 @@ namespace Bencodex.Types
             return ReferenceEquals(null, obj) || obj is Null;
         }
 
+        bool IEquatable<IValue>.Equals(IValue other) =>
+            other is Null;
+
         bool IEquatable<Null>.Equals(Null other) => true;
 
         [Pure]

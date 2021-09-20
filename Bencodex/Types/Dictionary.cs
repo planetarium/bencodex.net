@@ -358,6 +358,10 @@ namespace Bencodex.Types
             return true;
         }
 
+        bool IEquatable<IValue>.Equals(IValue other) =>
+            other is Dictionary o &&
+            ((IEquatable<IImmutableDictionary<IKey, IValue>>)this).Equals(o);
+
         public override int GetHashCode() => Value is null ? 0 : Value.GetHashCode();
 
         [Pure]
