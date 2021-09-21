@@ -100,6 +100,9 @@ namespace Bencodex.Types
         bool IEquatable<Binary>.Equals(Binary other) =>
             ((IEquatable<ImmutableArray<byte>>)this).Equals(other.ByteArray);
 
+        bool IEquatable<IValue>.Equals(IValue other) =>
+            other is Binary o && ((IEquatable<Binary>)this).Equals(o);
+
         public override bool Equals(object obj) =>
             obj switch
             {

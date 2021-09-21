@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
@@ -13,7 +14,7 @@ namespace Bencodex.Types
     /// <seealso cref="Text"/>
     /// <seealso cref="List"/>
     /// <seealso cref="Dictionary"/>
-    public interface IValue
+    public interface IValue : IEquatable<IValue>
     {
         /// <summary>A JSON-like human-readable representation for
         /// debugging.</summary>

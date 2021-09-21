@@ -194,6 +194,9 @@ namespace Bencodex.Types
             return Value.Equals(other.Value);
         }
 
+        bool IEquatable<IValue>.Equals(IValue other) =>
+            other is Integer o && ((IEquatable<Integer>)this).Equals(o);
+
         public override bool Equals(object obj)
         {
             switch (obj)

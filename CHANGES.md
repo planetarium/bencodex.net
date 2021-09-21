@@ -9,6 +9,7 @@ To be released.
  -  The package became to have an assembly for .NET Standard 2.1 besides
     an existing assembly for .NET Standard 2.0.  The new assembly purposes
     to support [nullable reference types].  [[#24]]
+ -  `IValue` interface became to inherit `IEquatable<IValue>`.  [[#19]]
  -  `Bencodex.Types.Null` became a read-only struct.  [[#37]]
  -  Added `Bencodex.Types.Null.Value` read-only field.  [[#20], [#37]]
  -  `Bencodex.Types.Binary`'s internal representation became
@@ -150,6 +151,7 @@ To be released.
 [#13]: https://github.com/planetarium/bencodex.net/pull/13
 [#14]: https://github.com/planetarium/bencodex.net/pull/14
 [#15]: https://github.com/planetarium/bencodex.net/pull/15
+[#19]: https://github.com/planetarium/bencodex.net/issues/19
 [#20]: https://github.com/planetarium/bencodex.net/issues/20
 [#23]: https://github.com/planetarium/bencodex.net/pull/23
 [#24]: https://github.com/planetarium/bencodex.net/pull/24
@@ -162,6 +164,7 @@ To be released.
 [#37]: https://github.com/planetarium/bencodex.net/pull/37
 [#39]: https://github.com/planetarium/bencodex.net/pull/39
 [#40]: https://github.com/planetarium/bencodex.net/pull/40
+[#44]: https://github.com/planetarium/bencodex.net/pull/44
 [nullable reference types]: https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references
 [RTL]: https://en.wikipedia.org/wiki/Right-to-left
 [FNV]: https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function

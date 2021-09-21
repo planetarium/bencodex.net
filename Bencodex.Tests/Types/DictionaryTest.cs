@@ -27,6 +27,7 @@ namespace Bencodex.Tests.Types
                 ),
             });
             Assert.Equal(a, a);
+            Assert.Equal<IValue>(a, a);
 
             var a2 = new Dictionary(new KeyValuePair<IKey, IValue>[]
             {
@@ -44,6 +45,7 @@ namespace Bencodex.Tests.Types
                 ),
             });
             Assert.Equal(a, a2);
+            Assert.Equal<IValue>(a, a2);
 
             var b = new Dictionary(new KeyValuePair<IKey, IValue>[]
             {
@@ -61,6 +63,7 @@ namespace Bencodex.Tests.Types
                 ),
             });
             Assert.NotEqual(a, b);
+            Assert.NotEqual<IValue>(a, b);
 
             var c = new Dictionary(new KeyValuePair<IKey, IValue>[]
             {
@@ -78,6 +81,11 @@ namespace Bencodex.Tests.Types
                 ),
             });
             Assert.NotEqual(a, c);
+            Assert.NotEqual<IValue>(a, c);
+
+            Assert.NotEqual<IValue>(Null.Value, a);
+            Assert.NotEqual<IValue>(Null.Value, b);
+            Assert.NotEqual<IValue>(Null.Value, c);
         }
 
         [Fact]

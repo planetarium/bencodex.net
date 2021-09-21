@@ -67,6 +67,9 @@ namespace Bencodex.Types
             return Value == other.Value;
         }
 
+        bool IEquatable<IValue>.Equals(IValue other) =>
+            other is Boolean o && ((IEquatable<Boolean>)this).Equals(o);
+
         public override bool Equals(object obj)
         {
             switch (obj)

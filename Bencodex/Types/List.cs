@@ -67,6 +67,10 @@ namespace Bencodex.Types
             return Value.SequenceEqual(other);
         }
 
+        bool IEquatable<IValue>.Equals(IValue other) =>
+            other is List o &&
+            ((IEquatable<IImmutableList<IValue>>)this).Equals(o);
+
         IEnumerator<IValue> IEnumerable<IValue>.GetEnumerator()
         {
             foreach (IValue element in Value)

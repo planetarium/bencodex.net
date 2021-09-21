@@ -71,6 +71,9 @@ namespace Bencodex.Types
 
         bool IEquatable<Text>.Equals(Text other) => Value.Equals(other);
 
+        bool IEquatable<IValue>.Equals(IValue other) =>
+            other is Text o && ((IEquatable<Text>)this).Equals(o);
+
         public override bool Equals(object obj)
         {
             switch (obj)
