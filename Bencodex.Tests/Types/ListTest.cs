@@ -33,7 +33,7 @@ namespace Bencodex.Tests.Types
         {
             Assert.Equal("[]", _zero.Inspection);
             Assert.Equal("[null]", _one.Inspection);
-            Assert.Equal("[\n  \"hello\",\n  \"world\"\n]", _two.Inspection);
+            Assert.Equal("[\n  \"hello\",\n  \"world\",\n]", _two.Inspection);
 
             var expected = @"[
   null,
@@ -41,14 +41,14 @@ namespace Bencodex.Tests.Types
   [null],
   [
     ""hello"",
-    ""world""
-  ]
+    ""world"",
+  ],
 ]".NoCr();
             Assert.Equal(expected, _nest.Inspection);
 
             // If any element is a list/dict it should be indented
-            Assert.Equal("[\n  []\n]", new List(new IValue[] { _zero }).Inspection);
-            Assert.Equal("[\n  {}\n]", new List(new IValue[] { Dictionary.Empty }).Inspection);
+            Assert.Equal("[\n  [],\n]", new List(new IValue[] { _zero }).Inspection);
+            Assert.Equal("[\n  {},\n]", new List(new IValue[] { Dictionary.Empty }).Inspection);
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace Bencodex.Tests.Types
             Assert.Equal("Bencodex.Types.List []", _zero.ToString());
             Assert.Equal("Bencodex.Types.List [null]", _one.ToString());
             Assert.Equal(
-                "Bencodex.Types.List [\n  \"hello\",\n  \"world\"\n]",
+                "Bencodex.Types.List [\n  \"hello\",\n  \"world\",\n]",
                 _two.ToString()
             );
         }
