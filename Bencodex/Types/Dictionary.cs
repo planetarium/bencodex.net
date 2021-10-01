@@ -57,10 +57,10 @@ namespace Bencodex.Types
                 }
 
                 IEnumerable<string> pairs = this.Select(kv =>
-                    $"{kv.Key.Inspection}: {kv.Value.Inspection.Replace("\n", "\n  ")}"
+                    $"  {kv.Key.Inspection}: {kv.Value.Inspection.Replace("\n", "\n  ")},\n"
                 ).OrderBy(s => s);
-                string pairsString = string.Join(",\n  ", pairs);
-                return $"{{\n  {pairsString}\n}}";
+                string pairsString = string.Join(string.Empty, pairs);
+                return $"{{\n{pairsString}}}";
             }
         }
 

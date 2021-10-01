@@ -49,9 +49,9 @@ namespace Bencodex.Types
 
                     default:
                         IEnumerable<string> elements = this.Select(v =>
-                            v.Inspection.Replace("\n", "\n  ")
+                            $"  {v.Inspection.Replace("\n", "\n  ")},\n"
                         );
-                        return $"[\n  {string.Join(",\n  ", elements)}\n]";
+                        return $"[\n{string.Join(string.Empty, elements)}]";
                 }
             }
         }

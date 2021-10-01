@@ -324,19 +324,19 @@ namespace Bencodex.Tests.Types
 
             var one = Dictionary.Empty.SetItem("foo", "bar");
             Assert.Equal(
-                "{\n  \"foo\": \"bar\"\n}",
+                "{\n  \"foo\": \"bar\",\n}",
                 one.Inspection
             );
             Assert.Equal(
-                "{\n  b\"\\x66\\x6f\\x6f\": \"bar\"\n}",
+                "{\n  b\"\\x66\\x6f\\x6f\": \"bar\",\n}",
                 Dictionary.Empty.SetItem(Encoding.ASCII.GetBytes("foo"), "bar").Inspection
             );
             Assert.Equal(
                 @"{
   ""baz"": {
-    ""foo"": ""bar""
+    ""foo"": ""bar"",
   },
-  ""foo"": ""bar""
+  ""foo"": ""bar"",
 }".NoCr(),
                 one.SetItem("baz", one).Inspection
             );
@@ -350,7 +350,7 @@ namespace Bencodex.Tests.Types
                 Dictionary.Empty.ToString()
             );
             Assert.Equal(
-                "Bencodex.Types.Dictionary {\n  \"foo\": \"bar\"\n}",
+                "Bencodex.Types.Dictionary {\n  \"foo\": \"bar\",\n}",
                 Dictionary.Empty.SetItem("foo", "bar").ToString()
             );
         }
