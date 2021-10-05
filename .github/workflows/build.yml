@@ -5,17 +5,11 @@ on:
 
 jobs:
   build_and_test:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-      if: github.event_name != 'pull_request'
       with:
         submodules: recursive
-    - uses: actions/checkout@v2
-      if: github.event_name == 'pull_request'
-      with:
-        submodules: recursive
-        ref: ${{ github.pull_request.head.sha }}
     - uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '2.2.207'
@@ -40,17 +34,11 @@ jobs:
         BENCODEX_BENCHMARKS_SIMPLE: true
   deploy:
     needs: build_and_test
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-      if: github.event_name != 'pull_request'
       with:
         submodules: recursive
-    - uses: actions/checkout@v2
-      if: github.event_name == 'pull_request'
-      with:
-        submodules: recursive
-        ref: ${{ github.pull_request.head.sha }}
     - uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.301'
