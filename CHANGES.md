@@ -4,7 +4,7 @@ Changelog
 Version 0.3.0
 -------------
 
-To be released.
+Released on October 5, 2021.
 
  -  The package became to have an assembly for .NET Standard 2.1 besides
     an existing assembly for .NET Standard 2.0.  The new assembly purposes
