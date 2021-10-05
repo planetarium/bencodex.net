@@ -3,7 +3,7 @@
     <PackageId>Bencodex</PackageId>
     <Title>Bencodex</Title>
     <Summary>Bencodex codec for .NET</Summary>
-    <VersionPrefix>0.3.0</VersionPrefix>
+    <VersionPrefix>0.3.1</VersionPrefix>
     <PackageProjectUrl>https://github.com/planetarium/bencodex.net</PackageProjectUrl>
     <Authors>Hong Minhee</Authors>
     <Company>Planetarium</Company>
