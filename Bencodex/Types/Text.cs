@@ -33,6 +33,10 @@ namespace Bencodex.Types
         [Pure]
         byte? IKey.KeyPrefix => _keyPrefix;  // 'u'
 
+        /// <inheritdoc cref="IValue.Type"/>
+        [Pure]
+        public ValueType Type => ValueType.Text;
+
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
         public int EncodingLength =>

@@ -16,6 +16,11 @@ namespace Bencodex.Types
     /// <seealso cref="Dictionary"/>
     public interface IValue : IEquatable<IValue>
     {
+        /// <summary>
+        /// The Bencodex type identifier.
+        /// </summary>
+        ValueType Type { get; }
+
         /// <summary>The number of bytes used for serializing the value.</summary>
         [Pure]
         int EncodingLength { get; }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
@@ -8,7 +7,7 @@ using System.Numerics;
 using System.Text;
 using Bencodex.Types;
 using Xunit;
-using Xunit.Abstractions;
+using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
 {
@@ -29,6 +28,7 @@ namespace Bencodex.Tests.Types
                 _codec.Encode(default(Null))
             );
 
+            Assert.Equal(ValueType.Null, default(Null).Type);
             Assert.Equal(1, default(Null).EncodingLength);
             Assert.Equal("null", default(Null).Inspection);
             Assert.Equal("Bencodex.Types.Null", default(Null).ToString());
@@ -48,6 +48,8 @@ namespace Bencodex.Tests.Types
                 _codec.Encode(f)
             );
 
+            Assert.Equal(ValueType.Boolean, t.Type);
+            Assert.Equal(ValueType.Boolean, f.Type);
             Assert.Equal(1, t.EncodingLength);
             Assert.Equal(1, f.EncodingLength);
             Assert.Equal("true", t.Inspection);
@@ -76,6 +78,9 @@ namespace Bencodex.Tests.Types
             var locale = new CultureInfo("ar-SA");
             IntegerGeneric(i => new Integer(i.ToString(locale), locale));
 
+            Assert.Equal(ValueType.Integer, new Integer(0).Type);
+            Assert.Equal(ValueType.Integer, new Integer(123).Type);
+            Assert.Equal(ValueType.Integer, new Integer(-456).Type);
             Assert.Equal(3, new Integer(0).EncodingLength);
             Assert.Equal(5, new Integer(123).EncodingLength);
             Assert.Equal(6, new Integer(-456).EncodingLength);
@@ -124,6 +129,9 @@ namespace Bencodex.Tests.Types
 
             var complex = new Text("new lines and\n\"quotes\" become escaped to \\");
 
+            Assert.Equal(ValueType.Text, empty.Type);
+            Assert.Equal(ValueType.Text, nihao.Type);
+            Assert.Equal(ValueType.Text, complex.Type);
             Assert.Equal(3, empty.EncodingLength);
             Assert.Equal(9, nihao.EncodingLength);
             Assert.Equal(46, complex.EncodingLength);

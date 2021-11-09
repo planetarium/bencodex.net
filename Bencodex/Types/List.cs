@@ -30,6 +30,10 @@ namespace Bencodex.Types
         public ImmutableArray<IValue> Value =>
             _value.IsDefault ? (_value = ImmutableArray<IValue>.Empty) : _value;
 
+        /// <inheritdoc cref="IValue.Type"/>
+        [Pure]
+        public ValueType Type => ValueType.List;
+
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
         public int EncodingLength =>

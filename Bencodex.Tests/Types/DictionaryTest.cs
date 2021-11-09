@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Bencodex.Types;
 using Xunit;
+using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
 {
@@ -297,6 +298,16 @@ namespace Bencodex.Tests.Types
                 () => dictionary.GetValue<Binary>(listKey));
             Assert.Throws<InvalidCastException>(
                 () => dictionary.GetValue<Text>(listKey));
+        }
+
+        [Fact]
+        public void Type()
+        {
+            Assert.Equal(ValueType.Dictionary, Dictionary.Empty.Type);
+            Assert.Equal(ValueType.Dictionary, Dictionary.Empty.SetItem("foo", "bar").Type);
+            Dictionary binaryKey = Dictionary.Empty
+                .SetItem(Encoding.ASCII.GetBytes("foo"), "bar");
+            Assert.Equal(ValueType.Dictionary, binaryKey.Type);
         }
 
         [Fact]

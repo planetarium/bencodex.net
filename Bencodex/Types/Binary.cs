@@ -57,6 +57,10 @@ namespace Bencodex.Types
             "method or Binary.ByteArray property instead.")]
         public byte[] Value => ToByteArray();
 
+        /// <inheritdoc cref="IValue.Type"/>
+        [Pure]
+        public ValueType Type => ValueType.Binary;
+
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
         public int EncodingLength =>

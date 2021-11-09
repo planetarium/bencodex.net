@@ -21,6 +21,10 @@ namespace Bencodex.Types
             new Null();
 #pragma warning restore SA1129
 
+        /// <inheritdoc cref="IValue.Type"/>
+        [Pure]
+        public ValueType Type => ValueType.Null;
+
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
         public int EncodingLength => 1;

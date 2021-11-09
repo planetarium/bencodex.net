@@ -46,6 +46,10 @@ namespace Bencodex.Types
         public IEnumerable<IValue> Values =>
             Value.Values;
 
+        /// <inheritdoc cref="IValue.Type"/>
+        [Pure]
+        public ValueType Type => ValueType.Dictionary;
+
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
         public int EncodingLength =>

@@ -56,6 +56,13 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void Type()
+        {
+            Assert.Equal(ValueType.Binary, _empty.Type);
+            Assert.Equal(ValueType.Binary, _hello.Type);
+        }
+
+        [Fact]
         public void ToByteArray()
         {
             byte[] a = _hello.ToByteArray();

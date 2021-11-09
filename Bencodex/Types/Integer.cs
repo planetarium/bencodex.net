@@ -60,6 +60,10 @@ namespace Bencodex.Types
 
         public BigInteger Value { get; }
 
+        /// <inheritdoc cref="IValue.Type"/>
+        [Pure]
+        public ValueType Type => ValueType.Integer;
+
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
         public int EncodingLength =>

@@ -29,6 +29,15 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void Type()
+        {
+            Assert.Equal(ValueType.List, _zero.Type);
+            Assert.Equal(ValueType.List, _one.Type);
+            Assert.Equal(ValueType.List, _two.Type);
+            Assert.Equal(ValueType.List, _nest.Type);
+        }
+
+        [Fact]
         public void EncodingLength()
         {
             Assert.Equal(2, _zero.EncodingLength);
