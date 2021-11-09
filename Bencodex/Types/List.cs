@@ -17,10 +17,12 @@ namespace Bencodex.Types
         private static readonly byte[] _listPrefix = new byte[1] { 0x6c };  // 'l'
 
         private ImmutableArray<IValue> _value;
+        private int? _encodingLength;
 
         public List(IEnumerable<IValue> value)
         {
             _value = value?.ToImmutableArray() ?? ImmutableArray<IValue>.Empty;
+            _encodingLength = null;
         }
 
         public static List Empty => default(List);
@@ -28,6 +30,16 @@ namespace Bencodex.Types
         public ImmutableArray<IValue> Value =>
             _value.IsDefault ? (_value = ImmutableArray<IValue>.Empty) : _value;
 
+        /// <inheritdoc cref="IValue.EncodingLength"/>
+        [Pure]
+        public int EncodingLength =>
+            _encodingLength is { } l ? l : (
+                _encodingLength = _listPrefix.Length
+                    + Value.Sum(e => e.EncodingLength)
+                    + CommonVariables.Suffix.Length
+            ).Value;
+
+        /// <inheritdoc cref="IValue.Inspection"/>
         [Pure]
         public string Inspection
         {
@@ -236,20 +248,25 @@ namespace Bencodex.Types
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
+            int length = _listPrefix.Length;
             yield return _listPrefix;
             foreach (IValue element in this)
             {
                 foreach (byte[] chunk in element.EncodeIntoChunks())
                 {
                     yield return chunk;
+                    length += chunk.Length;
                 }
             }
 
             yield return CommonVariables.Suffix;
+            length += CommonVariables.Suffix.Length;
+            _encodingLength = length;
         }
 
         public void EncodeToStream(Stream stream)
         {
+            long startPos = stream.Position;
             stream.WriteByte(_listPrefix[0]);
             foreach (IValue element in Value)
             {
@@ -257,6 +274,7 @@ namespace Bencodex.Types
             }
 
             stream.WriteByte(CommonVariables.Suffix[0]);
+            _encodingLength = (int?)((int)stream.Position - startPos);
         }
 
         [Pure]

@@ -1,6 +1,6 @@
 namespace Bencodex.Types
 {
-    public static class CommonVariables
+    internal static class CommonVariables
     {
         internal static readonly byte[] Separator = new byte[1] { 0x3a };  // ':'
 

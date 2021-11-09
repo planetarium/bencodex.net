@@ -318,6 +318,19 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void EncodingLength()
+        {
+            Assert.Equal(2, Dictionary.Empty.EncodingLength);
+            Assert.Equal(
+                14,
+                Dictionary.Empty.SetItem("foo", "bar").EncodingLength
+            );
+            Dictionary binaryKey = Dictionary.Empty
+                .SetItem(Encoding.ASCII.GetBytes("foo"), "bar");
+            Assert.Equal(13, binaryKey.EncodingLength);
+        }
+
+        [Fact]
         public void Inspection()
         {
             Assert.Equal("{}", Dictionary.Empty.Inspection);
