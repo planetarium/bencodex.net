@@ -7,6 +7,7 @@ Version 0.4.0
 To be released.
 
  -  Added `Bencodex.Types.ValueType` enum type.
+ -  Added `Bencodex.Types.Fingerprint` readonly struct.
  -  Added `IValue.Type` property.
  -  Added `IValue.EncodingLength` property.
  -  Removed `Bencodex.Types.CommonVariables` static class.
