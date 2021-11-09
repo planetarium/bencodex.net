@@ -6,6 +6,8 @@ Version 0.4.0
 
 To be released.
 
+ -  Removed `Bencodex.Types.CommonVariables` static class.
+
 
 Version 0.3.0
 -------------
