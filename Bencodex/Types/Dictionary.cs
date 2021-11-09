@@ -46,6 +46,18 @@ namespace Bencodex.Types
         public IEnumerable<IValue> Values =>
             Value.Values;
 
+        /// <inheritdoc cref="IValue.EncodingLength"/>
+        [Pure]
+        public int EncodingLength =>
+            _value is { } v
+                ? v.EncodingLength >= 0
+                    ? v.EncodingLength
+                    : v.EncodingLength = _dictionaryPrefix.Length
+                        + Value.Sum(kv => kv.Key.EncodingLength + kv.Value.EncodingLength)
+                        + CommonVariables.Suffix.Length
+                : 2;
+
+        /// <inheritdoc cref="IValue.Inspection"/>
         [Pure]
         public string Inspection
         {
@@ -368,6 +380,7 @@ namespace Bencodex.Types
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
             // FIXME: avoid duplication between this and EncodeToStream()
+            int length = _dictionaryPrefix.Length;
             yield return _dictionaryPrefix;
 
             if (!(_value is null))
@@ -402,16 +415,22 @@ namespace Bencodex.Types
                     if (keyPrefix != null)
                     {
                         yield return _unicodeKeyPrefix;
+                        length += _unicodeKeyPrefix.Length;
                     }
 
-                    yield return Encoding.ASCII.GetBytes(
+                    byte[] keyLengthBytes = Encoding.ASCII.GetBytes(
                         key.Length.ToString(CultureInfo.InvariantCulture)
                     );
+                    yield return keyLengthBytes;
+                    length += keyLengthBytes.Length;
                     yield return CommonVariables.Separator;
+                    length += CommonVariables.Separator.Length;
                     yield return key;
+                    length += key.Length;
                     foreach (byte[] chunk in value.EncodeIntoChunks())
                     {
                         yield return chunk;
+                        length += chunk.Length;
                     }
 
                     prev = (keyPrefix, key);
@@ -419,11 +438,17 @@ namespace Bencodex.Types
             }
 
             yield return CommonVariables.Suffix;
+            length += CommonVariables.Suffix.Length;
+            if (_value is { } v)
+            {
+                v.EncodingLength = length;
+            }
         }
 
         public void EncodeToStream(Stream stream)
         {
             // FIXME: avoid duplication between this and EncodeIntoChunks()
+            long startPos = stream.Position;
             stream.WriteByte(_dictionaryPrefix[0]);
 
             if (!(_value is null))
@@ -472,6 +497,10 @@ namespace Bencodex.Types
             }
 
             stream.WriteByte(CommonVariables.Suffix[0]);
+            if (_value is { } v)
+            {
+                v.EncodingLength = (int)(stream.Position - startPos);
+            }
         }
 
         [Pure]
@@ -483,6 +512,7 @@ namespace Bencodex.Types
         {
             internal ImmutableDictionary<IKey, IValue>? Dict;
             internal KeyValuePair<IKey, IValue>[]? Pairs;
+            internal int EncodingLength = -1;
         }
 #pragma warning restore SA1401
     }

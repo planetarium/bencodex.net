@@ -57,6 +57,14 @@ namespace Bencodex.Types
             "method or Binary.ByteArray property instead.")]
         public byte[] Value => ToByteArray();
 
+        /// <inheritdoc cref="IValue.EncodingLength"/>
+        [Pure]
+        public int EncodingLength =>
+            ByteArray.Length.ToString(CultureInfo.InvariantCulture).Length +
+            CommonVariables.Separator.Length +
+            ByteArray.Length;
+
+        /// <inheritdoc cref="IValue.Inspection"/>
         [Pure]
         public string Inspection
         {

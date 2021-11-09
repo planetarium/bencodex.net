@@ -19,11 +19,13 @@ namespace Bencodex.Types
 
         private static readonly byte[] _keyPrefixByteArray = new byte[1] { _keyPrefix };
 
-        private string _value;
+        private int? _utf8Length;
+        private string? _value;
 
         public Text(string value)
         {
             _value = value ?? throw new ArgumentNullException(nameof(value));
+            _utf8Length = null;
         }
 
         public string Value => _value ?? (_value = string.Empty);
@@ -31,6 +33,15 @@ namespace Bencodex.Types
         [Pure]
         byte? IKey.KeyPrefix => _keyPrefix;  // 'u'
 
+        /// <inheritdoc cref="IValue.EncodingLength"/>
+        [Pure]
+        public int EncodingLength =>
+            1 +
+            Utf8Length.ToString(CultureInfo.InvariantCulture).Length +
+            CommonVariables.Separator.Length +
+            Utf8Length;
+
+        /// <inheritdoc cref="IValue.Inspection"/>
         [Pure]
         public string Inspection
         {
@@ -43,6 +54,14 @@ namespace Bencodex.Types
                 return $"\"{contents}\"";
             }
         }
+
+        [Pure]
+        internal int Utf8Length =>
+            _utf8Length is { } l ? l : (
+                _utf8Length = _value is { } v
+                    ? Encoding.UTF8.GetByteCount(v)
+                    : 0
+                ).Value;
 
         public static implicit operator string(Text t)
         {
@@ -129,21 +148,25 @@ namespace Bencodex.Types
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
             yield return _keyPrefixByteArray;
-            byte[] utf8 = ((IKey)this).EncodeAsByteArray();
-            string len = utf8.Length.ToString(CultureInfo.InvariantCulture);
+            string len = Utf8Length.ToString(CultureInfo.InvariantCulture);
             yield return Encoding.ASCII.GetBytes(len);
             yield return CommonVariables.Separator;
+
+            // FIXME: Is the buffer for the entire string necessary?
+            byte[] utf8 = ((IKey)this).EncodeAsByteArray();
             yield return utf8;
         }
 
         public void EncodeToStream(Stream stream)
         {
             stream.WriteByte(_keyPrefix);
-            byte[] utf8 = ((IKey)this).EncodeAsByteArray();
-            string len = utf8.Length.ToString(CultureInfo.InvariantCulture);
+            string len = Utf8Length.ToString(CultureInfo.InvariantCulture);
             byte[] lenBytes = Encoding.ASCII.GetBytes(len);
             stream.Write(lenBytes, 0, lenBytes.Length);
             stream.WriteByte(CommonVariables.Separator[0]);
+
+            // FIXME: Is the buffer for the entire string necessary?
+            byte[] utf8 = ((IKey)this).EncodeAsByteArray();
             stream.Write(utf8, 0, utf8.Length);
         }
 

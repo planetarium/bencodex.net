@@ -6,6 +6,7 @@ Version 0.4.0
 
 To be released.
 
+ -  Added `IValue.EncodingLength` property.
  -  Removed `Bencodex.Types.CommonVariables` static class.
 
 

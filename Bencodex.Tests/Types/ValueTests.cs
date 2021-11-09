@@ -29,6 +29,7 @@ namespace Bencodex.Tests.Types
                 _codec.Encode(default(Null))
             );
 
+            Assert.Equal(1, default(Null).EncodingLength);
             Assert.Equal("null", default(Null).Inspection);
             Assert.Equal("Bencodex.Types.Null", default(Null).ToString());
         }
@@ -47,6 +48,8 @@ namespace Bencodex.Tests.Types
                 _codec.Encode(f)
             );
 
+            Assert.Equal(1, t.EncodingLength);
+            Assert.Equal(1, f.EncodingLength);
             Assert.Equal("true", t.Inspection);
             Assert.Equal("false", f.Inspection);
             Assert.Equal("Bencodex.Types.Boolean true", t.ToString());
@@ -73,6 +76,9 @@ namespace Bencodex.Tests.Types
             var locale = new CultureInfo("ar-SA");
             IntegerGeneric(i => new Integer(i.ToString(locale), locale));
 
+            Assert.Equal(3, new Integer(0).EncodingLength);
+            Assert.Equal(5, new Integer(123).EncodingLength);
+            Assert.Equal(6, new Integer(-456).EncodingLength);
             Assert.Equal("123", new Integer(123).Inspection);
             Assert.Equal("-456", new Integer(-456).Inspection);
             Assert.Equal("Bencodex.Types.Integer 123", new Integer(123).ToString());
@@ -118,6 +124,9 @@ namespace Bencodex.Tests.Types
 
             var complex = new Text("new lines and\n\"quotes\" become escaped to \\");
 
+            Assert.Equal(3, empty.EncodingLength);
+            Assert.Equal(9, nihao.EncodingLength);
+            Assert.Equal(46, complex.EncodingLength);
             Assert.Equal("\"\"", empty.Inspection);
             Assert.Equal("\"\u4f60\u597d\"", nihao.Inspection);
             Assert.Equal(

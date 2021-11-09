@@ -21,8 +21,13 @@ namespace Bencodex.Types
             new Null();
 #pragma warning restore SA1129
 
+        /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
-        public string Inspection => $"null";
+        public int EncodingLength => 1;
+
+        /// <inheritdoc cref="IValue.Inspection"/>
+        [Pure]
+        public string Inspection => "null";
 
         public override int GetHashCode() => 0;
 

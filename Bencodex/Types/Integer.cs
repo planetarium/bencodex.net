@@ -60,6 +60,12 @@ namespace Bencodex.Types
 
         public BigInteger Value { get; }
 
+        /// <inheritdoc cref="IValue.EncodingLength"/>
+        [Pure]
+        public int EncodingLength =>
+            2 + Value.ToString(CultureInfo.InvariantCulture).Length;
+
+        /// <inheritdoc cref="IValue.Inspection"/>
         [Pure]
         public string Inspection =>
             Value.ToString(CultureInfo.InvariantCulture);

@@ -101,6 +101,14 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void EncodingLength()
+        {
+            Assert.Equal(2, _empty.EncodingLength);
+            Assert.Equal(7, _hello.EncodingLength);
+            Assert.Equal(13, new Binary(new byte[10]).EncodingLength);
+        }
+
+        [Fact]
         public void Inspection()
         {
             Assert.Equal("b\"\"", _empty.Inspection);

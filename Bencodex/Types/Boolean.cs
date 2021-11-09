@@ -26,6 +26,11 @@ namespace Bencodex.Types
 
         public bool Value { get; }
 
+        /// <inheritdoc cref="IValue.EncodingLength"/>
+        [Pure]
+        public int EncodingLength => 1;
+
+        /// <inheritdoc cref="IValue.Inspection"/>
         [Pure]
         public string Inspection =>
             Value ? "true" : "false";
