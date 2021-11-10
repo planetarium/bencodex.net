@@ -21,9 +21,19 @@ namespace Bencodex.Types
             new Null();
 #pragma warning restore SA1129
 
+        /// <summary>
+        /// The singleton fingerprint for the <see cref="Null"/> value.
+        /// </summary>
+        public static readonly Fingerprint SingletonFingerprint =
+            new Fingerprint(ValueType.Null, 1);
+
         /// <inheritdoc cref="IValue.Type"/>
         [Pure]
         public ValueType Type => ValueType.Null;
+
+        /// <inheritdoc cref="IValue.Fingerprint"/>
+        [Pure]
+        public Fingerprint Fingerprint => SingletonFingerprint;
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]

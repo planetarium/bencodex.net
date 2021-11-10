@@ -7,28 +7,33 @@ using System.Numerics;
 using System.Text;
 using Bencodex.Types;
 using Xunit;
+using Xunit.Abstractions;
 using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
 {
     public class ValueTests
     {
-        private Codec _codec;
+        private readonly ITestOutputHelper _output;
+        private readonly Codec _codec;
 
-        public ValueTests()
+        public ValueTests(ITestOutputHelper output)
         {
+            _output = output;
             _codec = new Codec();
         }
 
         [Fact]
         public void Null()
         {
+            // FIXME: Move to NullTest.
             AssertEqual(
                 new byte[] { 0x6e },  // "n"
                 _codec.Encode(default(Null))
             );
 
             Assert.Equal(ValueType.Null, default(Null).Type);
+            Assert.Equal(new Fingerprint(ValueType.Null, 1), default(Null).Fingerprint);
             Assert.Equal(1, default(Null).EncodingLength);
             Assert.Equal("null", default(Null).Inspection);
             Assert.Equal("Bencodex.Types.Null", default(Null).ToString());
@@ -37,6 +42,7 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Boolean()
         {
+            // FIXME: Move to BooleanTest.
             var t = new Bencodex.Types.Boolean(true);
             var f = new Bencodex.Types.Boolean(false);
             AssertEqual(
@@ -50,6 +56,8 @@ namespace Bencodex.Tests.Types
 
             Assert.Equal(ValueType.Boolean, t.Type);
             Assert.Equal(ValueType.Boolean, f.Type);
+            Assert.Equal(new Fingerprint(ValueType.Boolean, 1, new byte[] { 1 }), t.Fingerprint);
+            Assert.Equal(new Fingerprint(ValueType.Boolean, 1, new byte[] { 0 }), f.Fingerprint);
             Assert.Equal(1, t.EncodingLength);
             Assert.Equal(1, f.EncodingLength);
             Assert.Equal("true", t.Inspection);
@@ -61,6 +69,7 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Integer()
         {
+            // FIXME: Move to IntegerTest.
             IntegerGeneric(i => new Integer((short)i));
             IntegerGeneric(
                 i => i >= 0 ? new Integer((ushort)i) : (Integer?)null
@@ -93,6 +102,7 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Binary()
         {
+            // FIXME: Move to BinaryTest.
             var empty = default(Binary);
             var hello = new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f });
 
@@ -109,6 +119,7 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void UnicodeText()
         {
+            // FIXME: Move to TextTest.
             var empty = default(Text);
             var nihao = new Text("\u4f60\u597d");
 
@@ -148,6 +159,7 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void List()
         {
+            // FIXME: Move to ListTest.
             var zero = default(List);
             var two = new List(new Text[] { "hello", "world" }.Cast<IValue>());
 
@@ -178,6 +190,7 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Dictionary()
         {
+            // FIXME: Move to DictionaryTest.
             AssertEqual(
                 new byte[] { 0x64, 0x65 },  // "de"
                 _codec.Encode(
@@ -220,11 +233,14 @@ namespace Bencodex.Tests.Types
         [ClassData(typeof(SpecTheoryData))]
         public void SpecTestSuite(Spec spec)
         {
+            _output.WriteLine("YAML: {0}", spec.SemanticsPath);
+            _output.WriteLine("Data: {0}", spec.EncodingPath);
             AssertEqual(
                 spec.Encoding,
                 _codec.Encode(spec.Semantics),
                 spec.SemanticsPath
             );
+            Assert.Equal(spec.Encoding.Length, spec.Semantics.EncodingLength);
         }
 
         private void IntegerGeneric(Func<int, Integer?> convert)

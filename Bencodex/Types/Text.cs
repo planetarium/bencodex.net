@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Bencodex.Types
@@ -20,12 +22,14 @@ namespace Bencodex.Types
         private static readonly byte[] _keyPrefixByteArray = new byte[1] { _keyPrefix };
 
         private int? _utf8Length;
+        private ImmutableArray<byte>? _digest;
         private string? _value;
 
         public Text(string value)
         {
             _value = value ?? throw new ArgumentNullException(nameof(value));
             _utf8Length = null;
+            _digest = null;
         }
 
         public string Value => _value ?? (_value = string.Empty);
@@ -36,6 +40,30 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IValue.Type"/>
         [Pure]
         public ValueType Type => ValueType.Text;
+
+        /// <inheritdoc cref="IValue.Fingerprint"/>
+        [Pure]
+        public Fingerprint Fingerprint
+        {
+            get
+            {
+                if (!(_digest is { } digest))
+                {
+                    byte[] utf8 = Encoding.UTF8.GetBytes(Value);
+                    if (utf8.Length > 20)
+                    {
+                        digest = ImmutableArray.Create(SHA1.Create().ComputeHash(utf8));
+                        _digest = digest;
+                    }
+                    else
+                    {
+                        digest = ImmutableArray.Create(utf8);
+                    }
+                }
+
+                return new Fingerprint(Type, EncodingLength, digest);
+            }
+        }
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]

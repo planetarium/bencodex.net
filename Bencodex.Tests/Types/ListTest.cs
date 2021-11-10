@@ -1,7 +1,9 @@
 using System.Linq;
 using System.Text;
+using Bencodex.Misc;
 using Bencodex.Types;
 using Xunit;
+using static Bencodex.Misc.ImmutableByteArrayExtensions;
 
 namespace Bencodex.Tests.Types
 {
@@ -35,6 +37,39 @@ namespace Bencodex.Tests.Types
             Assert.Equal(ValueType.List, _one.Type);
             Assert.Equal(ValueType.List, _two.Type);
             Assert.Equal(ValueType.List, _nest.Type);
+        }
+
+        [Fact]
+        public void Fingerprint()
+        {
+            Assert.Equal(
+                new Fingerprint(ValueType.List, 2),
+                _zero.Fingerprint
+            );
+            Assert.Equal(
+                new Fingerprint(
+                    ValueType.List,
+                    3,
+                    ParseHex("ae7fca60943c2ef2f6cf5420477da41acf29b01d")
+                ),
+                _one.Fingerprint
+            );
+            Assert.Equal(
+                new Fingerprint(
+                    ValueType.List,
+                    18,
+                    ParseHex("22852139f287a01cdb803fd86ed70e4c4d121254")
+                ),
+                _two.Fingerprint
+            );
+            Assert.Equal(
+                new Fingerprint(
+                    ValueType.List,
+                    26,
+                    ParseHex("24caa983a5225522ca798be3b31a1abecdb36fe5")
+                ),
+                _nest.Fingerprint
+            );
         }
 
         [Fact]

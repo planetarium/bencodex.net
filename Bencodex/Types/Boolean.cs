@@ -19,6 +19,14 @@ namespace Bencodex.Types
 
         private static readonly byte[] _false = new byte[1] { 0x66 };  // 'f'
 
+#pragma warning disable SA1202
+        public static readonly Fingerprint TrueFingerprint =
+            new Fingerprint(ValueType.Boolean, 1, new byte[] { 1 });
+
+        public static readonly Fingerprint FalseFingerprint =
+            new Fingerprint(ValueType.Boolean, 1, new byte[] { 0 });
+#pragma warning restore SA1202
+
         public Boolean(bool value)
         {
             Value = value;
@@ -29,6 +37,10 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IValue.Type"/>
         [Pure]
         public ValueType Type => ValueType.Boolean;
+
+        /// <inheritdoc cref="IValue.Fingerprint"/>
+        [Pure]
+        public Fingerprint Fingerprint => Value ? TrueFingerprint : FalseFingerprint;
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]

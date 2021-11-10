@@ -22,7 +22,9 @@ namespace Bencodex.Tests
             Codec codec = new Codec();
             IValue decoded = codec.Decode(spec.Encoding);
             Assert.Equal(spec.Semantics, decoded);
-            Assert.Equal(spec.Encoding.Length, decoded.EncodingLength);
+            Assert.Equal(spec.Encoding.LongLength, decoded.EncodingLength);
+            Assert.Equal(spec.Semantics.EncodingLength, decoded.EncodingLength);
+            Assert.Equal(spec.Semantics.Fingerprint, decoded.Fingerprint);
         }
     }
 }

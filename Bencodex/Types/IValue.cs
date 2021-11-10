@@ -19,7 +19,15 @@ namespace Bencodex.Types
         /// <summary>
         /// The Bencodex type identifier.
         /// </summary>
+        [Pure]
         ValueType Type { get; }
+
+        /// <summary>
+        /// A unique identifier of the value.  Can be used for efficient determining of two values
+        /// that may be a deep tree.
+        /// </summary>
+        [Pure]
+        Fingerprint Fingerprint { get; }
 
         /// <summary>The number of bytes used for serializing the value.</summary>
         [Pure]

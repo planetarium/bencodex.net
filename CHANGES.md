@@ -10,8 +10,18 @@ To be released.
  -  Added `Bencodex.Types.Fingerprint` readonly struct.
  -  Added `Bencodex.Misc.FingerprintComparer` class.
  -  Added `IValue.Type` property.
+ -  Added `IValue.Fingerprint` property.
  -  Added `IValue.EncodingLength` property.
+ -  Added `Null.SingletonFingerprint` static readonly field.
+ -  Added `Boolean.TrueFingerprint` static readonly field.
+ -  Added `Boolean.FalseFingerprint` static readonly field.
+ -  Added `List.EmptyFingerprint` static readonly field.
+ -  Added `Dictionary.EmptyFingerprint` static readonly field.
  -  Added `Bencodex.Misc.ImmutableByteArrayExtensions` static class.
+ -  Replaced `Binary(byte[])` constructor with `Binary(params byte[])`
+    constructor.
+ -  `List.Empty` static property became a static readonly field.
+ -  `Dictionary.Empty` static property became a static readonly field.
  -  Removed `Bencodex.Types.CommonVariables` static class.
 
 

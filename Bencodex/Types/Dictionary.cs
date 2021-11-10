@@ -6,6 +6,7 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Bencodex.Misc;
 
@@ -16,6 +17,17 @@ namespace Bencodex.Types
         IEquatable<IImmutableDictionary<IKey, IValue>>,
         IImmutableDictionary<IKey, IValue>
     {
+        /// <summary>
+        /// The empty dictionary.
+        /// </summary>
+        public static readonly Dictionary Empty = default;
+
+        /// <summary>
+        /// The singleton fingerprint for empty dictionaries.
+        /// </summary>
+        public static readonly Fingerprint EmptyFingerprint =
+            new Fingerprint(ValueType.Dictionary, 2);
+
         private static readonly byte[] _dictionaryPrefix = new byte[1] { 0x64 };  // 'd'
 
         private static readonly byte[] _unicodeKeyPrefix = new byte[1] { 0x75 };  // 'u'
@@ -36,8 +48,6 @@ namespace Bencodex.Types
                 : new ValueUnion { Dict = ImmutableDictionary<IKey, IValue>.Empty };
         }
 
-        public static Dictionary Empty => default;
-
         public int Count => Value.Count;
 
         public IEnumerable<IKey> Keys =>
@@ -49,6 +59,65 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IValue.Type"/>
         [Pure]
         public ValueType Type => ValueType.Dictionary;
+
+        /// <inheritdoc cref="IValue.Fingerprint"/>
+        [Pure]
+        public Fingerprint Fingerprint
+        {
+            get
+            {
+                if (!(_value is { } v))
+                {
+                    return EmptyFingerprint;
+                }
+
+                var pairs = v.Dict
+                    ?? v.Pairs
+                    ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>();
+                var fDict = new SortedDictionary<Fingerprint, Fingerprint>(
+                    new FingerprintComparer()
+                );
+                foreach (KeyValuePair<IKey, IValue> kv in pairs)
+                {
+                    Fingerprint keyF = kv.Key.Fingerprint;
+                    if (!fDict.ContainsKey(keyF))
+                    {
+                        fDict[keyF] = kv.Value.Fingerprint;
+                    }
+                }
+
+                if (!fDict.Any())
+                {
+                    return EmptyFingerprint;
+                }
+
+                if (!(v.Hash is { } hash))
+                {
+                    int encLength = 2;
+                    SHA1 sha1 = SHA1.Create();
+                    sha1.Initialize();
+                    foreach (KeyValuePair<Fingerprint, Fingerprint> pair in fDict)
+                    {
+                        byte[] fp = pair.Key.Serialize();
+                        sha1.TransformBlock(fp, 0, fp.Length, null, 0);
+                        fp = pair.Value.Serialize();
+                        sha1.TransformBlock(fp, 0, fp.Length, null, 0);
+                        encLength += pair.Key.EncodingLength +
+                                     pair.Value.EncodingLength;
+                    }
+
+                    sha1.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+                    hash = ImmutableArray.Create(sha1.Hash);
+                    v.Hash = hash;
+                    if (v.EncodingLength < 0)
+                    {
+                        v.EncodingLength = encLength;
+                    }
+                }
+
+                return new Fingerprint(Type, EncodingLength, hash);
+            }
+        }
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
@@ -516,6 +585,7 @@ namespace Bencodex.Types
         {
             internal ImmutableDictionary<IKey, IValue>? Dict;
             internal KeyValuePair<IKey, IValue>[]? Pairs;
+            internal ImmutableArray<byte>? Hash;
             internal int EncodingLength = -1;
         }
 #pragma warning restore SA1401

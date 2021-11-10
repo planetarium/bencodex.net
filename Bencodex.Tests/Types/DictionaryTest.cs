@@ -3,12 +3,22 @@ using System.Collections.Generic;
 using System.Text;
 using Bencodex.Types;
 using Xunit;
+using static Bencodex.Misc.ImmutableByteArrayExtensions;
 using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
 {
     public class DictionaryTest
     {
+        private readonly Dictionary _textKey = Dictionary.Empty.SetItem("foo", "bar");
+
+        private readonly Dictionary _binaryKey = Dictionary.Empty
+            .SetItem(Encoding.ASCII.GetBytes("foo"), "bar");
+
+        private readonly Dictionary _mixedKeys = Dictionary.Empty
+            .Add("stringKey", "string")
+            .Add(new byte[] { 0x00 }, "byte");
+
         [Fact]
         public void Equality()
         {
@@ -301,44 +311,68 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void Type()
-        {
-            Assert.Equal(ValueType.Dictionary, Dictionary.Empty.Type);
-            Assert.Equal(ValueType.Dictionary, Dictionary.Empty.SetItem("foo", "bar").Type);
-            Dictionary binaryKey = Dictionary.Empty
-                .SetItem(Encoding.ASCII.GetBytes("foo"), "bar");
-            Assert.Equal(ValueType.Dictionary, binaryKey.Type);
-        }
-
-        [Fact]
         public void ContainsKey()
         {
             byte[] byteKey = { 0x00 };
             byte[] invalidKey = { 0x01 };
-            var dictionary = Dictionary.Empty
-                .Add("stringKey", "string")
-                .Add(byteKey, "byte");
-            Assert.True(dictionary.ContainsKey((IKey)(Text)"stringKey"));
-            Assert.True(dictionary.ContainsKey("stringKey"));
-            Assert.True(dictionary.ContainsKey((IKey)(Binary)byteKey));
-            Assert.True(dictionary.ContainsKey(byteKey));
-            Assert.False(dictionary.ContainsKey((IKey)(Text)"invalidKey"));
-            Assert.False(dictionary.ContainsKey("invalidKey"));
-            Assert.False(dictionary.ContainsKey((IKey)(Binary)invalidKey));
-            Assert.False(dictionary.ContainsKey(invalidKey));
+            Assert.True(_mixedKeys.ContainsKey((IKey)(Text)"stringKey"));
+            Assert.True(_mixedKeys.ContainsKey("stringKey"));
+            Assert.True(_mixedKeys.ContainsKey((IKey)(Binary)byteKey));
+            Assert.True(_mixedKeys.ContainsKey(byteKey));
+            Assert.False(_mixedKeys.ContainsKey((IKey)(Text)"invalidKey"));
+            Assert.False(_mixedKeys.ContainsKey("invalidKey"));
+            Assert.False(_mixedKeys.ContainsKey((IKey)(Binary)invalidKey));
+            Assert.False(_mixedKeys.ContainsKey(invalidKey));
+        }
+
+        [Fact]
+        public void Type()
+        {
+            Assert.Equal(ValueType.Dictionary, Dictionary.Empty.Type);
+            Assert.Equal(ValueType.Dictionary, _textKey.Type);
+            Assert.Equal(ValueType.Dictionary, _binaryKey.Type);
+        }
+
+        [Fact]
+        public void Fingerprint()
+        {
+            Assert.Equal(
+                new Fingerprint(ValueType.Dictionary, 2),
+                Dictionary.Empty.Fingerprint
+            );
+            Assert.Equal(
+                new Fingerprint(
+                    ValueType.Dictionary,
+                    14,
+                    ParseHex("c2f36fbae8a22c841eec717a6e0cec3975b0ee44")
+                ),
+                _textKey.Fingerprint
+            );
+            Assert.Equal(
+                new Fingerprint(
+                    ValueType.Dictionary,
+                    13,
+                    ParseHex("4f7a9b59a6b76a46d48eb3d7d60babe31eb5a901")
+                ),
+                _binaryKey.Fingerprint
+            );
+            Assert.Equal(
+                new Fingerprint(
+                    ValueType.Dictionary,
+                    33,
+                    ParseHex("d7c803acb064e64d4022d2e10895c9410b909e1b")
+                ),
+                _mixedKeys.Fingerprint
+            );
         }
 
         [Fact]
         public void EncodingLength()
         {
             Assert.Equal(2, Dictionary.Empty.EncodingLength);
-            Assert.Equal(
-                14,
-                Dictionary.Empty.SetItem("foo", "bar").EncodingLength
-            );
-            Dictionary binaryKey = Dictionary.Empty
-                .SetItem(Encoding.ASCII.GetBytes("foo"), "bar");
-            Assert.Equal(13, binaryKey.EncodingLength);
+            Assert.Equal(14, _textKey.EncodingLength);
+            Assert.Equal(13, _binaryKey.EncodingLength);
+            Assert.Equal(33, _mixedKeys.EncodingLength);
         }
 
         [Fact]
@@ -346,14 +380,13 @@ namespace Bencodex.Tests.Types
         {
             Assert.Equal("{}", Dictionary.Empty.Inspection);
 
-            var one = Dictionary.Empty.SetItem("foo", "bar");
             Assert.Equal(
                 "{\n  \"foo\": \"bar\",\n}",
-                one.Inspection
+                _textKey.Inspection
             );
             Assert.Equal(
                 "{\n  b\"\\x66\\x6f\\x6f\": \"bar\",\n}",
-                Dictionary.Empty.SetItem(Encoding.ASCII.GetBytes("foo"), "bar").Inspection
+                _binaryKey.Inspection
             );
             Assert.Equal(
                 @"{
@@ -362,7 +395,7 @@ namespace Bencodex.Tests.Types
   },
   ""foo"": ""bar"",
 }".NoCr(),
-                one.SetItem("baz", one).Inspection
+                _textKey.SetItem("baz", _textKey).Inspection
             );
         }
 
@@ -375,7 +408,7 @@ namespace Bencodex.Tests.Types
             );
             Assert.Equal(
                 "Bencodex.Types.Dictionary {\n  \"foo\": \"bar\",\n}",
-                Dictionary.Empty.SetItem("foo", "bar").ToString()
+                _textKey.ToString()
             );
         }
     }
