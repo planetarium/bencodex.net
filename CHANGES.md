@@ -10,6 +10,7 @@ To be released.
  -  Added `Bencodex.Types.Fingerprint` readonly struct.
  -  Added `IValue.Type` property.
  -  Added `IValue.EncodingLength` property.
+ -  Added `Bencodex.Misc.ImmutableByteArrayExtensions` static class.
  -  Removed `Bencodex.Types.CommonVariables` static class.
 
 
