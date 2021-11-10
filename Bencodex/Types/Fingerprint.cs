@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
+using Bencodex.Misc;
 
 namespace Bencodex.Types
 {
@@ -13,18 +14,13 @@ namespace Bencodex.Types
     [Serializable]
     public readonly struct Fingerprint : IEquatable<Fingerprint>, ISerializable
     {
-        private readonly (
-            byte, byte, byte, byte, byte, byte, byte, byte, byte, byte,
-            byte, byte, byte, byte, byte, byte, byte, byte, byte, byte
-        )? _hash;
-
         /// <summary>
         /// Creates a <see cref="Fingerprint"/> value.
         /// </summary>
         /// <param name="type">The value type.</param>
         /// <param name="encodingLength">The byte length of encoded value.</param>
-        public Fingerprint(ValueType type, int encodingLength)
-            : this(type, encodingLength, Array.Empty<byte>())
+        public Fingerprint(in ValueType type, in int encodingLength)
+            : this(type, encodingLength, ImmutableArray<byte>.Empty)
         {
         }
 
@@ -33,42 +29,44 @@ namespace Bencodex.Types
         /// </summary>
         /// <param name="type">The value type.</param>
         /// <param name="encodingLength">The byte length of encoded value.</param>
-        /// <param name="hash">The hash digest of the value.  It can be either empty or 20
-        /// bytes.</param>
-        /// <exception cref="ArgumentException">Thrown when the <paramref name="hash"/> size
-        /// is invalid.</exception>
+        /// <param name="digest">The digest of the value.  It can be empty, but cannot be
+        /// <c>null</c>.</param>
         public Fingerprint(
-            ValueType type,
-            int encodingLength,
-            IReadOnlyList<byte> hash
+            in ValueType type,
+            in int encodingLength,
+            IReadOnlyList<byte> digest
+        )
+            : this(
+                type,
+                encodingLength,
+                digest is ImmutableArray<byte> ia ? ia : ImmutableArray.CreateRange(digest)
+            )
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Fingerprint"/> value.
+        /// </summary>
+        /// <param name="type">The value type.</param>
+        /// <param name="encodingLength">The byte length of encoded value.</param>
+        /// <param name="digest">The digest of the value.  It can be empty, but cannot be
+        /// <c>null</c>.</param>
+        public Fingerprint(
+            in ValueType type,
+            in int encodingLength,
+            in ImmutableArray<byte> digest
         )
         {
-            if (hash.Any())
-            {
-                if (hash.Count != 20)
-                {
-                    throw new ArgumentException("The hash must be 20 bytes.", nameof(hash));
-                }
-
-                _hash = (hash[0], hash[1], hash[2], hash[3], hash[4],
-                         hash[5], hash[6], hash[7], hash[8], hash[9],
-                         hash[10], hash[11], hash[12], hash[13], hash[14],
-                         hash[15], hash[16], hash[17], hash[18], hash[19]);
-            }
-            else
-            {
-                _hash = null;
-            }
-
             Type = type;
             EncodingLength = encodingLength;
+            Digest = digest;
         }
 
         private Fingerprint(SerializationInfo info, StreamingContext context)
             : this(
                 (ValueType)info.GetByte(nameof(Type)),
                 info.GetInt32(nameof(EncodingLength)),
-                (byte[])info.GetValue(nameof(Hash), typeof(byte[]))
+                (byte[])info.GetValue(nameof(Digest), typeof(byte[]))
             )
         {
         }
@@ -86,10 +84,13 @@ namespace Bencodex.Types
         public int EncodingLength { get; }
 
         /// <summary>
-        /// The hash digest of the value.  It can be either empty or 20 bytes.
+        /// The digest of the value.  It can be empty, but cannot be <c>null</c>.
+        /// <para>Digests are usually hash digests of their original values, but not necessarily.
+        /// If a value's original representation itself is enough compact, the representation can
+        /// be used as its digest too.</para>
         /// </summary>
         [Pure]
-        public ImmutableArray<byte> Hash => ImmutableArray.Create(GetHashArray());
+        public ImmutableArray<byte> Digest { get; }
 
         /// <summary>
         /// Deserialized the serialized fingerprint bytes.
@@ -100,46 +101,45 @@ namespace Bencodex.Types
         /// is invalid.</exception>
         public static Fingerprint Deserialize(byte[] serialized)
         {
-            byte type;
-            byte[] hash;
-            byte[] encLength;
-            if (serialized.Length >= 1 + 20 + 1)
-            {
-                type = serialized[0];
-                hash = new byte[20];
-                Array.Copy(serialized, 1, hash, 0, 20);
-                encLength = new byte[serialized.Length - 1 - 20];
-                Array.Copy(serialized, 1 + 20, encLength, 0, encLength.Length);
-            }
-            else if (serialized.Length > 1)
-            {
-                type = serialized[0];
-                hash = Array.Empty<byte>();
-                encLength = new byte[serialized.Length - 1];
-                Array.Copy(serialized, 1, encLength, 0, encLength.Length);
-            }
-            else
+            if (serialized.Length < 5)
             {
                 throw new FormatException("The serialized bytes is not valid.");
             }
 
+            var type = (ValueType)serialized[0];
             if (BitConverter.IsLittleEndian)
             {
-                Array.Reverse(encLength);
+                Array.Reverse(serialized, 1, 4);
             }
 
-            return new Fingerprint((ValueType)type, BitConverter.ToInt32(encLength, 0), hash);
+            return new Fingerprint(
+                type,
+                BitConverter.ToInt32(serialized, 1),
+                serialized.Skip(5).ToImmutableArray()
+            );
         }
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         [Pure]
-        public bool Equals(Fingerprint other) =>
-            Type == other.Type &&
-            EncodingLength == other.EncodingLength &&
-            (
-                (_hash is { } h && other._hash is { } o && h.Equals(o)) ||
-                (_hash is null && other._hash is null)
-            );
+        public bool Equals(Fingerprint other)
+        {
+            if (Type != other.Type ||
+                EncodingLength != other.EncodingLength ||
+                Digest.Length != other.Digest.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < Digest.Length; i++)
+            {
+                if (Digest[i] != other.Digest[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         /// <inheritdoc cref="object.Equals(object?)"/>
         [Pure]
@@ -154,45 +154,43 @@ namespace Bencodex.Types
             {
                 var hashCode = (int)Type;
                 hashCode = (hashCode * 397) ^ EncodingLength;
-                hashCode = (hashCode * 397) ^ _hash.GetHashCode();
+                foreach (byte b in Digest)
+                {
+                    hashCode = (hashCode * 397) ^ b;
+                }
+
                 return hashCode;
             }
         }
 
         /// <summary>
-        /// Gets the hash digest of the value.
+        /// Gets the digest array of the value.
         /// </summary>
         /// <returns>The hash digest of the value.  It can be either empty or 20 bytes.</returns>
         [Pure]
-        public byte[] GetHashArray() => _hash is { } h
-            ? new byte[20]
-                {
-                    h.Item1, h.Item2, h.Item3, h.Item4, h.Item5,
-                    h.Item6, h.Item7, h.Item8, h.Item9, h.Item10,
-                    h.Item11, h.Item12, h.Item13, h.Item14, h.Item15,
-                    h.Item16, h.Item17, h.Item18, h.Item19, h.Item20,
-                }
-            : Array.Empty<byte>();
+        public byte[] GetDigest() => Digest.ToBuilder().ToArray();
 
         /// <summary>
         /// Serializes the fingerprint into bytes.
+        /// <para>You can round-trip a <see cref="Fingerprint"/> value by serializing it to a byte array,
+        /// and then deserializing it using the <see cref="Deserialize(byte[])"/> method.</para>
         /// </summary>
         /// <returns>The serialized bytes.  For the equivalent fingerprint, the equivalent bytes
         /// is returned.</returns>
         [Pure]
         public byte[] Serialize()
         {
-            byte[] hash = GetHashArray();
+            byte[] hash = GetDigest();
             byte[] encLength = BitConverter.GetBytes(EncodingLength);
             if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(encLength);
             }
 
-            var total = new byte[1 + hash.Length + encLength.Length];
+            var total = new byte[1 + encLength.Length + hash.Length];
             total[0] = (byte)Type;
-            hash.CopyTo(total, 1);
-            encLength.CopyTo(total, 1 + hash.Length);
+            encLength.CopyTo(total, 1);
+            hash.CopyTo(total, 1 + encLength.Length);
             return total;
         }
 
@@ -201,7 +199,11 @@ namespace Bencodex.Types
         {
             info.AddValue(nameof(Type), (byte)Type);
             info.AddValue(nameof(EncodingLength), EncodingLength);
-            info.AddValue(nameof(Hash), GetHashArray());
+            info.AddValue(nameof(Digest), GetDigest());
         }
+
+        /// <inheritdoc cref="object.ToString()"/>
+        public override string ToString() =>
+            $"{Type} {(Digest.Any() ? $"{Digest.Hex()} " : string.Empty)}[{EncodingLength} B]";
     }
 }
