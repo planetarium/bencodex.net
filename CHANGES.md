@@ -6,23 +6,26 @@ Version 0.4.0
 
 To be released.
 
- -  Added `Bencodex.Types.ValueType` enum type.
- -  Added `Bencodex.Types.Fingerprint` readonly struct.
- -  Added `Bencodex.Misc.FingerprintComparer` class.
- -  Added `IValue.Type` property.
- -  Added `IValue.Fingerprint` property.
- -  Added `IValue.EncodingLength` property.
- -  Added `Null.SingletonFingerprint` static readonly field.
- -  Added `Boolean.TrueFingerprint` static readonly field.
- -  Added `Boolean.FalseFingerprint` static readonly field.
- -  Added `List.EmptyFingerprint` static readonly field.
- -  Added `Dictionary.EmptyFingerprint` static readonly field.
- -  Added `Bencodex.Misc.ImmutableByteArrayExtensions` static class.
+ -  Added `Bencodex.Types.ValueType` enum type.  [[#50]]
+ -  Added `Bencodex.Types.Fingerprint` readonly struct.  [[#50]]
+ -  Added `Bencodex.Misc.FingerprintComparer` class.  [[#50]]
+ -  Added `IValue.Type` property.  [[#50]]
+ -  Added `IValue.Fingerprint` property.  [[#50]]
+ -  Added `IValue.EncodingLength` property.  [[#49], [#50]]
+ -  Added `Null.SingletonFingerprint` static readonly field.  [[#50]]
+ -  Added `Boolean.TrueFingerprint` static readonly field.  [[#50]]
+ -  Added `Boolean.FalseFingerprint` static readonly field.  [[#50]]
+ -  Added `List.EmptyFingerprint` static readonly field.  [[#50]]
+ -  Added `Dictionary.EmptyFingerprint` static readonly field.  [[#50]]
+ -  Added `Bencodex.Misc.ImmutableByteArrayExtensions` static class.  [[#50]]
  -  Replaced `Binary(byte[])` constructor with `Binary(params byte[])`
-    constructor.
- -  `List.Empty` static property became a static readonly field.
- -  `Dictionary.Empty` static property became a static readonly field.
- -  Removed `Bencodex.Types.CommonVariables` static class.
+    constructor.  [[#50]]
+ -  `List.Empty` static property became a static readonly field.  [[#50]]
+ -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
+ -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]
+
+[#49]: https://github.com/planetarium/bencodex.net/pull/49
+[#50]: https://github.com/planetarium/bencodex.net/pull/50
 
 
 Version 0.3.0
