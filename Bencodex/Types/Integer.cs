@@ -82,8 +82,8 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
-        public int EncodingLength =>
-            2 + Value.ToString(CultureInfo.InvariantCulture).Length;
+        public long EncodingLength =>
+            2L + Value.ToString(CultureInfo.InvariantCulture).Length;
 
         /// <inheritdoc cref="IValue.Inspection"/>
         [Pure]

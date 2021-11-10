@@ -67,8 +67,11 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Fingerprint()
         {
-            Assert.Equal(new Fingerprint(ValueType.Binary, 2), _empty.Fingerprint);
-            Assert.Equal(new Fingerprint(ValueType.Binary, 7, _hello.ByteArray), _hello.Fingerprint);
+            Assert.Equal(new Fingerprint(ValueType.Binary, 2L), _empty.Fingerprint);
+            Assert.Equal(
+                new Fingerprint(ValueType.Binary, 7L, _hello.ByteArray),
+                _hello.Fingerprint
+            );
 
             var longBin = new Binary(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
@@ -82,7 +85,7 @@ namespace Bencodex.Tests.Types
             Assert.Equal(
                 new Fingerprint(
                     ValueType.Binary,
-                    449,
+                    449L,
                     ParseHex("cd36b370758a259b34845084a6cc38473cb95e27")
                 ),
                 longBin.Fingerprint
@@ -137,9 +140,9 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void EncodingLength()
         {
-            Assert.Equal(2, _empty.EncodingLength);
-            Assert.Equal(7, _hello.EncodingLength);
-            Assert.Equal(13, new Binary(new byte[10]).EncodingLength);
+            Assert.Equal(2L, _empty.EncodingLength);
+            Assert.Equal(7L, _hello.EncodingLength);
+            Assert.Equal(13L, new Binary(new byte[10]).EncodingLength);
         }
 
         [Fact]

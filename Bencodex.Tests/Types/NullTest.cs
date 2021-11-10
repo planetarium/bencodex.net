@@ -15,19 +15,19 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void SingletonFingerprint()
         {
-            Assert.Equal(new Fingerprint(ValueType.Null, 1), Null.SingletonFingerprint);
+            Assert.Equal(new Fingerprint(ValueType.Null, 1L), Null.SingletonFingerprint);
         }
 
         [Fact]
         public void Fingerprint()
         {
-            Assert.Equal(new Fingerprint(ValueType.Null, 1), Null.Value.Fingerprint);
+            Assert.Equal(new Fingerprint(ValueType.Null, 1L), Null.Value.Fingerprint);
         }
 
         [Fact]
         public void EncodingLength()
         {
-            Assert.Equal(1, Null.Value.EncodingLength);
+            Assert.Equal(1L, Null.Value.EncodingLength);
         }
 
         [Fact]

@@ -43,30 +43,30 @@ namespace Bencodex.Tests.Types
         public void Fingerprint()
         {
             Assert.Equal(
-                new Fingerprint(ValueType.List, 2),
+                new Fingerprint(ValueType.List, 2L),
                 _zero.Fingerprint
             );
             Assert.Equal(
                 new Fingerprint(
                     ValueType.List,
-                    3,
-                    ParseHex("ae7fca60943c2ef2f6cf5420477da41acf29b01d")
+                    3L,
+                    ParseHex("d14952314d5de233ef0dd0a178617f7f07ea082c")
                 ),
                 _one.Fingerprint
             );
             Assert.Equal(
                 new Fingerprint(
                     ValueType.List,
-                    18,
-                    ParseHex("22852139f287a01cdb803fd86ed70e4c4d121254")
+                    18L,
+                    ParseHex("16a855873ac787b7c7f2d2d0360119ca4cbb66fe")
                 ),
                 _two.Fingerprint
             );
             Assert.Equal(
                 new Fingerprint(
                     ValueType.List,
-                    26,
-                    ParseHex("24caa983a5225522ca798be3b31a1abecdb36fe5")
+                    26L,
+                    ParseHex("82daa9e2ff9f01393b718e09ab9fddd9f8c04e2b")
                 ),
                 _nest.Fingerprint
             );
@@ -75,10 +75,10 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void EncodingLength()
         {
-            Assert.Equal(2, _zero.EncodingLength);
-            Assert.Equal(3, _one.EncodingLength);
-            Assert.Equal(18, _two.EncodingLength);
-            Assert.Equal(26, _nest.EncodingLength);
+            Assert.Equal(2L, _zero.EncodingLength);
+            Assert.Equal(3L, _one.EncodingLength);
+            Assert.Equal(18L, _two.EncodingLength);
+            Assert.Equal(26L, _nest.EncodingLength);
         }
 
         [Fact]

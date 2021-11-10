@@ -15,13 +15,13 @@ namespace Bencodex.Tests.Types
         {
             var f = new Fingerprint(ValueType.Binary, 5, new byte[] { 1, 2, 3, 4, 5 });
             Assert.Equal(ValueType.Binary, f.Type);
-            Assert.Equal(5, f.EncodingLength);
+            Assert.Equal(5L, f.EncodingLength);
             Assert.Equal(new byte[] { 1, 2, 3, 4, 5 }, f.GetDigest());
 
             byte[] hash = new Random().NextBytes(20);
             f = new Fingerprint(ValueType.List, 100, hash);
             Assert.Equal(ValueType.List, f.Type);
-            Assert.Equal(100, f.EncodingLength);
+            Assert.Equal(100L, f.EncodingLength);
             Assert.Equal(hash, f.GetDigest());
         }
 

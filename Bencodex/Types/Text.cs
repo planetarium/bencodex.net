@@ -59,6 +59,11 @@ namespace Bencodex.Types
                     {
                         digest = ImmutableArray.Create(utf8);
                     }
+
+                    if (_utf8Length is null)
+                    {
+                        _utf8Length = utf8.Length;
+                    }
                 }
 
                 return new Fingerprint(Type, EncodingLength, digest);
@@ -67,10 +72,10 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
-        public int EncodingLength =>
-            1 +
+        public long EncodingLength =>
+            1L +
             Utf8Length.ToString(CultureInfo.InvariantCulture).Length +
-            CommonVariables.Separator.Length +
+            CommonVariables.Separator.LongLength +
             Utf8Length;
 
         /// <inheritdoc cref="IValue.Inspection"/>

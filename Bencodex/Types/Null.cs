@@ -25,7 +25,7 @@ namespace Bencodex.Types
         /// The singleton fingerprint for the <see cref="Null"/> value.
         /// </summary>
         public static readonly Fingerprint SingletonFingerprint =
-            new Fingerprint(ValueType.Null, 1);
+            new Fingerprint(ValueType.Null, 1L);
 
         /// <inheritdoc cref="IValue.Type"/>
         [Pure]
@@ -37,7 +37,7 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
-        public int EncodingLength => 1;
+        public long EncodingLength => 1L;
 
         /// <inheritdoc cref="IValue.Inspection"/>
         [Pure]

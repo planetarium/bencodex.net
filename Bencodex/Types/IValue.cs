@@ -31,7 +31,7 @@ namespace Bencodex.Types
 
         /// <summary>The number of bytes used for serializing the value.</summary>
         [Pure]
-        int EncodingLength { get; }
+        long EncodingLength { get; }
 
         /// <summary>A JSON-like human-readable representation for
         /// debugging.</summary>

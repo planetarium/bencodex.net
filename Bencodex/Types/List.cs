@@ -24,12 +24,12 @@ namespace Bencodex.Types
         /// The singleton fingerprint for empty lists.
         /// </summary>
         public static readonly Fingerprint EmptyFingerprint =
-            new Fingerprint(ValueType.List, 2);
+            new Fingerprint(ValueType.List, 2L);
 
         private static readonly byte[] _listPrefix = new byte[1] { 0x6c };  // 'l'
 
         private ImmutableArray<IValue> _value;
-        private int? _encodingLength;
+        private long? _encodingLength;
         private ImmutableArray<byte>? _hash;
 
         public List(IEnumerable<IValue> value)
@@ -59,7 +59,7 @@ namespace Bencodex.Types
 
                 if (!(_hash is { } hash))
                 {
-                    int encLength = 2;
+                    long encLength = 2;
                     SHA1 sha1 = SHA1.Create();
                     sha1.Initialize();
                     foreach (IValue value in els)
@@ -85,11 +85,11 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
-        public int EncodingLength =>
+        public long EncodingLength =>
             _encodingLength is { } l ? l : (
-                _encodingLength = _listPrefix.Length
+                _encodingLength = _listPrefix.LongLength
                     + Value.Sum(e => e.EncodingLength)
-                    + CommonVariables.Suffix.Length
+                    + CommonVariables.Suffix.LongLength
             ).Value;
 
         /// <inheritdoc cref="IValue.Inspection"/>

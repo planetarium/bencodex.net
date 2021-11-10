@@ -19,7 +19,7 @@ namespace Bencodex.Types
         /// </summary>
         /// <param name="type">The value type.</param>
         /// <param name="encodingLength">The byte length of encoded value.</param>
-        public Fingerprint(in ValueType type, in int encodingLength)
+        public Fingerprint(in ValueType type, in long encodingLength)
             : this(type, encodingLength, ImmutableArray<byte>.Empty)
         {
         }
@@ -33,7 +33,7 @@ namespace Bencodex.Types
         /// <c>null</c>.</param>
         public Fingerprint(
             in ValueType type,
-            in int encodingLength,
+            in long encodingLength,
             IReadOnlyList<byte> digest
         )
             : this(
@@ -53,7 +53,7 @@ namespace Bencodex.Types
         /// <c>null</c>.</param>
         public Fingerprint(
             in ValueType type,
-            in int encodingLength,
+            in long encodingLength,
             in ImmutableArray<byte> digest
         )
         {
@@ -65,7 +65,7 @@ namespace Bencodex.Types
         private Fingerprint(SerializationInfo info, StreamingContext context)
             : this(
                 (ValueType)info.GetByte(nameof(Type)),
-                info.GetInt32(nameof(EncodingLength)),
+                info.GetInt64(nameof(EncodingLength)),
                 (byte[])info.GetValue(nameof(Digest), typeof(byte[]))
             )
         {
@@ -81,7 +81,7 @@ namespace Bencodex.Types
         /// The byte length of encoded value.
         /// </summary>
         [Pure]
-        public int EncodingLength { get; }
+        public long EncodingLength { get; }
 
         /// <summary>
         /// The digest of the value.  It can be empty, but cannot be <c>null</c>.
@@ -101,7 +101,7 @@ namespace Bencodex.Types
         /// is invalid.</exception>
         public static Fingerprint Deserialize(byte[] serialized)
         {
-            if (serialized.Length < 5)
+            if (serialized.Length < 1 + 8)
             {
                 throw new FormatException("The serialized bytes is not valid.");
             }
@@ -109,13 +109,13 @@ namespace Bencodex.Types
             var type = (ValueType)serialized[0];
             if (BitConverter.IsLittleEndian)
             {
-                Array.Reverse(serialized, 1, 4);
+                Array.Reverse(serialized, 1, 8);
             }
 
             return new Fingerprint(
                 type,
-                BitConverter.ToInt32(serialized, 1),
-                serialized.Skip(5).ToImmutableArray()
+                BitConverter.ToInt64(serialized, 1),
+                serialized.Skip(1 + 8).ToImmutableArray()
             );
         }
 
@@ -153,7 +153,7 @@ namespace Bencodex.Types
             unchecked
             {
                 var hashCode = (int)Type;
-                hashCode = (hashCode * 397) ^ EncodingLength;
+                hashCode = (hashCode * 397) ^ EncodingLength.GetHashCode();
                 foreach (byte b in Digest)
                 {
                     hashCode = (hashCode * 397) ^ b;

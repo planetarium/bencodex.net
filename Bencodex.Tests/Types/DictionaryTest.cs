@@ -343,16 +343,16 @@ namespace Bencodex.Tests.Types
             Assert.Equal(
                 new Fingerprint(
                     ValueType.Dictionary,
-                    14,
-                    ParseHex("c2f36fbae8a22c841eec717a6e0cec3975b0ee44")
+                    14L,
+                    ParseHex("bb1bbb4428e03722aa5e5ad2e0d70657e328dae1")
                 ),
                 _textKey.Fingerprint
             );
             Assert.Equal(
                 new Fingerprint(
                     ValueType.Dictionary,
-                    13,
-                    ParseHex("4f7a9b59a6b76a46d48eb3d7d60babe31eb5a901")
+                    13L,
+                    ParseHex("0a4571a67289be466635ecc577ac136452d8d532")
                 ),
                 _binaryKey.Fingerprint
             );
@@ -360,7 +360,7 @@ namespace Bencodex.Tests.Types
                 new Fingerprint(
                     ValueType.Dictionary,
                     33,
-                    ParseHex("d7c803acb064e64d4022d2e10895c9410b909e1b")
+                    ParseHex("83f7620e739e4dd9c6443a93eae4ff9132580ff3")
                 ),
                 _mixedKeys.Fingerprint
             );
@@ -369,10 +369,10 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void EncodingLength()
         {
-            Assert.Equal(2, Dictionary.Empty.EncodingLength);
-            Assert.Equal(14, _textKey.EncodingLength);
-            Assert.Equal(13, _binaryKey.EncodingLength);
-            Assert.Equal(33, _mixedKeys.EncodingLength);
+            Assert.Equal(2L, Dictionary.Empty.EncodingLength);
+            Assert.Equal(14L, _textKey.EncodingLength);
+            Assert.Equal(13L, _binaryKey.EncodingLength);
+            Assert.Equal(33L, _mixedKeys.EncodingLength);
         }
 
         [Fact]

@@ -14,11 +14,11 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Fingerprint()
         {
-            Assert.Equal(new Fingerprint(ValueType.Text, 3), _empty.Fingerprint);
+            Assert.Equal(new Fingerprint(ValueType.Text, 3L), _empty.Fingerprint);
             Assert.Equal(
                 new Fingerprint(
                     ValueType.Text,
-                    9,
+                    9L,
                     new byte[] { 0xe4, 0xbd, 0xa0, 0xe5, 0xa5, 0xbd }
                 ),
                 _nihao.Fingerprint
@@ -26,7 +26,7 @@ namespace Bencodex.Tests.Types
             Assert.Equal(
                 new Fingerprint(
                     ValueType.Text,
-                    46,
+                    46L,
                     ParseHex("e72dcfd0ae50a80aaa8c1a78b27e2e11bef66488")
                 ),
                 _complex.Fingerprint

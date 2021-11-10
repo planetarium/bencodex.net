@@ -34,7 +34,7 @@ namespace Bencodex.Tests.Types
 
             Assert.Equal(ValueType.Null, default(Null).Type);
             Assert.Equal(new Fingerprint(ValueType.Null, 1), default(Null).Fingerprint);
-            Assert.Equal(1, default(Null).EncodingLength);
+            Assert.Equal(1L, default(Null).EncodingLength);
             Assert.Equal("null", default(Null).Inspection);
             Assert.Equal("Bencodex.Types.Null", default(Null).ToString());
         }
@@ -58,8 +58,8 @@ namespace Bencodex.Tests.Types
             Assert.Equal(ValueType.Boolean, f.Type);
             Assert.Equal(new Fingerprint(ValueType.Boolean, 1, new byte[] { 1 }), t.Fingerprint);
             Assert.Equal(new Fingerprint(ValueType.Boolean, 1, new byte[] { 0 }), f.Fingerprint);
-            Assert.Equal(1, t.EncodingLength);
-            Assert.Equal(1, f.EncodingLength);
+            Assert.Equal(1L, t.EncodingLength);
+            Assert.Equal(1L, f.EncodingLength);
             Assert.Equal("true", t.Inspection);
             Assert.Equal("false", f.Inspection);
             Assert.Equal("Bencodex.Types.Boolean true", t.ToString());
@@ -90,9 +90,9 @@ namespace Bencodex.Tests.Types
             Assert.Equal(ValueType.Integer, new Integer(0).Type);
             Assert.Equal(ValueType.Integer, new Integer(123).Type);
             Assert.Equal(ValueType.Integer, new Integer(-456).Type);
-            Assert.Equal(3, new Integer(0).EncodingLength);
-            Assert.Equal(5, new Integer(123).EncodingLength);
-            Assert.Equal(6, new Integer(-456).EncodingLength);
+            Assert.Equal(3L, new Integer(0).EncodingLength);
+            Assert.Equal(5L, new Integer(123).EncodingLength);
+            Assert.Equal(6L, new Integer(-456).EncodingLength);
             Assert.Equal("123", new Integer(123).Inspection);
             Assert.Equal("-456", new Integer(-456).Inspection);
             Assert.Equal("Bencodex.Types.Integer 123", new Integer(123).ToString());
@@ -143,9 +143,9 @@ namespace Bencodex.Tests.Types
             Assert.Equal(ValueType.Text, empty.Type);
             Assert.Equal(ValueType.Text, nihao.Type);
             Assert.Equal(ValueType.Text, complex.Type);
-            Assert.Equal(3, empty.EncodingLength);
-            Assert.Equal(9, nihao.EncodingLength);
-            Assert.Equal(46, complex.EncodingLength);
+            Assert.Equal(3L, empty.EncodingLength);
+            Assert.Equal(9L, nihao.EncodingLength);
+            Assert.Equal(46L, complex.EncodingLength);
             Assert.Equal("\"\"", empty.Inspection);
             Assert.Equal("\"\u4f60\u597d\"", nihao.Inspection);
             Assert.Equal(
@@ -240,7 +240,7 @@ namespace Bencodex.Tests.Types
                 _codec.Encode(spec.Semantics),
                 spec.SemanticsPath
             );
-            Assert.Equal(spec.Encoding.Length, spec.Semantics.EncodingLength);
+            Assert.Equal(spec.Encoding.LongLength, spec.Semantics.EncodingLength);
         }
 
         private void IntegerGeneric(Func<int, Integer?> convert)
