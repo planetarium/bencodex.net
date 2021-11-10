@@ -8,6 +8,7 @@ To be released.
 
  -  Added `Bencodex.Types.ValueType` enum type.
  -  Added `Bencodex.Types.Fingerprint` readonly struct.
+ -  Added `Bencodex.Misc.FingerprintComparer` class.
  -  Added `IValue.Type` property.
  -  Added `IValue.EncodingLength` property.
  -  Added `Bencodex.Misc.ImmutableByteArrayExtensions` static class.
