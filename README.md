@@ -1,15 +1,17 @@
 Bencodex codec for .NET
 =======================
 
-[![Build Status][]][build]
+[![GitHub Actions Status][]][GitHub Actions]
+[![NuGet](https://img.shields.io/nuget/v/Bencodex)][NuGet]
 
 This library implements [Bencodex] serialization format which extends
 [Bencoding].
 
+[GitHub Actions]: https://github.com/planetarium/bencodex.net/actions
+[GitHub Actions Status]: https://github.com/planetarium/bencodex.net/workflows/build/badge.svg?event=push
+[NuGet]: https://www.nuget.org/packages/Bencodex
 [Bencodex]: https://github.com/planetarium/bencodex
 [Bencoding]: http://www.bittorrent.org/beps/bep_0003.html#bencoding
-[build]: https://github.com/planetarium/bencodex.net/actions
-[Build Status]: https://github.com/planetarium/bencodex.net/workflows/build/badge.svg?event=push
 
 
 Usage

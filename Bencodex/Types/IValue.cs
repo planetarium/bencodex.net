@@ -16,9 +16,22 @@ namespace Bencodex.Types
     /// <seealso cref="Dictionary"/>
     public interface IValue : IEquatable<IValue>
     {
+        /// <summary>
+        /// The Bencodex type identifier.
+        /// </summary>
+        [Pure]
+        ValueType Type { get; }
+
+        /// <summary>
+        /// A unique identifier of the value.  Can be used for efficient determining of two values
+        /// that may be a deep tree.
+        /// </summary>
+        [Pure]
+        Fingerprint Fingerprint { get; }
+
         /// <summary>The number of bytes used for serializing the value.</summary>
         [Pure]
-        int EncodingLength { get; }
+        long EncodingLength { get; }
 
         /// <summary>A JSON-like human-readable representation for
         /// debugging.</summary>

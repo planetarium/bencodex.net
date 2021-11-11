@@ -6,8 +6,26 @@ Version 0.4.0
 
 To be released.
 
- -  Added `IValue.EncodingLength` property.
- -  Removed `Bencodex.Types.CommonVariables` static class.
+ -  Added `Bencodex.Types.ValueType` enum type.  [[#50]]
+ -  Added `Bencodex.Types.Fingerprint` readonly struct.  [[#50]]
+ -  Added `Bencodex.Misc.FingerprintComparer` class.  [[#50]]
+ -  Added `IValue.Type` property.  [[#50]]
+ -  Added `IValue.Fingerprint` property.  [[#50]]
+ -  Added `IValue.EncodingLength` property.  [[#49], [#50]]
+ -  Added `Null.SingletonFingerprint` static readonly field.  [[#50]]
+ -  Added `Boolean.TrueFingerprint` static readonly field.  [[#50]]
+ -  Added `Boolean.FalseFingerprint` static readonly field.  [[#50]]
+ -  Added `List.EmptyFingerprint` static readonly field.  [[#50]]
+ -  Added `Dictionary.EmptyFingerprint` static readonly field.  [[#50]]
+ -  Added `Bencodex.Misc.ImmutableByteArrayExtensions` static class.  [[#50]]
+ -  Replaced `Binary(byte[])` constructor with `Binary(params byte[])`
+    constructor.  [[#50]]
+ -  `List.Empty` static property became a static readonly field.  [[#50]]
+ -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
+ -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]
+
+[#49]: https://github.com/planetarium/bencodex.net/pull/49
+[#50]: https://github.com/planetarium/bencodex.net/pull/50
 
 
 Version 0.3.0

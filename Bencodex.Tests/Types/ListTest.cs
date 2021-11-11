@@ -1,7 +1,9 @@
 using System.Linq;
 using System.Text;
+using Bencodex.Misc;
 using Bencodex.Types;
 using Xunit;
+using static Bencodex.Misc.ImmutableByteArrayExtensions;
 
 namespace Bencodex.Tests.Types
 {
@@ -29,12 +31,54 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void Type()
+        {
+            Assert.Equal(ValueType.List, _zero.Type);
+            Assert.Equal(ValueType.List, _one.Type);
+            Assert.Equal(ValueType.List, _two.Type);
+            Assert.Equal(ValueType.List, _nest.Type);
+        }
+
+        [Fact]
+        public void Fingerprint()
+        {
+            Assert.Equal(
+                new Fingerprint(ValueType.List, 2L),
+                _zero.Fingerprint
+            );
+            Assert.Equal(
+                new Fingerprint(
+                    ValueType.List,
+                    3L,
+                    ParseHex("d14952314d5de233ef0dd0a178617f7f07ea082c")
+                ),
+                _one.Fingerprint
+            );
+            Assert.Equal(
+                new Fingerprint(
+                    ValueType.List,
+                    18L,
+                    ParseHex("16a855873ac787b7c7f2d2d0360119ca4cbb66fe")
+                ),
+                _two.Fingerprint
+            );
+            Assert.Equal(
+                new Fingerprint(
+                    ValueType.List,
+                    26L,
+                    ParseHex("82daa9e2ff9f01393b718e09ab9fddd9f8c04e2b")
+                ),
+                _nest.Fingerprint
+            );
+        }
+
+        [Fact]
         public void EncodingLength()
         {
-            Assert.Equal(2, _zero.EncodingLength);
-            Assert.Equal(3, _one.EncodingLength);
-            Assert.Equal(18, _two.EncodingLength);
-            Assert.Equal(26, _nest.EncodingLength);
+            Assert.Equal(2L, _zero.EncodingLength);
+            Assert.Equal(3L, _one.EncodingLength);
+            Assert.Equal(18L, _two.EncodingLength);
+            Assert.Equal(26L, _nest.EncodingLength);
         }
 
         [Fact]

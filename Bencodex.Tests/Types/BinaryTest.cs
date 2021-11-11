@@ -2,9 +2,11 @@ using System.Collections.Immutable;
 using System.Text;
 using Bencodex.Types;
 using Xunit;
+using static Bencodex.Misc.ImmutableByteArrayExtensions;
 
 namespace Bencodex.Tests.Types
 {
+    // FIXME: Still some tests remain ValueTests.Binary; they should come here.
     public class BinaryTest
     {
         private Binary _empty;
@@ -41,10 +43,10 @@ namespace Bencodex.Tests.Types
         public void ConstructorTakingByteArray()
         {
             var hello = new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f });
-            Assert.Equal(
-                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f },
-                hello.ToByteArray()
-            );
+            Assert.Equal(_hello, hello);
+
+            var hello2 = new Binary(0x68, 0x65, 0x6c, 0x6c, 0x6f);
+            Assert.Equal(_hello, hello2);
         }
 
         [Fact]
@@ -53,6 +55,41 @@ namespace Bencodex.Tests.Types
             var hello = new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f });
             var fromString = new Binary("hello", Encoding.ASCII);
             Assert.Equal(hello, fromString);
+        }
+
+        [Fact]
+        public void Type()
+        {
+            Assert.Equal(ValueType.Binary, _empty.Type);
+            Assert.Equal(ValueType.Binary, _hello.Type);
+        }
+
+        [Fact]
+        public void Fingerprint()
+        {
+            Assert.Equal(new Fingerprint(ValueType.Binary, 2L), _empty.Fingerprint);
+            Assert.Equal(
+                new Fingerprint(ValueType.Binary, 7L, _hello.ByteArray),
+                _hello.Fingerprint
+            );
+
+            var longBin = new Binary(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
+                "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis " +
+                "nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+                "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore " +
+                "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, " +
+                "sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                Encoding.UTF8
+            );
+            Assert.Equal(
+                new Fingerprint(
+                    ValueType.Binary,
+                    449L,
+                    ParseHex("cd36b370758a259b34845084a6cc38473cb95e27")
+                ),
+                longBin.Fingerprint
+            );
         }
 
         [Fact]
@@ -103,9 +140,9 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void EncodingLength()
         {
-            Assert.Equal(2, _empty.EncodingLength);
-            Assert.Equal(7, _hello.EncodingLength);
-            Assert.Equal(13, new Binary(new byte[10]).EncodingLength);
+            Assert.Equal(2L, _empty.EncodingLength);
+            Assert.Equal(7L, _hello.EncodingLength);
+            Assert.Equal(13L, new Binary(new byte[10]).EncodingLength);
         }
 
         [Fact]

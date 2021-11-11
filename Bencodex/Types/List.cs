@@ -6,6 +6,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
 
 namespace Bencodex.Types
 {
@@ -14,29 +15,81 @@ namespace Bencodex.Types
         IImmutableList<IValue>,
         IEquatable<IImmutableList<IValue>>
     {
+        /// <summary>
+        /// The empty list.
+        /// </summary>
+        public static readonly List Empty = default;
+
+        /// <summary>
+        /// The singleton fingerprint for empty lists.
+        /// </summary>
+        public static readonly Fingerprint EmptyFingerprint =
+            new Fingerprint(ValueType.List, 2L);
+
         private static readonly byte[] _listPrefix = new byte[1] { 0x6c };  // 'l'
 
         private ImmutableArray<IValue> _value;
-        private int? _encodingLength;
+        private long? _encodingLength;
+        private ImmutableArray<byte>? _hash;
 
         public List(IEnumerable<IValue> value)
         {
             _value = value?.ToImmutableArray() ?? ImmutableArray<IValue>.Empty;
             _encodingLength = null;
+            _hash = null;
         }
-
-        public static List Empty => default(List);
 
         public ImmutableArray<IValue> Value =>
             _value.IsDefault ? (_value = ImmutableArray<IValue>.Empty) : _value;
 
+        /// <inheritdoc cref="IValue.Type"/>
+        [Pure]
+        public ValueType Type => ValueType.List;
+
+        /// <inheritdoc cref="IValue.Fingerprint"/>
+        [Pure]
+        public Fingerprint Fingerprint
+        {
+            get
+            {
+                if (!(_value is { } els) || els.IsDefaultOrEmpty)
+                {
+                    return EmptyFingerprint;
+                }
+
+                if (!(_hash is { } hash))
+                {
+                    long encLength = 2;
+                    SHA1 sha1 = SHA1.Create();
+                    sha1.Initialize();
+                    foreach (IValue value in els)
+                    {
+                        Fingerprint fp = value.Fingerprint;
+                        byte[] fpb = fp.Serialize();
+                        sha1.TransformBlock(fpb, 0, fpb.Length, null, 0);
+                        encLength += fp.EncodingLength;
+                    }
+
+                    sha1.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+                    hash = ImmutableArray.Create(sha1.Hash);
+                    _hash = hash;
+                    if (_encodingLength is null)
+                    {
+                        _encodingLength = encLength;
+                    }
+                }
+
+                return new Fingerprint(Type, EncodingLength, hash);
+            }
+        }
+
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
-        public int EncodingLength =>
+        public long EncodingLength =>
             _encodingLength is { } l ? l : (
-                _encodingLength = _listPrefix.Length
+                _encodingLength = _listPrefix.LongLength
                     + Value.Sum(e => e.EncodingLength)
-                    + CommonVariables.Suffix.Length
+                    + CommonVariables.Suffix.LongLength
             ).Value;
 
         /// <inheritdoc cref="IValue.Inspection"/>

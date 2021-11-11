@@ -6,6 +6,7 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Bencodex.Misc;
 
@@ -16,6 +17,17 @@ namespace Bencodex.Types
         IEquatable<IImmutableDictionary<IKey, IValue>>,
         IImmutableDictionary<IKey, IValue>
     {
+        /// <summary>
+        /// The empty dictionary.
+        /// </summary>
+        public static readonly Dictionary Empty = default;
+
+        /// <summary>
+        /// The singleton fingerprint for empty dictionaries.
+        /// </summary>
+        public static readonly Fingerprint EmptyFingerprint =
+            new Fingerprint(ValueType.Dictionary, 2);
+
         private static readonly byte[] _dictionaryPrefix = new byte[1] { 0x64 };  // 'd'
 
         private static readonly byte[] _unicodeKeyPrefix = new byte[1] { 0x75 };  // 'u'
@@ -36,8 +48,6 @@ namespace Bencodex.Types
                 : new ValueUnion { Dict = ImmutableDictionary<IKey, IValue>.Empty };
         }
 
-        public static Dictionary Empty => default;
-
         public int Count => Value.Count;
 
         public IEnumerable<IKey> Keys =>
@@ -46,16 +56,79 @@ namespace Bencodex.Types
         public IEnumerable<IValue> Values =>
             Value.Values;
 
+        /// <inheritdoc cref="IValue.Type"/>
+        [Pure]
+        public ValueType Type => ValueType.Dictionary;
+
+        /// <inheritdoc cref="IValue.Fingerprint"/>
+        [Pure]
+        public Fingerprint Fingerprint
+        {
+            get
+            {
+                if (!(_value is { } v))
+                {
+                    return EmptyFingerprint;
+                }
+
+                var pairs = v.Dict
+                    ?? v.Pairs
+                    ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>();
+                var fDict = new SortedDictionary<Fingerprint, Fingerprint>(
+                    new FingerprintComparer()
+                );
+                foreach (KeyValuePair<IKey, IValue> kv in pairs)
+                {
+                    Fingerprint keyF = kv.Key.Fingerprint;
+                    if (!fDict.ContainsKey(keyF))
+                    {
+                        fDict[keyF] = kv.Value.Fingerprint;
+                    }
+                }
+
+                if (!fDict.Any())
+                {
+                    return EmptyFingerprint;
+                }
+
+                if (!(v.Hash is { } hash))
+                {
+                    long encLength = 2L;
+                    SHA1 sha1 = SHA1.Create();
+                    sha1.Initialize();
+                    foreach (KeyValuePair<Fingerprint, Fingerprint> pair in fDict)
+                    {
+                        byte[] fp = pair.Key.Serialize();
+                        sha1.TransformBlock(fp, 0, fp.Length, null, 0);
+                        fp = pair.Value.Serialize();
+                        sha1.TransformBlock(fp, 0, fp.Length, null, 0);
+                        encLength += pair.Key.EncodingLength +
+                                     pair.Value.EncodingLength;
+                    }
+
+                    sha1.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+                    hash = ImmutableArray.Create(sha1.Hash);
+                    v.Hash = hash;
+                    if (v.EncodingLength < 0)
+                    {
+                        v.EncodingLength = encLength;
+                    }
+                }
+
+                return new Fingerprint(Type, EncodingLength, hash);
+            }
+        }
+
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
-        public int EncodingLength =>
+        public long EncodingLength =>
             _value is { } v
                 ? v.EncodingLength >= 0
                     ? v.EncodingLength
-                    : v.EncodingLength = _dictionaryPrefix.Length
+                    : v.EncodingLength = _dictionaryPrefix.LongLength
                         + Value.Sum(kv => kv.Key.EncodingLength + kv.Value.EncodingLength)
-                        + CommonVariables.Suffix.Length
-                : 2;
+                        + CommonVariables.Suffix.LongLength
+                : 2L;
 
         /// <inheritdoc cref="IValue.Inspection"/>
         [Pure]
@@ -380,7 +453,7 @@ namespace Bencodex.Types
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
             // FIXME: avoid duplication between this and EncodeToStream()
-            int length = _dictionaryPrefix.Length;
+            long length = _dictionaryPrefix.LongLength;
             yield return _dictionaryPrefix;
 
             if (!(_value is null))
@@ -415,22 +488,22 @@ namespace Bencodex.Types
                     if (keyPrefix != null)
                     {
                         yield return _unicodeKeyPrefix;
-                        length += _unicodeKeyPrefix.Length;
+                        length += _unicodeKeyPrefix.LongLength;
                     }
 
                     byte[] keyLengthBytes = Encoding.ASCII.GetBytes(
                         key.Length.ToString(CultureInfo.InvariantCulture)
                     );
                     yield return keyLengthBytes;
-                    length += keyLengthBytes.Length;
+                    length += keyLengthBytes.LongLength;
                     yield return CommonVariables.Separator;
-                    length += CommonVariables.Separator.Length;
+                    length += CommonVariables.Separator.LongLength;
                     yield return key;
-                    length += key.Length;
+                    length += key.LongLength;
                     foreach (byte[] chunk in value.EncodeIntoChunks())
                     {
                         yield return chunk;
-                        length += chunk.Length;
+                        length += chunk.LongLength;
                     }
 
                     prev = (keyPrefix, key);
@@ -499,7 +572,7 @@ namespace Bencodex.Types
             stream.WriteByte(CommonVariables.Suffix[0]);
             if (_value is { } v)
             {
-                v.EncodingLength = (int)(stream.Position - startPos);
+                v.EncodingLength = stream.Position - startPos;
             }
         }
 
@@ -512,7 +585,8 @@ namespace Bencodex.Types
         {
             internal ImmutableDictionary<IKey, IValue>? Dict;
             internal KeyValuePair<IKey, IValue>[]? Pairs;
-            internal int EncodingLength = -1;
+            internal ImmutableArray<byte>? Hash;
+            internal long EncodingLength = -1;
         }
 #pragma warning restore SA1401
     }

@@ -6,6 +6,7 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Bencodex.Misc;
 
@@ -27,16 +28,18 @@ namespace Bencodex.Types
 
         private readonly ImmutableArray<byte> _value;
         private readonly int?[] _hashCode;
+        private readonly ImmutableArray<byte>?[] _digest;
 
         public Binary(ImmutableArray<byte> value)
         {
             _value = value;
             _hashCode = new int?[1];
+            _digest = new[] { (ImmutableArray<byte>?)null };
         }
 
-        public Binary(byte[] value)
+        public Binary(params byte[] value)
             : this(value is byte[] bytes
-                ? ImmutableArray.Create<byte>(bytes)
+                ? ImmutableArray.Create(bytes)
                 : throw new ArgumentNullException(nameof(value)))
         {
         }
@@ -57,11 +60,32 @@ namespace Bencodex.Types
             "method or Binary.ByteArray property instead.")]
         public byte[] Value => ToByteArray();
 
+        /// <inheritdoc cref="IValue.Type"/>
+        [Pure]
+        public ValueType Type => ValueType.Binary;
+
+        /// <inheritdoc cref="IValue.Fingerprint"/>
+        [Pure]
+        public Fingerprint Fingerprint
+        {
+            get
+            {
+                ImmutableArray<byte> digest = _digest is { } cache
+                    ? cache[0] is { } b
+                        ? b
+                        : ByteArray.Length > 20
+                            ? ImmutableArray.Create(SHA1.Create().ComputeHash(ToByteArray()))
+                            : ByteArray
+                    : ImmutableArray<byte>.Empty;
+                return new Fingerprint(Type, EncodingLength, digest);
+            }
+        }
+
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
-        public int EncodingLength =>
+        public long EncodingLength =>
             ByteArray.Length.ToString(CultureInfo.InvariantCulture).Length +
-            CommonVariables.Separator.Length +
+            CommonVariables.Separator.LongLength +
             ByteArray.Length;
 
         /// <inheritdoc cref="IValue.Inspection"/>
