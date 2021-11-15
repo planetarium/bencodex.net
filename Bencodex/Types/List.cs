@@ -10,7 +10,10 @@ using System.Security.Cryptography;
 
 namespace Bencodex.Types
 {
-    public struct List :
+    /// <summary>
+    /// Represents Bencodex lists.
+    /// </summary>
+    public class List :
         IValue,
         IImmutableList<IValue>,
         IEquatable<IImmutableList<IValue>>
@@ -18,7 +21,7 @@ namespace Bencodex.Types
         /// <summary>
         /// The empty list.
         /// </summary>
-        public static readonly List Empty = default;
+        public static readonly List Empty = new List(ImmutableArray<IValue>.Empty);
 
         /// <summary>
         /// The singleton fingerprint for empty lists.
@@ -28,7 +31,6 @@ namespace Bencodex.Types
 
         private static readonly byte[] _listPrefix = new byte[1] { 0x6c };  // 'l'
 
-        private ImmutableArray<IValue> _value;
         private long? _encodingLength;
         private ImmutableArray<byte>? _hash;
 
@@ -56,13 +58,16 @@ namespace Bencodex.Types
         /// <param name="elements">The element values to include.</param>
         public List(in ImmutableArray<IValue> elements)
         {
-            _value = elements;
+            Value = elements;
             _encodingLength = null;
             _hash = null;
         }
 
-        public ImmutableArray<IValue> Value =>
-            _value.IsDefault ? (_value = ImmutableArray<IValue>.Empty) : _value;
+        /// <summary>
+        /// The internal <see cref="ImmutableArray{T}"/> value.
+        /// </summary>
+        [Pure]
+        public ImmutableArray<IValue> Value { get; }
 
         /// <inheritdoc cref="IValue.Type"/>
         [Pure]
@@ -74,7 +79,7 @@ namespace Bencodex.Types
         {
             get
             {
-                if (!(_value is { } els) || els.IsDefaultOrEmpty)
+                if (Value.IsDefaultOrEmpty)
                 {
                     return EmptyFingerprint;
                 }
@@ -84,7 +89,7 @@ namespace Bencodex.Types
                     long encLength = 2;
                     SHA1 sha1 = SHA1.Create();
                     sha1.Initialize();
-                    foreach (IValue value in els)
+                    foreach (IValue value in Value)
                     {
                         Fingerprint fp = value.Fingerprint;
                         byte[] fpb = fp.Serialize();
@@ -177,10 +182,10 @@ namespace Bencodex.Types
                 ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
         }
 
-        public override int GetHashCode()
-        {
-            return Value != null ? Value.GetHashCode() : 0;
-        }
+        /// <inheritdoc cref="object.GetHashCode()"/>
+        [Pure]
+        public override int GetHashCode() =>
+            Value.GetHashCode();
 
         IEnumerator IEnumerable.GetEnumerator()
         {
