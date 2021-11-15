@@ -21,6 +21,8 @@ To be released.
  -  Added `Bencodex.Misc.ImmutableByteArrayExtensions` static class.  [[#50]]
  -  Replaced `Binary(byte[])` constructor with `Binary(params byte[])`
     constructor.  [[#50]]
+ -  Added `List(in ImmutableArray<IValue>)` constructor.  [[#51]]
+ -  Added `List(params IValue[])` constructor.  [[#51]]
  -  `List.Empty` static property became a static readonly field.  [[#50]]
  -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
  -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]

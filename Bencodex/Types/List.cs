@@ -32,9 +32,31 @@ namespace Bencodex.Types
         private long? _encodingLength;
         private ImmutableArray<byte>? _hash;
 
-        public List(IEnumerable<IValue> value)
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(params IValue[] elements)
+            : this(ImmutableArray.Create(elements))
         {
-            _value = value?.ToImmutableArray() ?? ImmutableArray<IValue>.Empty;
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<IValue> elements)
+            : this(elements.ToImmutableArray())
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(in ImmutableArray<IValue> elements)
+        {
+            _value = elements;
             _encodingLength = null;
             _hash = null;
         }

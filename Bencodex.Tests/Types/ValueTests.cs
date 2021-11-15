@@ -8,6 +8,7 @@ using System.Text;
 using Bencodex.Types;
 using Xunit;
 using Xunit.Abstractions;
+using static Bencodex.Tests.TestUtils;
 using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
@@ -157,37 +158,6 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void List()
-        {
-            // FIXME: Move to ListTest.
-            var zero = default(List);
-            var two = new List(new Text[] { "hello", "world" }.Cast<IValue>());
-
-            AssertEqual(
-                new byte[] { 0x6c, 0x65 },  // "le"
-                _codec.Encode(zero)
-            );
-            AssertEqual(
-                new byte[] { 0x6c, 0x65 },  // "le"
-                _codec.Encode(new List(new IValue[0]))
-            );
-            AssertEqual(
-                new byte[] { 0x6c, 0x65 },  // "le"
-                _codec.Encode(new List(ImmutableList<IValue>.Empty))
-            );
-            AssertEqual(
-                new byte[]
-                {
-                    0x6c, 0x75, 0x35, 0x3a, 0x68, 0x65, 0x6c, 0x6c, 0x6f,
-                    0x75, 0x35, 0x3a, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x65,
-
-                    // "lu5:hellou5:worlde"
-                },
-                _codec.Encode(two)
-            );
-        }
-
-        [Fact]
         public void Dictionary()
         {
             // FIXME: Move to DictionaryTest.
@@ -274,33 +244,6 @@ namespace Bencodex.Tests.Types
                     _codec.Encode(i)
                 );
             }
-        }
-
-        private void AssertEqual(
-            byte[] expected,
-            byte[] actual,
-            string message = null
-        )
-        {
-            Encoding utf8 = Encoding.GetEncoding(
-                "UTF-8",
-                new EncoderReplacementFallback(),
-                new DecoderReplacementFallback()
-            );
-            Assert.True(
-                expected.SequenceEqual(actual),
-                string.Format(
-                    "{4}{5}" +
-                    "Expected: {0}\nActual:   {1}\n" +
-                    "Expected (hex): {2}\nActual (hex):   {3}",
-                    utf8.GetString(expected),
-                    utf8.GetString(actual),
-                    BitConverter.ToString(expected),
-                    BitConverter.ToString(actual),
-                    message ?? string.Empty,
-                    message == null ? string.Empty : "\n"
-                )
-            );
         }
     }
 }
