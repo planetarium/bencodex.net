@@ -12,7 +12,10 @@ using Bencodex.Misc;
 
 namespace Bencodex.Types
 {
-    public readonly struct Dictionary :
+    /// <summary>
+    /// Represents Bencodex dictionaries.
+    /// </summary>
+    public class Dictionary :
         IValue,
         IEquatable<IImmutableDictionary<IKey, IValue>>,
         IImmutableDictionary<IKey, IValue>
@@ -20,7 +23,8 @@ namespace Bencodex.Types
         /// <summary>
         /// The empty dictionary.
         /// </summary>
-        public static readonly Dictionary Empty = default;
+        public static readonly Dictionary Empty =
+            new Dictionary(ImmutableDictionary<IKey, IValue>.Empty);
 
         /// <summary>
         /// The singleton fingerprint for empty dictionaries.
@@ -38,14 +42,28 @@ namespace Bencodex.Types
                 default(ByteArrayComparer)
             );
 
-        private readonly ValueUnion? _value;
+        private ImmutableDictionary<IKey, IValue>? _dict;
+        private KeyValuePair<IKey, IValue>[]? _pairs;
+        private ImmutableArray<byte>? _hash;
+        private long _encodingLength = -1;
 
-        public Dictionary(IEnumerable<KeyValuePair<IKey, IValue>> value)
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<IKey, IValue>> pairs)
         {
-            KeyValuePair<IKey, IValue>[] pairs = value.ToArray();
-            _value = pairs.Any()
-                ? new ValueUnion { Pairs = pairs }
-                : new ValueUnion { Dict = ImmutableDictionary<IKey, IValue>.Empty };
+            _pairs = pairs.ToArray();
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with the <paramref name="content"/>.
+        /// </summary>
+        /// <param name="content">The dictionary content.</param>
+        public Dictionary(in ImmutableDictionary<IKey, IValue> content)
+        {
+            _dict = content;
         }
 
         public int Count => Value.Count;
@@ -66,14 +84,16 @@ namespace Bencodex.Types
         {
             get
             {
-                if (!(_value is { } v))
+                if (_dict is { } d && d.IsEmpty)
+                {
+                    return EmptyFingerprint;
+                }
+                else if (_pairs is { } p && p.Length < 1)
                 {
                     return EmptyFingerprint;
                 }
 
-                var pairs = v.Dict
-                    ?? v.Pairs
-                    ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>();
+                var pairs = _dict ?? _pairs ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>();
                 var fDict = new SortedDictionary<Fingerprint, Fingerprint>(
                     new FingerprintComparer()
                 );
@@ -91,7 +111,7 @@ namespace Bencodex.Types
                     return EmptyFingerprint;
                 }
 
-                if (!(v.Hash is { } hash))
+                if (!(_hash is { } hash))
                 {
                     long encLength = 2L;
                     SHA1 sha1 = SHA1.Create();
@@ -108,10 +128,10 @@ namespace Bencodex.Types
 
                     sha1.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
                     hash = ImmutableArray.Create(sha1.Hash);
-                    v.Hash = hash;
-                    if (v.EncodingLength < 0)
+                    _hash = hash;
+                    if (_encodingLength < 0)
                     {
-                        v.EncodingLength = encLength;
+                        _encodingLength = encLength;
                     }
                 }
 
@@ -122,13 +142,11 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
         public long EncodingLength =>
-            _value is { } v
-                ? v.EncodingLength >= 0
-                    ? v.EncodingLength
-                    : v.EncodingLength = _dictionaryPrefix.LongLength
-                        + Value.Sum(kv => kv.Key.EncodingLength + kv.Value.EncodingLength)
-                        + CommonVariables.Suffix.LongLength
-                : 2L;
+            _encodingLength >= 0
+                ? _encodingLength
+                : _encodingLength = _dictionaryPrefix.LongLength
+                    + Value.Sum(kv => kv.Key.EncodingLength + kv.Value.EncodingLength)
+                    + CommonVariables.Suffix.LongLength;
 
         /// <inheritdoc cref="IValue.Inspection"/>
         [Pure]
@@ -136,7 +154,11 @@ namespace Bencodex.Types
         {
             get
             {
-                if (_value is null || !Value.Any())
+                if (_dict is { } d && d.IsEmpty)
+                {
+                    return "{}";
+                }
+                else if (_pairs is { } p && p.Length < 1)
                 {
                     return "{}";
                 }
@@ -149,29 +171,25 @@ namespace Bencodex.Types
             }
         }
 
+        [Pure]
         private ImmutableDictionary<IKey, IValue> Value
         {
             get
             {
-                if (!(_value is { } union))
+                if (!(_dict is { } dict))
                 {
-                    return ImmutableDictionary<IKey, IValue>.Empty;
-                }
-
-                if (!(union.Dict is { } dict))
-                {
-                    dict = union.Pairs.ToImmutableDictionary();
-                    union.Dict = dict;
-                    union.Pairs = null;
+                    dict = _pairs.ToImmutableDictionary();
+                    _dict = dict;
+                    _pairs = null;
                 }
 
                 return dict;
             }
         }
 
-        public IValue this[IKey key] => Value is null
-            ? throw new KeyNotFoundException("The dictionary is empty.")
-            : Value[key];
+        /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.this[TKey]"/>
+        [Pure]
+        public IValue this[IKey key] => Value[key];
 
         public IValue this[string key] => this[(IKey)new Text(key)];
 
@@ -185,7 +203,9 @@ namespace Bencodex.Types
         IEnumerator IEnumerable.GetEnumerator() =>
             (IEnumerator<KeyValuePair<IKey, IValue>>)GetEnumerator();
 
-        public bool ContainsKey(IKey key) => !(Value is null) && Value.ContainsKey(key);
+        /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.ContainsKey(TKey)"/>
+        [Pure]
+        public bool ContainsKey(IKey key) => Value.ContainsKey(key);
 
         public bool ContainsKey(string key) => ContainsKey((IKey)new Text(key));
 
@@ -193,18 +213,10 @@ namespace Bencodex.Types
 
         public bool ContainsKey(byte[] key) => ContainsKey((IKey)new Binary(key));
 
-        public bool TryGetValue(IKey key, out IValue value)
-        {
-            if (Value is null)
-            {
-#pragma warning disable SA1129
-                value = new Null();
-#pragma warning restore SA1129
-                return false;
-            }
-
-            return Value.TryGetValue(key, out value);
-        }
+        /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.TryGetValue(TKey, out TValue)"/>
+        [Pure]
+        public bool TryGetValue(IKey key, out IValue value) =>
+            Value.TryGetValue(key, out value);
 
         public IImmutableDictionary<IKey, IValue> Add(IKey key, IValue value) =>
             new Dictionary(Value.Add(key, value));
@@ -270,15 +282,24 @@ namespace Bencodex.Types
         ) =>
             new Dictionary(Value.AddRange(pairs));
 
-        public IImmutableDictionary<IKey, IValue> Clear() => default(Dictionary);
+        /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.Clear()"/>
+        [Pure]
+        public IImmutableDictionary<IKey, IValue> Clear() => Empty;
 
-        public bool Contains(KeyValuePair<IKey, IValue> pair) => Value?.Contains(pair) ?? false;
+        /// <inheritdoc
+        /// cref="IImmutableDictionary{TKey,TValue}.Contains(KeyValuePair{TKey, TValue})"/>
+        [Pure]
+        public bool Contains(KeyValuePair<IKey, IValue> pair) => Value.Contains(pair);
 
+        /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.Remove(TKey)"/>
+        [Pure]
         public IImmutableDictionary<IKey, IValue> Remove(IKey key) =>
-            Value is null ? this : new Dictionary(Value.Remove(key));
+            Value.IsEmpty ? this : new Dictionary(Value.Remove(key));
 
+        /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.RemoveRange(IEnumerable{TKey})"/>
+        [Pure]
         public IImmutableDictionary<IKey, IValue> RemoveRange(IEnumerable<IKey> keys) =>
-            Value is null ? this : new Dictionary(Value.RemoveRange(keys));
+            Value.IsEmpty ? this : new Dictionary(Value.RemoveRange(keys));
 
         public IImmutableDictionary<IKey, IValue> SetItem(IKey key, IValue value) =>
             new Dictionary(Value.SetItem(key, value));
@@ -381,16 +402,10 @@ namespace Bencodex.Types
         ) =>
             new Dictionary(Value.SetItems(items));
 
-        public bool TryGetKey(IKey equalKey, out IKey actualKey)
-        {
-            if (Value is null)
-            {
-                actualKey = default(Binary);
-                return false;
-            }
-
-            return Value.TryGetKey(equalKey, out actualKey);
-        }
+        /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.TryGetKey(TKey, out TKey)"/>
+        [Pure]
+        public bool TryGetKey(IKey equalKey, out IKey actualKey) =>
+            Value.TryGetKey(equalKey, out actualKey);
 
         public T GetValue<T>(string name)
             where T : IValue
@@ -417,24 +432,21 @@ namespace Bencodex.Types
                 _ => false
             };
 
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
+        [Pure]
         bool IEquatable<IImmutableDictionary<IKey, IValue>>.Equals(
             IImmutableDictionary<IKey, IValue> other
         )
         {
-            if ((Value is null && other.LongCount() > 0) ||
-                Value.LongCount() != other.LongCount())
+            if (Value.LongCount() != other.LongCount())
             {
                 return false;
             }
 
             foreach (KeyValuePair<IKey, IValue> kv in this)
             {
-                if (!other.ContainsKey(kv.Key))
-                {
-                    return false;
-                }
-
-                if (!other[kv.Key].Equals(kv.Value))
+                if (!other.TryGetValue(kv.Key, out IValue v) ||
+                    !v.Equals(kv.Value))
                 {
                     return false;
                 }
@@ -443,12 +455,17 @@ namespace Bencodex.Types
             return true;
         }
 
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
+        [Pure]
         bool IEquatable<IValue>.Equals(IValue other) =>
             other is Dictionary o &&
             ((IEquatable<IImmutableDictionary<IKey, IValue>>)this).Equals(o);
 
-        public override int GetHashCode() => Value is null ? 0 : Value.GetHashCode();
+        /// <inheritdoc cref="object.GetHashCode()"/>
+        [Pure]
+        public override int GetHashCode() => Value.GetHashCode();
 
+        /// <inheritdoc cref="IValue.EncodeIntoChunks()"/>
         [Pure]
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
@@ -456,138 +473,114 @@ namespace Bencodex.Types
             long length = _dictionaryPrefix.LongLength;
             yield return _dictionaryPrefix;
 
-            if (!(_value is null))
-            {
-                var @enum = _value.Dict
-                    ?? _value.Pairs
-                    ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>();
-                IEnumerable<ValueTuple<byte?, byte[], IValue>> rawPairs =
-                    from pair in @enum
-                    select (
-                        pair.Key.KeyPrefix,
-                        pair.Key.EncodeAsByteArray(),
-                        pair.Value
-                    );
-                IEnumerable<ValueTuple<byte?, byte[], IValue>> orderedPairs = rawPairs.OrderBy(
-                    triple => (triple.Item1, triple.Item2),
-                    keyPairComparer
+            var @enum = _dict ?? _pairs ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>();
+            IEnumerable<ValueTuple<byte?, byte[], IValue>> rawPairs =
+                from pair in @enum
+                select (
+                    pair.Key.KeyPrefix,
+                    pair.Key.EncodeAsByteArray(),
+                    pair.Value
                 );
-                var byteArrayComparer = default(ByteArrayComparer);
-                (byte? keyPrefix, byte[] key)? prev = null;
-                foreach ((byte? keyPrefix, byte[] key, IValue value) in orderedPairs)
+            IEnumerable<ValueTuple<byte?, byte[], IValue>> orderedPairs = rawPairs.OrderBy(
+                triple => (triple.Item1, triple.Item2),
+                keyPairComparer
+            );
+            var byteArrayComparer = default(ByteArrayComparer);
+            (byte? keyPrefix, byte[] key)? prev = null;
+            foreach ((byte? keyPrefix, byte[] key, IValue value) in orderedPairs)
+            {
+                // Skip duplicates
+                if (_dict is null && prev is { } p)
                 {
-                    // Skip duplicates
-                    if (_value.Dict is null && prev is { } p)
+                    if (p.keyPrefix == keyPrefix && byteArrayComparer.Compare(p.key, key) == 0)
                     {
-                        if (p.keyPrefix == keyPrefix && byteArrayComparer.Compare(p.key, key) == 0)
-                        {
-                            continue;
-                        }
+                        continue;
                     }
-
-                    if (keyPrefix != null)
-                    {
-                        yield return _unicodeKeyPrefix;
-                        length += _unicodeKeyPrefix.LongLength;
-                    }
-
-                    byte[] keyLengthBytes = Encoding.ASCII.GetBytes(
-                        key.Length.ToString(CultureInfo.InvariantCulture)
-                    );
-                    yield return keyLengthBytes;
-                    length += keyLengthBytes.LongLength;
-                    yield return CommonVariables.Separator;
-                    length += CommonVariables.Separator.LongLength;
-                    yield return key;
-                    length += key.LongLength;
-                    foreach (byte[] chunk in value.EncodeIntoChunks())
-                    {
-                        yield return chunk;
-                        length += chunk.LongLength;
-                    }
-
-                    prev = (keyPrefix, key);
                 }
+
+                if (keyPrefix != null)
+                {
+                    yield return _unicodeKeyPrefix;
+                    length += _unicodeKeyPrefix.LongLength;
+                }
+
+                byte[] keyLengthBytes = Encoding.ASCII.GetBytes(
+                    key.Length.ToString(CultureInfo.InvariantCulture)
+                );
+                yield return keyLengthBytes;
+                length += keyLengthBytes.LongLength;
+                yield return CommonVariables.Separator;
+                length += CommonVariables.Separator.LongLength;
+                yield return key;
+                length += key.LongLength;
+                foreach (byte[] chunk in value.EncodeIntoChunks())
+                {
+                    yield return chunk;
+                    length += chunk.LongLength;
+                }
+
+                prev = (keyPrefix, key);
             }
 
             yield return CommonVariables.Suffix;
             length += CommonVariables.Suffix.Length;
-            if (_value is { } v)
-            {
-                v.EncodingLength = length;
-            }
+            _encodingLength = length;
         }
 
+        /// <inheritdoc cref="IValue.EncodeToStream(Stream)"/>
+        [Pure]
         public void EncodeToStream(Stream stream)
         {
             // FIXME: avoid duplication between this and EncodeIntoChunks()
             long startPos = stream.Position;
             stream.WriteByte(_dictionaryPrefix[0]);
 
-            if (!(_value is null))
-            {
-                var @enum = _value.Dict
-                    ?? _value.Pairs
-                    ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>();
-                IEnumerable<ValueTuple<byte?, byte[], IValue>> rawPairs =
-                    from pair in @enum
-                    select (
-                        pair.Key.KeyPrefix,
-                        pair.Key.EncodeAsByteArray(),
-                        pair.Value
-                    );
-                IEnumerable<ValueTuple<byte?, byte[], IValue>> orderedPairs = rawPairs.OrderBy(
-                    triple => (triple.Item1, triple.Item2),
-                    keyPairComparer
+            var @enum = _dict ?? _pairs ?? Enumerable.Empty<KeyValuePair<IKey, IValue>>();
+            IEnumerable<ValueTuple<byte?, byte[], IValue>> rawPairs =
+                from pair in @enum
+                select (
+                    pair.Key.KeyPrefix,
+                    pair.Key.EncodeAsByteArray(),
+                    pair.Value
                 );
-                var byteArrayComparer = default(ByteArrayComparer);
-                (byte? keyPrefix, byte[] key)? prev = null;
-                foreach ((byte? keyPrefix, byte[] key, IValue value) in orderedPairs)
+            IEnumerable<ValueTuple<byte?, byte[], IValue>> orderedPairs = rawPairs.OrderBy(
+                triple => (triple.Item1, triple.Item2),
+                keyPairComparer
+            );
+            var byteArrayComparer = default(ByteArrayComparer);
+            (byte? keyPrefix, byte[] key)? prev = null;
+            foreach ((byte? keyPrefix, byte[] key, IValue value) in orderedPairs)
+            {
+                // Skip duplicates
+                if (_dict is null && prev is { } p)
                 {
-                    // Skip duplicates
-                    if (_value.Dict is null && prev is { } p)
+                    if (p.keyPrefix == keyPrefix && byteArrayComparer.Compare(p.key, key) == 0)
                     {
-                        if (p.keyPrefix == keyPrefix && byteArrayComparer.Compare(p.key, key) == 0)
-                        {
-                            continue;
-                        }
+                        continue;
                     }
-
-                    if (keyPrefix != null)
-                    {
-                        stream.WriteByte(_unicodeKeyPrefix[0]);
-                    }
-
-                    var keyLen =
-                        key.Length.ToString(CultureInfo.InvariantCulture);
-                    var keyLenBytes = Encoding.ASCII.GetBytes(keyLen);
-                    stream.Write(keyLenBytes, 0, keyLenBytes.Length);
-                    stream.WriteByte(CommonVariables.Separator[0]);
-                    stream.Write(key, 0, key.Length);
-                    value.EncodeToStream(stream);
-                    prev = (keyPrefix, key);
                 }
+
+                if (keyPrefix != null)
+                {
+                    stream.WriteByte(_unicodeKeyPrefix[0]);
+                }
+
+                var keyLen =
+                    key.Length.ToString(CultureInfo.InvariantCulture);
+                var keyLenBytes = Encoding.ASCII.GetBytes(keyLen);
+                stream.Write(keyLenBytes, 0, keyLenBytes.Length);
+                stream.WriteByte(CommonVariables.Separator[0]);
+                stream.Write(key, 0, key.Length);
+                value.EncodeToStream(stream);
+                prev = (keyPrefix, key);
             }
 
             stream.WriteByte(CommonVariables.Suffix[0]);
-            if (_value is { } v)
-            {
-                v.EncodingLength = stream.Position - startPos;
-            }
+            _encodingLength = stream.Position - startPos;
         }
 
         [Pure]
         public override string ToString() =>
             $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Dictionary)} {Inspection}";
-
-#pragma warning disable SA1401
-        private class ValueUnion
-        {
-            internal ImmutableDictionary<IKey, IValue>? Dict;
-            internal KeyValuePair<IKey, IValue>[]? Pairs;
-            internal ImmutableArray<byte>? Hash;
-            internal long EncodingLength = -1;
-        }
-#pragma warning restore SA1401
     }
 }

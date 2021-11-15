@@ -7,6 +7,7 @@ Version 0.4.0
 To be released.
 
  -  `Bencodex.Types.List` struct became a class.  [[#51]]
+ -  `Bencodex.Types.Dictionary` readonly struct became a class.  [[#51]]
  -  Added `Bencodex.Types.ValueType` enum type.  [[#50]]
  -  Bencodex values now have their unqiue fingerprints:  [[#50]]
      -  Added `Bencodex.Types.Fingerprint` readonly struct.
@@ -24,6 +25,8 @@ To be released.
     constructor.  [[#50]]
  -  Added `List(in ImmutableArray<IValue>)` constructor.  [[#51]]
  -  Added `List(params IValue[])` constructor.  [[#51]]
+ -  Added `Dictionary(in ImmutableDictionary<IKey, IValue>)` constructor.
+     [[#51]]
  -  `List.Empty` static property became a static readonly field.  [[#50]]
  -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
  -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]

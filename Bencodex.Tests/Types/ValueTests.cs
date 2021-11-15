@@ -157,48 +157,6 @@ namespace Bencodex.Tests.Types
             Assert.Equal("Bencodex.Types.Text \"\u4f60\u597d\"", nihao.ToString());
         }
 
-        [Fact]
-        public void Dictionary()
-        {
-            // FIXME: Move to DictionaryTest.
-            AssertEqual(
-                new byte[] { 0x64, 0x65 },  // "de"
-                _codec.Encode(
-                    new Dictionary(ImmutableDictionary<IKey, IValue>.Empty)
-                )
-            );
-            AssertEqual(
-                new byte[] { 0x64, 0x65 },  // "de"
-                _codec.Encode(
-                    new Dictionary(new KeyValuePair<IKey, IValue>[0])
-                )
-            );
-            AssertEqual(
-                new byte[]
-                {
-                    0x64, 0x31, 0x3a, 0x63, 0x69, 0x31, 0x65,
-                    0x75, 0x31, 0x3a, 0x61, 0x69, 0x32, 0x65,
-                    0x75, 0x31, 0x3a, 0x62, 0x69, 0x33, 0x65, 0x65,
-
-                    // "d1:ci1eu1:ai2eu1:bi3ee"
-                },
-                _codec.Encode(
-                    new Dictionary(
-                        new Dictionary<IKey, IValue>()
-                        {
-                            { (Text)"a", (Integer)2 },
-                            { (Text)"b", (Integer)3 },
-                            {
-                                // "c" => 3
-                                (Binary)new byte[] { 0x63 },
-                                (Integer)1
-                            },
-                        }
-                    )
-                )
-            );
-        }
-
         [Theory]
         [ClassData(typeof(SpecTheoryData))]
         public void SpecTestSuite(Spec spec)
