@@ -27,6 +27,7 @@ To be released.
  -  Added `List(params IValue[])` constructor.  [[#51]]
  -  Added `Dictionary(in ImmutableDictionary<IKey, IValue>)` constructor.
      [[#51]]
+ -  Added `Bencodex.Misc.KeyComparer` class.  [[#51]]
  -  `List.Empty` static property became a static readonly field.  [[#50]]
  -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
  -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]
