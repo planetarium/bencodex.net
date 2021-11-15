@@ -93,6 +93,26 @@ namespace Bencodex.Types
         public ImmutableArray<byte> Digest { get; }
 
         /// <summary>
+        /// Tests if two <see cref="Fingerprint"/> values are equal.
+        /// </summary>
+        /// <param name="a">A <see cref="Fingerprint"/> value to compare.</param>
+        /// <param name="b">Another <see cref="Fingerprint"/> value to compare.</param>
+        /// <returns><c>true</c> if two values are equal.  Otherwise <c>false</c>.</returns>
+        [Pure]
+        public static bool operator ==(in Fingerprint a, in Fingerprint b) =>
+            a.Equals(b);
+
+        /// <summary>
+        /// Tests if two <see cref="Fingerprint"/> values are not equal.
+        /// </summary>
+        /// <param name="a">A <see cref="Fingerprint"/> value to compare.</param>
+        /// <param name="b">Another <see cref="Fingerprint"/> value to compare.</param>
+        /// <returns><c>false</c> if two values are equal.  Otherwise <c>true</c>.</returns>
+        [Pure]
+        public static bool operator !=(Fingerprint a, Fingerprint b) =>
+            !a.Equals(b);
+
+        /// <summary>
         /// Deserialized the serialized fingerprint bytes.
         /// </summary>
         /// <param name="serialized">The bytes made by <see cref="Serialize()"/> method.</param>

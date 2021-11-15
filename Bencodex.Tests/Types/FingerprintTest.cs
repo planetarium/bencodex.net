@@ -60,24 +60,32 @@ namespace Bencodex.Tests.Types
             Assert.True(l123A.Equals((object)l123A_));
             Assert.Equal(l123A.GetHashCode(), l123A_.GetHashCode());
             Assert.Equal(l123A.Serialize(), l123A_.Serialize());
+            Assert.True(l123A == l123A_);
+            Assert.False(l123A != l123A_);
 
             var d123A = new Fingerprint(ValueType.Dictionary, 123, hashA);
             Assert.NotEqual(l123A, d123A);
             Assert.False(l123A.Equals((object)d123A));
             Assert.NotEqual(l123A.GetHashCode(), d123A.GetHashCode());
             Assert.NotEqual(l123A.Serialize(), d123A.Serialize());
+            Assert.False(l123A == d123A);
+            Assert.True(l123A != d123A);
 
             var l122A = new Fingerprint(ValueType.List, 122, hashA);
             Assert.NotEqual(l123A, l122A);
             Assert.False(l123A.Equals((object)l122A));
             Assert.NotEqual(l123A.GetHashCode(), l122A.GetHashCode());
             Assert.NotEqual(l123A.Serialize(), l122A.Serialize());
+            Assert.False(l123A == l122A);
+            Assert.True(l123A != l122A);
 
             var l123B = new Fingerprint(ValueType.List, 123, hashB);
             Assert.NotEqual(l123A, l123B);
             Assert.False(l123A.Equals((object)l123B));
             Assert.NotEqual(l123A.GetHashCode(), l123B.GetHashCode());
             Assert.NotEqual(l123A.Serialize(), l123B.Serialize());
+            Assert.False(l123A == l123B);
+            Assert.True(l123A != l123B);
         }
 
         [Fact]
