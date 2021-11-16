@@ -153,10 +153,9 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Count()
         {
-            // Compare with inner implementation, to avoid Xunit check.
-            Assert.Equal(_zero.Value.Length, _zero.Count);
-            Assert.Equal(_one.Value.Length, _one.Count);
-            Assert.Equal(_two.Value.Length, _two.Count);
+            Assert.Equal(Enumerable.Count(_zero), _zero.Count);
+            Assert.Equal(Enumerable.Count(_one), _one.Count);
+            Assert.Equal(Enumerable.Count(_two), _two.Count);
         }
 
         [Fact]

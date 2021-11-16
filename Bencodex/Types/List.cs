@@ -31,6 +31,7 @@ namespace Bencodex.Types
 
         private static readonly byte[] _listPrefix = new byte[1] { 0x6c };  // 'l'
 
+        private ImmutableArray<IValue> _value;
         private long? _encodingLength;
         private ImmutableArray<byte>? _hash;
 
@@ -58,16 +59,10 @@ namespace Bencodex.Types
         /// <param name="elements">The element values to include.</param>
         public List(in ImmutableArray<IValue> elements)
         {
-            Value = elements;
+            _value = elements;
             _encodingLength = null;
             _hash = null;
         }
-
-        /// <summary>
-        /// The internal <see cref="ImmutableArray{T}"/> value.
-        /// </summary>
-        [Pure]
-        public ImmutableArray<IValue> Value { get; }
 
         /// <inheritdoc cref="IValue.Type"/>
         [Pure]
@@ -79,7 +74,7 @@ namespace Bencodex.Types
         {
             get
             {
-                if (Value.IsDefaultOrEmpty)
+                if (_value.IsDefaultOrEmpty)
                 {
                     return EmptyFingerprint;
                 }
@@ -89,7 +84,7 @@ namespace Bencodex.Types
                     long encLength = 2;
                     SHA1 sha1 = SHA1.Create();
                     sha1.Initialize();
-                    foreach (IValue value in Value)
+                    foreach (IValue value in _value)
                     {
                         Fingerprint fp = value.Fingerprint;
                         byte[] fpb = fp.Serialize();
@@ -115,7 +110,7 @@ namespace Bencodex.Types
         public long EncodingLength =>
             _encodingLength is { } l ? l : (
                 _encodingLength = _listPrefix.LongLength
-                    + Value.Sum(e => e.EncodingLength)
+                    + _value.Sum(e => e.EncodingLength)
                     + CommonVariables.Suffix.LongLength
             ).Value;
 
@@ -125,7 +120,7 @@ namespace Bencodex.Types
         {
             get
             {
-                switch (Value.Length)
+                switch (_value.Length)
                 {
                     case 0:
                         return "[]";
@@ -148,15 +143,15 @@ namespace Bencodex.Types
             }
         }
 
-        public int Count => Value.Length;
+        public int Count => _value.Length;
 
-        public IValue this[int index] => Value[index];
+        public IValue this[int index] => _value[index];
 
         bool IEquatable<IImmutableList<IValue>>.Equals(
             IImmutableList<IValue> other
         )
         {
-            return Value.SequenceEqual(other);
+            return _value.SequenceEqual(other);
         }
 
         bool IEquatable<IValue>.Equals(IValue other) =>
@@ -165,7 +160,7 @@ namespace Bencodex.Types
 
         IEnumerator<IValue> IEnumerable<IValue>.GetEnumerator()
         {
-            foreach (IValue element in Value)
+            foreach (IValue element in _value)
             {
                 yield return element;
             }
@@ -185,53 +180,53 @@ namespace Bencodex.Types
         /// <inheritdoc cref="object.GetHashCode()"/>
         [Pure]
         public override int GetHashCode() =>
-            Value.GetHashCode();
+            _value.GetHashCode();
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)Value).GetEnumerator();
+            return ((IEnumerable)_value).GetEnumerator();
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.Add(IValue value)
         {
-            return new List(Value.Add(value));
+            return new List(_value.Add(value));
         }
 
         public List Add(IValue value)
         {
-            return new List(Value.Add(value));
+            return new List(_value.Add(value));
         }
 
         public List Add(string value)
         {
-            return new List(Value.Add((Text)value));
+            return new List(_value.Add((Text)value));
         }
 
         public List Add(bool value)
         {
-            return new List(Value.Add((Boolean)value));
+            return new List(_value.Add((Boolean)value));
         }
 
         public List Add(BigInteger value)
         {
-            return new List(Value.Add((Integer)value));
+            return new List(_value.Add((Integer)value));
         }
 
         public List Add(byte[] value)
         {
-            return new List(Value.Add((Binary)value));
+            return new List(_value.Add((Binary)value));
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.AddRange(
             IEnumerable<IValue> items
         )
         {
-            return new List(Value.AddRange(items));
+            return new List(_value.AddRange(items));
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.Clear()
         {
-            return new List(Value.Clear());
+            return new List(_value.Clear());
         }
 
         int IImmutableList<IValue>.IndexOf(
@@ -241,7 +236,7 @@ namespace Bencodex.Types
             IEqualityComparer<IValue> equalityComparer
         )
         {
-            return Value.IndexOf(item, index, count, equalityComparer);
+            return _value.IndexOf(item, index, count, equalityComparer);
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.Insert(
@@ -249,7 +244,7 @@ namespace Bencodex.Types
             IValue element
         )
         {
-            return new List(Value.Insert(index, element));
+            return new List(_value.Insert(index, element));
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.InsertRange(
@@ -257,7 +252,7 @@ namespace Bencodex.Types
             IEnumerable<IValue> items
         )
         {
-            return new List(Value.InsertRange(index, items));
+            return new List(_value.InsertRange(index, items));
         }
 
         int IImmutableList<IValue>.LastIndexOf(
@@ -267,7 +262,7 @@ namespace Bencodex.Types
             IEqualityComparer<IValue> equalityComparer
         )
         {
-            return Value.LastIndexOf(item, index, count, equalityComparer);
+            return _value.LastIndexOf(item, index, count, equalityComparer);
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.Remove(
@@ -275,19 +270,19 @@ namespace Bencodex.Types
             IEqualityComparer<IValue> equalityComparer
         )
         {
-            return new List(Value.Remove(value, equalityComparer));
+            return new List(_value.Remove(value, equalityComparer));
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveAll(
             Predicate<IValue> match
         )
         {
-            return new List(Value.RemoveAll(match));
+            return new List(_value.RemoveAll(match));
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveAt(int index)
         {
-            return new List(Value.RemoveAt(index));
+            return new List(_value.RemoveAt(index));
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveRange(
@@ -295,7 +290,7 @@ namespace Bencodex.Types
             IEqualityComparer<IValue> equalityComparer
         )
         {
-            return new List(Value.RemoveRange(items, equalityComparer));
+            return new List(_value.RemoveRange(items, equalityComparer));
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveRange(
@@ -303,7 +298,7 @@ namespace Bencodex.Types
             int count
         )
         {
-            return new List(Value.RemoveRange(index, count));
+            return new List(_value.RemoveRange(index, count));
         }
 
         IImmutableList<IValue> IImmutableList<IValue>.Replace(
@@ -313,7 +308,7 @@ namespace Bencodex.Types
         )
         {
             return new List(
-                Value.Replace(oldValue, newValue, equalityComparer)
+                _value.Replace(oldValue, newValue, equalityComparer)
             );
         }
 
@@ -322,7 +317,7 @@ namespace Bencodex.Types
             IValue value
         )
         {
-            return new List(Value.SetItem(index, value));
+            return new List(_value.SetItem(index, value));
         }
 
         [Pure]
@@ -348,7 +343,7 @@ namespace Bencodex.Types
         {
             long startPos = stream.Position;
             stream.WriteByte(_listPrefix[0]);
-            foreach (IValue element in Value)
+            foreach (IValue element in _value)
             {
                 element.EncodeToStream(stream);
             }

@@ -32,10 +32,13 @@ To be released.
  -  Added `Bencodex.Misc.KeyComparer` class.  [[#51]]
  -  `List.Empty` static property became a static readonly field.  [[#50]]
  -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
+ -  Removed `Bencodex.Types.List.Value` property.  [[#52]]
  -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]
 
 [#49]: https://github.com/planetarium/bencodex.net/pull/49
 [#50]: https://github.com/planetarium/bencodex.net/pull/50
+[#51]: https://github.com/planetarium/bencodex.net/pull/51
+[#52]: https://github.com/planetarium/bencodex.net/pull/52
 
 
 Version 0.3.0
