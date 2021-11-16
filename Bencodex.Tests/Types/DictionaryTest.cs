@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Text;
 using Bencodex.Types;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
+using static Bencodex.Tests.TestUtils;
 using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
 {
     public class DictionaryTest
     {
+        private readonly Codec _codec = new Codec();
         private readonly Dictionary _textKey = Dictionary.Empty.SetItem("foo", "bar");
 
         private readonly Dictionary _binaryKey = Dictionary.Empty
@@ -18,6 +21,24 @@ namespace Bencodex.Tests.Types
         private readonly Dictionary _mixedKeys = Dictionary.Empty
             .Add("stringKey", "string")
             .Add(new byte[] { 0x00 }, "byte");
+
+        [Fact]
+        public void Constructors()
+        {
+            var a = new Dictionary(new[]
+            {
+                new KeyValuePair<IKey, IValue>(new Binary(0x61), new Integer(1)),
+                new KeyValuePair<IKey, IValue>(new Binary(0x62), new Integer(2)),
+                new KeyValuePair<IKey, IValue>(new Binary(0x63), new Integer(3)),
+            });
+            var b = new Dictionary(
+                ImmutableDictionary<IKey, IValue>.Empty
+                    .Add(new Binary(0x61), new Integer(1))
+                    .Add(new Binary(0x62), new Integer(2))
+                    .Add(new Binary(0x63), new Integer(3))
+            );
+            Assert.Equal(a, b);
+        }
 
         [Fact]
         public void Equality()
@@ -409,6 +430,47 @@ namespace Bencodex.Tests.Types
             Assert.Equal(
                 "Bencodex.Types.Dictionary {\n  \"foo\": \"bar\",\n}",
                 _textKey.ToString()
+            );
+        }
+
+        [Fact]
+        public void Encode()
+        {
+            AssertEqual(
+                new byte[] { 0x64, 0x65 },  // "de"
+                _codec.Encode(
+                    new Dictionary(ImmutableDictionary<IKey, IValue>.Empty)
+                )
+            );
+            AssertEqual(
+                new byte[] { 0x64, 0x65 },  // "de"
+                _codec.Encode(
+                    new Dictionary(new KeyValuePair<IKey, IValue>[0])
+                )
+            );
+            AssertEqual(
+                new byte[]
+                {
+                    0x64, 0x31, 0x3a, 0x63, 0x69, 0x31, 0x65,
+                    0x75, 0x31, 0x3a, 0x61, 0x69, 0x32, 0x65,
+                    0x75, 0x31, 0x3a, 0x62, 0x69, 0x33, 0x65, 0x65,
+
+                    // "d1:ci1eu1:ai2eu1:bi3ee"
+                },
+                _codec.Encode(
+                    new Dictionary(
+                        new Dictionary<IKey, IValue>()
+                        {
+                            { (Text)"a", (Integer)2 },
+                            { (Text)"b", (Integer)3 },
+                            {
+                                // "c" => 3
+                                (Binary)new byte[] { 0x63 },
+                                (Integer)1
+                            },
+                        }
+                    )
+                )
             );
         }
     }
