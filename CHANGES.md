@@ -11,6 +11,7 @@ To be released.
  -  `Bencodex.Types.Dictionary` now implements
     `IEquatable<Bencodex.Types.Dictionary>` interface.  [[#51]]
  -  Added `Bencodex.Types.ValueType` enum type.  [[#50]]
+ -  Added `Bencodex.Types.IndirectValue` struct.  [[#52]]
  -  Bencodex values now have their unqiue fingerprints:  [[#50]]
      -  Added `Bencodex.Types.Fingerprint` readonly struct.
      -  Added `Bencodex.Misc.FingerprintComparer` class.
