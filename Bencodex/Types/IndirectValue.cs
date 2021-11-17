@@ -8,7 +8,6 @@ namespace Bencodex.Types
     public struct IndirectValue
     {
         private Fingerprint? _fingerprint;
-        private IValue? _loadedValue;
 
         /// <summary>
         /// Creates an <see cref="IndirectValue"/> with the <paramref name="loadedValue"/>.
@@ -17,7 +16,7 @@ namespace Bencodex.Types
         public IndirectValue(IValue loadedValue)
         {
             _fingerprint = null;
-            _loadedValue = loadedValue;
+            LoadedValue = loadedValue;
         }
 
         /// <summary>
@@ -29,7 +28,7 @@ namespace Bencodex.Types
         public IndirectValue(in Fingerprint fingerprint)
         {
             _fingerprint = fingerprint;
-            _loadedValue = null;
+            LoadedValue = null;
         }
 
         /// <summary>
@@ -41,20 +40,20 @@ namespace Bencodex.Types
         public delegate IValue Loader(Fingerprint fingerprint);
 
         /// <summary>
+        /// The value if it is loaded on the memory.  It can be <c>null</c> if not loaded yet.
+        /// </summary>
+        public IValue? LoadedValue { get; private set; }
+
+        /// <summary>
         /// The <see cref="IValue.Fingerprint"/> of the <see cref="IValue"/>.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when the <see cref="IndirectValue"/>
         /// is an uninitialized default value.</exception>
-        public Fingerprint Fingerprint => _loadedValue?.Fingerprint ?? _fingerprint ??
+        public Fingerprint Fingerprint => LoadedValue?.Fingerprint ?? _fingerprint ??
             throw new InvalidOperationException(
                 $"No loaded value nor fingerprint.  Probably this {nameof(IndirectValue)} is an " +
                 "uninitialized default value."
             );
-
-        /// <summary>
-        /// Whether the value is loaded on the memory or not.
-        /// </summary>
-        public bool Loaded => _loadedValue is { };
 
         /// <summary>
         /// Gets the value.
@@ -71,7 +70,7 @@ namespace Bencodex.Types
         /// is an uninitialized default value.</exception>
         public IValue GetValue(in Loader? loader)
         {
-            if (!(_loadedValue is { } v))
+            if (!(LoadedValue is { } v))
             {
                 if (loader is { } load)
                 {
@@ -85,7 +84,7 @@ namespace Bencodex.Types
                         );
                     }
 
-                    _loadedValue = v;
+                    LoadedValue = v;
                 }
                 else
                 {

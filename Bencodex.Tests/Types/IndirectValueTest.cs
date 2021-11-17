@@ -26,7 +26,7 @@ namespace Bencodex.Tests.Types
         public void DefaultConstructor()
         {
             IndirectValue d = default;
-            Assert.False(d.Loaded);
+            Assert.Null(d.LoadedValue);
             Assert.Throws<InvalidOperationException>(() => d.Fingerprint);
             Assert.Throws<ArgumentNullException>(() => d.GetValue(null));
             Assert.Throws<InvalidOperationException>(() => d.GetValue(_ => _list));
@@ -36,11 +36,11 @@ namespace Bencodex.Tests.Types
         public void Constructors()
         {
             var loaded = new IndirectValue(_list);
-            Assert.True(loaded.Loaded);
+            Assert.Equal(_list, loaded.LoadedValue);
             Assert.Equal(_list, loaded.GetValue(null));
 
             var unloaded = new IndirectValue(_dict.Fingerprint);
-            Assert.False(unloaded.Loaded);
+            Assert.Null(unloaded.LoadedValue);
             Assert.Equal(_dict.Fingerprint, unloaded.Fingerprint);
         }
 
@@ -49,15 +49,16 @@ namespace Bencodex.Tests.Types
         {
             Assert.Equal(_list.Fingerprint, _loaded.Fingerprint);
             Assert.Equal(_dict.Fingerprint, _unloaded.Fingerprint);
+            Assert.Null(_unloaded.LoadedValue);
             Assert.Throws<InvalidOperationException>(() => _default.Fingerprint);
         }
 
         [Fact]
-        public void Loaded()
+        public void LoadedValue()
         {
-            Assert.True(_loaded.Loaded);
-            Assert.False(_unloaded.Loaded);
-            Assert.False(_default.Loaded);
+            Assert.Equal(_list, _loaded.LoadedValue);
+            Assert.Null(_unloaded.LoadedValue);
+            Assert.Null(_default.LoadedValue);
         }
 
         [Fact]
@@ -65,7 +66,9 @@ namespace Bencodex.Tests.Types
         {
             Assert.Equal(_list, _loaded.GetValue(_ => _list));
             Assert.Equal(_dict, _unloaded.GetValue(_ => _dict));
+            Assert.Equal(_dict, _unloaded.LoadedValue);
             Assert.Throws<InvalidOperationException>(() => _default.GetValue(_ => _dict));
+            Assert.Null(_default.LoadedValue);
         }
 
         [Fact]
@@ -73,6 +76,7 @@ namespace Bencodex.Tests.Types
         {
             Assert.Equal(_list, _loaded.GetValue(_ => _dict));
             Assert.Throws<InvalidOperationException>(() => _unloaded.GetValue(_ => _list));
+            Assert.Null(_unloaded.LoadedValue);
         }
 
         [Fact]
@@ -80,7 +84,9 @@ namespace Bencodex.Tests.Types
         {
             Assert.Equal(_list, _loaded.GetValue(null));
             Assert.Throws<ArgumentNullException>(() => _unloaded.GetValue(null));
+            Assert.Null(_unloaded.LoadedValue);
             Assert.Throws<ArgumentNullException>(() => _default.GetValue(null));
+            Assert.Null(_default.LoadedValue);
         }
     }
 }
