@@ -23,6 +23,8 @@ To be released.
      -  Added `Dictionary.EmptyFingerprint` static readonly field.
  -  Added `IValue.Type` property.  [[#50]]
  -  Added `IValue.EncodingLength` property.  [[#49], [#50]]
+ -  Added `IValue.Inspect(bool)` method to replace `IValue.Inspection` property.
+    [[#52]]
  -  Added `Bencodex.Misc.ImmutableByteArrayExtensions` static class.  [[#50]]
  -  Replaced `Binary(byte[])` constructor with `Binary(params byte[])`
     constructor.  [[#50]]
@@ -33,6 +35,8 @@ To be released.
  -  Added `Bencodex.Misc.KeyComparer` class.  [[#51]]
  -  `List.Empty` static property became a static readonly field.  [[#50]]
  -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
+ -  Deprecated `IValue.Inspection` property in favour of `IValue.Inspect(bool)`
+    method.  [[#52]]
  -  Removed `Bencodex.Types.List.Value` property.  [[#52]]
  -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]
 

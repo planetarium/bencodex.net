@@ -396,18 +396,20 @@ namespace Bencodex.Tests.Types
             Assert.Equal(33L, _mixedKeys.EncodingLength);
         }
 
-        [Fact]
-        public void Inspection()
+        [Theory]
+        [InlineData(new object[] { false })]
+        [InlineData(new object[] { true })]
+        public void Inspect(bool loadAll)
         {
-            Assert.Equal("{}", Dictionary.Empty.Inspection);
+            Assert.Equal("{}", Dictionary.Empty.Inspect(loadAll));
 
             Assert.Equal(
                 "{\n  \"foo\": \"bar\",\n}",
-                _textKey.Inspection
+                _textKey.Inspect(loadAll)
             );
             Assert.Equal(
                 "{\n  b\"\\x66\\x6f\\x6f\": \"bar\",\n}",
-                _binaryKey.Inspection
+                _binaryKey.Inspect(loadAll)
             );
             Assert.Equal(
                 @"{
@@ -416,7 +418,7 @@ namespace Bencodex.Tests.Types
   },
   ""foo"": ""bar"",
 }".NoCr(),
-                _textKey.SetItem("baz", _textKey).Inspection
+                _textKey.SetItem("baz", _textKey).Inspect(loadAll)
             );
         }
 

@@ -86,9 +86,8 @@ namespace Bencodex.Types
             2L + Value.ToString(CultureInfo.InvariantCulture).Length;
 
         /// <inheritdoc cref="IValue.Inspection"/>
-        [Pure]
-        public string Inspection =>
-            Value.ToString(CultureInfo.InvariantCulture);
+        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
+        public string Inspection => Inspect(true);
 
         public static implicit operator BigInteger(Integer i)
         {
@@ -261,8 +260,12 @@ namespace Bencodex.Types
             stream.WriteByte(CommonVariables.Suffix[0]);
         }
 
-        [Pure]
+        /// <inheritdoc cref="IValue.Inspect(bool)"/>
+        public string Inspect(bool loadAll) =>
+            Value.ToString(CultureInfo.InvariantCulture);
+
+        /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Integer)} {Inspection}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Integer)} {Inspect(false)}";
     }
 }

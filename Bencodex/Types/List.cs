@@ -115,33 +115,8 @@ namespace Bencodex.Types
             ).Value;
 
         /// <inheritdoc cref="IValue.Inspection"/>
-        [Pure]
-        public string Inspection
-        {
-            get
-            {
-                switch (_value.Length)
-                {
-                    case 0:
-                        return "[]";
-
-                    case 1:
-                        var el = this.First();
-                        if (el is List || el is Dictionary)
-                        {
-                            goto default;
-                        }
-
-                        return $"[{el.Inspection}]";
-
-                    default:
-                        IEnumerable<string> elements = this.Select(v =>
-                            $"  {v.Inspection.Replace("\n", "\n  ")},\n"
-                        );
-                        return $"[\n{string.Join(string.Empty, elements)}]";
-                }
-            }
-        }
+        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
+        public string Inspection => Inspect(true);
 
         public int Count => _value.Length;
 
@@ -352,8 +327,33 @@ namespace Bencodex.Types
             _encodingLength = (int?)((int)stream.Position - startPos);
         }
 
-        [Pure]
+        /// <inheritdoc cref="IValue.Inspect(bool)"/>
+        public string Inspect(bool loadAll)
+        {
+            switch (_value.Length)
+            {
+                case 0:
+                    return "[]";
+
+                case 1:
+                    var el = this.First();
+                    if (el is List || el is Dictionary)
+                    {
+                        goto default;
+                    }
+
+                    return $"[{el.Inspect(loadAll)}]";
+
+                default:
+                    IEnumerable<string> elements = this.Select(v =>
+                        $"  {v.Inspect(loadAll).Replace("\n", "\n  ")},\n"
+                    );
+                    return $"[\n{string.Join(string.Empty, elements)}]";
+            }
+        }
+
+        /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(List)} {Inspection}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(List)} {Inspect(false)}";
     }
 }

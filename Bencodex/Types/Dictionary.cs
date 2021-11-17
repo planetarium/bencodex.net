@@ -122,22 +122,8 @@ namespace Bencodex.Types
                     + CommonVariables.Suffix.LongLength;
 
         /// <inheritdoc cref="IValue.Inspection"/>
-        public string Inspection
-        {
-            get
-            {
-                if (_dict.Count < 1)
-                {
-                    return "{}";
-                }
-
-                IEnumerable<string> pairs = this.Select(kv =>
-                    $"  {kv.Key.Inspection}: {kv.Value.Inspection.Replace("\n", "\n  ")},\n"
-                ).OrderBy(s => s);
-                string pairsString = string.Join(string.Empty, pairs);
-                return $"{{\n{pairsString}}}";
-            }
-        }
+        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
+        public string Inspection => Inspect(true);
 
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.this[TKey]"/>
         public IValue this[IKey key] => _dict[key];
@@ -490,7 +476,23 @@ namespace Bencodex.Types
             _encodingLength = stream.Position - startPos;
         }
 
+        /// <inheritdoc cref="IValue.Inspect(bool)"/>
+        public string Inspect(bool loadAll)
+        {
+            if (_dict.Count < 1)
+            {
+                return "{}";
+            }
+
+            IEnumerable<string> pairs = this.Select(kv =>
+                $"  {kv.Key.Inspect(loadAll)}: {kv.Value.Inspect(loadAll).Replace("\n", "\n  ")},\n"
+            ).OrderBy(s => s);
+            string pairsString = string.Join(string.Empty, pairs);
+            return $"{{\n{pairsString}}}";
+        }
+
+        /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Dictionary)} {Inspection}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Dictionary)} {Inspect(false)}";
     }
 }

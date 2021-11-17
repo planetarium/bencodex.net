@@ -47,9 +47,8 @@ namespace Bencodex.Types
         public long EncodingLength => 1L;
 
         /// <inheritdoc cref="IValue.Inspection"/>
-        [Pure]
-        public string Inspection =>
-            Value ? "true" : "false";
+        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
+        public string Inspection => Inspect(true);
 
         public static implicit operator bool(Boolean boolean)
         {
@@ -130,8 +129,13 @@ namespace Bencodex.Types
             stream.WriteByte(value);
         }
 
+        /// <inheritdoc cref="IValue.Inspect(bool)"/>
+        public string Inspect(bool loadAll) =>
+            Value ? "true" : "false";
+
+        /// <inheritdoc cref="object.ToString()"/>
         [Pure]
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Boolean)} {Inspection}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Boolean)} {Inspect(false)}";
     }
 }
