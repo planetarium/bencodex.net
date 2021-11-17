@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using Bencodex.Types;
 using Xunit;
+using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
 {
@@ -59,6 +60,15 @@ namespace Bencodex.Tests.Types
             Assert.Equal(_list, _loaded.LoadedValue);
             Assert.Null(_unloaded.LoadedValue);
             Assert.Null(_default.LoadedValue);
+        }
+
+        [Fact]
+        public void Type()
+        {
+            Assert.Equal(ValueType.List, _loaded.Type);
+            Assert.Equal(ValueType.Dictionary, _unloaded.Type);
+            Assert.Null(_unloaded.LoadedValue);
+            Assert.Throws<InvalidOperationException>(() => _default.Type);
         }
 
         [Fact]
