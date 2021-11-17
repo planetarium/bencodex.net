@@ -8,7 +8,9 @@ To be released.
 
  -  `Bencodex.Types.List` struct became a class.  [[#51]]
  -  `Bencodex.Types.Dictionary` readonly struct became a class.  [[#51]]
- -  `Bencodex.Types.Dictionary` now implements
+ -  `Bencocex.Types.List` class now implements `IEqutable<Bencodex.Types.List>`
+    interface.  [[#52]]
+ -  `Bencodex.Types.Dictionary` class now implements
     `IEquatable<Bencodex.Types.Dictionary>` interface.  [[#51]]
  -  Added `Bencodex.Types.ValueType` enum type.  [[#50]]
  -  Added `Bencodex.Types.IndirectValue` struct.  [[#52]]
@@ -28,10 +30,11 @@ To be released.
  -  Added `Bencodex.Misc.ImmutableByteArrayExtensions` static class.  [[#50]]
  -  Replaced `Binary(byte[])` constructor with `Binary(params byte[])`
     constructor.  [[#50]]
- -  Added `List(in ImmutableArray<IValue>)` constructor.  [[#51]]
  -  Added `List(params IValue[])` constructor.  [[#51]]
+ -  Added `List(IEnumerable<IndirectValue>, IndirectValue.Loader)` constructor.
+    [[#52]]
  -  Added `Dictionary(in ImmutableSortedDictionary<IKey, IValue>)` constructor.
-     [[#51]]
+    [[#51]]
  -  Added `Bencodex.Misc.KeyComparer` class.  [[#51]]
  -  `List.Empty` static property became a static readonly field.  [[#50]]
  -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
