@@ -128,11 +128,53 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.this[TKey]"/>
         public IValue this[IKey key] => _dict[key];
 
-        public IValue this[string key] => this[(IKey)new Text(key)];
+        /// <summary>
+        /// Gets the element that has the specified text key in the read-only dictionary.
+        /// </summary>
+        /// <param name="key">The text key to locate.</param>
+        /// <returns>The element that has the specified key in the read-only dictionary.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when the <paramref name="key" />
+        /// is not found.</exception>
+        public IValue this[Text key] => this[(IKey)key];
 
-        public IValue this[ImmutableArray<byte> key] => this[(IKey)new Binary(key)];
+        /// <summary>
+        /// Gets the element that has the specified string key in the read-only dictionary.
+        /// </summary>
+        /// <param name="key">The string key to locate.  This key is automatically turned into
+        /// a <see cref="Text"/> instance.</param>
+        /// <returns>The element that has the specified key in the read-only dictionary.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when the <paramref name="key" />
+        /// is not found.</exception>
+        public IValue this[string key] => this[new Text(key)];
 
-        public IValue this[byte[] key] => this[(IKey)new Binary(key)];
+        /// <summary>
+        /// Gets the element that has the specified binary key in the read-only dictionary.
+        /// </summary>
+        /// <param name="key">The binary key to locate.</param>
+        /// <returns>The element that has the specified key in the read-only dictionary.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when the <paramref name="key" />
+        /// is not found.</exception>
+        public IValue this[Binary key] => this[(IKey)key];
+
+        /// <summary>
+        /// Gets the element that has the specified bytes key in the read-only dictionary.
+        /// </summary>
+        /// <param name="key">The bytes key to locate.  This key is automatically turned into
+        /// a <see cref="Binary"/> instance.</param>
+        /// <returns>The element that has the specified key in the read-only dictionary.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when the <paramref name="key" />
+        /// is not found.</exception>
+        public IValue this[ImmutableArray<byte> key] => this[new Binary(key)];
+
+        /// <summary>
+        /// Gets the element that has the specified bytes key in the read-only dictionary.
+        /// </summary>
+        /// <param name="key">The bytes key to locate.  This key is automatically turned into
+        /// a <see cref="Binary"/> instance.</param>
+        /// <returns>The element that has the specified key in the read-only dictionary.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when the <paramref name="key" />
+        /// is not found.</exception>
+        public IValue this[byte[] key] => this[new Binary(key)];
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()"/>
         public IEnumerator<KeyValuePair<IKey, IValue>> GetEnumerator() => _dict.GetEnumerator();

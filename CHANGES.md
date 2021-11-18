@@ -36,6 +36,8 @@ To be released.
     [[#52]]
  -  Added `Dictionary(in ImmutableSortedDictionary<IKey, IValue>)` constructor.
     [[#51]]
+ -  Added `Bencodex.Types.Dictionary[Text]` indexer. [[#52]]
+ -  Added `Bencodex.Types.Dictionary[Binary]` indexer. [[#52]]
  -  Added `Bencodex.Misc.KeyComparer` class.  [[#51]]
  -  `List.Empty` static property became a static readonly field.  [[#50]]
  -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]

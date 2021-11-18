@@ -121,6 +121,28 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void Indexers()
+        {
+            Assert.Equal(new Text("bar"), _textKey[(IKey)new Text("foo")]);
+            Assert.Equal(new Text("bar"), _textKey[new Text("foo")]);
+            Assert.Equal(new Text("bar"), _textKey["foo"]);
+
+            Assert.Equal(new Text("bar"), _binaryKey[(IKey)new Binary("foo", Encoding.ASCII)]);
+            Assert.Equal(new Text("bar"), _binaryKey[new Binary("foo", Encoding.ASCII)]);
+            Assert.Equal(new Text("bar"), _binaryKey[Encoding.ASCII.GetBytes("foo")]);
+
+            Assert.Throws<KeyNotFoundException>(
+                () => _textKey[(IKey)new Binary("foo", Encoding.ASCII)]
+            );
+            Assert.Throws<KeyNotFoundException>(() => _textKey[new Binary("foo", Encoding.ASCII)]);
+            Assert.Throws<KeyNotFoundException>(() => _textKey[Encoding.ASCII.GetBytes("foo")]);
+
+            Assert.Throws<KeyNotFoundException>(() => _binaryKey[(IKey)new Text("foo")]);
+            Assert.Throws<KeyNotFoundException>(() => _binaryKey[new Text("foo")]);
+            Assert.Throws<KeyNotFoundException>(() => _binaryKey["foo"]);
+        }
+
+        [Fact]
         public void SetItem()
         {
             var dictionary = Dictionary.Empty
