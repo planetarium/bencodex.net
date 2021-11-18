@@ -14,8 +14,13 @@ To be released.
  -  `Bencodex.Types.Dictionary` class now implements
     `IEquatable<Bencodex.Types.Dictionary>` interface.  [[#51]]
  -  Added `Bencodex.Types.ValueType` enum type.  [[#50]]
- -  Added `Bencodex.Types.IndirectValue` struct.  [[#52]]
- -  Bencodex values now have their unqiue fingerprints:  [[#50]]
+ -  Bencodex lists and dictionaries now can offload their elements:  [[#52]]
+     -  Added `Bencodex.Types.IndirectValue` struct.
+     -  Added `List(IEnumerable<IndirectValue>, IndirectValue.Loader)`
+        constructor.
+     -  Added `Dictionary(IEnumerable<KeyValuePair<IKey, IndirectValue>>,
+        IndirectValue.Loader)` constructor.
+ -  Bencodex values now have their unique fingerprints:  [[#50]]
      -  Added `Bencodex.Types.Fingerprint` readonly struct.
      -  Added `Bencodex.Misc.FingerprintComparer` class.
      -  Added `IValue.Fingerprint` property.
@@ -32,11 +37,6 @@ To be released.
  -  Replaced `Binary(byte[])` constructor with `Binary(params byte[])`
     constructor.  [[#50]]
  -  Added `List(params IValue[])` constructor.  [[#51]]
- -  Added `List(IEnumerable<IndirectValue>, IndirectValue.Loader)` constructor.
-    [[#52]]
- -  Added
-    `Dictionary(IEnumerable<KeyValuePair<IKey, IndirectValue>>, IndirectValue)`
-    constructor.  [[#52]]
  -  Added `Bencodex.Types.Dictionary[Text]` indexer. [[#52]]
  -  Added `Bencodex.Types.Dictionary[Binary]` indexer. [[#52]]
  -  Added `Bencodex.Types.Dictionary.ContainsKey(Text)` method.  [[#52]]
@@ -44,7 +44,7 @@ To be released.
  -  Added `Bencodex.Misc.KeyComparer` class.  [[#51]]
  -  `List.Empty` static property became a static readonly field.  [[#50]]
  -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
- -  Deprecated `IValue.Inspection` property in favour of `IValue.Inspect(bool)`
+ -  Deprecated `IValue.Inspection` property in favor of `IValue.Inspect(bool)`
     method.  [[#52]]
  -  Removed `Bencodex.Types.List.Value` property.  [[#52]]
  -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]
