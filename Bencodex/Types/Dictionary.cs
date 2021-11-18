@@ -38,7 +38,8 @@ namespace Bencodex.Types
 
         private static readonly byte[] _unicodeKeyPrefix = new byte[1] { 0x75 };  // 'u'
 
-        private ImmutableSortedDictionary<IKey, IValue> _dict;
+        private ImmutableSortedDictionary<IKey, IndirectValue> _dict;
+        private IndirectValue.Loader? _loader;
         private ImmutableArray<byte>? _hash;
         private long _encodingLength = -1;
 
@@ -48,19 +49,47 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<IKey, IValue>> pairs)
-            : this(pairs.ToImmutableSortedDictionary(KeyComparer.Instance))
+            : this(
+                pairs.ToImmutableSortedDictionary(
+                    kv => kv.Key,
+                    kv => new IndirectValue(kv.Value),
+                    KeyComparer.Instance
+                ),
+                loader: null
+            )
         {
         }
 
         /// <summary>
-        /// Creates a <see cref="Dictionary"/> instance with the <paramref name="content"/>.
+        /// Creates a <see cref="Dictionary"/> instance with key-value
+        /// <paramref name="indirectPairs"/>. (Note that only values can be indirect.)
         /// </summary>
-        /// <param name="content">The dictionary content.</param>
-        public Dictionary(in ImmutableSortedDictionary<IKey, IValue> content)
+        /// <param name="indirectPairs">Key-value pairs to include.  Values can be either loaded or
+        /// unloaded.  If there are duplicated keys, later pairs overwrite earlier ones.</param>
+        /// <param name="loader">The <see cref="IndirectValue.Loader"/> delegate invoked when
+        /// unloaded values are needed.</param>
+        public Dictionary(
+            IEnumerable<KeyValuePair<IKey, IndirectValue>> indirectPairs,
+            IndirectValue.Loader loader
+        )
+            : this(
+                indirectPairs is ImmutableSortedDictionary<IKey, IndirectValue> sd
+                    ? (sd.KeyComparer == KeyComparer.Instance
+                        ? sd
+                        : sd.WithComparers(KeyComparer.Instance))
+                    : indirectPairs.ToImmutableSortedDictionary(KeyComparer.Instance),
+                loader
+            )
         {
-            _dict = content.KeyComparer == KeyComparer.Instance
-                ? content
-                : content.WithComparers(KeyComparer.Instance);
+        }
+
+        private Dictionary(
+            in ImmutableSortedDictionary<IKey, IndirectValue> dict,
+            IndirectValue.Loader? loader = null
+        )
+        {
+            _dict = dict;
+            _loader = loader;
         }
 
         /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
@@ -70,7 +99,8 @@ namespace Bencodex.Types
         public IEnumerable<IKey> Keys => _dict.Keys;
 
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.Values"/>
-        public IEnumerable<IValue> Values => _dict.Values;
+        [Obsolete("This operation immediately loads all unloaded values on the memory.")]
+        public IEnumerable<IValue> Values => _dict.Values.Select(iv => iv.GetValue(_loader));
 
         /// <inheritdoc cref="IValue.Type"/>
         public ValueType Type => ValueType.Dictionary;
@@ -90,7 +120,7 @@ namespace Bencodex.Types
                     long encLength = 2L;
                     SHA1 sha1 = SHA1.Create();
                     sha1.Initialize();
-                    foreach (KeyValuePair<IKey, IValue> pair in this)
+                    foreach (KeyValuePair<IKey, IndirectValue> pair in _dict)
                     {
                         byte[] fp = pair.Key.Fingerprint.Serialize();
                         sha1.TransformBlock(fp, 0, fp.Length, null, 0);
@@ -126,7 +156,7 @@ namespace Bencodex.Types
         public string Inspection => Inspect(true);
 
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.this[TKey]"/>
-        public IValue this[IKey key] => _dict[key];
+        public IValue this[IKey key] => _dict[key].GetValue(_loader);
 
         /// <summary>
         /// Gets the element that has the specified text key in the read-only dictionary.
@@ -177,7 +207,9 @@ namespace Bencodex.Types
         public IValue this[byte[] key] => this[new Binary(key)];
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()"/>
-        public IEnumerator<KeyValuePair<IKey, IValue>> GetEnumerator() => _dict.GetEnumerator();
+        public IEnumerator<KeyValuePair<IKey, IValue>> GetEnumerator() => _dict
+            .Select(kv => new KeyValuePair<IKey, IValue>(kv.Key, kv.Value.GetValue(_loader)))
+            .GetEnumerator();
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator()"/>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -216,12 +248,21 @@ namespace Bencodex.Types
         public bool ContainsKey(byte[] key) => ContainsKey(new Binary(key));
 
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.TryGetValue(TKey, out TValue)"/>
-        public bool TryGetValue(IKey key, out IValue value) =>
-            _dict.TryGetValue(key, out value);
+        public bool TryGetValue(IKey key, out IValue value)
+        {
+            if (_dict.TryGetValue(key, out IndirectValue iv))
+            {
+                value = iv.GetValue(_loader);
+                return true;
+            }
+
+            value = null!;
+            return false;
+        }
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.Add(TKey, TValue)"/>
         public IImmutableDictionary<IKey, IValue> Add(IKey key, IValue value) =>
-            new Dictionary(_dict.Add(key, value));
+            new Dictionary(_dict.Add(key, new IndirectValue(value)), _loader);
 
         public Dictionary Add(string key, IValue value) =>
             (Dictionary)Add((IKey)new Text(key), value);
@@ -283,26 +324,27 @@ namespace Bencodex.Types
         public IImmutableDictionary<IKey, IValue> AddRange(
             IEnumerable<KeyValuePair<IKey, IValue>> pairs
         ) =>
-            new Dictionary(_dict.AddRange(pairs));
+            new Dictionary(_dict.AddRange(pairs.Select(ToIndirectPair)), _loader);
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.Clear()"/>
         public IImmutableDictionary<IKey, IValue> Clear() => Empty;
 
         /// <inheritdoc
         /// cref="IImmutableDictionary{TKey,TValue}.Contains(KeyValuePair{TKey, TValue})"/>
-        public bool Contains(KeyValuePair<IKey, IValue> pair) => _dict.Contains(pair);
+        public bool Contains(KeyValuePair<IKey, IValue> pair) =>
+            _dict.Contains(ToIndirectPair(pair));
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.Remove(TKey)"/>
         public IImmutableDictionary<IKey, IValue> Remove(IKey key) =>
-            _dict.Count < 1 ? this : new Dictionary(_dict.Remove(key));
+            _dict.Count < 1 ? this : new Dictionary(_dict.Remove(key), _loader);
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.RemoveRange(IEnumerable{TKey})"/>
         public IImmutableDictionary<IKey, IValue> RemoveRange(IEnumerable<IKey> keys) =>
-            _dict.Count < 1 ? this : new Dictionary(_dict.RemoveRange(keys));
+            _dict.Count < 1 ? this : new Dictionary(_dict.RemoveRange(keys), _loader);
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.SetItem(TKey,TValue)"/>
         public IImmutableDictionary<IKey, IValue> SetItem(IKey key, IValue value) =>
-            new Dictionary(_dict.SetItem(key, value));
+            new Dictionary(_dict.SetItem(key, new IndirectValue(value)), _loader);
 
         public Dictionary SetItem(IKey key, string value) =>
             (Dictionary)SetItem(key, (IValue)new Text(value));
@@ -401,7 +443,7 @@ namespace Bencodex.Types
         public IImmutableDictionary<IKey, IValue> SetItems(
             IEnumerable<KeyValuePair<IKey, IValue>> items
         ) =>
-            new Dictionary(_dict.SetItems(items));
+            new Dictionary(_dict.SetItems(items.Select(ToIndirectPair)), _loader);
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.TryGetKey(TKey, out TKey)"/>
         public bool TryGetKey(IKey equalKey, out IKey actualKey) =>
@@ -428,24 +470,13 @@ namespace Bencodex.Types
             obj switch
             {
                 null => false,
-                Dictionary d => ((IEquatable<IImmutableDictionary<IKey, IValue>>)this).Equals(d),
+                Dictionary d => this.Equals(d),
                 _ => false
             };
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-        public bool Equals(Dictionary other)
-        {
-            if (Count != other.Count)
-            {
-                return false;
-            }
-            else if (_hash is { } && other._hash is { })
-            {
-                return Fingerprint.Equals(other.Fingerprint);
-            }
-
-            return ((IEquatable<IImmutableDictionary<IKey, IValue>>)this).Equals(other);
-        }
+        public bool Equals(Dictionary other) =>
+            Fingerprint.Equals(other.Fingerprint);
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         bool IEquatable<IImmutableDictionary<IKey, IValue>>.Equals(
@@ -560,5 +591,10 @@ namespace Bencodex.Types
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
             $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Dictionary)} {Inspect(false)}";
+
+        private static KeyValuePair<IKey, IndirectValue> ToIndirectPair(
+            KeyValuePair<IKey, IValue> pair
+        ) =>
+            new KeyValuePair<IKey, IndirectValue>(pair.Key, new IndirectValue(pair.Value));
     }
 }

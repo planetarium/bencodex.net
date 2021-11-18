@@ -34,8 +34,9 @@ To be released.
  -  Added `List(params IValue[])` constructor.  [[#51]]
  -  Added `List(IEnumerable<IndirectValue>, IndirectValue.Loader)` constructor.
     [[#52]]
- -  Added `Dictionary(in ImmutableSortedDictionary<IKey, IValue>)` constructor.
-    [[#51]]
+ -  Added
+    `Dictionary(IEnumerable<KeyValuePair<IKey, IndirectValue>>, IndirectValue)`
+    constructor.  [[#52]]
  -  Added `Bencodex.Types.Dictionary[Text]` indexer. [[#52]]
  -  Added `Bencodex.Types.Dictionary[Binary]` indexer. [[#52]]
  -  Added `Bencodex.Types.Dictionary.ContainsKey(Text)` method.  [[#52]]
