@@ -55,6 +55,15 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void EncodingLength()
+        {
+            Assert.Equal(_list.EncodingLength, _loaded.EncodingLength);
+            Assert.Equal(_dict.EncodingLength, _unloaded.EncodingLength);
+            Assert.Null(_unloaded.LoadedValue);
+            Assert.Throws<InvalidOperationException>(() => _default.EncodingLength);
+        }
+
+        [Fact]
         public void LoadedValue()
         {
             Assert.Equal(_list, _loaded.LoadedValue);

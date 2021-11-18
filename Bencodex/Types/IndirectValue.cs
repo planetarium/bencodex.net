@@ -63,6 +63,15 @@ namespace Bencodex.Types
         public ValueType Type => LoadedValue is { } loaded ? loaded.Type : Fingerprint.Type;
 
         /// <summary>
+        /// The encoding length of the value that this <see cref="IndirectValue"/> refers to.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when the <see cref="IndirectValue"/>
+        /// is an uninitialized default value.</exception>
+        public long EncodingLength => LoadedValue is { } loaded
+            ? loaded.EncodingLength
+            : Fingerprint.EncodingLength;
+
+        /// <summary>
         /// Gets the value.
         /// <para>If it is not loaded on the memory yet, the value is loaded first using
         /// the <paramref name="loader"/>.</para>

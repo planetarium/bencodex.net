@@ -130,10 +130,8 @@ namespace Bencodex.Types
         public long EncodingLength =>
             _encodingLength is { } l ? l : (
                 _encodingLength = _listPrefix.LongLength
-                + _values.Sum(e => e.LoadedValue is { } v
-                        ? v.EncodingLength
-                        : e.Fingerprint.EncodingLength)
-                    + CommonVariables.Suffix.LongLength
+                + _values.Sum(e => e.EncodingLength)
+                + CommonVariables.Suffix.LongLength
             ).Value;
 
         /// <inheritdoc cref="IValue.Inspection"/>
