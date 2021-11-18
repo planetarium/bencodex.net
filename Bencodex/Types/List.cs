@@ -150,7 +150,7 @@ namespace Bencodex.Types
             {
                 return false;
             }
-            else if (_hash is { } && other is List otherList && otherList._hash is { })
+            else if (other is List otherList)
             {
                 return Fingerprint.Equals(otherList.Fingerprint);
             }
