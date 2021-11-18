@@ -185,11 +185,35 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.ContainsKey(TKey)"/>
         public bool ContainsKey(IKey key) => _dict.ContainsKey(key);
 
-        public bool ContainsKey(string key) => ContainsKey((IKey)new Text(key));
+        /// <summary>Determines whether the dictionary contains the specified text key.</summary>
+        /// <param name="key">The text key to locate.</param>
+        /// <returns><see langword="true" /> if the dictionary contains the specified key;
+        /// otherwise, <see langword="false" />.</returns>
+        public bool ContainsKey(Text key) => ContainsKey((IKey)key);
 
-        public bool ContainsKey(ImmutableArray<byte> key) => ContainsKey((IKey)new Binary(key));
+        /// <summary>Determines whether the dictionary contains the specified string key.</summary>
+        /// <param name="key">The string key to locate.</param>
+        /// <returns><see langword="true" /> if the dictionary contains the specified key;
+        /// otherwise, <see langword="false" />.</returns>
+        public bool ContainsKey(string key) => ContainsKey(new Text(key));
 
-        public bool ContainsKey(byte[] key) => ContainsKey((IKey)new Binary(key));
+        /// <summary>Determines whether the dictionary contains the specified binary key.</summary>
+        /// <param name="key">The binary key to locate.</param>
+        /// <returns><see langword="true" /> if the dictionary contains the specified key;
+        /// otherwise, <see langword="false" />.</returns>
+        public bool ContainsKey(Binary key) => ContainsKey((IKey)key);
+
+        /// <summary>Determines whether the dictionary contains the specified bytes key.</summary>
+        /// <param name="key">The bytes key to locate.</param>
+        /// <returns><see langword="true" /> if the dictionary contains the specified key;
+        /// otherwise, <see langword="false" />.</returns>
+        public bool ContainsKey(ImmutableArray<byte> key) => ContainsKey(new Binary(key));
+
+        /// <summary>Determines whether the dictionary contains the specified bytes key.</summary>
+        /// <param name="key">The bytes key to locate.</param>
+        /// <returns><see langword="true" /> if the dictionary contains the specified key;
+        /// otherwise, <see langword="false" />.</returns>
+        public bool ContainsKey(byte[] key) => ContainsKey(new Binary(key));
 
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.TryGetValue(TKey, out TValue)"/>
         public bool TryGetValue(IKey key, out IValue value) =>

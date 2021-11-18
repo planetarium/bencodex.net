@@ -359,12 +359,16 @@ namespace Bencodex.Tests.Types
             byte[] byteKey = { 0x00 };
             byte[] invalidKey = { 0x01 };
             Assert.True(_mixedKeys.ContainsKey((IKey)(Text)"stringKey"));
+            Assert.True(_mixedKeys.ContainsKey((Text)"stringKey"));
             Assert.True(_mixedKeys.ContainsKey("stringKey"));
             Assert.True(_mixedKeys.ContainsKey((IKey)(Binary)byteKey));
+            Assert.True(_mixedKeys.ContainsKey((Binary)byteKey));
             Assert.True(_mixedKeys.ContainsKey(byteKey));
             Assert.False(_mixedKeys.ContainsKey((IKey)(Text)"invalidKey"));
+            Assert.False(_mixedKeys.ContainsKey((Text)"invalidKey"));
             Assert.False(_mixedKeys.ContainsKey("invalidKey"));
             Assert.False(_mixedKeys.ContainsKey((IKey)(Binary)invalidKey));
+            Assert.False(_mixedKeys.ContainsKey((Binary)invalidKey));
             Assert.False(_mixedKeys.ContainsKey(invalidKey));
         }
 
