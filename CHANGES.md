@@ -6,8 +6,9 @@ Version 0.4.0
 
 To be released.
 
- -  `Bencodex.Types.List` struct became a class.  [[#51]]
- -  `Bencodex.Types.Dictionary` readonly struct became a class.  [[#51]]
+ -  `Bencodex.Types.List` struct became a sealed class.  [[#51], [#52]]
+ -  `Bencodex.Types.Dictionary` readonly struct became a sealed class.
+    [[#51], [#52]]
  -  `Bencocex.Types.List` class now implements `IEqutable<Bencodex.Types.List>`
     interface.  [[#52]]
  -  `Bencodex.Types.Dictionary` class now implements

@@ -16,7 +16,7 @@ namespace Bencodex.Types
     /// Represents Bencodex dictionaries.
     /// </summary>
     [Pure]
-    public class Dictionary :
+    public sealed class Dictionary :
         IValue,
         IEquatable<Dictionary>,
         IEquatable<IImmutableDictionary<IKey, IValue>>,

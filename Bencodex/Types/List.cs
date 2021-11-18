@@ -15,7 +15,7 @@ namespace Bencodex.Types
     /// Represents Bencodex lists.
     /// </summary>
     [Pure]
-    public class List :
+    public sealed class List :
         IValue,
         IImmutableList<IValue>,
         IEquatable<IImmutableList<IValue>>,
