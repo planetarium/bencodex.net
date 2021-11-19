@@ -30,7 +30,7 @@ namespace Bencodex.Types
         /// The singleton fingerprint for empty lists.
         /// </summary>
         public static readonly Fingerprint EmptyFingerprint =
-            new Fingerprint(ValueType.List, 2L);
+            new Fingerprint(ValueKind.List, 2L);
 
         private static readonly byte[] _listPrefix = new byte[1] { 0x6c };  // 'l'
 
@@ -85,9 +85,9 @@ namespace Bencodex.Types
             _hash = null;
         }
 
-        /// <inheritdoc cref="IValue.Type"/>
+        /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
-        public ValueType Type => ValueType.List;
+        public ValueKind Kind => ValueKind.List;
 
         /// <inheritdoc cref="IValue.Fingerprint"/>
         [Pure]
@@ -122,7 +122,7 @@ namespace Bencodex.Types
                     }
                 }
 
-                return new Fingerprint(Type, EncodingLength, hash);
+                return new Fingerprint(Kind, EncodingLength, hash);
             }
         }
 
@@ -408,7 +408,7 @@ namespace Bencodex.Types
 
                 case 1:
                     IndirectValue first = _values[0];
-                    if (first.Type == ValueType.List || first.Type == ValueType.Dictionary)
+                    if (first.Type == ValueKind.List || first.Type == ValueKind.Dictionary)
                     {
                         goto default;
                     }

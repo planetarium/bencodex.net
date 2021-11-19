@@ -32,7 +32,7 @@ namespace Bencodex.Types
         /// The singleton fingerprint for empty dictionaries.
         /// </summary>
         public static readonly Fingerprint EmptyFingerprint =
-            new Fingerprint(ValueType.Dictionary, 2);
+            new Fingerprint(ValueKind.Dictionary, 2);
 
         private static readonly byte[] _dictionaryPrefix = new byte[1] { 0x64 };  // 'd'
 
@@ -113,8 +113,8 @@ namespace Bencodex.Types
             }
         }
 
-        /// <inheritdoc cref="IValue.Type"/>
-        public ValueType Type => ValueType.Dictionary;
+        /// <inheritdoc cref="IValue.Kind"/>
+        public ValueKind Kind => ValueKind.Dictionary;
 
         /// <inheritdoc cref="IValue.Fingerprint"/>
         public Fingerprint Fingerprint
@@ -150,7 +150,7 @@ namespace Bencodex.Types
                     }
                 }
 
-                return new Fingerprint(Type, EncodingLength, hash);
+                return new Fingerprint(Kind, EncodingLength, hash);
             }
         }
 
@@ -545,7 +545,7 @@ namespace Bencodex.Types
 
             foreach (KeyValuePair<IKey, IValue> pair in this)
             {
-                if (pair.Key.Type == ValueType.Text)
+                if (pair.Key.Kind == ValueKind.Text)
                 {
                     yield return _unicodeKeyPrefix;
                     length += _unicodeKeyPrefix.LongLength;
@@ -582,7 +582,7 @@ namespace Bencodex.Types
 
             foreach (KeyValuePair<IKey, IValue> pair in this)
             {
-                if (pair.Key.Type == ValueType.Text)
+                if (pair.Key.Kind == ValueKind.Text)
                 {
                     stream.WriteByte(_unicodeKeyPrefix[0]);
                 }

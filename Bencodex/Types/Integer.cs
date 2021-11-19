@@ -61,9 +61,9 @@ namespace Bencodex.Types
 
         public BigInteger Value { get; }
 
-        /// <inheritdoc cref="IValue.Type"/>
+        /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
-        public ValueType Type => ValueType.Integer;
+        public ValueKind Kind => ValueKind.Integer;
 
         /// <inheritdoc cref="IValue.Fingerprint"/>
         [Pure]
@@ -76,7 +76,7 @@ namespace Bencodex.Types
                 byte[] bytes = Value.ToByteArray();
                 IReadOnlyList<byte> digest =
                     bytes.Length <= 20 ? bytes : SHA1.Create().ComputeHash(bytes);
-                return new Fingerprint(Type, EncodingLength, digest);
+                return new Fingerprint(Kind, EncodingLength, digest);
             }
         }
 

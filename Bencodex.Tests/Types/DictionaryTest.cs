@@ -10,7 +10,6 @@ using static Bencodex.Tests.TestUtils;
 using IEquatableDict = System.IEquatable<System.Collections.Immutable.IImmutableDictionary<
     Bencodex.Types.IKey,
     Bencodex.Types.IValue>>;
-using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
 {
@@ -450,24 +449,24 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void Type()
+        public void Kind()
         {
-            Assert.Equal(ValueType.Dictionary, Dictionary.Empty.Type);
-            Assert.Equal(ValueType.Dictionary, _textKey.Type);
-            Assert.Equal(ValueType.Dictionary, _binaryKey.Type);
-            Assert.Equal(ValueType.Dictionary, _partiallyLoaded.Type);
+            Assert.Equal(ValueKind.Dictionary, Dictionary.Empty.Kind);
+            Assert.Equal(ValueKind.Dictionary, _textKey.Kind);
+            Assert.Equal(ValueKind.Dictionary, _binaryKey.Kind);
+            Assert.Equal(ValueKind.Dictionary, _partiallyLoaded.Kind);
         }
 
         [Fact]
         public void Fingerprint()
         {
             Assert.Equal(
-                new Fingerprint(ValueType.Dictionary, 2),
+                new Fingerprint(ValueKind.Dictionary, 2),
                 Dictionary.Empty.Fingerprint
             );
             Assert.Equal(
                 new Fingerprint(
-                    ValueType.Dictionary,
+                    ValueKind.Dictionary,
                     14L,
                     ParseHex("bb1bbb4428e03722aa5e5ad2e0d70657e328dae1")
                 ),
@@ -475,7 +474,7 @@ namespace Bencodex.Tests.Types
             );
             Assert.Equal(
                 new Fingerprint(
-                    ValueType.Dictionary,
+                    ValueKind.Dictionary,
                     13L,
                     ParseHex("0a4571a67289be466635ecc577ac136452d8d532")
                 ),
@@ -483,7 +482,7 @@ namespace Bencodex.Tests.Types
             );
             Assert.Equal(
                 new Fingerprint(
-                    ValueType.Dictionary,
+                    ValueKind.Dictionary,
                     33,
                     ParseHex("83f7620e739e4dd9c6443a93eae4ff9132580ff3")
                 ),

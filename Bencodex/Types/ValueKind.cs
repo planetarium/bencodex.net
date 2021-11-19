@@ -3,7 +3,7 @@
     /// <summary>
     /// The value to identify types of Bencodex values.
     /// </summary>
-    public enum ValueType : byte
+    public enum ValueKind : byte
     {
         /// <summary>
         /// Null (<c>n</c>).

@@ -16,13 +16,13 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void SingletonFingerprint()
         {
-            Assert.Equal(new Fingerprint(ValueType.Null, 1L), Null.SingletonFingerprint);
+            Assert.Equal(new Fingerprint(ValueKind.Null, 1L), Null.SingletonFingerprint);
         }
 
         [Fact]
         public void Fingerprint()
         {
-            Assert.Equal(new Fingerprint(ValueType.Null, 1L), Null.Value.Fingerprint);
+            Assert.Equal(new Fingerprint(ValueKind.Null, 1L), Null.Value.Fingerprint);
         }
 
         [Fact]
@@ -32,9 +32,9 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void Type()
+        public void Kind()
         {
-            Assert.Equal(ValueType.Null, Null.Value.Type);
+            Assert.Equal(ValueKind.Null, Null.Value.Kind);
         }
 
         [Theory]
