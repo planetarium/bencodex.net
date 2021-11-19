@@ -59,8 +59,8 @@ namespace Bencodex.Tests.Types
         }
 
         [Theory]
-        [InlineData(new object[] { false })]
-        [InlineData(new object[] { true })]
+        [InlineData(false)]
+        [InlineData(true)]
         public void Inspect(bool loadAll)
         {
             Assert.Equal("true", _t.Inspect(loadAll));
