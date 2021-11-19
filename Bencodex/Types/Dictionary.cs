@@ -38,7 +38,7 @@ namespace Bencodex.Types
 
         private static readonly byte[] _unicodeKeyPrefix = new byte[1] { 0x75 };  // 'u'
 
-        private ImmutableSortedDictionary<IKey, IndirectValue> _dict;
+        private readonly ImmutableSortedDictionary<IKey, IndirectValue> _dict;
         private IndirectValue.Loader? _loader;
         private ImmutableArray<byte>? _hash;
         private long _encodingLength = -1;
@@ -89,7 +89,7 @@ namespace Bencodex.Types
         )
         {
             _dict = dict;
-            _loader = loader;
+            _loader = dict.IsEmpty ? null : loader;
         }
 
         /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
@@ -100,7 +100,18 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.Values"/>
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
-        public IEnumerable<IValue> Values => _dict.Values.Select(iv => iv.GetValue(_loader));
+        public IEnumerable<IValue> Values
+        {
+            get
+            {
+                foreach (IndirectValue iv in _dict.Values)
+                {
+                    yield return iv.GetValue(_loader);
+                }
+
+                _loader = null;
+            }
+        }
 
         /// <inheritdoc cref="IValue.Type"/>
         public ValueType Type => ValueType.Dictionary;
@@ -207,9 +218,15 @@ namespace Bencodex.Types
         public IValue this[byte[] key] => this[new Binary(key)];
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()"/>
-        public IEnumerator<KeyValuePair<IKey, IValue>> GetEnumerator() => _dict
-            .Select(kv => new KeyValuePair<IKey, IValue>(kv.Key, kv.Value.GetValue(_loader)))
-            .GetEnumerator();
+        public IEnumerator<KeyValuePair<IKey, IValue>> GetEnumerator()
+        {
+            foreach (KeyValuePair<IKey, IndirectValue> kv in _dict)
+            {
+                yield return new KeyValuePair<IKey, IValue>(kv.Key, kv.Value.GetValue(_loader));
+            }
+
+            _loader = null;
+        }
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator()"/>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -497,6 +514,7 @@ namespace Bencodex.Types
                 }
             }
 
+            _loader = null;
             return true;
         }
 
@@ -585,6 +603,11 @@ namespace Bencodex.Types
                 $"  {kv.Key.Inspect(loadAll)}: {kv.Value.Inspect(loadAll).Replace("\n", "\n  ")},\n"
             ).OrderBy(s => s);
             string pairsString = string.Join(string.Empty, pairs);
+            if (loadAll)
+            {
+                _loader = null;
+            }
+
             return $"{{\n{pairsString}}}";
         }
 

@@ -34,7 +34,7 @@ namespace Bencodex.Types
 
         private static readonly byte[] _listPrefix = new byte[1] { 0x6c };  // 'l'
 
-        private ImmutableArray<IndirectValue> _values;
+        private readonly ImmutableArray<IndirectValue> _values;
         private IndirectValue.Loader? _loader;
         private long? _encodingLength;
         private ImmutableArray<byte>? _hash;
@@ -80,7 +80,7 @@ namespace Bencodex.Types
         )
         {
             _values = indirectValues;
-            _loader = loader;
+            _loader = indirectValues.IsDefaultOrEmpty ? null : loader;
             _encodingLength = null;
             _hash = null;
         }
@@ -190,6 +190,8 @@ namespace Bencodex.Types
             {
                 yield return element.GetValue(_loader);
             }
+
+            _loader = null;
         }
 
         public override bool Equals(object obj)
@@ -397,10 +399,12 @@ namespace Bencodex.Types
                     ? value.GetValue(_loader).Inspect(load)
                     : value.Fingerprint.ToString();
 
+            string inspection;
             switch (_values.Length)
             {
                 case 0:
-                    return "[]";
+                    inspection = "[]";
+                    break;
 
                 case 1:
                     IndirectValue first = _values[0];
@@ -409,14 +413,23 @@ namespace Bencodex.Types
                         goto default;
                     }
 
-                    return $"[{InspectItem(first, loadAll)}]";
+                    inspection = $"[{InspectItem(first, loadAll)}]";
+                    break;
 
                 default:
                     IEnumerable<string> elements = _values.Select(v =>
                         $"  {InspectItem(v, loadAll).Replace("\n", "\n  ")},\n"
                     );
-                    return $"[\n{string.Join(string.Empty, elements)}]";
+                    inspection = $"[\n{string.Join(string.Empty, elements)}]";
+                    break;
             }
+
+            if (loadAll)
+            {
+                _loader = null;
+            }
+
+            return inspection;
         }
 
         /// <inheritdoc cref="object.ToString()"/>
