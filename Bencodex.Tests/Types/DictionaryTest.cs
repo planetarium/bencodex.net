@@ -7,6 +7,9 @@ using Bencodex.Types;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
 using static Bencodex.Tests.TestUtils;
+using IEquatableDict = System.IEquatable<System.Collections.Immutable.IImmutableDictionary<
+    Bencodex.Types.IKey,
+    Bencodex.Types.IValue>>;
 using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
@@ -153,6 +156,25 @@ namespace Bencodex.Tests.Types
 
             Assert.True(_partiallyLoaded.Equals(_loaded));
             Assert.False(_partiallyLoaded.Equals(_loaded.Add("zzz", 1)));
+            Assert.False(_partiallyLoaded.Equals(_loaded.SetItem("b", "update")));
+            Assert.Empty(_loadLog);
+
+            Assert.True(((IEquatableDict)_partiallyLoaded).Equals(_loaded));
+            Assert.False(((IEquatableDict)_partiallyLoaded).Equals(_loaded.Add("zzz", 1)));
+            Assert.False(((IEquatableDict)_partiallyLoaded).Equals(_loaded.SetItem("b", "update")));
+            Assert.Empty(_loadLog);
+
+            Assert.True(((IEquatableDict)_partiallyLoaded).Equals(_loaded.ToImmutableDictionary()));
+            Assert.False(
+                ((IEquatableDict)_partiallyLoaded).Equals(
+                    _loaded.Add("zzz", 1).ToImmutableDictionary()
+                )
+            );
+            Assert.False(
+                ((IEquatableDict)_partiallyLoaded).Equals(
+                    _loaded.SetItem("b", "update").ToImmutableDictionary()
+                )
+            );
             Assert.Empty(_loadLog);
         }
 

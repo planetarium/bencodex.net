@@ -178,8 +178,8 @@ namespace Bencodex.Types
             return true;
         }
 
-        public bool Equals(List other) =>
-            ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
+        public bool Equals(List other) => Fingerprint.Equals(other.Fingerprint);
 
         bool IEquatable<IValue>.Equals(IValue other) =>
             other is List o && Equals(o);

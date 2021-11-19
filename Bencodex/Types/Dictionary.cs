@@ -483,11 +483,12 @@ namespace Bencodex.Types
             return (T)this[name];
         }
 
+        /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals(object obj) =>
             obj switch
             {
                 null => false,
-                Dictionary d => this.Equals(d),
+                Dictionary d => Equals(d),
                 _ => false
             };
 
@@ -504,17 +505,26 @@ namespace Bencodex.Types
             {
                 return false;
             }
-
-            foreach (KeyValuePair<IKey, IValue> kv in this)
+            else if (other is Dictionary od)
             {
-                if (!other.TryGetValue(kv.Key, out IValue v) ||
-                    !v.Equals(kv.Value))
+                return od.Fingerprint.Equals(Fingerprint);
+            }
+
+            foreach (KeyValuePair<IKey, IndirectValue> kv in _dict)
+            {
+                if (!other.TryGetValue(kv.Key, out IValue v))
+                {
+                    return false;
+                }
+
+                if (kv.Value.LoadedValue is { } loaded
+                        ? !loaded.Equals(v)
+                        : !kv.Value.Fingerprint.Equals(v.Fingerprint))
                 {
                     return false;
                 }
             }
 
-            _loader = null;
             return true;
         }
 
