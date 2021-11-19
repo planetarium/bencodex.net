@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Bencodex.Types;
-using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Misc
 {
@@ -35,7 +34,7 @@ namespace Bencodex.Misc
                 return string.CompareOrdinal(xt.Value, yt.Value);
             }
 
-            return (x.Type == ValueType.Text).CompareTo(y.Type == ValueType.Text);
+            return (x.Kind == ValueKind.Text).CompareTo(y.Kind == ValueKind.Text);
         }
     }
 }

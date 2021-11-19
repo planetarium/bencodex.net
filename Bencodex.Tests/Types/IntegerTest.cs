@@ -5,7 +5,6 @@ using Bencodex.Types;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
 using static Bencodex.Tests.TestUtils;
-using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
 {
@@ -33,11 +32,11 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void Type()
+        public void Kind()
         {
-            Assert.Equal(ValueType.Integer, new Integer(0).Type);
-            Assert.Equal(ValueType.Integer, new Integer(123).Type);
-            Assert.Equal(ValueType.Integer, new Integer(-456).Type);
+            Assert.Equal(ValueKind.Integer, new Integer(0).Kind);
+            Assert.Equal(ValueKind.Integer, new Integer(123).Kind);
+            Assert.Equal(ValueKind.Integer, new Integer(-456).Kind);
         }
 
         [Fact]
@@ -52,15 +51,15 @@ namespace Bencodex.Tests.Types
         public void Fingerprint()
         {
             Assert.Equal(
-                new Fingerprint(ValueType.Integer, 3L, new byte[] { 0 }),
+                new Fingerprint(ValueKind.Integer, 3L, new byte[] { 0 }),
                 new Integer(0).Fingerprint
             );
             Assert.Equal(
-                new Fingerprint(ValueType.Integer, 4L, new byte[] { 45 }),
+                new Fingerprint(ValueKind.Integer, 4L, new byte[] { 45 }),
                 new Integer(45).Fingerprint
             );
             Assert.Equal(
-                new Fingerprint(ValueType.Integer, 6L, new byte[] { 0b10000101 }),
+                new Fingerprint(ValueKind.Integer, 6L, new byte[] { 0b10000101 }),
                 new Integer(-123).Fingerprint
             );
             BigInteger bigint = BigInteger.Parse(
@@ -69,7 +68,7 @@ namespace Bencodex.Tests.Types
             );
             Assert.Equal(
                 new Fingerprint(
-                    ValueType.Integer,
+                    ValueKind.Integer,
                     51L,
                     ParseHex("8209ad2f4fad401d8e3d33def02577bd9ab550e5")
                 ),

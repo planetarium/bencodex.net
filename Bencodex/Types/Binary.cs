@@ -60,9 +60,9 @@ namespace Bencodex.Types
             "method or Binary.ByteArray property instead.")]
         public byte[] Value => ToByteArray();
 
-        /// <inheritdoc cref="IValue.Type"/>
+        /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
-        public ValueType Type => ValueType.Binary;
+        public ValueKind Kind => ValueKind.Binary;
 
         /// <inheritdoc cref="IValue.Fingerprint"/>
         [Pure]
@@ -77,7 +77,7 @@ namespace Bencodex.Types
                             ? ImmutableArray.Create(SHA1.Create().ComputeHash(ToByteArray()))
                             : ByteArray
                     : ImmutableArray<byte>.Empty;
-                return new Fingerprint(Type, EncodingLength, digest);
+                return new Fingerprint(Kind, EncodingLength, digest);
             }
         }
 

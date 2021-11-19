@@ -14,30 +14,35 @@ namespace Bencodex.Types
     [Serializable]
     public readonly struct Fingerprint : IEquatable<Fingerprint>, ISerializable
     {
+        private static readonly ImmutableHashSet<ValueKind> _availableKinds = Enum.GetValues(typeof(ValueKind))
+            .Cast<ValueKind>()
+            .OrderBy(k => k)
+            .ToImmutableHashSet();
+
         /// <summary>
         /// Creates a <see cref="Fingerprint"/> value.
         /// </summary>
-        /// <param name="type">The value type.</param>
+        /// <param name="kind">The Bencodex type of the value.</param>
         /// <param name="encodingLength">The byte length of encoded value.</param>
-        public Fingerprint(in ValueType type, in long encodingLength)
-            : this(type, encodingLength, ImmutableArray<byte>.Empty)
+        public Fingerprint(in ValueKind kind, in long encodingLength)
+            : this(kind, encodingLength, ImmutableArray<byte>.Empty)
         {
         }
 
         /// <summary>
         /// Creates a <see cref="Fingerprint"/> value.
         /// </summary>
-        /// <param name="type">The value type.</param>
+        /// <param name="kind">The Bencodex type of the value.</param>
         /// <param name="encodingLength">The byte length of encoded value.</param>
         /// <param name="digest">The digest of the value.  It can be empty, but cannot be
         /// <c>null</c>.</param>
         public Fingerprint(
-            in ValueType type,
+            in ValueKind kind,
             in long encodingLength,
             IReadOnlyList<byte> digest
         )
             : this(
-                type,
+                kind,
                 encodingLength,
                 digest is ImmutableArray<byte> ia ? ia : ImmutableArray.CreateRange(digest)
             )
@@ -47,24 +52,24 @@ namespace Bencodex.Types
         /// <summary>
         /// Creates a <see cref="Fingerprint"/> value.
         /// </summary>
-        /// <param name="type">The value type.</param>
+        /// <param name="kind">The Bencodex type of the value.</param>
         /// <param name="encodingLength">The byte length of encoded value.</param>
         /// <param name="digest">The digest of the value.  It can be empty, but cannot be
         /// <c>null</c>.</param>
         public Fingerprint(
-            in ValueType type,
+            in ValueKind kind,
             in long encodingLength,
             in ImmutableArray<byte> digest
         )
         {
-            Type = type;
+            Kind = kind;
             EncodingLength = encodingLength;
             Digest = digest;
         }
 
         private Fingerprint(SerializationInfo info, StreamingContext context)
             : this(
-                (ValueType)info.GetByte(nameof(Type)),
+                (ValueKind)info.GetByte(nameof(Kind)),
                 info.GetInt64(nameof(EncodingLength)),
                 (byte[])info.GetValue(nameof(Digest), typeof(byte[]))
             )
@@ -72,10 +77,10 @@ namespace Bencodex.Types
         }
 
         /// <summary>
-        /// The value type.
+        /// The Bencodex type of the value.
         /// </summary>
         [Pure]
-        public ValueType Type { get; }
+        public ValueKind Kind { get; }
 
         /// <summary>
         /// The byte length of encoded value.
@@ -123,17 +128,25 @@ namespace Bencodex.Types
         {
             if (serialized.Length < 1 + 8)
             {
-                throw new FormatException("The serialized bytes is not valid.");
+                throw new FormatException("The serialized byte array is too short.");
             }
 
-            var type = (ValueType)serialized[0];
+            var kind = (ValueKind)serialized[0];
+            if (!_availableKinds.Contains(kind))
+            {
+                throw new FormatException(
+                    $"Invalid value kind: {serialized[0]}; available kinds are:\n\n" +
+                    string.Join("\n", _availableKinds.Select(k => $"{(byte)k}. {k}"))
+                );
+            }
+
             if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(serialized, 1, 8);
             }
 
             return new Fingerprint(
-                type,
+                kind,
                 BitConverter.ToInt64(serialized, 1),
                 serialized.Skip(1 + 8).ToImmutableArray()
             );
@@ -143,7 +156,7 @@ namespace Bencodex.Types
         [Pure]
         public bool Equals(Fingerprint other)
         {
-            if (Type != other.Type ||
+            if (Kind != other.Kind ||
                 EncodingLength != other.EncodingLength ||
                 Digest.Length != other.Digest.Length)
             {
@@ -172,7 +185,7 @@ namespace Bencodex.Types
         {
             unchecked
             {
-                var hashCode = (int)Type;
+                var hashCode = (int)Kind;
                 hashCode = (hashCode * 397) ^ EncodingLength.GetHashCode();
                 foreach (byte b in Digest)
                 {
@@ -208,7 +221,7 @@ namespace Bencodex.Types
             }
 
             var total = new byte[1 + encLength.Length + hash.Length];
-            total[0] = (byte)Type;
+            total[0] = (byte)Kind;
             encLength.CopyTo(total, 1);
             hash.CopyTo(total, 1 + encLength.Length);
             return total;
@@ -217,13 +230,13 @@ namespace Bencodex.Types
         /// <inheritdoc cref="ISerializable.GetObjectData(SerializationInfo, StreamingContext)"/>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Type), (byte)Type);
+            info.AddValue(nameof(Kind), (byte)Kind);
             info.AddValue(nameof(EncodingLength), EncodingLength);
             info.AddValue(nameof(Digest), GetDigest());
         }
 
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{Type} {(Digest.Any() ? $"{Digest.Hex()} " : string.Empty)}[{EncodingLength} B]";
+            $"{Kind} {(Digest.Any() ? $"{Digest.Hex()} " : string.Empty)}[{EncodingLength} B]";
     }
 }

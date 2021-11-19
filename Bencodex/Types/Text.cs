@@ -37,9 +37,9 @@ namespace Bencodex.Types
         [Pure]
         byte? IKey.KeyPrefix => _keyPrefix;  // 'u'
 
-        /// <inheritdoc cref="IValue.Type"/>
+        /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
-        public ValueType Type => ValueType.Text;
+        public ValueKind Kind => ValueKind.Text;
 
         /// <inheritdoc cref="IValue.Fingerprint"/>
         [Pure]
@@ -66,7 +66,7 @@ namespace Bencodex.Types
                     }
                 }
 
-                return new Fingerprint(Type, EncodingLength, digest);
+                return new Fingerprint(Kind, EncodingLength, digest);
             }
         }
 

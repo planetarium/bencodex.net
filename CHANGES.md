@@ -13,13 +13,15 @@ To be released.
     interface.  [[#52]]
  -  `Bencodex.Types.Dictionary` class now implements
     `IEquatable<Bencodex.Types.Dictionary>` interface.  [[#51]]
- -  Added `Bencodex.Types.ValueType` enum type.  [[#50]]
- -  Bencodex lists and dictionaries now can offload their elements:  [[#52]]
-     -  Added `Bencodex.Types.IndirectValue` struct.
+ -  Added `Bencodex.Types.ValueKind` enum type.  [[#50], [#53]]
+ -  Bencodex lists and dictionaries now can offload their elements:
+     -  Added `Bencodex.Types.IndirectValue` struct.  [[#52]]
      -  Added `List(IEnumerable<IndirectValue>, IndirectValue.Loader)`
-        constructor.
+        constructor.  [[#52]]
      -  Added `Dictionary(IEnumerable<KeyValuePair<IKey, IndirectValue>>,
-        IndirectValue.Loader)` constructor.
+        IndirectValue.Loader)` constructor.  [[#52]]
+     -  Added `List.EnumerateIndirectValues()` method.  [[#53]]
+     -  Added `Dictionary.EnumerateIndirectValues()` method.  [[#53]]
  -  Bencodex values now have their unique fingerprints:  [[#50]]
      -  Added `Bencodex.Types.Fingerprint` readonly struct.
      -  Added `Bencodex.Misc.FingerprintComparer` class.
@@ -29,7 +31,7 @@ To be released.
      -  Added `Boolean.FalseFingerprint` static readonly field.
      -  Added `List.EmptyFingerprint` static readonly field.
      -  Added `Dictionary.EmptyFingerprint` static readonly field.
- -  Added `IValue.Type` property.  [[#50]]
+ -  Added `IValue.Kind` property.  [[#50], [#53]]
  -  Added `IValue.EncodingLength` property.  [[#49], [#50]]
  -  Added `IValue.Inspect(bool)` method to replace `IValue.Inspection` property.
     [[#52]]
@@ -53,6 +55,7 @@ To be released.
 [#50]: https://github.com/planetarium/bencodex.net/pull/50
 [#51]: https://github.com/planetarium/bencodex.net/pull/51
 [#52]: https://github.com/planetarium/bencodex.net/pull/52
+[#53]: https://github.com/planetarium/bencodex.net/pull/53
 
 
 Version 0.3.0

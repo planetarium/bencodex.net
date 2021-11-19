@@ -12,11 +12,11 @@ namespace Bencodex.Tests.Types
         private readonly Text _complex = new Text("new lines and\n\"quotes\" become escaped to \\");
 
         [Fact]
-        public void Type()
+        public void Kind()
         {
-            Assert.Equal(ValueType.Text, _empty.Type);
-            Assert.Equal(ValueType.Text, _nihao.Type);
-            Assert.Equal(ValueType.Text, _complex.Type);
+            Assert.Equal(ValueKind.Text, _empty.Kind);
+            Assert.Equal(ValueKind.Text, _nihao.Kind);
+            Assert.Equal(ValueKind.Text, _complex.Kind);
         }
 
         [Fact]
@@ -30,10 +30,10 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Fingerprint()
         {
-            Assert.Equal(new Fingerprint(ValueType.Text, 3L), _empty.Fingerprint);
+            Assert.Equal(new Fingerprint(ValueKind.Text, 3L), _empty.Fingerprint);
             Assert.Equal(
                 new Fingerprint(
-                    ValueType.Text,
+                    ValueKind.Text,
                     9L,
                     new byte[] { 0xe4, 0xbd, 0xa0, 0xe5, 0xa5, 0xbd }
                 ),
@@ -41,7 +41,7 @@ namespace Bencodex.Tests.Types
             );
             Assert.Equal(
                 new Fingerprint(
-                    ValueType.Text,
+                    ValueKind.Text,
                     46L,
                     ParseHex("e72dcfd0ae50a80aaa8c1a78b27e2e11bef66488")
                 ),

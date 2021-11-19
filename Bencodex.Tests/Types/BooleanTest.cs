@@ -13,21 +13,21 @@ namespace Bencodex.Tests.Types
         public void SingletonFingerprints()
         {
             Assert.Equal(
-                new Fingerprint(ValueType.Boolean, 1L, new byte[] { 1 }),
+                new Fingerprint(ValueKind.Boolean, 1L, new byte[] { 1 }),
                 Boolean.TrueFingerprint
             );
             Assert.Equal(
-                new Fingerprint(ValueType.Boolean, 1L, new byte[] { 0 }),
+                new Fingerprint(ValueKind.Boolean, 1L, new byte[] { 0 }),
                 Boolean.FalseFingerprint
             );
             Assert.NotEqual(Boolean.FalseFingerprint, Boolean.TrueFingerprint);
         }
 
         [Fact]
-        public void Type()
+        public void Kind()
         {
-            Assert.Equal(ValueType.Boolean, _t.Type);
-            Assert.Equal(ValueType.Boolean, _f.Type);
+            Assert.Equal(ValueKind.Boolean, _t.Kind);
+            Assert.Equal(ValueKind.Boolean, _f.Kind);
         }
 
         [Fact]
@@ -40,8 +40,8 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Fingerprint()
         {
-            Assert.Equal(new Fingerprint(ValueType.Boolean, 1L, new byte[] { 1 }), _t.Fingerprint);
-            Assert.Equal(new Fingerprint(ValueType.Boolean, 1L, new byte[] { 0 }), _f.Fingerprint);
+            Assert.Equal(new Fingerprint(ValueKind.Boolean, 1L, new byte[] { 1 }), _t.Fingerprint);
+            Assert.Equal(new Fingerprint(ValueKind.Boolean, 1L, new byte[] { 0 }), _f.Fingerprint);
         }
 
         [Fact]

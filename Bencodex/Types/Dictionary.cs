@@ -32,13 +32,13 @@ namespace Bencodex.Types
         /// The singleton fingerprint for empty dictionaries.
         /// </summary>
         public static readonly Fingerprint EmptyFingerprint =
-            new Fingerprint(ValueType.Dictionary, 2);
+            new Fingerprint(ValueKind.Dictionary, 2);
 
         private static readonly byte[] _dictionaryPrefix = new byte[1] { 0x64 };  // 'd'
 
         private static readonly byte[] _unicodeKeyPrefix = new byte[1] { 0x75 };  // 'u'
 
-        private ImmutableSortedDictionary<IKey, IndirectValue> _dict;
+        private readonly ImmutableSortedDictionary<IKey, IndirectValue> _dict;
         private IndirectValue.Loader? _loader;
         private ImmutableArray<byte>? _hash;
         private long _encodingLength = -1;
@@ -89,7 +89,7 @@ namespace Bencodex.Types
         )
         {
             _dict = dict;
-            _loader = loader;
+            _loader = dict.IsEmpty ? null : loader;
         }
 
         /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
@@ -100,10 +100,21 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.Values"/>
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
-        public IEnumerable<IValue> Values => _dict.Values.Select(iv => iv.GetValue(_loader));
+        public IEnumerable<IValue> Values
+        {
+            get
+            {
+                foreach (IndirectValue iv in _dict.Values)
+                {
+                    yield return iv.GetValue(_loader);
+                }
 
-        /// <inheritdoc cref="IValue.Type"/>
-        public ValueType Type => ValueType.Dictionary;
+                _loader = null;
+            }
+        }
+
+        /// <inheritdoc cref="IValue.Kind"/>
+        public ValueKind Kind => ValueKind.Dictionary;
 
         /// <inheritdoc cref="IValue.Fingerprint"/>
         public Fingerprint Fingerprint
@@ -139,7 +150,7 @@ namespace Bencodex.Types
                     }
                 }
 
-                return new Fingerprint(Type, EncodingLength, hash);
+                return new Fingerprint(Kind, EncodingLength, hash);
             }
         }
 
@@ -207,12 +218,25 @@ namespace Bencodex.Types
         public IValue this[byte[] key] => this[new Binary(key)];
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator()"/>
-        public IEnumerator<KeyValuePair<IKey, IValue>> GetEnumerator() => _dict
-            .Select(kv => new KeyValuePair<IKey, IValue>(kv.Key, kv.Value.GetValue(_loader)))
-            .GetEnumerator();
+        public IEnumerator<KeyValuePair<IKey, IValue>> GetEnumerator()
+        {
+            foreach (KeyValuePair<IKey, IndirectValue> kv in _dict)
+            {
+                yield return new KeyValuePair<IKey, IValue>(kv.Key, kv.Value.GetValue(_loader));
+            }
+
+            _loader = null;
+        }
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator()"/>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        /// <summary>
+        /// Enumerates pairs of keys and <see cref="IndirectValue"/>s in the dictionary.
+        /// </summary>
+        /// <returns>An enumerable of pairs of keys and <see cref="IndirectValue"/>s, which can be
+        /// either loaded or offloaded.</returns>
+        public IEnumerable<KeyValuePair<IKey, IndirectValue>> EnumerateIndirectValues() => _dict;
 
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.ContainsKey(TKey)"/>
         public bool ContainsKey(IKey key) => _dict.ContainsKey(key);
@@ -466,11 +490,12 @@ namespace Bencodex.Types
             return (T)this[name];
         }
 
+        /// <inheritdoc cref="object.Equals(object)"/>
         public override bool Equals(object obj) =>
             obj switch
             {
                 null => false,
-                Dictionary d => this.Equals(d),
+                Dictionary d => Equals(d),
                 _ => false
             };
 
@@ -487,11 +512,21 @@ namespace Bencodex.Types
             {
                 return false;
             }
-
-            foreach (KeyValuePair<IKey, IValue> kv in this)
+            else if (other is Dictionary od)
             {
-                if (!other.TryGetValue(kv.Key, out IValue v) ||
-                    !v.Equals(kv.Value))
+                return od.Fingerprint.Equals(Fingerprint);
+            }
+
+            foreach (KeyValuePair<IKey, IndirectValue> kv in _dict)
+            {
+                if (!other.TryGetValue(kv.Key, out IValue v))
+                {
+                    return false;
+                }
+
+                if (kv.Value.LoadedValue is { } loaded
+                        ? !loaded.Equals(v)
+                        : !kv.Value.Fingerprint.Equals(v.Fingerprint))
                 {
                     return false;
                 }
@@ -517,7 +552,7 @@ namespace Bencodex.Types
 
             foreach (KeyValuePair<IKey, IValue> pair in this)
             {
-                if (pair.Key.Type == ValueType.Text)
+                if (pair.Key.Kind == ValueKind.Text)
                 {
                     yield return _unicodeKeyPrefix;
                     length += _unicodeKeyPrefix.LongLength;
@@ -554,7 +589,7 @@ namespace Bencodex.Types
 
             foreach (KeyValuePair<IKey, IValue> pair in this)
             {
-                if (pair.Key.Type == ValueType.Text)
+                if (pair.Key.Kind == ValueKind.Text)
                 {
                     stream.WriteByte(_unicodeKeyPrefix[0]);
                 }
@@ -585,6 +620,11 @@ namespace Bencodex.Types
                 $"  {kv.Key.Inspect(loadAll)}: {kv.Value.Inspect(loadAll).Replace("\n", "\n  ")},\n"
             ).OrderBy(s => s);
             string pairsString = string.Join(string.Empty, pairs);
+            if (loadAll)
+            {
+                _loader = null;
+            }
+
             return $"{{\n{pairsString}}}";
         }
 

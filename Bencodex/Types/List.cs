@@ -30,11 +30,11 @@ namespace Bencodex.Types
         /// The singleton fingerprint for empty lists.
         /// </summary>
         public static readonly Fingerprint EmptyFingerprint =
-            new Fingerprint(ValueType.List, 2L);
+            new Fingerprint(ValueKind.List, 2L);
 
         private static readonly byte[] _listPrefix = new byte[1] { 0x6c };  // 'l'
 
-        private ImmutableArray<IndirectValue> _values;
+        private readonly ImmutableArray<IndirectValue> _values;
         private IndirectValue.Loader? _loader;
         private long? _encodingLength;
         private ImmutableArray<byte>? _hash;
@@ -80,14 +80,14 @@ namespace Bencodex.Types
         )
         {
             _values = indirectValues;
-            _loader = loader;
+            _loader = indirectValues.IsDefaultOrEmpty ? null : loader;
             _encodingLength = null;
             _hash = null;
         }
 
-        /// <inheritdoc cref="IValue.Type"/>
+        /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
-        public ValueType Type => ValueType.List;
+        public ValueKind Kind => ValueKind.List;
 
         /// <inheritdoc cref="IValue.Fingerprint"/>
         [Pure]
@@ -122,7 +122,7 @@ namespace Bencodex.Types
                     }
                 }
 
-                return new Fingerprint(Type, EncodingLength, hash);
+                return new Fingerprint(Kind, EncodingLength, hash);
             }
         }
 
@@ -178,8 +178,8 @@ namespace Bencodex.Types
             return true;
         }
 
-        public bool Equals(List other) =>
-            ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
+        public bool Equals(List other) => Fingerprint.Equals(other.Fingerprint);
 
         bool IEquatable<IValue>.Equals(IValue other) =>
             other is List o && Equals(o);
@@ -190,18 +190,20 @@ namespace Bencodex.Types
             {
                 yield return element.GetValue(_loader);
             }
+
+            _loader = null;
         }
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
+        /// <summary>
+        /// Enumerates <see cref="IndirectValue"/>s in the list.
+        /// </summary>
+        /// <returns>An enumerable of <see cref="IndirectValue"/>s, which can be either loaded or
+        /// offloaded.</returns>
+        public IEnumerable<IndirectValue> EnumerateIndirectValues() => _values;
 
-            return obj is List other &&
-                ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
-        }
+        /// <inheritdoc cref="object.Equals(object?)"/>
+        public override bool Equals(object? obj) => obj is List other &&
+            ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
 
         /// <inheritdoc cref="object.GetHashCode()"/>
         public override int GetHashCode() =>
@@ -397,26 +399,37 @@ namespace Bencodex.Types
                     ? value.GetValue(_loader).Inspect(load)
                     : value.Fingerprint.ToString();
 
+            string inspection;
             switch (_values.Length)
             {
                 case 0:
-                    return "[]";
+                    inspection = "[]";
+                    break;
 
                 case 1:
                     IndirectValue first = _values[0];
-                    if (first.Type == ValueType.List || first.Type == ValueType.Dictionary)
+                    if (first.Type == ValueKind.List || first.Type == ValueKind.Dictionary)
                     {
                         goto default;
                     }
 
-                    return $"[{InspectItem(first, loadAll)}]";
+                    inspection = $"[{InspectItem(first, loadAll)}]";
+                    break;
 
                 default:
                     IEnumerable<string> elements = _values.Select(v =>
                         $"  {InspectItem(v, loadAll).Replace("\n", "\n  ")},\n"
                     );
-                    return $"[\n{string.Join(string.Empty, elements)}]";
+                    inspection = $"[\n{string.Join(string.Empty, elements)}]";
+                    break;
             }
+
+            if (loadAll)
+            {
+                _loader = null;
+            }
+
+            return inspection;
         }
 
         /// <inheritdoc cref="object.ToString()"/>

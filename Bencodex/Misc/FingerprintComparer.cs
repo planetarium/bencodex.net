@@ -14,9 +14,9 @@ namespace Bencodex.Misc
         /// <inheritdoc cref="IComparer{T}.Compare(T, T)"/>
         public int Compare(Fingerprint x, Fingerprint y)
         {
-            if (x.Type != y.Type)
+            if (x.Kind != y.Kind)
             {
-                return x.Type < y.Type ? -1 : 1;
+                return x.Kind < y.Kind ? -1 : 1;
             }
 
             int encLenCmp = x.EncodingLength.CompareTo(y.EncodingLength);

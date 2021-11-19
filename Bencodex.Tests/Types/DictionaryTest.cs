@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using Bencodex.Misc;
 using Bencodex.Types;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
 using static Bencodex.Tests.TestUtils;
-using ValueType = Bencodex.Types.ValueType;
+using IEquatableDict = System.IEquatable<System.Collections.Immutable.IImmutableDictionary<
+    Bencodex.Types.IKey,
+    Bencodex.Types.IValue>>;
 
 namespace Bencodex.Tests.Types
 {
@@ -153,6 +156,25 @@ namespace Bencodex.Tests.Types
 
             Assert.True(_partiallyLoaded.Equals(_loaded));
             Assert.False(_partiallyLoaded.Equals(_loaded.Add("zzz", 1)));
+            Assert.False(_partiallyLoaded.Equals(_loaded.SetItem("b", "update")));
+            Assert.Empty(_loadLog);
+
+            Assert.True(((IEquatableDict)_partiallyLoaded).Equals(_loaded));
+            Assert.False(((IEquatableDict)_partiallyLoaded).Equals(_loaded.Add("zzz", 1)));
+            Assert.False(((IEquatableDict)_partiallyLoaded).Equals(_loaded.SetItem("b", "update")));
+            Assert.Empty(_loadLog);
+
+            Assert.True(((IEquatableDict)_partiallyLoaded).Equals(_loaded.ToImmutableDictionary()));
+            Assert.False(
+                ((IEquatableDict)_partiallyLoaded).Equals(
+                    _loaded.Add("zzz", 1).ToImmutableDictionary()
+                )
+            );
+            Assert.False(
+                ((IEquatableDict)_partiallyLoaded).Equals(
+                    _loaded.SetItem("b", "update").ToImmutableDictionary()
+                )
+            );
             Assert.Empty(_loadLog);
         }
 
@@ -428,24 +450,24 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void Type()
+        public void Kind()
         {
-            Assert.Equal(ValueType.Dictionary, Dictionary.Empty.Type);
-            Assert.Equal(ValueType.Dictionary, _textKey.Type);
-            Assert.Equal(ValueType.Dictionary, _binaryKey.Type);
-            Assert.Equal(ValueType.Dictionary, _partiallyLoaded.Type);
+            Assert.Equal(ValueKind.Dictionary, Dictionary.Empty.Kind);
+            Assert.Equal(ValueKind.Dictionary, _textKey.Kind);
+            Assert.Equal(ValueKind.Dictionary, _binaryKey.Kind);
+            Assert.Equal(ValueKind.Dictionary, _partiallyLoaded.Kind);
         }
 
         [Fact]
         public void Fingerprint()
         {
             Assert.Equal(
-                new Fingerprint(ValueType.Dictionary, 2),
+                new Fingerprint(ValueKind.Dictionary, 2),
                 Dictionary.Empty.Fingerprint
             );
             Assert.Equal(
                 new Fingerprint(
-                    ValueType.Dictionary,
+                    ValueKind.Dictionary,
                     14L,
                     ParseHex("bb1bbb4428e03722aa5e5ad2e0d70657e328dae1")
                 ),
@@ -453,7 +475,7 @@ namespace Bencodex.Tests.Types
             );
             Assert.Equal(
                 new Fingerprint(
-                    ValueType.Dictionary,
+                    ValueKind.Dictionary,
                     13L,
                     ParseHex("0a4571a67289be466635ecc577ac136452d8d532")
                 ),
@@ -461,7 +483,7 @@ namespace Bencodex.Tests.Types
             );
             Assert.Equal(
                 new Fingerprint(
-                    ValueType.Dictionary,
+                    ValueKind.Dictionary,
                     33,
                     ParseHex("83f7620e739e4dd9c6443a93eae4ff9132580ff3")
                 ),
@@ -562,6 +584,71 @@ namespace Bencodex.Tests.Types
                     )
                 )
             );
+        }
+
+        [Fact]
+        public void EnumerateIndirectValues()
+        {
+            Assert.All(
+                _textKey.EnumerateIndirectValues(),
+                kv => Assert.NotNull(kv.Value.LoadedValue)
+            );
+            Assert.Equal(
+                new[]
+                {
+                    new KeyValuePair<IKey, IndirectValue>(
+                        (Text)"foo",
+                        new IndirectValue((Text)"bar")
+                    ),
+                },
+                _textKey.EnumerateIndirectValues()
+            );
+
+            Assert.All(
+                _textKey.EnumerateIndirectValues(),
+                kv => Assert.NotNull(kv.Value.LoadedValue)
+            );
+            Assert.Equal(
+                new[]
+                {
+                    new KeyValuePair<IKey, IndirectValue>(
+                        new Binary("foo", Encoding.ASCII),
+                        new IndirectValue((Text)"bar")
+                    ),
+                },
+                _binaryKey.EnumerateIndirectValues()
+            );
+
+            Assert.All(
+                _mixedKeys.EnumerateIndirectValues(),
+                kv => Assert.NotNull(kv.Value.LoadedValue)
+            );
+            Assert.Equal(
+                new[]
+                {
+                    new KeyValuePair<IKey, IndirectValue>(
+                        (Binary)new byte[] { 0 },
+                        new IndirectValue((Text)"byte")
+                    ),
+                    new KeyValuePair<IKey, IndirectValue>(
+                        (Text)"stringKey",
+                        new IndirectValue((Text)"string")
+                    ),
+                },
+                _mixedKeys.EnumerateIndirectValues()
+            );
+
+            Assert.Equal(
+                _partiallyLoadedPairs.OrderBy(kv => kv.Key, KeyComparer.Instance),
+                _partiallyLoaded.EnumerateIndirectValues()
+            );
+            foreach (var kv in _partiallyLoaded.EnumerateIndirectValues())
+            {
+                Assert.Equal(_partiallyLoadedPairs[kv.Key].Fingerprint, kv.Value.Fingerprint);
+                Assert.Equal(_partiallyLoadedPairs[kv.Key].LoadedValue, kv.Value.LoadedValue);
+            }
+
+            Assert.Empty(_loadLog);
         }
 
         private IValue Loader(Fingerprint f)

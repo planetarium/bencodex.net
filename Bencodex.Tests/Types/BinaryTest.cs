@@ -58,18 +58,18 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void Type()
+        public void Kind()
         {
-            Assert.Equal(ValueType.Binary, _empty.Type);
-            Assert.Equal(ValueType.Binary, _hello.Type);
+            Assert.Equal(ValueKind.Binary, _empty.Kind);
+            Assert.Equal(ValueKind.Binary, _hello.Kind);
         }
 
         [Fact]
         public void Fingerprint()
         {
-            Assert.Equal(new Fingerprint(ValueType.Binary, 2L), _empty.Fingerprint);
+            Assert.Equal(new Fingerprint(ValueKind.Binary, 2L), _empty.Fingerprint);
             Assert.Equal(
-                new Fingerprint(ValueType.Binary, 7L, _hello.ByteArray),
+                new Fingerprint(ValueKind.Binary, 7L, _hello.ByteArray),
                 _hello.Fingerprint
             );
 
@@ -84,7 +84,7 @@ namespace Bencodex.Tests.Types
             );
             Assert.Equal(
                 new Fingerprint(
-                    ValueType.Binary,
+                    ValueKind.Binary,
                     449L,
                     ParseHex("cd36b370758a259b34845084a6cc38473cb95e27")
                 ),

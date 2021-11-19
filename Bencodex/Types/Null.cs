@@ -25,11 +25,11 @@ namespace Bencodex.Types
         /// The singleton fingerprint for the <see cref="Null"/> value.
         /// </summary>
         public static readonly Fingerprint SingletonFingerprint =
-            new Fingerprint(ValueType.Null, 1L);
+            new Fingerprint(ValueKind.Null, 1L);
 
-        /// <inheritdoc cref="IValue.Type"/>
+        /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
-        public ValueType Type => ValueType.Null;
+        public ValueKind Kind => ValueKind.Null;
 
         /// <inheritdoc cref="IValue.Fingerprint"/>
         [Pure]

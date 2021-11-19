@@ -20,7 +20,7 @@ namespace Bencodex.Types
         /// The Bencodex type identifier.
         /// </summary>
         [Pure]
-        ValueType Type { get; }
+        ValueKind Kind { get; }
 
         /// <summary>
         /// A unique identifier of the value.  Can be used for efficient determining of two values
