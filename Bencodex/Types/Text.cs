@@ -79,18 +79,8 @@ namespace Bencodex.Types
             Utf8Length;
 
         /// <inheritdoc cref="IValue.Inspection"/>
-        [Pure]
-        public string Inspection
-        {
-            get
-            {
-                string contents = Value
-                    .Replace("\\", "\\\\")
-                    .Replace("\n", "\\n")
-                    .Replace("\"", "\\\"");
-                return $"\"{contents}\"";
-            }
-        }
+        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
+        public string Inspection => Inspect(true);
 
         [Pure]
         internal int Utf8Length =>
@@ -207,8 +197,18 @@ namespace Bencodex.Types
             stream.Write(utf8, 0, utf8.Length);
         }
 
-        [Pure]
+        /// <inheritdoc cref="IValue.Inspect(bool)"/>
+        public string Inspect(bool loadAll)
+        {
+            string contents = Value
+                .Replace("\\", "\\\\")
+                .Replace("\n", "\\n")
+                .Replace("\"", "\\\"");
+            return $"\"{contents}\"";
+        }
+
+        /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Text)} {Inspection}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Text)} {Inspect(false)}";
     }
 }

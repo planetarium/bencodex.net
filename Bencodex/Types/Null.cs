@@ -40,8 +40,8 @@ namespace Bencodex.Types
         public long EncodingLength => 1L;
 
         /// <inheritdoc cref="IValue.Inspection"/>
-        [Pure]
-        public string Inspection => "null";
+        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
+        public string Inspection => Inspect(true);
 
         public override int GetHashCode() => 0;
 
@@ -70,8 +70,11 @@ namespace Bencodex.Types
             stream.WriteByte(0x6e); // 'n'
         }
 
-        [Pure]
+        /// <inheritdoc cref="IValue.Inspect(bool)"/>
+        public string Inspect(bool loadAll) => "null";
+
+        /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Null)}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Null)}";
     }
 }

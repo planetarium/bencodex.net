@@ -6,12 +6,21 @@ Version 0.4.0
 
 To be released.
 
- -  `Bencodex.Types.List` struct became a class.  [[#51]]
- -  `Bencodex.Types.Dictionary` readonly struct became a class.  [[#51]]
- -  `Bencodex.Types.Dictionary` now implements
+ -  `Bencodex.Types.List` struct became a sealed class.  [[#51], [#52]]
+ -  `Bencodex.Types.Dictionary` readonly struct became a sealed class.
+    [[#51], [#52]]
+ -  `Bencocex.Types.List` class now implements `IEqutable<Bencodex.Types.List>`
+    interface.  [[#52]]
+ -  `Bencodex.Types.Dictionary` class now implements
     `IEquatable<Bencodex.Types.Dictionary>` interface.  [[#51]]
  -  Added `Bencodex.Types.ValueType` enum type.  [[#50]]
- -  Bencodex values now have their unqiue fingerprints:  [[#50]]
+ -  Bencodex lists and dictionaries now can offload their elements:  [[#52]]
+     -  Added `Bencodex.Types.IndirectValue` struct.
+     -  Added `List(IEnumerable<IndirectValue>, IndirectValue.Loader)`
+        constructor.
+     -  Added `Dictionary(IEnumerable<KeyValuePair<IKey, IndirectValue>>,
+        IndirectValue.Loader)` constructor.
+ -  Bencodex values now have their unique fingerprints:  [[#50]]
      -  Added `Bencodex.Types.Fingerprint` readonly struct.
      -  Added `Bencodex.Misc.FingerprintComparer` class.
      -  Added `IValue.Fingerprint` property.
@@ -22,20 +31,28 @@ To be released.
      -  Added `Dictionary.EmptyFingerprint` static readonly field.
  -  Added `IValue.Type` property.  [[#50]]
  -  Added `IValue.EncodingLength` property.  [[#49], [#50]]
+ -  Added `IValue.Inspect(bool)` method to replace `IValue.Inspection` property.
+    [[#52]]
  -  Added `Bencodex.Misc.ImmutableByteArrayExtensions` static class.  [[#50]]
  -  Replaced `Binary(byte[])` constructor with `Binary(params byte[])`
     constructor.  [[#50]]
- -  Added `List(in ImmutableArray<IValue>)` constructor.  [[#51]]
  -  Added `List(params IValue[])` constructor.  [[#51]]
- -  Added `Dictionary(in ImmutableSortedDictionary<IKey, IValue>)` constructor.
-     [[#51]]
+ -  Added `Bencodex.Types.Dictionary[Text]` indexer. [[#52]]
+ -  Added `Bencodex.Types.Dictionary[Binary]` indexer. [[#52]]
+ -  Added `Bencodex.Types.Dictionary.ContainsKey(Text)` method.  [[#52]]
+ -  Added `Bencodex.Types.Dictionary.ContainsKey(Binary)` method.  [[#52]]
  -  Added `Bencodex.Misc.KeyComparer` class.  [[#51]]
  -  `List.Empty` static property became a static readonly field.  [[#50]]
  -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
+ -  Deprecated `IValue.Inspection` property in favor of `IValue.Inspect(bool)`
+    method.  [[#52]]
+ -  Removed `Bencodex.Types.List.Value` property.  [[#52]]
  -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]
 
 [#49]: https://github.com/planetarium/bencodex.net/pull/49
 [#50]: https://github.com/planetarium/bencodex.net/pull/50
+[#51]: https://github.com/planetarium/bencodex.net/pull/51
+[#52]: https://github.com/planetarium/bencodex.net/pull/52
 
 
 Version 0.3.0

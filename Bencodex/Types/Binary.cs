@@ -89,15 +89,8 @@ namespace Bencodex.Types
             ByteArray.Length;
 
         /// <inheritdoc cref="IValue.Inspection"/>
-        [Pure]
-        public string Inspection
-        {
-            get
-            {
-                IEnumerable<string> contents = this.Select(b => $"\\x{b:x2}");
-                return $"b\"{string.Join(string.Empty, contents)}\"";
-            }
-        }
+        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
+        public string Inspection => Inspect(true);
 
         public static implicit operator Binary(ImmutableArray<byte> bytes) =>
             new Binary(bytes);
@@ -248,8 +241,15 @@ namespace Bencodex.Types
             return ByteArray.ToBuilder().ToArray();
         }
 
-        [Pure]
+        /// <inheritdoc cref="IValue.Inspect(bool)"/>
+        public string Inspect(bool loadAll)
+        {
+            IEnumerable<string> contents = this.Select(b => $"\\x{b:x2}");
+            return $"b\"{string.Join(string.Empty, contents)}\"";
+        }
+
+        /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Binary)} {Inspection}";
+            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Binary)} {Inspect(false)}";
     }
 }

@@ -1,15 +1,53 @@
-﻿using System.Globalization;
+using System;
+using System.Globalization;
 using System.Numerics;
 using Bencodex.Types;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
+using static Bencodex.Tests.TestUtils;
 using ValueType = Bencodex.Types.ValueType;
 
 namespace Bencodex.Tests.Types
 {
-    // FIXME: Still some tests remain ValueTests.Integer; they should come here.
     public class IntegerTest
     {
+        [Fact]
+        public void Constructors()
+        {
+            IntegerGeneric(i => new Integer((short)i));
+            IntegerGeneric(
+                i => i >= 0 ? new Integer((ushort)i) : (Integer?)null
+            );
+            IntegerGeneric(i => new Integer(i));
+            IntegerGeneric(
+                i => i >= 0 ? new Integer((uint)i) : (Integer?)null
+            );
+            IntegerGeneric(i => new Integer((long)i));
+            IntegerGeneric(
+                i => i >= 0 ? new Integer((ulong)i) : (Integer?)null
+            );
+            IntegerGeneric(i => new Integer(new BigInteger(i)));
+            IntegerGeneric(i => new Integer(i.ToString()));
+            var locale = new CultureInfo("ar-SA");
+            IntegerGeneric(i => new Integer(i.ToString(locale), locale));
+        }
+
+        [Fact]
+        public void Type()
+        {
+            Assert.Equal(ValueType.Integer, new Integer(0).Type);
+            Assert.Equal(ValueType.Integer, new Integer(123).Type);
+            Assert.Equal(ValueType.Integer, new Integer(-456).Type);
+        }
+
+        [Fact]
+        public void EncodingLength()
+        {
+            Assert.Equal(3L, new Integer(0).EncodingLength);
+            Assert.Equal(5L, new Integer(123).EncodingLength);
+            Assert.Equal(6L, new Integer(-456).EncodingLength);
+        }
+
         [Fact]
         public void Fingerprint()
         {
@@ -37,6 +75,56 @@ namespace Bencodex.Tests.Types
                 ),
                 new Integer(bigint).Fingerprint
             );
+        }
+
+        [Theory]
+        [InlineData(new object[] { false })]
+        [InlineData(new object[] { true })]
+        public void Inspect(bool loadAll)
+        {
+            Assert.Equal("123", new Integer(123).Inspect(loadAll));
+            Assert.Equal("-456", new Integer(-456).Inspect(loadAll));
+        }
+
+        [Fact]
+        public void String()
+        {
+            Assert.Equal("Bencodex.Types.Integer 123", new Integer(123).ToString());
+            Assert.Equal("Bencodex.Types.Integer -456", new Integer(-456).ToString());
+        }
+
+        private void IntegerGeneric(Func<int, Integer?> convert)
+        {
+            Codec codec = new Codec();
+            AssertEqual(
+                new byte[] { 0x69, 0x31, 0x32, 0x33, 0x65 },  // "i123e"
+                codec.Encode(convert(123))
+            );
+            Integer? i = convert(-123);
+            if (i != null)
+            {
+                AssertEqual(
+                    new byte[]
+                    {
+                        // "i-123e"
+                        0x69, 0x2d, 0x31, 0x32, 0x33, 0x65,
+                    },
+                    codec.Encode(i)
+                );
+            }
+
+            AssertEqual(
+                new byte[] { 0x69, 0x30, 0x65 },  // "i0e"
+                codec.Encode(convert(0))
+            );
+            i = convert(-0);
+            if (i != null)
+            {
+                AssertEqual(
+                    new byte[] { 0x69, 0x30, 0x65 },  // "i0e"
+                    codec.Encode(i)
+                );
+            }
         }
     }
 }

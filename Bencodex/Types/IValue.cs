@@ -33,10 +33,11 @@ namespace Bencodex.Types
         [Pure]
         long EncodingLength { get; }
 
-        /// <summary>A JSON-like human-readable representation for
-        /// debugging.</summary>
-        /// <returns>A JSON-like representation.</returns>
-        [Pure]
+        /// <summary>A human-readable representation for debugging.</summary>
+        /// <returns>A human-readable representation.</returns>
+        /// <remarks>This property is deprecated.  Use <see cref="Inspect(bool)"/>
+        /// method instead.</remarks>
+        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
         string Inspection { get; }
 
         /// <summary>Encodes the value into <c cref="byte">Byte</c>
@@ -55,5 +56,16 @@ namespace Bencodex.Types
         /// <seealso cref="Codec.Encode(IValue, System.IO.Stream)"/>
         /// <seealso cref="EncodeIntoChunks"/>
         void EncodeToStream(Stream stream);
+
+        /// <summary>
+        /// Gets a human-readable representation for debugging.
+        /// <para>Unloaded values may be omitted.</para>
+        /// </summary>
+        /// <param name="loadAll">Load all unloaded values before showing them.  This option
+        /// is applied to subtrees recursively.</param>
+        /// <returns>A human-readable representation for debugging, which looks similar to Python's
+        /// literal syntax.  However, if a value is a complex tree and contains any unloaded
+        /// subvalues, these are omitted and their fingerprints are shown instead.</returns>
+        public string Inspect(bool loadAll);
     }
 }

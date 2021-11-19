@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Text;
 using Bencodex.Types;
 using Xunit;
@@ -13,14 +14,45 @@ namespace Bencodex.Tests.Types
     public class DictionaryTest
     {
         private readonly Codec _codec = new Codec();
-        private readonly Dictionary _textKey = Dictionary.Empty.SetItem("foo", "bar");
+        private readonly Dictionary _textKey;
+        private readonly Dictionary _binaryKey;
+        private readonly Dictionary _mixedKeys;
+        private readonly ImmutableArray<IValue> _offloadedValues;
+        private readonly Dictionary<IKey, IndirectValue> _partiallyLoadedPairs;
+        private readonly Dictionary _partiallyLoaded;
+        private readonly Dictionary _loaded;
+        private readonly List<Fingerprint> _loadLog;
 
-        private readonly Dictionary _binaryKey = Dictionary.Empty
-            .SetItem(Encoding.ASCII.GetBytes("foo"), "bar");
-
-        private readonly Dictionary _mixedKeys = Dictionary.Empty
-            .Add("stringKey", "string")
-            .Add(new byte[] { 0x00 }, "byte");
+        public DictionaryTest()
+        {
+            _textKey = Dictionary.Empty.SetItem("foo", "bar");
+            _binaryKey = Dictionary.Empty
+                .SetItem(Encoding.ASCII.GetBytes("foo"), "bar");
+            _mixedKeys = Dictionary.Empty
+                .Add("stringKey", "string")
+                .Add(new byte[] { 0x00 }, "byte");
+            _offloadedValues = ImmutableArray.Create<IValue>(
+                Null.Value,
+                new Integer(1234),
+                _mixedKeys
+            );
+            _partiallyLoadedPairs = new Dictionary<IKey, IndirectValue>
+            {
+                [(Text)"unload0"] = new IndirectValue(_offloadedValues[0].Fingerprint),
+                [(Text)"unload1"] = new IndirectValue(_offloadedValues[1].Fingerprint),
+                [(Text)"unload2"] = new IndirectValue(_offloadedValues[2].Fingerprint),
+                [(Text)"a"] = new IndirectValue(new Binary("foo", Encoding.ASCII)),
+                [(Text)"b"] = new IndirectValue(new Text("baz")),
+            };
+            _partiallyLoaded = new Dictionary(_partiallyLoadedPairs, Loader);
+            _loaded = Dictionary.Empty
+                .Add("unload0", _offloadedValues[0])
+                .Add("unload1", _offloadedValues[1])
+                .Add("unload2", _offloadedValues[2])
+                .Add("a", Encoding.ASCII.GetBytes("foo"))
+                .Add("b", "baz");
+            _loadLog = new List<Fingerprint>();
+        }
 
         [Fact]
         public void Constructors()
@@ -118,6 +150,42 @@ namespace Bencodex.Tests.Types
             Assert.NotEqual<IValue>(Null.Value, a);
             Assert.NotEqual<IValue>(Null.Value, b);
             Assert.NotEqual<IValue>(Null.Value, c);
+
+            Assert.True(_partiallyLoaded.Equals(_loaded));
+            Assert.False(_partiallyLoaded.Equals(_loaded.Add("zzz", 1)));
+            Assert.Empty(_loadLog);
+        }
+
+        [Fact]
+        public void Indexers()
+        {
+            Assert.Equal(new Text("bar"), _textKey[(IKey)new Text("foo")]);
+            Assert.Equal(new Text("bar"), _textKey[new Text("foo")]);
+            Assert.Equal(new Text("bar"), _textKey["foo"]);
+
+            Assert.Equal(new Text("bar"), _binaryKey[(IKey)new Binary("foo", Encoding.ASCII)]);
+            Assert.Equal(new Text("bar"), _binaryKey[new Binary("foo", Encoding.ASCII)]);
+            Assert.Equal(new Text("bar"), _binaryKey[Encoding.ASCII.GetBytes("foo")]);
+
+            Assert.Throws<KeyNotFoundException>(
+                () => _textKey[(IKey)new Binary("foo", Encoding.ASCII)]
+            );
+            Assert.Throws<KeyNotFoundException>(() => _textKey[new Binary("foo", Encoding.ASCII)]);
+            Assert.Throws<KeyNotFoundException>(() => _textKey[Encoding.ASCII.GetBytes("foo")]);
+
+            Assert.Throws<KeyNotFoundException>(() => _binaryKey[(IKey)new Text("foo")]);
+            Assert.Throws<KeyNotFoundException>(() => _binaryKey[new Text("foo")]);
+            Assert.Throws<KeyNotFoundException>(() => _binaryKey["foo"]);
+
+            Assert.Equal(new Text("baz"), _partiallyLoaded["b"]);
+            Assert.Empty(_loadLog);
+            Assert.Equal(_offloadedValues[0], _partiallyLoaded["unload0"]);
+            Assert.Single(_loadLog);
+            Assert.Equal(_offloadedValues[1], _partiallyLoaded["unload1"]);
+            Assert.Equal(2, _loadLog.Count);
+            Assert.Equal(_offloadedValues[2], _partiallyLoaded["unload2"]);
+            Assert.Equal(3, _loadLog.Count);
+            Assert.Throws<KeyNotFoundException>(() => _partiallyLoaded["unload3"]);
         }
 
         [Fact]
@@ -337,13 +405,26 @@ namespace Bencodex.Tests.Types
             byte[] byteKey = { 0x00 };
             byte[] invalidKey = { 0x01 };
             Assert.True(_mixedKeys.ContainsKey((IKey)(Text)"stringKey"));
+            Assert.True(_mixedKeys.ContainsKey((Text)"stringKey"));
             Assert.True(_mixedKeys.ContainsKey("stringKey"));
             Assert.True(_mixedKeys.ContainsKey((IKey)(Binary)byteKey));
+            Assert.True(_mixedKeys.ContainsKey((Binary)byteKey));
             Assert.True(_mixedKeys.ContainsKey(byteKey));
             Assert.False(_mixedKeys.ContainsKey((IKey)(Text)"invalidKey"));
+            Assert.False(_mixedKeys.ContainsKey((Text)"invalidKey"));
             Assert.False(_mixedKeys.ContainsKey("invalidKey"));
             Assert.False(_mixedKeys.ContainsKey((IKey)(Binary)invalidKey));
+            Assert.False(_mixedKeys.ContainsKey((Binary)invalidKey));
             Assert.False(_mixedKeys.ContainsKey(invalidKey));
+
+            Assert.True(_partiallyLoaded.ContainsKey("unload0"));
+            Assert.True(_partiallyLoaded.ContainsKey("unload1"));
+            Assert.True(_partiallyLoaded.ContainsKey("unload2"));
+            Assert.False(_partiallyLoaded.ContainsKey("unload3"));
+            Assert.True(_partiallyLoaded.ContainsKey("a"));
+            Assert.True(_partiallyLoaded.ContainsKey("b"));
+            Assert.False(_partiallyLoaded.ContainsKey("c"));
+            Assert.Empty(_loadLog);
         }
 
         [Fact]
@@ -352,6 +433,7 @@ namespace Bencodex.Tests.Types
             Assert.Equal(ValueType.Dictionary, Dictionary.Empty.Type);
             Assert.Equal(ValueType.Dictionary, _textKey.Type);
             Assert.Equal(ValueType.Dictionary, _binaryKey.Type);
+            Assert.Equal(ValueType.Dictionary, _partiallyLoaded.Type);
         }
 
         [Fact]
@@ -385,6 +467,9 @@ namespace Bencodex.Tests.Types
                 ),
                 _mixedKeys.Fingerprint
             );
+
+            Assert.Equal(_loaded.Fingerprint, _partiallyLoaded.Fingerprint);
+            Assert.Empty(_loadLog);
         }
 
         [Fact]
@@ -394,20 +479,25 @@ namespace Bencodex.Tests.Types
             Assert.Equal(14L, _textKey.EncodingLength);
             Assert.Equal(13L, _binaryKey.EncodingLength);
             Assert.Equal(33L, _mixedKeys.EncodingLength);
+
+            Assert.Equal(91L, _partiallyLoaded.EncodingLength);
+            Assert.Empty(_loadLog);
         }
 
-        [Fact]
-        public void Inspection()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void Inspect(bool loadAll)
         {
-            Assert.Equal("{}", Dictionary.Empty.Inspection);
+            Assert.Equal("{}", Dictionary.Empty.Inspect(loadAll));
 
             Assert.Equal(
                 "{\n  \"foo\": \"bar\",\n}",
-                _textKey.Inspection
+                _textKey.Inspect(loadAll)
             );
             Assert.Equal(
                 "{\n  b\"\\x66\\x6f\\x6f\": \"bar\",\n}",
-                _binaryKey.Inspection
+                _binaryKey.Inspect(loadAll)
             );
             Assert.Equal(
                 @"{
@@ -416,7 +506,7 @@ namespace Bencodex.Tests.Types
   },
   ""foo"": ""bar"",
 }".NoCr(),
-                _textKey.SetItem("baz", _textKey).Inspection
+                _textKey.SetItem("baz", _textKey).Inspect(loadAll)
             );
         }
 
@@ -472,6 +562,12 @@ namespace Bencodex.Tests.Types
                     )
                 )
             );
+        }
+
+        private IValue Loader(Fingerprint f)
+        {
+            _loadLog.Add(f);
+            return _offloadedValues.First(v => v.Fingerprint.Equals(f));
         }
     }
 }
