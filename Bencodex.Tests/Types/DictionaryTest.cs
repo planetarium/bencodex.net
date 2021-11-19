@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using Bencodex.Misc;
 using Bencodex.Types;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
@@ -583,6 +584,71 @@ namespace Bencodex.Tests.Types
                     )
                 )
             );
+        }
+
+        [Fact]
+        public void EnumerateIndirectValues()
+        {
+            Assert.All(
+                _textKey.EnumerateIndirectValues(),
+                kv => Assert.NotNull(kv.Value.LoadedValue)
+            );
+            Assert.Equal(
+                new[]
+                {
+                    new KeyValuePair<IKey, IndirectValue>(
+                        (Text)"foo",
+                        new IndirectValue((Text)"bar")
+                    ),
+                },
+                _textKey.EnumerateIndirectValues()
+            );
+
+            Assert.All(
+                _textKey.EnumerateIndirectValues(),
+                kv => Assert.NotNull(kv.Value.LoadedValue)
+            );
+            Assert.Equal(
+                new[]
+                {
+                    new KeyValuePair<IKey, IndirectValue>(
+                        new Binary("foo", Encoding.ASCII),
+                        new IndirectValue((Text)"bar")
+                    ),
+                },
+                _binaryKey.EnumerateIndirectValues()
+            );
+
+            Assert.All(
+                _mixedKeys.EnumerateIndirectValues(),
+                kv => Assert.NotNull(kv.Value.LoadedValue)
+            );
+            Assert.Equal(
+                new[]
+                {
+                    new KeyValuePair<IKey, IndirectValue>(
+                        (Binary)new byte[] { 0 },
+                        new IndirectValue((Text)"byte")
+                    ),
+                    new KeyValuePair<IKey, IndirectValue>(
+                        (Text)"stringKey",
+                        new IndirectValue((Text)"string")
+                    ),
+                },
+                _mixedKeys.EnumerateIndirectValues()
+            );
+
+            Assert.Equal(
+                _partiallyLoadedPairs.OrderBy(kv => kv.Key, KeyComparer.Instance),
+                _partiallyLoaded.EnumerateIndirectValues()
+            );
+            foreach (var kv in _partiallyLoaded.EnumerateIndirectValues())
+            {
+                Assert.Equal(_partiallyLoadedPairs[kv.Key].Fingerprint, kv.Value.Fingerprint);
+                Assert.Equal(_partiallyLoadedPairs[kv.Key].LoadedValue, kv.Value.LoadedValue);
+            }
+
+            Assert.Empty(_loadLog);
         }
 
         private IValue Loader(Fingerprint f)

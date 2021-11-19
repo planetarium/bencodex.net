@@ -231,6 +231,13 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IEnumerable.GetEnumerator()"/>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
+        /// <summary>
+        /// Enumerates pairs of keys and <see cref="IndirectValue"/>s in the dictionary.
+        /// </summary>
+        /// <returns>An enumerable of pairs of keys and <see cref="IndirectValue"/>s, which can be
+        /// either loaded or offloaded.</returns>
+        public IEnumerable<KeyValuePair<IKey, IndirectValue>> EnumerateIndirectValues() => _dict;
+
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.ContainsKey(TKey)"/>
         public bool ContainsKey(IKey key) => _dict.ContainsKey(key);
 

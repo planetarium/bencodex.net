@@ -194,16 +194,16 @@ namespace Bencodex.Types
             _loader = null;
         }
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
+        /// <summary>
+        /// Enumerates <see cref="IndirectValue"/>s in the list.
+        /// </summary>
+        /// <returns>An enumerable of <see cref="IndirectValue"/>s, which can be either loaded or
+        /// offloaded.</returns>
+        public IEnumerable<IndirectValue> EnumerateIndirectValues() => _values;
 
-            return obj is List other &&
-                ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
-        }
+        /// <inheritdoc cref="object.Equals(object?)"/>
+        public override bool Equals(object? obj) => obj is List other &&
+            ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
 
         /// <inheritdoc cref="object.GetHashCode()"/>
         public override int GetHashCode() =>

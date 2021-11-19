@@ -14,12 +14,14 @@ To be released.
  -  `Bencodex.Types.Dictionary` class now implements
     `IEquatable<Bencodex.Types.Dictionary>` interface.  [[#51]]
  -  Added `Bencodex.Types.ValueKind` enum type.  [[#50], [#53]]
- -  Bencodex lists and dictionaries now can offload their elements:  [[#52]]
-     -  Added `Bencodex.Types.IndirectValue` struct.
+ -  Bencodex lists and dictionaries now can offload their elements:
+     -  Added `Bencodex.Types.IndirectValue` struct.  [[#52]]
      -  Added `List(IEnumerable<IndirectValue>, IndirectValue.Loader)`
-        constructor.
+        constructor.  [[#52]]
      -  Added `Dictionary(IEnumerable<KeyValuePair<IKey, IndirectValue>>,
-        IndirectValue.Loader)` constructor.
+        IndirectValue.Loader)` constructor.  [[#52]]
+     -  Added `List.EnumerateIndirectValues()` method.  [[#53]]
+     -  Added `Dictionary.EnumerateIndirectValues()` method.  [[#53]]
  -  Bencodex values now have their unique fingerprints:  [[#50]]
      -  Added `Bencodex.Types.Fingerprint` readonly struct.
      -  Added `Bencodex.Misc.FingerprintComparer` class.

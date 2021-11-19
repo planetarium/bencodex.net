@@ -388,6 +388,29 @@ namespace Bencodex.Tests.Types
             );
         }
 
+        [Fact]
+        public void EnumerateIndirectValues()
+        {
+            Assert.Empty(_zero.EnumerateIndirectValues());
+            Assert.All(_one.EnumerateIndirectValues(), iv => Assert.NotNull(iv.LoadedValue));
+            Assert.Equal(_one.Select(v => new IndirectValue(v)), _one.EnumerateIndirectValues());
+            Assert.All(_two.EnumerateIndirectValues(), iv => Assert.NotNull(iv.LoadedValue));
+            Assert.Equal(_two.Select(v => new IndirectValue(v)), _two.EnumerateIndirectValues());
+            Assert.All(_nest.EnumerateIndirectValues(), iv => Assert.NotNull(iv.LoadedValue));
+            Assert.Equal(_nest.Select(v => new IndirectValue(v)), _nest.EnumerateIndirectValues());
+
+            Assert.Equal(_partiallyLoadedContents, _partiallyLoaded.EnumerateIndirectValues());
+            int i = 0;
+            foreach (IndirectValue iv in _partiallyLoaded.EnumerateIndirectValues())
+            {
+                Assert.Equal(_partiallyLoadedContents[i].Fingerprint, iv.Fingerprint);
+                Assert.Equal(_partiallyLoadedContents[i].LoadedValue, iv.LoadedValue);
+                i++;
+            }
+
+            Assert.Empty(_loadLog);
+        }
+
         private IValue Loader(Fingerprint f)
         {
             _loadLog.Add(f);
