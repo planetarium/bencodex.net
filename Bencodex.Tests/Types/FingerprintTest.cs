@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Bencodex.Types;
 using Xunit;
@@ -108,6 +109,19 @@ namespace Bencodex.Tests.Types
             hash = random.NextBytes(20);
             f = new Fingerprint(ValueKind.Dictionary, 456, hash);
             Assert.Equal(f, Fingerprint.Deserialize(f.Serialize()));
+
+            byte[] tooShort = f.Serialize().Take(8).ToArray();
+            FormatException e = Assert.Throws<FormatException>(
+                () => Fingerprint.Deserialize(tooShort)
+            );
+            Assert.Contains("too short", e.Message, StringComparison.OrdinalIgnoreCase);
+
+            byte[] invalidKind = f.Serialize();
+            invalidKind[0] = byte.MaxValue;
+            e = Assert.Throws<FormatException>(
+                () => Fingerprint.Deserialize(invalidKind)
+            );
+            Assert.Contains("invalid value kind", e.Message, StringComparison.OrdinalIgnoreCase);
 
             s = new MemoryStream();
             formatter.Serialize(s, f);

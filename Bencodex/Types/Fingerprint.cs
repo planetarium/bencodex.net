@@ -14,6 +14,11 @@ namespace Bencodex.Types
     [Serializable]
     public readonly struct Fingerprint : IEquatable<Fingerprint>, ISerializable
     {
+        private static readonly ImmutableHashSet<ValueKind> _availableKinds = Enum.GetValues(typeof(ValueKind))
+            .Cast<ValueKind>()
+            .OrderBy(k => k)
+            .ToImmutableHashSet();
+
         /// <summary>
         /// Creates a <see cref="Fingerprint"/> value.
         /// </summary>
@@ -123,10 +128,18 @@ namespace Bencodex.Types
         {
             if (serialized.Length < 1 + 8)
             {
-                throw new FormatException("The serialized bytes is not valid.");
+                throw new FormatException("The serialized byte array is too short.");
             }
 
             var kind = (ValueKind)serialized[0];
+            if (!_availableKinds.Contains(kind))
+            {
+                throw new FormatException(
+                    $"Invalid value kind: {serialized[0]}; available kinds are:\n\n" +
+                    string.Join("\n", _availableKinds.Select(k => $"{(byte)k}. {k}"))
+                );
+            }
+
             if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(serialized, 1, 8);
