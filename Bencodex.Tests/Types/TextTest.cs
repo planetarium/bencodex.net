@@ -12,7 +12,7 @@ namespace Bencodex.Tests.Types
         private readonly Text _complex = new Text("new lines and\n\"quotes\" become escaped to \\");
 
         [Fact]
-        public void Test()
+        public void Type()
         {
             Assert.Equal(ValueType.Text, _empty.Type);
             Assert.Equal(ValueType.Text, _nihao.Type);
