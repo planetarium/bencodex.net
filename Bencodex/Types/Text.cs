@@ -159,9 +159,6 @@ namespace Bencodex.Types
             }
         }
 
-        [Pure]
-        byte[] IKey.EncodeAsByteArray() => Encoding.UTF8.GetBytes(Value);
-
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)
         {

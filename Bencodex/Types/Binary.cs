@@ -204,10 +204,6 @@ namespace Bencodex.Types
             ((IEnumerable)ByteArray).GetEnumerator();
 
         [Pure]
-        byte[] IKey.EncodeAsByteArray() =>
-            ToByteArray();
-
-        [Pure]
         public byte[] ToByteArray()
         {
             if (ByteArray.IsDefaultOrEmpty)

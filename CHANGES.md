@@ -50,6 +50,7 @@ To be released.
     method.  [[#52]]
  -  Removed `IValue.EncodeToStream()` method. [[#54]]
  -  Removed `IValue.EncodeIntoChunks()` method. [[#54]]
+ -  Removed `IKey.EncodeAsByteArray()` method.  [[#54]]
  -  Removed `IKey.KeyPrefix` property.  [[#54]]
  -  Removed `Bencodex.Types.List.Value` property.  [[#52]]
  -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]
