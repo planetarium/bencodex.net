@@ -49,6 +49,7 @@ To be released.
  -  Deprecated `IValue.Inspection` property in favor of `IValue.Inspect(bool)`
     method.  [[#52]]
  -  Removed `IValue.EncodeToStream()` method. [[#54]]
+ -  Removed `IKey.KeyPrefix` property.  [[#54]]
  -  Removed `Bencodex.Types.List.Value` property.  [[#52]]
  -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]
 

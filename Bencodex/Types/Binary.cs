@@ -49,9 +49,6 @@ namespace Bencodex.Types
         {
         }
 
-        [Pure]
-        byte? IKey.KeyPrefix => null;
-
         public ImmutableArray<byte> ByteArray =>
             _value.IsDefaultOrEmpty ? ImmutableArray<byte>.Empty : _value;
 

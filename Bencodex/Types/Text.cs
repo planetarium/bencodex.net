@@ -34,9 +34,6 @@ namespace Bencodex.Types
 
         public string Value => _value ?? (_value = string.Empty);
 
-        [Pure]
-        byte? IKey.KeyPrefix => _keyPrefix;  // 'u'
-
         /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
         public ValueKind Kind => ValueKind.Text;
