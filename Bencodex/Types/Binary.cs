@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -48,9 +47,6 @@ namespace Bencodex.Types
             : this(encoding.GetBytes(text))
         {
         }
-
-        [Pure]
-        byte? IKey.KeyPrefix => null;
 
         public ImmutableArray<byte> ByteArray =>
             _value.IsDefaultOrEmpty ? ImmutableArray<byte>.Empty : _value;
@@ -206,29 +202,6 @@ namespace Bencodex.Types
 
         IEnumerator IEnumerable.GetEnumerator() =>
             ((IEnumerable)ByteArray).GetEnumerator();
-
-        [Pure]
-        byte[] IKey.EncodeAsByteArray() =>
-            ToByteArray();
-
-        [Pure]
-        public IEnumerable<byte[]> EncodeIntoChunks()
-        {
-            string len = ByteArray.Length.ToString(CultureInfo.InvariantCulture);
-            yield return Encoding.ASCII.GetBytes(len);
-            yield return CommonVariables.Separator;  // ':'
-            yield return ((IKey)this).EncodeAsByteArray();
-        }
-
-        public void EncodeToStream(Stream stream)
-        {
-            byte[] value = ToByteArray();
-            string len = value.Length.ToString(CultureInfo.InvariantCulture);
-            byte[] lenBytes = Encoding.ASCII.GetBytes(len);
-            stream.Write(lenBytes, 0, lenBytes.Length);
-            stream.WriteByte(CommonVariables.Separator[0]);
-            stream.Write(value, 0, value.Length);
-        }
 
         [Pure]
         public byte[] ToByteArray()

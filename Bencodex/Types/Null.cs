@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.IO;
 
 namespace Bencodex.Types
 {
@@ -58,17 +56,6 @@ namespace Bencodex.Types
             other is Null;
 
         bool IEquatable<Null>.Equals(Null other) => true;
-
-        [Pure]
-        public IEnumerable<byte[]> EncodeIntoChunks()
-        {
-            yield return new byte[1] { 0x6e }; // 'n'
-        }
-
-        public void EncodeToStream(Stream stream)
-        {
-            stream.WriteByte(0x6e); // 'n'
-        }
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll) => "null";

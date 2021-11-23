@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -17,10 +15,6 @@ namespace Bencodex.Types
         IEquatable<string>,
         IComparable
     {
-        private const byte _keyPrefix = 0x75;
-
-        private static readonly byte[] _keyPrefixByteArray = new byte[1] { _keyPrefix };
-
         private int? _utf8Length;
         private ImmutableArray<byte>? _digest;
         private string? _value;
@@ -33,9 +27,6 @@ namespace Bencodex.Types
         }
 
         public string Value => _value ?? (_value = string.Empty);
-
-        [Pure]
-        byte? IKey.KeyPrefix => _keyPrefix;  // 'u'
 
         /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
@@ -166,35 +157,6 @@ namespace Bencodex.Types
                         nameof(obj)
                     );
             }
-        }
-
-        [Pure]
-        byte[] IKey.EncodeAsByteArray() => Encoding.UTF8.GetBytes(Value);
-
-        [Pure]
-        public IEnumerable<byte[]> EncodeIntoChunks()
-        {
-            yield return _keyPrefixByteArray;
-            string len = Utf8Length.ToString(CultureInfo.InvariantCulture);
-            yield return Encoding.ASCII.GetBytes(len);
-            yield return CommonVariables.Separator;
-
-            // FIXME: Is the buffer for the entire string necessary?
-            byte[] utf8 = ((IKey)this).EncodeAsByteArray();
-            yield return utf8;
-        }
-
-        public void EncodeToStream(Stream stream)
-        {
-            stream.WriteByte(_keyPrefix);
-            string len = Utf8Length.ToString(CultureInfo.InvariantCulture);
-            byte[] lenBytes = Encoding.ASCII.GetBytes(len);
-            stream.Write(lenBytes, 0, lenBytes.Length);
-            stream.WriteByte(CommonVariables.Separator[0]);
-
-            // FIXME: Is the buffer for the entire string necessary?
-            byte[] utf8 = ((IKey)this).EncodeAsByteArray();
-            stream.Write(utf8, 0, utf8.Length);
         }
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>

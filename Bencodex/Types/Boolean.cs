@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.IO;
 
 namespace Bencodex.Types
 {
@@ -15,10 +13,6 @@ namespace Bencodex.Types
         IComparable<Boolean>,
         IComparable
     {
-        private static readonly byte[] _true = new byte[1] { 0x74 };  // 't'
-
-        private static readonly byte[] _false = new byte[1] { 0x66 };  // 'f'
-
 #pragma warning disable SA1202
         public static readonly Fingerprint TrueFingerprint =
             new Fingerprint(ValueKind.Boolean, 1L, new byte[] { 1 });
@@ -108,25 +102,6 @@ namespace Bencodex.Types
         public override int GetHashCode()
         {
             return Value.GetHashCode();
-        }
-
-        [Pure]
-        public IEnumerable<byte[]> EncodeIntoChunks()
-        {
-            if (Value)
-            {
-                yield return _true;
-            }
-            else
-            {
-                yield return _false;
-            }
-        }
-
-        public void EncodeToStream(Stream stream)
-        {
-            var value = Value ? _true[0] : _false[0];
-            stream.WriteByte(value);
         }
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>

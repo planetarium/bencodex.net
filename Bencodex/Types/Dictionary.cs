@@ -3,11 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using Bencodex.Misc;
 
 namespace Bencodex.Types
@@ -26,7 +23,10 @@ namespace Bencodex.Types
         /// The empty dictionary.
         /// </summary>
         public static readonly Dictionary Empty =
-            new Dictionary(ImmutableDictionary<IKey, IValue>.Empty);
+            new Dictionary(ImmutableDictionary<IKey, IValue>.Empty)
+            {
+                EncodingLength = 2L,
+            };
 
         /// <summary>
         /// The singleton fingerprint for empty dictionaries.
@@ -34,14 +34,10 @@ namespace Bencodex.Types
         public static readonly Fingerprint EmptyFingerprint =
             new Fingerprint(ValueKind.Dictionary, 2);
 
-        private static readonly byte[] _dictionaryPrefix = new byte[1] { 0x64 };  // 'd'
-
-        private static readonly byte[] _unicodeKeyPrefix = new byte[1] { 0x75 };  // 'u'
-
         private readonly ImmutableSortedDictionary<IKey, IndirectValue> _dict;
         private IndirectValue.Loader? _loader;
         private ImmutableArray<byte>? _hash;
-        private long _encodingLength = -1;
+        private long _encodingLength = -1L;
 
         /// <summary>
         /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
@@ -155,12 +151,17 @@ namespace Bencodex.Types
         }
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
-        public long EncodingLength =>
-            _encodingLength >= 0
-                ? _encodingLength
-                : _encodingLength = _dictionaryPrefix.LongLength
-                    + _dict.Sum(kv => kv.Key.EncodingLength + kv.Value.EncodingLength)
-                    + CommonVariables.Suffix.LongLength;
+        public long EncodingLength
+        {
+            get =>
+                _encodingLength < 2L
+                    ? _encodingLength = 1L
+                                        + _dict.Sum(kv =>
+                                            kv.Key.EncodingLength + kv.Value.EncodingLength)
+                                        + CommonVariables.Suffix.LongLength
+                    : _encodingLength;
+            internal set => _encodingLength = value;
+        }
 
         /// <inheritdoc cref="IValue.Inspection"/>
         [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
@@ -542,71 +543,6 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="object.GetHashCode()"/>
         public override int GetHashCode() => _dict.GetHashCode();
-
-        /// <inheritdoc cref="IValue.EncodeIntoChunks()"/>
-        public IEnumerable<byte[]> EncodeIntoChunks()
-        {
-            // FIXME: avoid duplication between this and EncodeToStream()
-            long length = _dictionaryPrefix.LongLength;
-            yield return _dictionaryPrefix;
-
-            foreach (KeyValuePair<IKey, IValue> pair in this)
-            {
-                if (pair.Key.Kind == ValueKind.Text)
-                {
-                    yield return _unicodeKeyPrefix;
-                    length += _unicodeKeyPrefix.LongLength;
-                }
-
-                byte[] key = pair.Key.EncodeAsByteArray();
-                byte[] keyLengthBytes = Encoding.ASCII.GetBytes(
-                    key.Length.ToString(CultureInfo.InvariantCulture)
-                );
-                yield return keyLengthBytes;
-                length += keyLengthBytes.LongLength;
-                yield return CommonVariables.Separator;
-                length += CommonVariables.Separator.LongLength;
-                yield return key;
-                length += key.LongLength;
-                foreach (byte[] chunk in pair.Value.EncodeIntoChunks())
-                {
-                    yield return chunk;
-                    length += chunk.LongLength;
-                }
-            }
-
-            yield return CommonVariables.Suffix;
-            length += CommonVariables.Suffix.Length;
-            _encodingLength = length;
-        }
-
-        /// <inheritdoc cref="IValue.EncodeToStream(Stream)"/>
-        public void EncodeToStream(Stream stream)
-        {
-            // FIXME: avoid duplication between this and EncodeIntoChunks()
-            long startPos = stream.Position;
-            stream.WriteByte(_dictionaryPrefix[0]);
-
-            foreach (KeyValuePair<IKey, IValue> pair in this)
-            {
-                if (pair.Key.Kind == ValueKind.Text)
-                {
-                    stream.WriteByte(_unicodeKeyPrefix[0]);
-                }
-
-                byte[] key = pair.Key.EncodeAsByteArray();
-                var keyLen =
-                    key.Length.ToString(CultureInfo.InvariantCulture);
-                var keyLenBytes = Encoding.ASCII.GetBytes(keyLen);
-                stream.Write(keyLenBytes, 0, keyLenBytes.Length);
-                stream.WriteByte(CommonVariables.Separator[0]);
-                stream.Write(key, 0, key.Length);
-                pair.Value.EncodeToStream(stream);
-            }
-
-            stream.WriteByte(CommonVariables.Suffix[0]);
-            _encodingLength = stream.Position - startPos;
-        }
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)
