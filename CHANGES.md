@@ -48,6 +48,7 @@ To be released.
  -  `Dictionary.Empty` static property became a static readonly field.  [[#50]]
  -  Deprecated `IValue.Inspection` property in favor of `IValue.Inspect(bool)`
     method.  [[#52]]
+ -  Removed `IValue.EncodeToStream()` method. [[#54]]
  -  Removed `Bencodex.Types.List.Value` property.  [[#52]]
  -  Removed `Bencodex.Types.CommonVariables` static class.  [[#50]]
 
@@ -56,6 +57,7 @@ To be released.
 [#51]: https://github.com/planetarium/bencodex.net/pull/51
 [#52]: https://github.com/planetarium/bencodex.net/pull/52
 [#53]: https://github.com/planetarium/bencodex.net/pull/53
+[#54]: https://github.com/planetarium/bencodex.net/pull/54
 
 
 Version 0.3.0

@@ -377,20 +377,6 @@ namespace Bencodex.Types
             _encodingLength = length;
         }
 
-        /// <inheritdoc cref="IValue.EncodeToStream(Stream)"/>
-        public void EncodeToStream(Stream stream)
-        {
-            long startPos = stream.Position;
-            stream.WriteByte(_listPrefix[0]);
-            foreach (IValue element in this)
-            {
-                element.EncodeToStream(stream);
-            }
-
-            stream.WriteByte(CommonVariables.Suffix[0]);
-            _encodingLength = (int?)((int)stream.Position - startPos);
-        }
-
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)
         {

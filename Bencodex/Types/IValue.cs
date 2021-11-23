@@ -49,14 +49,6 @@ namespace Bencodex.Types
         [Pure]
         IEnumerable<byte[]> EncodeIntoChunks();
 
-        /// <summary>Writes the encoded value into <paramref name="stream"/>.
-        /// </summary>
-        /// <param name="stream">A stream to write the encoded value.</param>
-        /// <seealso cref="Codec.Encode(IValue)"/>
-        /// <seealso cref="Codec.Encode(IValue, System.IO.Stream)"/>
-        /// <seealso cref="EncodeIntoChunks"/>
-        void EncodeToStream(Stream stream);
-
         /// <summary>
         /// Gets a human-readable representation for debugging.
         /// <para>Unloaded values may be omitted.</para>
@@ -66,6 +58,6 @@ namespace Bencodex.Types
         /// <returns>A human-readable representation for debugging, which looks similar to Python's
         /// literal syntax.  However, if a value is a complex tree and contains any unloaded
         /// subvalues, these are omitted and their fingerprints are shown instead.</returns>
-        public string Inspect(bool loadAll);
+        string Inspect(bool loadAll);
     }
 }

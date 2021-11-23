@@ -123,12 +123,6 @@ namespace Bencodex.Types
             }
         }
 
-        public void EncodeToStream(Stream stream)
-        {
-            var value = Value ? _true[0] : _false[0];
-            stream.WriteByte(value);
-        }
-
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll) =>
             Value ? "true" : "false";

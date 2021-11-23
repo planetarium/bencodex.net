@@ -546,7 +546,6 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IValue.EncodeIntoChunks()"/>
         public IEnumerable<byte[]> EncodeIntoChunks()
         {
-            // FIXME: avoid duplication between this and EncodeToStream()
             long length = _dictionaryPrefix.LongLength;
             yield return _dictionaryPrefix;
 
@@ -578,34 +577,6 @@ namespace Bencodex.Types
             yield return CommonVariables.Suffix;
             length += CommonVariables.Suffix.Length;
             _encodingLength = length;
-        }
-
-        /// <inheritdoc cref="IValue.EncodeToStream(Stream)"/>
-        public void EncodeToStream(Stream stream)
-        {
-            // FIXME: avoid duplication between this and EncodeIntoChunks()
-            long startPos = stream.Position;
-            stream.WriteByte(_dictionaryPrefix[0]);
-
-            foreach (KeyValuePair<IKey, IValue> pair in this)
-            {
-                if (pair.Key.Kind == ValueKind.Text)
-                {
-                    stream.WriteByte(_unicodeKeyPrefix[0]);
-                }
-
-                byte[] key = pair.Key.EncodeAsByteArray();
-                var keyLen =
-                    key.Length.ToString(CultureInfo.InvariantCulture);
-                var keyLenBytes = Encoding.ASCII.GetBytes(keyLen);
-                stream.Write(keyLenBytes, 0, keyLenBytes.Length);
-                stream.WriteByte(CommonVariables.Separator[0]);
-                stream.Write(key, 0, key.Length);
-                pair.Value.EncodeToStream(stream);
-            }
-
-            stream.WriteByte(CommonVariables.Suffix[0]);
-            _encodingLength = stream.Position - startPos;
         }
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>

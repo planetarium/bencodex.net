@@ -251,15 +251,6 @@ namespace Bencodex.Types
             yield return CommonVariables.Suffix;
         }
 
-        public void EncodeToStream(Stream stream)
-        {
-            stream.WriteByte(_prefix[0]);
-            string digits = Value.ToString(CultureInfo.InvariantCulture);
-            byte[] digitsAscii = Encoding.ASCII.GetBytes(digits);
-            stream.Write(digitsAscii, 0, digitsAscii.Length);
-            stream.WriteByte(CommonVariables.Suffix[0]);
-        }
-
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll) =>
             Value.ToString(CultureInfo.InvariantCulture);

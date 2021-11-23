@@ -43,7 +43,10 @@ namespace Bencodex
                 );
             }
 
-            value.EncodeToStream(output);
+            foreach (byte[] chunk in value.EncodeIntoChunks())
+            {
+                output.Write(chunk, 0, chunk.Length);
+            }
         }
 
         /// <summary>Decodes an encoded value from an <paramref name="input"/>

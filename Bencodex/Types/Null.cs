@@ -65,11 +65,6 @@ namespace Bencodex.Types
             yield return new byte[1] { 0x6e }; // 'n'
         }
 
-        public void EncodeToStream(Stream stream)
-        {
-            stream.WriteByte(0x6e); // 'n'
-        }
-
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll) => "null";
 

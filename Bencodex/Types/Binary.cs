@@ -220,16 +220,6 @@ namespace Bencodex.Types
             yield return ((IKey)this).EncodeAsByteArray();
         }
 
-        public void EncodeToStream(Stream stream)
-        {
-            byte[] value = ToByteArray();
-            string len = value.Length.ToString(CultureInfo.InvariantCulture);
-            byte[] lenBytes = Encoding.ASCII.GetBytes(len);
-            stream.Write(lenBytes, 0, lenBytes.Length);
-            stream.WriteByte(CommonVariables.Separator[0]);
-            stream.Write(value, 0, value.Length);
-        }
-
         [Pure]
         public byte[] ToByteArray()
         {

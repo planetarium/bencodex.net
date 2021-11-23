@@ -184,19 +184,6 @@ namespace Bencodex.Types
             yield return utf8;
         }
 
-        public void EncodeToStream(Stream stream)
-        {
-            stream.WriteByte(_keyPrefix);
-            string len = Utf8Length.ToString(CultureInfo.InvariantCulture);
-            byte[] lenBytes = Encoding.ASCII.GetBytes(len);
-            stream.Write(lenBytes, 0, lenBytes.Length);
-            stream.WriteByte(CommonVariables.Separator[0]);
-
-            // FIXME: Is the buffer for the entire string necessary?
-            byte[] utf8 = ((IKey)this).EncodeAsByteArray();
-            stream.Write(utf8, 0, utf8.Length);
-        }
-
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)
         {
