@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -17,10 +15,6 @@ namespace Bencodex.Types
         IEquatable<string>,
         IComparable
     {
-        private const byte _keyPrefix = 0x75;
-
-        private static readonly byte[] _keyPrefixByteArray = new byte[1] { _keyPrefix };
-
         private int? _utf8Length;
         private ImmutableArray<byte>? _digest;
         private string? _value;
@@ -167,19 +161,6 @@ namespace Bencodex.Types
 
         [Pure]
         byte[] IKey.EncodeAsByteArray() => Encoding.UTF8.GetBytes(Value);
-
-        [Pure]
-        public IEnumerable<byte[]> EncodeIntoChunks()
-        {
-            yield return _keyPrefixByteArray;
-            string len = Utf8Length.ToString(CultureInfo.InvariantCulture);
-            yield return Encoding.ASCII.GetBytes(len);
-            yield return CommonVariables.Separator;
-
-            // FIXME: Is the buffer for the entire string necessary?
-            byte[] utf8 = ((IKey)this).EncodeAsByteArray();
-            yield return utf8;
-        }
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)

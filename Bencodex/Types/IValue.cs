@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.IO;
 
 namespace Bencodex.Types
 {
@@ -39,15 +38,6 @@ namespace Bencodex.Types
         /// method instead.</remarks>
         [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
         string Inspection { get; }
-
-        /// <summary>Encodes the value into <c cref="byte">Byte</c>
-        /// arrays.</summary>
-        /// <returns><c cref="byte">Byte</c> arrays of Bencodex
-        /// representation of the value.</returns>
-        /// <seealso cref="Codec.Encode(IValue)"/>
-        /// <seealso cref="Codec.Encode(IValue, System.IO.Stream)"/>
-        [Pure]
-        IEnumerable<byte[]> EncodeIntoChunks();
 
         /// <summary>
         /// Gets a human-readable representation for debugging.

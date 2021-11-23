@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
@@ -24,7 +23,10 @@ namespace Bencodex.Types
         /// <summary>
         /// The empty list.
         /// </summary>
-        public static readonly List Empty = new List(ImmutableArray<IValue>.Empty);
+        public static readonly List Empty = new List(ImmutableArray<IValue>.Empty)
+        {
+            EncodingLength = 2L,
+        };
 
         /// <summary>
         /// The singleton fingerprint for empty lists.
@@ -32,11 +34,9 @@ namespace Bencodex.Types
         public static readonly Fingerprint EmptyFingerprint =
             new Fingerprint(ValueKind.List, 2L);
 
-        private static readonly byte[] _listPrefix = new byte[1] { 0x6c };  // 'l'
-
         private readonly ImmutableArray<IndirectValue> _values;
         private IndirectValue.Loader? _loader;
-        private long? _encodingLength;
+        private long _encodingLength = -1L;
         private ImmutableArray<byte>? _hash;
 
         /// <summary>
@@ -81,7 +81,6 @@ namespace Bencodex.Types
         {
             _values = indirectValues;
             _loader = indirectValues.IsDefaultOrEmpty ? null : loader;
-            _encodingLength = null;
             _hash = null;
         }
 
@@ -116,7 +115,7 @@ namespace Bencodex.Types
                     sha1.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
                     hash = ImmutableArray.Create(sha1.Hash);
                     _hash = hash;
-                    if (_encodingLength is null)
+                    if (_encodingLength < 0L)
                     {
                         _encodingLength = encLength;
                     }
@@ -127,12 +126,16 @@ namespace Bencodex.Types
         }
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
-        public long EncodingLength =>
-            _encodingLength is { } l ? l : (
-                _encodingLength = _listPrefix.LongLength
-                + _values.Sum(e => e.EncodingLength)
-                + CommonVariables.Suffix.LongLength
-            ).Value;
+        public long EncodingLength
+        {
+            get => _encodingLength < 2L
+                ? _encodingLength = 1L
+                        + _values.Sum(e => e.EncodingLength)
+                        + 1L
+                : _encodingLength;
+
+            internal set => _encodingLength = value;
+        }
 
         /// <inheritdoc cref="IValue.Inspection"/>
         [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
@@ -220,7 +223,10 @@ namespace Bencodex.Types
         /// <param name="value">The value to add to the list.</param>
         /// <returns>A new list with the value added.</returns>
         public List Add(IValue value) =>
-            new List(_values.Add(new IndirectValue(value)));
+            new List(_values.Add(new IndirectValue(value)))
+            {
+                EncodingLength = _encodingLength < 2L ? -1 : _encodingLength + value.EncodingLength,
+            };
 
         /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
         /// to the end of the copied list.</summary>
@@ -357,25 +363,6 @@ namespace Bencodex.Types
 
         IImmutableList<IValue> IImmutableList<IValue>.SetItem(int index, IValue value) =>
             new List(_values.SetItem(index, new IndirectValue(value)));
-
-        [Pure]
-        public IEnumerable<byte[]> EncodeIntoChunks()
-        {
-            int length = _listPrefix.Length;
-            yield return _listPrefix;
-            foreach (IValue element in this)
-            {
-                foreach (byte[] chunk in element.EncodeIntoChunks())
-                {
-                    yield return chunk;
-                    length += chunk.Length;
-                }
-            }
-
-            yield return CommonVariables.Suffix;
-            length += CommonVariables.Suffix.Length;
-            _encodingLength = length;
-        }
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)

@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.IO;
 using System.Numerics;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Bencodex.Types
 {
@@ -17,8 +15,6 @@ namespace Bencodex.Types
         IComparable<Integer>,
         IComparable
     {
-        private static readonly byte[] _prefix = new byte[1] { 0x69 };  // 'i'
-
         public Integer(BigInteger value)
         {
             Value = value;
@@ -240,15 +236,6 @@ namespace Bencodex.Types
         public override int GetHashCode()
         {
             return Value.GetHashCode();
-        }
-
-        [Pure]
-        public IEnumerable<byte[]> EncodeIntoChunks()
-        {
-            yield return _prefix;
-            string digits = Value.ToString(CultureInfo.InvariantCulture);
-            yield return Encoding.ASCII.GetBytes(digits);
-            yield return CommonVariables.Suffix;
         }
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>

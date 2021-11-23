@@ -20,12 +20,7 @@ namespace Bencodex
         /// contains the whole Bencodex representation of
         /// the <paramref name="value"/>.</returns>
         [Pure]
-        public byte[] Encode(IValue value)
-        {
-            var stream = new MemoryStream();
-            Encode(value, stream);
-            return stream.ToArray();
-        }
+        public byte[] Encode(IValue value) => Encoder.Encode(value);
 
         /// <summary>Encodes a <paramref name="value"/>,
         /// and write it on an <paramref name="output"/> stream.</summary>
@@ -33,21 +28,7 @@ namespace Bencodex
         /// <param name="output">A stream that a value is printed on.</param>
         /// <exception cref="ArgumentException">Thrown when a given
         /// <paramref name="output"/> stream is not writable.</exception>
-        public void Encode(IValue value, Stream output)
-        {
-            if (!output.CanWrite)
-            {
-                throw new ArgumentException(
-                    "stream cannot be written to",
-                    nameof(output)
-                );
-            }
-
-            foreach (byte[] chunk in value.EncodeIntoChunks())
-            {
-                output.Write(chunk, 0, chunk.Length);
-            }
-        }
+        public void Encode(IValue value, Stream output) => Encoder.Encode(value, output);
 
         /// <summary>Decodes an encoded value from an <paramref name="input"/>
         /// stream.</summary>

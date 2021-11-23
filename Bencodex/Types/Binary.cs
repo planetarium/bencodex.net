@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -207,15 +206,6 @@ namespace Bencodex.Types
         [Pure]
         byte[] IKey.EncodeAsByteArray() =>
             ToByteArray();
-
-        [Pure]
-        public IEnumerable<byte[]> EncodeIntoChunks()
-        {
-            string len = ByteArray.Length.ToString(CultureInfo.InvariantCulture);
-            yield return Encoding.ASCII.GetBytes(len);
-            yield return CommonVariables.Separator;  // ':'
-            yield return ((IKey)this).EncodeAsByteArray();
-        }
 
         [Pure]
         public byte[] ToByteArray()
