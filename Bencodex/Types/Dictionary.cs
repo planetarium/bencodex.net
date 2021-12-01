@@ -35,7 +35,6 @@ namespace Bencodex.Types
             new Fingerprint(ValueKind.Dictionary, 2);
 
         private readonly ImmutableSortedDictionary<IKey, IndirectValue> _dict;
-        private IndirectValue.Loader? _loader;
         private ImmutableArray<byte>? _hash;
         private long _encodingLength = -1L;
 
@@ -79,13 +78,13 @@ namespace Bencodex.Types
         {
         }
 
-        private Dictionary(
+        internal Dictionary(
             in ImmutableSortedDictionary<IKey, IndirectValue> dict,
             IndirectValue.Loader? loader = null
         )
         {
             _dict = dict;
-            _loader = dict.IsEmpty ? null : loader;
+            Loader = dict.IsEmpty ? null : loader;
         }
 
         /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
@@ -102,10 +101,10 @@ namespace Bencodex.Types
             {
                 foreach (IndirectValue iv in _dict.Values)
                 {
-                    yield return iv.GetValue(_loader);
+                    yield return iv.GetValue(Loader);
                 }
 
-                _loader = null;
+                Loader = null;
             }
         }
 
@@ -167,8 +166,10 @@ namespace Bencodex.Types
         [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
         public string Inspection => Inspect(true);
 
+        internal IndirectValue.Loader? Loader { get; private set; }
+
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.this[TKey]"/>
-        public IValue this[IKey key] => _dict[key].GetValue(_loader);
+        public IValue this[IKey key] => _dict[key].GetValue(Loader);
 
         /// <summary>
         /// Gets the element that has the specified text key in the read-only dictionary.
@@ -223,21 +224,14 @@ namespace Bencodex.Types
         {
             foreach (KeyValuePair<IKey, IndirectValue> kv in _dict)
             {
-                yield return new KeyValuePair<IKey, IValue>(kv.Key, kv.Value.GetValue(_loader));
+                yield return new KeyValuePair<IKey, IValue>(kv.Key, kv.Value.GetValue(Loader));
             }
 
-            _loader = null;
+            Loader = null;
         }
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator()"/>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        /// <summary>
-        /// Enumerates pairs of keys and <see cref="IndirectValue"/>s in the dictionary.
-        /// </summary>
-        /// <returns>An enumerable of pairs of keys and <see cref="IndirectValue"/>s, which can be
-        /// either loaded or offloaded.</returns>
-        public IEnumerable<KeyValuePair<IKey, IndirectValue>> EnumerateIndirectValues() => _dict;
 
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.ContainsKey(TKey)"/>
         public bool ContainsKey(IKey key) => _dict.ContainsKey(key);
@@ -277,7 +271,7 @@ namespace Bencodex.Types
         {
             if (_dict.TryGetValue(key, out IndirectValue iv))
             {
-                value = iv.GetValue(_loader);
+                value = iv.GetValue(Loader);
                 return true;
             }
 
@@ -287,7 +281,7 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.Add(TKey, TValue)"/>
         public IImmutableDictionary<IKey, IValue> Add(IKey key, IValue value) =>
-            new Dictionary(_dict.Add(key, new IndirectValue(value)), _loader);
+            new Dictionary(_dict.Add(key, new IndirectValue(value)), Loader);
 
         public Dictionary Add(string key, IValue value) =>
             (Dictionary)Add((IKey)new Text(key), value);
@@ -349,7 +343,7 @@ namespace Bencodex.Types
         public IImmutableDictionary<IKey, IValue> AddRange(
             IEnumerable<KeyValuePair<IKey, IValue>> pairs
         ) =>
-            new Dictionary(_dict.AddRange(pairs.Select(ToIndirectPair)), _loader);
+            new Dictionary(_dict.AddRange(pairs.Select(ToIndirectPair)), Loader);
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.Clear()"/>
         public IImmutableDictionary<IKey, IValue> Clear() => Empty;
@@ -361,15 +355,15 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.Remove(TKey)"/>
         public IImmutableDictionary<IKey, IValue> Remove(IKey key) =>
-            _dict.Count < 1 ? this : new Dictionary(_dict.Remove(key), _loader);
+            _dict.Count < 1 ? this : new Dictionary(_dict.Remove(key), Loader);
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.RemoveRange(IEnumerable{TKey})"/>
         public IImmutableDictionary<IKey, IValue> RemoveRange(IEnumerable<IKey> keys) =>
-            _dict.Count < 1 ? this : new Dictionary(_dict.RemoveRange(keys), _loader);
+            _dict.Count < 1 ? this : new Dictionary(_dict.RemoveRange(keys), Loader);
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.SetItem(TKey,TValue)"/>
         public IImmutableDictionary<IKey, IValue> SetItem(IKey key, IValue value) =>
-            new Dictionary(_dict.SetItem(key, new IndirectValue(value)), _loader);
+            new Dictionary(_dict.SetItem(key, new IndirectValue(value)), Loader);
 
         public Dictionary SetItem(IKey key, string value) =>
             (Dictionary)SetItem(key, (IValue)new Text(value));
@@ -468,7 +462,7 @@ namespace Bencodex.Types
         public IImmutableDictionary<IKey, IValue> SetItems(
             IEnumerable<KeyValuePair<IKey, IValue>> items
         ) =>
-            new Dictionary(_dict.SetItems(items.Select(ToIndirectPair)), _loader);
+            new Dictionary(_dict.SetItems(items.Select(ToIndirectPair)), Loader);
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.TryGetKey(TKey, out TKey)"/>
         public bool TryGetKey(IKey equalKey, out IKey actualKey) =>
@@ -558,7 +552,7 @@ namespace Bencodex.Types
             string pairsString = string.Join(string.Empty, pairs);
             if (loadAll)
             {
-                _loader = null;
+                Loader = null;
             }
 
             return $"{{\n{pairsString}}}";
@@ -567,6 +561,13 @@ namespace Bencodex.Types
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
             $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Dictionary)} {Inspect(false)}";
+
+        /// <summary>
+        /// Enumerates pairs of keys and <see cref="IndirectValue"/>s in the dictionary.
+        /// </summary>
+        /// <returns>An enumerable of pairs of keys and <see cref="IndirectValue"/>s, which can be
+        /// either loaded or offloaded.</returns>
+        internal IEnumerable<KeyValuePair<IKey, IndirectValue>> EnumerateIndirectValues() => _dict;
 
         private static KeyValuePair<IKey, IndirectValue> ToIndirectPair(
             KeyValuePair<IKey, IValue> pair

@@ -35,7 +35,6 @@ namespace Bencodex.Types
             new Fingerprint(ValueKind.List, 2L);
 
         private readonly ImmutableArray<IndirectValue> _values;
-        private IndirectValue.Loader? _loader;
         private long _encodingLength = -1L;
         private ImmutableArray<byte>? _hash;
 
@@ -74,13 +73,13 @@ namespace Bencodex.Types
         {
         }
 
-        private List(
+        internal List(
             in ImmutableArray<IndirectValue> indirectValues,
             IndirectValue.Loader? loader = null
         )
         {
             _values = indirectValues;
-            _loader = indirectValues.IsDefaultOrEmpty ? null : loader;
+            Loader = indirectValues.IsDefaultOrEmpty ? null : loader;
             _hash = null;
         }
 
@@ -144,8 +143,10 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
         public int Count => _values.Length;
 
+        internal IndirectValue.Loader? Loader { get; private set; }
+
         /// <inheritdoc cref="IReadOnlyList{T}.this[int]"/>
-        public IValue this[int index] => _values[index].GetValue(_loader);
+        public IValue this[int index] => _values[index].GetValue(Loader);
 
         bool IEquatable<IImmutableList<IValue>>.Equals(IImmutableList<IValue> other)
         {
@@ -191,18 +192,11 @@ namespace Bencodex.Types
         {
             foreach (IndirectValue element in _values)
             {
-                yield return element.GetValue(_loader);
+                yield return element.GetValue(Loader);
             }
 
-            _loader = null;
+            Loader = null;
         }
-
-        /// <summary>
-        /// Enumerates <see cref="IndirectValue"/>s in the list.
-        /// </summary>
-        /// <returns>An enumerable of <see cref="IndirectValue"/>s, which can be either loaded or
-        /// offloaded.</returns>
-        public IEnumerable<IndirectValue> EnumerateIndirectValues() => _values;
 
         /// <inheritdoc cref="object.Equals(object?)"/>
         public override bool Equals(object? obj) => obj is List other &&
@@ -280,7 +274,7 @@ namespace Bencodex.Types
                 new IndirectValue(item),
                 index,
                 count,
-                new IndirectValueEqualityComparer(equalityComparer, _loader)
+                new IndirectValueEqualityComparer(equalityComparer, Loader)
             );
 
         IImmutableList<IValue> IImmutableList<IValue>.Insert(int index, IValue element) =>
@@ -307,7 +301,7 @@ namespace Bencodex.Types
                 new IndirectValue(item),
                 index,
                 count,
-                new IndirectValueEqualityComparer(equalityComparer, _loader)
+                new IndirectValueEqualityComparer(equalityComparer, Loader)
             );
 
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
@@ -318,16 +312,16 @@ namespace Bencodex.Types
             new List(
                 _values.Remove(
                     new IndirectValue(value),
-                    new IndirectValueEqualityComparer(equalityComparer, _loader)
+                    new IndirectValueEqualityComparer(equalityComparer, Loader)
                 ),
-                _loader
+                Loader
             );
 
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.RemoveAll(
             Predicate<IValue> match
         ) =>
-            new List(_values.RemoveAll(iv => match(iv.GetValue(_loader))), _loader);
+            new List(_values.RemoveAll(iv => match(iv.GetValue(Loader))), Loader);
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveAt(int index) =>
             new List(_values.RemoveAt(index));
@@ -340,7 +334,7 @@ namespace Bencodex.Types
             new List(
                 _values.RemoveRange(
                     items.Select(v => new IndirectValue(v)),
-                    new IndirectValueEqualityComparer(equalityComparer, _loader)
+                    new IndirectValueEqualityComparer(equalityComparer, Loader)
                 )
             );
 
@@ -357,7 +351,7 @@ namespace Bencodex.Types
                 _values.Replace(
                     new IndirectValue(oldValue),
                     new IndirectValue(newValue),
-                    new IndirectValueEqualityComparer(equalityComparer, _loader)
+                    new IndirectValueEqualityComparer(equalityComparer, Loader)
                 )
             );
 
@@ -369,7 +363,7 @@ namespace Bencodex.Types
         {
             string InspectItem(IndirectValue value, bool load) =>
                 loadAll || value.LoadedValue is { }
-                    ? value.GetValue(_loader).Inspect(load)
+                    ? value.GetValue(Loader).Inspect(load)
                     : value.Fingerprint.ToString();
 
             string inspection;
@@ -399,7 +393,7 @@ namespace Bencodex.Types
 
             if (loadAll)
             {
-                _loader = null;
+                Loader = null;
             }
 
             return inspection;
@@ -408,5 +402,12 @@ namespace Bencodex.Types
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
             $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(List)} {Inspect(false)}";
+
+        /// <summary>
+        /// Enumerates <see cref="IndirectValue"/>s in the list.
+        /// </summary>
+        /// <returns>An enumerable of <see cref="IndirectValue"/>s, which can be either loaded or
+        /// offloaded.</returns>
+        internal IEnumerable<IndirectValue> EnumerateIndirectValues() => _values;
     }
 }
