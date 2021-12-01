@@ -15,6 +15,10 @@ To be released.
     `IEquatable<Bencodex.Types.Dictionary>` interface.  [[#51]]
  -  Added `Bencodex.Types.ValueKind` enum type.  [[#50], [#53]]
  -  Bencodex lists and dictionaries now can offload their elements:
+     -  Added `Codec.Encode(IValue, IOffloadOptions?)` overloaded method.
+        [[#55]]
+     -  Added `Codec.Encode(IValue, Stream, IOffloadOptions?)` overloaded
+        method.  [[#55]]
      -  Added `Bencodex.Types.IndirectValue` struct.  [[#52]]
      -  Added `List(IEnumerable<IndirectValue>, IndirectValue.Loader)`
         constructor.  [[#52]]

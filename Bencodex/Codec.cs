@@ -12,6 +12,29 @@ namespace Bencodex
     public class Codec
     {
         /// <summary>
+        /// Encodes a <paramref name="value"/> into a single <see cref="byte"/> array, rather than
+        /// split into multiple chunks.</summary>
+        /// <param name="value">A value to encode.</param>
+        /// <param name="offloadOptions">Optionally configures how to offload heavy values included
+        /// in lists and dictionaries.</param>
+        /// <returns>A single <see cref="byte"/> array which contains the whole Bencodex
+        /// representation of the <paramref name="value"/>.</returns>
+        [Pure]
+        public byte[] Encode(IValue value, IOffloadOptions? offloadOptions) =>
+            Encoder.Encode(value, offloadOptions);
+
+        /// <summary>Encodes a <paramref name="value"/>, and writes it on
+        /// the <paramref name="output"/> stream.</summary>
+        /// <param name="value">A value to encode.</param>
+        /// <param name="output">A stream that a value is printed on.</param>
+        /// <param name="offloadOptions">Optionally configures how to offload heavy values included
+        /// in lists and dictionaries.</param>
+        /// <exception cref="ArgumentException">Thrown when the given <paramref name="output"/>
+        /// stream is not writable.</exception>
+        public void Encode(IValue value, Stream output, IOffloadOptions? offloadOptions) =>
+            Encoder.Encode(value, output, offloadOptions);
+
+        /// <summary>
         /// Encodes a <paramref name="value"/> into a single
         /// <c cref="byte">Byte</c> array, rather than split into
         /// multiple chunks.</summary>
@@ -20,7 +43,7 @@ namespace Bencodex
         /// contains the whole Bencodex representation of
         /// the <paramref name="value"/>.</returns>
         [Pure]
-        public byte[] Encode(IValue value) => Encoder.Encode(value);
+        public byte[] Encode(IValue value) => Encoder.Encode(value, offloadOptions: null);
 
         /// <summary>Encodes a <paramref name="value"/>,
         /// and write it on an <paramref name="output"/> stream.</summary>
@@ -28,7 +51,8 @@ namespace Bencodex
         /// <param name="output">A stream that a value is printed on.</param>
         /// <exception cref="ArgumentException">Thrown when a given
         /// <paramref name="output"/> stream is not writable.</exception>
-        public void Encode(IValue value, Stream output) => Encoder.Encode(value, output);
+        public void Encode(IValue value, Stream output) =>
+            Encode(value, output, offloadOptions: null);
 
         /// <summary>Decodes an encoded value from an <paramref name="input"/>
         /// stream.</summary>
