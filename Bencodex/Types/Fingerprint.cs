@@ -213,18 +213,9 @@ namespace Bencodex.Types
         [Pure]
         public byte[] Serialize()
         {
-            byte[] hash = GetDigest();
-            byte[] encLength = BitConverter.GetBytes(EncodingLength);
-            if (BitConverter.IsLittleEndian)
-            {
-                Array.Reverse(encLength);
-            }
-
-            var total = new byte[1 + encLength.Length + hash.Length];
-            total[0] = (byte)Kind;
-            encLength.CopyTo(total, 1);
-            hash.CopyTo(total, 1 + encLength.Length);
-            return total;
+            var buffer = new byte[CountSerializationBytes()];
+            SerializeInto(buffer, 0);
+            return buffer;
         }
 
         /// <inheritdoc cref="ISerializable.GetObjectData(SerializationInfo, StreamingContext)"/>
@@ -238,5 +229,74 @@ namespace Bencodex.Types
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
             $"{Kind} {(Digest.Any() ? $"{Digest.Hex()} " : string.Empty)}[{EncodingLength} B]";
+
+        internal static Fingerprint Deserialize(byte[] buffer, long offset, long length)
+        {
+            var kind = (ValueKind)buffer[offset];
+            if (!_availableKinds.Contains(kind))
+            {
+                throw new FormatException(
+                    $"Invalid value kind: {buffer[offset]}; available kinds are:\n\n" +
+                    string.Join("\n", _availableKinds.Select(k => $"{(byte)k}. {k}"))
+                );
+            }
+
+            long encodingLength;
+            if (BitConverter.IsLittleEndian || offset + 1L + 8L > int.MaxValue)
+            {
+                var int64Buffer = new byte[8];
+                Array.Copy(buffer, offset + 1L, int64Buffer, 0L, int64Buffer.LongLength);
+                if (BitConverter.IsLittleEndian)
+                {
+                    Array.Reverse(int64Buffer);
+                }
+
+                encodingLength = BitConverter.ToInt64(int64Buffer, 0);
+            }
+            else
+            {
+                encodingLength = BitConverter.ToInt64(buffer, 1 + (int)offset);
+            }
+
+            if (offset + length > int.MaxValue)
+            {
+                var digestBuffer = new byte[length - 1L - 8L];
+                Array.Copy(buffer, offset + 1L + 8L, digestBuffer, 0L, digestBuffer.LongLength);
+                return new Fingerprint(kind, encodingLength, ImmutableArray.Create(digestBuffer));
+            }
+
+            return new Fingerprint(
+                kind,
+                encodingLength,
+                ImmutableArray.Create(buffer, (int)(offset + 1L + 8L), (int)(length - 1L - 8L))
+            );
+        }
+
+        internal long SerializeInto(byte[] buffer, long offset)
+        {
+            buffer[offset] = (byte)Kind;
+
+            byte[] encLength = BitConverter.GetBytes(EncodingLength);
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(encLength);
+            }
+
+            encLength.CopyTo(buffer, offset + 1L);
+
+            long o = offset + 1L + encLength.Length;
+            if (o + Digest.Length > int.MaxValue)
+            {
+                GetDigest().CopyTo(buffer, o);
+            }
+            else
+            {
+                Digest.CopyTo(buffer, (int)o);
+            }
+
+            return 1L + encLength.LongLength + Digest.Length;
+        }
+
+        internal long CountSerializationBytes() => 1L + 8L + Digest.Length;
     }
 }

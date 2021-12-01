@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Bencodex.Types;
 using Xunit;
+using static Bencodex.Tests.TestUtils;
 
 namespace Bencodex.Tests.Types
 {
@@ -91,6 +92,7 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Serialize()
         {
+            var buffer = new byte[1024];
             var random = new Random();
             byte[] hash = random.NextBytes(20);
             var f = new Fingerprint(ValueKind.List, 123, hash);
@@ -99,6 +101,12 @@ namespace Bencodex.Tests.Types
                 f.Serialize()
             );
             Assert.Equal(f, Fingerprint.Deserialize(f.Serialize()));
+            long estimatedSize = f.CountSerializationBytes();
+            Assert.Equal(f.Serialize().LongLength, estimatedSize);
+            long writtenSize = f.SerializeInto(buffer, 128L);
+            Assert.Equal(estimatedSize, writtenSize);
+            AssertEqual(f.Serialize(), buffer.Skip(128).Take((int)writtenSize).ToArray());
+            Assert.Equal(f, Fingerprint.Deserialize(buffer, 128L, writtenSize));
 
             var s = new MemoryStream();
             var formatter = new BinaryFormatter();
@@ -109,6 +117,12 @@ namespace Bencodex.Tests.Types
             hash = random.NextBytes(20);
             f = new Fingerprint(ValueKind.Dictionary, 456, hash);
             Assert.Equal(f, Fingerprint.Deserialize(f.Serialize()));
+            estimatedSize = f.CountSerializationBytes();
+            Assert.Equal(f.Serialize().LongLength, estimatedSize);
+            writtenSize = f.SerializeInto(buffer, 512L);
+            Assert.Equal(estimatedSize, writtenSize);
+            AssertEqual(f.Serialize(), buffer.Skip(512).Take((int)writtenSize).ToArray());
+            Assert.Equal(f, Fingerprint.Deserialize(buffer, 512L, writtenSize));
 
             byte[] tooShort = f.Serialize().Take(8).ToArray();
             FormatException e = Assert.Throws<FormatException>(
