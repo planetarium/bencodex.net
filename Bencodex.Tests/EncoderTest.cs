@@ -106,6 +106,17 @@ namespace Bencodex.Tests
                 0x65,  // 'e'
             };
             AssertEqual(expectedEncoding, encoded);
+            var decoder = new Decoder(
+                new MemoryStream(encoded),
+                f =>
+                    new IValue[]
+                    {
+                        longText,
+                        subList,
+                        anotherLongText,
+                    }.First(v => v.Fingerprint.Equals(f))
+            );
+            Assert.Equal(list, decoder.Decode());
         }
 
         [Fact]

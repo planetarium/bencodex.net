@@ -65,6 +65,14 @@ namespace Bencodex.Tests
             {
                 _output.WriteLine("- {0}", pair.Key);
             }
+
+            IValue partiallyDecoded = codec.Decode(
+                encodingWithOffload,
+                fp => offloaded[fp]
+            );
+            Assert.Equal(spec.Semantics.Fingerprint, partiallyDecoded.Fingerprint);
+            Assert.Equal(spec.Semantics, partiallyDecoded);
+            Assert.Equal(spec.Semantics.Inspect(true), partiallyDecoded.Inspect(true));
         }
     }
 }

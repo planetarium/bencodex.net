@@ -19,6 +19,10 @@ To be released.
         [[#55]]
      -  Added `Codec.Encode(IValue, Stream, IOffloadOptions?)` overloaded
         method.  [[#55]]
+     -  Added `Codec.Decode(byte[], IndirectValue.Loader?)` overloaded method.
+        [[#55]]
+     -  Added `Codec.Decode(Stream, IndirectValue.Loader?)` overloaded method.
+        [[#55]]
      -  Added `Bencodex.Types.IndirectValue` struct.  [[#52]]
      -  Added `List(IEnumerable<IndirectValue>, IndirectValue.Loader)`
         constructor.  [[#52]]
