@@ -20,8 +20,8 @@ To be released.
         constructor.  [[#52]]
      -  Added `Dictionary(IEnumerable<KeyValuePair<IKey, IndirectValue>>,
         IndirectValue.Loader)` constructor.  [[#52]]
-     -  Added `List.EnumerateIndirectValues()` method.  [[#53]]
-     -  Added `Dictionary.EnumerateIndirectValues()` method.  [[#53]]
+     -  Added `Bencodex.IOffloadOptions` interface. [[#55]]
+     -  Added `Bencodex.OffloadOptions` sealed class. [[#55]]
  -  Bencodex values now have their unique fingerprints:  [[#50]]
      -  Added `Bencodex.Types.Fingerprint` readonly struct.
      -  Added `Bencodex.Misc.FingerprintComparer` class.
@@ -61,6 +61,7 @@ To be released.
 [#52]: https://github.com/planetarium/bencodex.net/pull/52
 [#53]: https://github.com/planetarium/bencodex.net/pull/53
 [#54]: https://github.com/planetarium/bencodex.net/pull/54
+[#55]: https://github.com/planetarium/bencodex.net/pull/55
 
 
 Version 0.3.0
