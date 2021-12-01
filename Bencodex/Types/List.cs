@@ -381,7 +381,7 @@ namespace Bencodex.Types
 
                 case 1:
                     IndirectValue first = _values[0];
-                    if (first.Type == ValueKind.List || first.Type == ValueKind.Dictionary)
+                    if (first.Kind == ValueKind.List || first.Kind == ValueKind.Dictionary)
                     {
                         goto default;
                     }
