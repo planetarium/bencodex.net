@@ -79,7 +79,7 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
         public long EncodingLength =>
-            2L + Value.ToString(CultureInfo.InvariantCulture).Length;
+            2L + CountDecimalDigits();
 
         /// <inheritdoc cref="IValue.Inspection"/>
         [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
@@ -245,5 +245,29 @@ namespace Bencodex.Types
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
             $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Integer)} {Inspect(false)}";
+
+        internal long CountDecimalDigits() =>
+            Value.Sign switch
+            {
+                -1 => Value > -10L
+                    ? 2L
+                    : Value > -100L
+                        ? 3L
+                        : Value > -1000L
+                            ? 4L
+                            : Value > -10000L
+                                ? 5L
+                                : Value.ToString(CultureInfo.InvariantCulture).Length,
+                +1 => Value < 10UL
+                    ? 1L
+                    : Value < 100UL
+                        ? 2L
+                        : Value < 1000UL
+                            ? 3L
+                            : Value < 10000UL
+                                ? 4L
+                                : Value.ToString(CultureInfo.InvariantCulture).Length,
+                _ => 1L,
+            };
     }
 }

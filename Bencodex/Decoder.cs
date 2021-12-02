@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 using System.Numerics;
 using System.Text;
+using Bencodex.Misc;
 using Bencodex.Types;
 
 namespace Bencodex
@@ -12,15 +14,17 @@ namespace Bencodex
     {
         private readonly byte[] _tinyBuffer = new byte[1];
         private readonly Stream _stream;
+        private readonly IndirectValue.Loader? _indirectValueLoader;
         private byte _lastRead;
         private bool _didBack;
         private int _offset;
 
-        public Decoder(Stream stream)
+        public Decoder(Stream stream, IndirectValue.Loader? indirectValueLoader)
         {
             // We assume the stream is buffered by itself.  Otherwise the caller should wrap it
             // with BufferedStream: stream = new BufferedStream(stream);
             _stream = stream;
+            _indirectValueLoader = indirectValueLoader;
             _lastRead = 0;
             _didBack = false;
             _offset = 0;
@@ -42,6 +46,7 @@ namespace Bencodex
         private IValue DecodeValue()
         {
             const byte e = 0x65;  // 'e'
+            const byte indir = 0x2a;  // '*'
 
             switch (ReadByte())
             {
@@ -69,7 +74,7 @@ namespace Bencodex
                     return ReadTextAfterPrefix();
 
                 case 0x6c: // 'l'
-                    var elements = new List<IValue>();
+                    var indirElements = new List<IndirectValue>();
                     while (true)
                     {
                         byte b = ReadByte() ?? throw new DecodingException(
@@ -79,16 +84,25 @@ namespace Bencodex
                         {
                             break;
                         }
+                        else if (b == indir)
+                        {
+                            Fingerprint fp = DecodeFingerprint();
+                            indirElements.Add(new IndirectValue(fp));
+                            continue;
+                        }
 
                         Back();
                         IValue element = DecodeValue();
-                        elements.Add(element);
+                        indirElements.Add(new IndirectValue(element));
                     }
 
-                    return new Bencodex.Types.List(elements);
+                    return new Bencodex.Types.List(
+                        indirElements.ToImmutableArray(),
+                        _indirectValueLoader
+                    );
 
                 case 0x64: // 'd'
-                    var pairs = new List<KeyValuePair<IKey, IValue>>();
+                    var pairs = new List<KeyValuePair<IKey, IndirectValue>>();
                     while (true)
                     {
                         byte b = ReadByte() ?? throw new DecodingException(
@@ -101,11 +115,32 @@ namespace Bencodex
 
                         Back();
                         IKey key = DecodeKey();
+                        if (_indirectValueLoader is { })
+                        {
+                            b = ReadByte() ?? throw new DecodingException(
+                                $"The byte stream terminates unexpectedly at {_offset}."
+                            );
+                            if (b == indir)
+                            {
+                                Fingerprint fp = DecodeFingerprint();
+                                var indirValue = new IndirectValue(fp);
+                                pairs.Add(new KeyValuePair<IKey, IndirectValue>(key, indirValue));
+                                continue;
+                            }
+
+                            Back();
+                        }
+
                         IValue value = DecodeValue();
-                        pairs.Add(new KeyValuePair<IKey, IValue>(key, value));
+                        pairs.Add(
+                            new KeyValuePair<IKey, IndirectValue>(key, new IndirectValue(value))
+                        );
                     }
 
-                    return new Dictionary(pairs);
+                    return new Dictionary(
+                        pairs.ToImmutableSortedDictionary(KeyComparer.Instance),
+                        _indirectValueLoader
+                    );
 
                 case 0x30: // '0'
                 case 0x31: // '1'
@@ -156,6 +191,33 @@ namespace Bencodex
                         $"{_offset - 1}."
                     );
             }
+        }
+
+        private Fingerprint DecodeFingerprint()
+        {
+            if (_indirectValueLoader is null)
+            {
+                throw new DecodingException(
+                    $"An unexpected byte 0x2a at {_offset - 1}.  Note that it means an indirect " +
+                    $"value.  To load an indirect value, {nameof(IndirectValue.Loader)} is needed."
+                );
+            }
+
+            (byte[] bytes, int offset) = ReadByteArray();
+            Fingerprint fp;
+            try
+            {
+                fp = Fingerprint.Deserialize(bytes);
+            }
+            catch (FormatException e)
+            {
+                throw new DecodingException(
+                    "Expected a fingerprint, bug got an unexpected byte sequence at " +
+                    $"{_offset - 1}: {e.Message}."
+                );
+            }
+
+            return fp;
         }
 
         private byte[] Read(byte[] buffer)

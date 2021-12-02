@@ -21,13 +21,15 @@ namespace Bencodex.Tests
             Assert.True(
                 expected.SequenceEqual(actual),
                 string.Format(
-                    "{4}{5}" +
-                    "Expected: {0}\nActual:   {1}\n" +
+                    "{6}{7}" +
+                    "Expected ({4}): {0}\nActual ({5}):   {1}\n" +
                     "Expected (hex): {2}\nActual (hex):   {3}",
                     utf8.GetString(expected),
                     utf8.GetString(actual),
                     BitConverter.ToString(expected),
                     BitConverter.ToString(actual),
+                    expected.LongLength,
+                    actual.LongLength,
                     message ?? string.Empty,
                     message == null ? string.Empty : "\n"
                 )

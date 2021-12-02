@@ -92,6 +92,28 @@ namespace Bencodex.Tests.Types
             Assert.Equal("Bencodex.Types.Integer -456", new Integer(-456).ToString());
         }
 
+        [Fact]
+        public void CountDecimalDigits()
+        {
+            for (int i = -1000; i <= 1000; i++)
+            {
+                Assert.Equal(
+                    i.ToString(CultureInfo.InvariantCulture).Length,
+                    new Integer(i).CountDecimalDigits()
+                );
+            }
+
+            var random = new Random();
+            for (int i = 0; i < 100; i++)
+            {
+                int n = random.Next(int.MinValue, int.MaxValue);
+                Assert.Equal(
+                    n.ToString(CultureInfo.InvariantCulture).Length,
+                    new Integer(n).CountDecimalDigits()
+                );
+            }
+        }
+
         private void IntegerGeneric(Func<int, Integer?> convert)
         {
             Codec codec = new Codec();

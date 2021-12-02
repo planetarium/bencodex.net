@@ -60,7 +60,7 @@ namespace Bencodex.Types
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown when the <see cref="IndirectValue"/>
         /// is an uninitialized default value.</exception>
-        public ValueKind Type => LoadedValue is { } loaded ? loaded.Kind : Fingerprint.Kind;
+        public ValueKind Kind => LoadedValue is { } loaded ? loaded.Kind : Fingerprint.Kind;
 
         /// <summary>
         /// The encoding length of the value that this <see cref="IndirectValue"/> refers to.

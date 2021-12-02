@@ -73,10 +73,10 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Kind()
         {
-            Assert.Equal(ValueKind.List, _loaded.Type);
-            Assert.Equal(ValueKind.Dictionary, _unloaded.Type);
+            Assert.Equal(ValueKind.List, _loaded.Kind);
+            Assert.Equal(ValueKind.Dictionary, _unloaded.Kind);
             Assert.Null(_unloaded.LoadedValue);
-            Assert.Throws<InvalidOperationException>(() => _default.Type);
+            Assert.Throws<InvalidOperationException>(() => _default.Kind);
         }
 
         [Fact]
