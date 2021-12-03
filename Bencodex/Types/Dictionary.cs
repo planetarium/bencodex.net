@@ -567,7 +567,7 @@ namespace Bencodex.Types
         /// </summary>
         /// <returns>An enumerable of pairs of keys and <see cref="IndirectValue"/>s, which can be
         /// either loaded or offloaded.</returns>
-        internal IEnumerable<KeyValuePair<IKey, IndirectValue>> EnumerateIndirectValues() => _dict;
+        internal IEnumerable<KeyValuePair<IKey, IndirectValue>> EnumerateIndirectPairs() => _dict;
 
         private static KeyValuePair<IKey, IndirectValue> ToIndirectPair(
             KeyValuePair<IKey, IValue> pair

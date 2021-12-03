@@ -5,10 +5,17 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsTestProject>true</IsTestProject>
     <DebugType>portable</DebugType>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>7.2</LangVersion>
     <CodeAnalysisRuleSet>../Bencodex.Tests.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
   </PropertyGroup>
+
+  <PropertyGroup Condition="
+    '$([System.Runtime.InteropServices.RuntimeInformation]::
+      OSArchitecture.ToString())' == 'Arm64' ">
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup> 
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />

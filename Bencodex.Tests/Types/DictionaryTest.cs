@@ -590,7 +590,7 @@ namespace Bencodex.Tests.Types
         public void EnumerateIndirectValues()
         {
             Assert.All(
-                _textKey.EnumerateIndirectValues(),
+                _textKey.EnumerateIndirectPairs(),
                 kv => Assert.NotNull(kv.Value.LoadedValue)
             );
             Assert.Equal(
@@ -601,11 +601,11 @@ namespace Bencodex.Tests.Types
                         new IndirectValue((Text)"bar")
                     ),
                 },
-                _textKey.EnumerateIndirectValues()
+                _textKey.EnumerateIndirectPairs()
             );
 
             Assert.All(
-                _textKey.EnumerateIndirectValues(),
+                _textKey.EnumerateIndirectPairs(),
                 kv => Assert.NotNull(kv.Value.LoadedValue)
             );
             Assert.Equal(
@@ -616,11 +616,11 @@ namespace Bencodex.Tests.Types
                         new IndirectValue((Text)"bar")
                     ),
                 },
-                _binaryKey.EnumerateIndirectValues()
+                _binaryKey.EnumerateIndirectPairs()
             );
 
             Assert.All(
-                _mixedKeys.EnumerateIndirectValues(),
+                _mixedKeys.EnumerateIndirectPairs(),
                 kv => Assert.NotNull(kv.Value.LoadedValue)
             );
             Assert.Equal(
@@ -635,14 +635,14 @@ namespace Bencodex.Tests.Types
                         new IndirectValue((Text)"string")
                     ),
                 },
-                _mixedKeys.EnumerateIndirectValues()
+                _mixedKeys.EnumerateIndirectPairs()
             );
 
             Assert.Equal(
                 _partiallyLoadedPairs.OrderBy(kv => kv.Key, KeyComparer.Instance),
-                _partiallyLoaded.EnumerateIndirectValues()
+                _partiallyLoaded.EnumerateIndirectPairs()
             );
-            foreach (var kv in _partiallyLoaded.EnumerateIndirectValues())
+            foreach (var kv in _partiallyLoaded.EnumerateIndirectPairs())
             {
                 Assert.Equal(_partiallyLoadedPairs[kv.Key].Fingerprint, kv.Value.Fingerprint);
                 Assert.Equal(_partiallyLoadedPairs[kv.Key].LoadedValue, kv.Value.LoadedValue);

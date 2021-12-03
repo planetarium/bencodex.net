@@ -30,6 +30,7 @@ To be released.
         IndirectValue.Loader)` constructor.  [[#52]]
      -  Added `Bencodex.IOffloadOptions` interface. [[#55]]
      -  Added `Bencodex.OffloadOptions` sealed class. [[#55]]
+     -  Added `Bencodex.OffloadingInspector` static class.  [[#56]]
  -  Bencodex values now have their unique fingerprints:  [[#50]]
      -  Added `Bencodex.Types.Fingerprint` readonly struct.
      -  Added `Bencodex.Misc.FingerprintComparer` class.
@@ -70,6 +71,7 @@ To be released.
 [#53]: https://github.com/planetarium/bencodex.net/pull/53
 [#54]: https://github.com/planetarium/bencodex.net/pull/54
 [#55]: https://github.com/planetarium/bencodex.net/pull/55
+[#56]: https://github.com/planetarium/bencodex.net/pull/56
 
 
 Version 0.3.0
