@@ -90,7 +90,7 @@ namespace Bencodex
             else if (value is Dictionary dict)
             {
                 long dictLen = 2L;
-                foreach (KeyValuePair<IKey, IndirectValue> pair in dict.EnumerateIndirectValues())
+                foreach (KeyValuePair<IKey, IndirectValue> pair in dict.EnumerateIndirectPairs())
                 {
                     dictLen += pair.Key.EncodingLength;
                     IndirectValue iv = pair.Value;
@@ -235,7 +235,7 @@ namespace Bencodex
             buffer[offset] = 0x64;  // 'd'
             long encLen = 1L;  // This means the logical "expanded" encoding length.
             long actualBytes = 1L;  // This means the actual "collapsed" encoding length.
-            foreach (KeyValuePair<IKey, IndirectValue> pair in value.EnumerateIndirectValues())
+            foreach (KeyValuePair<IKey, IndirectValue> pair in value.EnumerateIndirectPairs())
             {
                 actualBytes += pair.Key switch
                 {
