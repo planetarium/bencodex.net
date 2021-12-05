@@ -23,7 +23,7 @@ namespace Bencodex.Types
         /// The empty dictionary.
         /// </summary>
         public static readonly Dictionary Empty =
-            new Dictionary(ImmutableDictionary<IKey, IValue>.Empty)
+            new Dictionary(Enumerable.Empty<KeyValuePair<IKey, IValue>>())
             {
                 EncodingLength = 2L,
             };
@@ -80,11 +80,11 @@ namespace Bencodex.Types
 
         internal Dictionary(
             in ImmutableSortedDictionary<IKey, IndirectValue> dict,
-            IndirectValue.Loader? loader = null
+            IndirectValue.Loader? loader
         )
         {
             _dict = dict;
-            Loader = dict.IsEmpty ? null : loader;
+            Loader = loader;
         }
 
         /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
@@ -103,8 +103,6 @@ namespace Bencodex.Types
                 {
                     yield return iv.GetValue(Loader);
                 }
-
-                Loader = null;
             }
         }
 
@@ -166,7 +164,7 @@ namespace Bencodex.Types
         [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
         public string Inspection => Inspect(true);
 
-        internal IndirectValue.Loader? Loader { get; private set; }
+        internal IndirectValue.Loader? Loader { get; }
 
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.this[TKey]"/>
         public IValue this[IKey key] => _dict[key].GetValue(Loader);
@@ -226,8 +224,6 @@ namespace Bencodex.Types
             {
                 yield return new KeyValuePair<IKey, IValue>(kv.Key, kv.Value.GetValue(Loader));
             }
-
-            Loader = null;
         }
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator()"/>
@@ -550,11 +546,6 @@ namespace Bencodex.Types
                 $"  {kv.Key.Inspect(loadAll)}: {kv.Value.Inspect(loadAll).Replace("\n", "\n  ")},\n"
             ).OrderBy(s => s);
             string pairsString = string.Join(string.Empty, pairs);
-            if (loadAll)
-            {
-                Loader = null;
-            }
-
             return $"{{\n{pairsString}}}";
         }
 
