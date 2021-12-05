@@ -354,6 +354,13 @@ namespace Bencodex.Tests.Types
             Assert.Equal((Boolean)true, list[3]);
             Assert.Equal(List.Empty, list[4]);
             Assert.Equal(Dictionary.Empty, list[5]);
+
+            List nullAddedToPartiallyLoaded = _partiallyLoaded.Add(Null.Value);
+            Assert.Equal(nullAddedToPartiallyLoaded, new List(_loadedValues).Add(Null.Value));
+            Assert.Equal(
+                nullAddedToPartiallyLoaded.ToArray(),
+                _loadedValues.Append(Null.Value).ToArray()
+            );
         }
 
         [Fact]

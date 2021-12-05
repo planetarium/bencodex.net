@@ -23,7 +23,7 @@ namespace Bencodex.Types
         /// <summary>
         /// The empty list.
         /// </summary>
-        public static readonly List Empty = new List(ImmutableArray<IValue>.Empty)
+        public static readonly List Empty = new List(ImmutableArray<IndirectValue>.Empty, null)
         {
             EncodingLength = 2L,
         };
@@ -75,11 +75,11 @@ namespace Bencodex.Types
 
         internal List(
             in ImmutableArray<IndirectValue> indirectValues,
-            IndirectValue.Loader? loader = null
+            IndirectValue.Loader? loader
         )
         {
             _values = indirectValues;
-            Loader = indirectValues.IsDefaultOrEmpty ? null : loader;
+            Loader = loader;
             _hash = null;
         }
 
@@ -143,7 +143,7 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
         public int Count => _values.Length;
 
-        internal IndirectValue.Loader? Loader { get; private set; }
+        internal IndirectValue.Loader? Loader { get; }
 
         /// <inheritdoc cref="IReadOnlyList{T}.this[int]"/>
         public IValue this[int index] => _values[index].GetValue(Loader);
@@ -194,8 +194,6 @@ namespace Bencodex.Types
             {
                 yield return element.GetValue(Loader);
             }
-
-            Loader = null;
         }
 
         /// <inheritdoc cref="object.Equals(object?)"/>
@@ -217,7 +215,7 @@ namespace Bencodex.Types
         /// <param name="value">The value to add to the list.</param>
         /// <returns>A new list with the value added.</returns>
         public List Add(IValue value) =>
-            new List(_values.Add(new IndirectValue(value)))
+            new List(_values.Add(new IndirectValue(value)), Loader)
             {
                 EncodingLength = _encodingLength < 2L ? -1 : _encodingLength + value.EncodingLength,
             };
@@ -257,7 +255,7 @@ namespace Bencodex.Types
         IImmutableList<IValue> IImmutableList<IValue>.AddRange(
             IEnumerable<IValue> items
         ) =>
-            new List(_values.AddRange(items.Select(v => new IndirectValue(v))));
+            new List(_values.AddRange(items.Select(v => new IndirectValue(v))), Loader);
 
         IImmutableList<IValue> IImmutableList<IValue>.Clear() =>
             List.Empty;
@@ -278,7 +276,7 @@ namespace Bencodex.Types
             );
 
         IImmutableList<IValue> IImmutableList<IValue>.Insert(int index, IValue element) =>
-            new List(_values.Insert(index, new IndirectValue(element)));
+            new List(_values.Insert(index, new IndirectValue(element)), Loader);
 
         IImmutableList<IValue> IImmutableList<IValue>.InsertRange(
             int index,
@@ -286,7 +284,7 @@ namespace Bencodex.Types
         )
         {
             IEnumerable<IndirectValue> vs = items.Select(v => new IndirectValue(v));
-            return new List(_values.InsertRange(index, vs));
+            return new List(_values.InsertRange(index, vs), Loader);
         }
 
         [Obsolete("This operation immediately loads all unloaded values in the range on " +
@@ -324,7 +322,7 @@ namespace Bencodex.Types
             new List(_values.RemoveAll(iv => match(iv.GetValue(Loader))), Loader);
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveAt(int index) =>
-            new List(_values.RemoveAt(index));
+            new List(_values.RemoveAt(index), Loader);
 
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.RemoveRange(
@@ -335,11 +333,12 @@ namespace Bencodex.Types
                 _values.RemoveRange(
                     items.Select(v => new IndirectValue(v)),
                     new IndirectValueEqualityComparer(equalityComparer, Loader)
-                )
+                ),
+                Loader
             );
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveRange(int index, int count) =>
-            new List(_values.RemoveRange(index, count));
+            new List(_values.RemoveRange(index, count), Loader);
 
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.Replace(
@@ -352,11 +351,12 @@ namespace Bencodex.Types
                     new IndirectValue(oldValue),
                     new IndirectValue(newValue),
                     new IndirectValueEqualityComparer(equalityComparer, Loader)
-                )
+                ),
+                Loader
             );
 
         IImmutableList<IValue> IImmutableList<IValue>.SetItem(int index, IValue value) =>
-            new List(_values.SetItem(index, new IndirectValue(value)));
+            new List(_values.SetItem(index, new IndirectValue(value)), Loader);
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)
@@ -389,11 +389,6 @@ namespace Bencodex.Types
                     );
                     inspection = $"[\n{string.Join(string.Empty, elements)}]";
                     break;
-            }
-
-            if (loadAll)
-            {
-                Loader = null;
             }
 
             return inspection;
