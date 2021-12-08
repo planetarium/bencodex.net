@@ -4,7 +4,7 @@ Changelog
 Version 0.4.0
 -------------
 
-To be released.
+Released on December 8, 2021.
 
  -  `Bencodex.Types.List` struct became a sealed class.  [[#51], [#52]]
  -  `Bencodex.Types.Dictionary` readonly struct became a sealed class.
