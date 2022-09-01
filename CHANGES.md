@@ -6,6 +6,14 @@ Version 0.5.0
 
 To be released.
 
+ -  `Bencodex.Types.List.Add()` now directly supports `Text`, `Boolean`,
+    `Integer`, and `Binary` types.  [[#58], [#60]]
+ -  `Bencodex.Types.Dictionary.Add()` now directly supports `Text`, `Boolean`,
+    `Integer`, and `Binary` types.  [[#58], [#60]]
+
+[#58]: https://github.com/planetarium/bencodex.net/issues/58
+[#60]: https://github.com/planetarium/bencodex.net/pull/60
+
 
 Version 0.4.0
 -------------
