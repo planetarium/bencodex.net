@@ -344,7 +344,18 @@ namespace Bencodex.Tests.Types
                 .Add("foo")
                 .Add(Encoding.UTF8.GetBytes("bar"))
                 .Add(0xbeef)
-                .Add(true)
+                .Add(true);
+
+            Assert.Equal((Text)"foo", list[0]);
+            Assert.Equal((Binary)Encoding.UTF8.GetBytes("bar"), list[1]);
+            Assert.Equal((Integer)0xbeef, list[2]);
+            Assert.Equal((Boolean)true, list[3]);
+
+            list = List.Empty
+                .Add((Text)"foo")
+                .Add((Binary)Encoding.UTF8.GetBytes("bar"))
+                .Add((Integer)0xbeef)
+                .Add((Boolean)true)
                 .Add(List.Empty)
                 .Add(Dictionary.Empty);
 
