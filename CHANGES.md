@@ -4,7 +4,7 @@ Changelog
 Version 0.5.0
 -------------
 
-To be released.
+Released on September 2, 2022.
 
  -  `Bencodex.Types.List.Add()` now directly supports `Text`, `Boolean`,
     `Integer`, and `Binary` types.  [[#58], [#60]]
