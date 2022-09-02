@@ -288,6 +288,8 @@ namespace Bencodex.Tests.Types
             byte[] binaryKey = new byte[] { 0x02 };
             byte[] booleanKey = new byte[] { 0x03 };
             byte[] listKey = new byte[] { 0x04 };
+
+            // NOTE: Assigned multiple times with the same values for checking syntax.
             var dictionary = Dictionary.Empty
                 .Add("text", "foo")
                 .Add("integer", 1337)
@@ -299,6 +301,42 @@ namespace Bencodex.Tests.Types
                 .Add(binaryKey, new byte[] { 0x05, 0x06, 0x07, 0x08 })
                 .Add(booleanKey, false)
                 .Add(listKey, new IValue[] { (Text)"qux", (Integer)2020 });
+
+            dictionary = Dictionary.Empty
+                .Add((Text)"text", "foo")
+                .Add((Text)"integer", 1337)
+                .Add((Text)"binary", new byte[] { 0x01, 0x02, 0x03, 0x04 })
+                .Add((Text)"boolean", true)
+                .Add((Text)"list", new IValue[] { (Text)"bar", (Integer)1337 })
+                .Add((Binary)textKey, "baz")
+                .Add((Binary)integerKey, 2020)
+                .Add((Binary)binaryKey, new byte[] { 0x05, 0x06, 0x07, 0x08 })
+                .Add((Binary)booleanKey, false)
+                .Add((Binary)listKey, new IValue[] { (Text)"qux", (Integer)2020 });
+
+            dictionary = Dictionary.Empty
+                .Add("text", (Text)"foo")
+                .Add("integer", (Integer)1337)
+                .Add("binary", (Binary)new byte[] { 0x01, 0x02, 0x03, 0x04 })
+                .Add("boolean", (Bencodex.Types.Boolean)true)
+                .Add("list", new List(new IValue[] { (Text)"bar", (Integer)1337 }))
+                .Add(textKey, (Text)"baz")
+                .Add(integerKey, (Integer)2020)
+                .Add(binaryKey, (Binary)new byte[] { 0x05, 0x06, 0x07, 0x08 })
+                .Add(booleanKey, (Bencodex.Types.Boolean)false)
+                .Add(listKey, new List(new IValue[] { (Text)"qux", (Integer)2020 }));
+
+            dictionary = Dictionary.Empty
+                .Add((Text)"text", (Text)"foo")
+                .Add((Text)"integer", (Integer)1337)
+                .Add((Text)"binary", (Binary)new byte[] { 0x01, 0x02, 0x03, 0x04 })
+                .Add((Text)"boolean", (Bencodex.Types.Boolean)true)
+                .Add((Text)"list", new List(new IValue[] { (Text)"bar", (Integer)1337 }))
+                .Add((Binary)textKey, (Text)"baz")
+                .Add((Binary)integerKey, (Integer)2020)
+                .Add((Binary)binaryKey, (Binary)new byte[] { 0x05, 0x06, 0x07, 0x08 })
+                .Add((Binary)booleanKey, (Bencodex.Types.Boolean)false)
+                .Add((Binary)listKey, new List(new IValue[] { (Text)"qux", (Integer)2020 }));
 
             // String keys
             Assert.Equal("foo", (Text)dictionary["text"]);
