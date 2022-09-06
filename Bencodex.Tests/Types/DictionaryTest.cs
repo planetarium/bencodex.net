@@ -213,12 +213,34 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void SetItem()
         {
+            // NOTE: Assigned multiple times with the same values for checking syntax.
             var dictionary = Dictionary.Empty
                 .SetItem("text", "foo")
                 .SetItem("integer", 1337)
                 .SetItem("binary", new byte[] { 0x01, 0x02, 0x03, 0x04 })
                 .SetItem("boolean", true)
                 .SetItem("list", new IValue[] { (Text)"bar", (Integer)1337 });
+
+            dictionary = Dictionary.Empty
+                .SetItem((Text)"text", "foo")
+                .SetItem((Text)"integer", 1337)
+                .SetItem((Text)"binary", new byte[] { 0x01, 0x02, 0x03, 0x04 })
+                .SetItem((Text)"boolean", true)
+                .SetItem((Text)"list", new IValue[] { (Text)"bar", (Integer)1337 });
+
+            dictionary = Dictionary.Empty
+                .SetItem("text", (Text)"foo")
+                .SetItem("integer", (Integer)1337)
+                .SetItem("binary", (Binary)new byte[] { 0x01, 0x02, 0x03, 0x04 })
+                .SetItem("boolean", (Bencodex.Types.Boolean)true)
+                .SetItem("list", new List(new IValue[] { (Text)"bar", (Integer)1337 }));
+
+            dictionary = Dictionary.Empty
+                .SetItem((Text)"text", (Text)"foo")
+                .SetItem((Text)"integer", (Integer)1337)
+                .SetItem((Text)"binary", (Binary)new byte[] { 0x01, 0x02, 0x03, 0x04 })
+                .SetItem((Text)"boolean", (Bencodex.Types.Boolean)true)
+                .SetItem((Text)"list", new List(new IValue[] { (Text)"bar", (Integer)1337 }));
 
             Assert.Equal("foo", (Text)dictionary["text"]);
             Assert.Equal("foo", dictionary.GetValue<Text>("text"));
