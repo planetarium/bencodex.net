@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Numerics;
 using System.Security.Cryptography;
 using Bencodex.Misc;
 
@@ -282,9 +283,6 @@ namespace Bencodex.Types
         public Dictionary Add(Text key, IValue value) =>
             (Dictionary)Add((IKey)key, value);
 
-        public Dictionary Add(Text key, Text value) =>
-            Add(key, (IValue)value);
-
         public Dictionary Add(Text key, Boolean value) =>
             Add(key, (IValue)value);
 
@@ -294,14 +292,17 @@ namespace Bencodex.Types
         public Dictionary Add(Text key, Binary value) =>
             Add(key, (IValue)value);
 
+        public Dictionary Add(Text key, Text value) =>
+            Add(key, (IValue)value);
+
         public Dictionary Add(Text key, List value) =>
             Add(key, (IValue)value);
 
         public Dictionary Add(Text key, Dictionary value) =>
             Add(key, (IValue)value);
 
-        public Dictionary Add(Text key, string value) =>
-            Add(key, new Text(value));
+        public Dictionary Add(Text key, bool value) =>
+            Add(key, new Boolean(value));
 
         public Dictionary Add(Text key, int value) =>
             Add(key, new Integer(value));
@@ -315,23 +316,23 @@ namespace Bencodex.Types
         public Dictionary Add(Text key, ulong value) =>
             Add(key, new Integer(value));
 
-        public Dictionary Add(Text key, ImmutableArray<byte> value) =>
-            Add(key, new Binary(value));
+        public Dictionary Add(Text key, BigInteger value) =>
+            Add(key, new Integer(value));
 
         public Dictionary Add(Text key, byte[] value) =>
             Add(key, new Binary(value));
 
-        public Dictionary Add(Text key, bool value) =>
-            Add(key, new Boolean(value));
+        public Dictionary Add(Text key, ImmutableArray<byte> value) =>
+            Add(key, new Binary(value));
+
+        public Dictionary Add(Text key, string value) =>
+            Add(key, new Text(value));
 
         public Dictionary Add(Text key, IEnumerable<IValue> value) =>
             Add(key, new List(value));
 
         public Dictionary Add(Binary key, IValue value) =>
             (Dictionary)Add((IKey)key, value);
-
-        public Dictionary Add(Binary key, Text value) =>
-            Add(key, (IValue)value);
 
         public Dictionary Add(Binary key, Boolean value) =>
             Add(key, (IValue)value);
@@ -342,14 +343,17 @@ namespace Bencodex.Types
         public Dictionary Add(Binary key, Binary value) =>
             Add(key, (IValue)value);
 
+        public Dictionary Add(Binary key, Text value) =>
+            Add(key, (IValue)value);
+
         public Dictionary Add(Binary key, List value) =>
             Add(key, (IValue)value);
 
         public Dictionary Add(Binary key, Dictionary value) =>
             Add(key, (IValue)value);
 
-        public Dictionary Add(Binary key, string value) =>
-            Add(key, new Text(value));
+        public Dictionary Add(Binary key, bool value) =>
+            Add(key, new Boolean(value));
 
         public Dictionary Add(Binary key, int value) =>
             Add(key, new Integer(value));
@@ -363,22 +367,22 @@ namespace Bencodex.Types
         public Dictionary Add(Binary key, ulong value) =>
             Add(key, new Integer(value));
 
-        public Dictionary Add(Binary key, ImmutableArray<byte> value) =>
-            Add(key, new Binary(value));
+        public Dictionary Add(Binary key, BigInteger value) =>
+            Add(key, new Integer(value));
 
         public Dictionary Add(Binary key, byte[] value) =>
             Add(key, new Binary(value));
 
-        public Dictionary Add(Binary key, bool value) =>
-            Add(key, new Boolean(value));
+        public Dictionary Add(Binary key, ImmutableArray<byte> value) =>
+            Add(key, new Binary(value));
+
+        public Dictionary Add(Binary key, string value) =>
+            Add(key, new Text(value));
 
         public Dictionary Add(Binary key, IEnumerable<IValue> value) =>
             Add(key, new List(value));
 
         public Dictionary Add(string key, IValue value) =>
-            Add(new Text(key), value);
-
-        public Dictionary Add(string key, Text value) =>
             Add(new Text(key), value);
 
         public Dictionary Add(string key, Boolean value) =>
@@ -390,14 +394,17 @@ namespace Bencodex.Types
         public Dictionary Add(string key, Binary value) =>
             Add(new Text(key), value);
 
+        public Dictionary Add(string key, Text value) =>
+            Add(new Text(key), value);
+
         public Dictionary Add(string key, List value) =>
             Add(new Text(key), value);
 
         public Dictionary Add(string key, Dictionary value) =>
             Add(new Text(key), value);
 
-        public Dictionary Add(string key, string value) =>
-            Add(key, new Text(value));
+        public Dictionary Add(string key, bool value) =>
+            Add(key, new Boolean(value));
 
         public Dictionary Add(string key, int value) =>
             Add(key, new Integer(value));
@@ -411,22 +418,22 @@ namespace Bencodex.Types
         public Dictionary Add(string key, ulong value) =>
             Add(key, new Integer(value));
 
-        public Dictionary Add(string key, ImmutableArray<byte> value) =>
-            Add(key, new Binary(value));
+        public Dictionary Add(string key, BigInteger value) =>
+            Add(key, new Integer(value));
 
         public Dictionary Add(string key, byte[] value) =>
             Add(key, new Binary(value));
 
-        public Dictionary Add(string key, bool value) =>
-            Add(key, new Boolean(value));
+        public Dictionary Add(string key, ImmutableArray<byte> value) =>
+            Add(key, new Binary(value));
+
+        public Dictionary Add(string key, string value) =>
+            Add(key, new Text(value));
 
         public Dictionary Add(string key, IEnumerable<IValue> value) =>
             Add(key, new List(value));
 
         public Dictionary Add(ImmutableArray<byte> key, IValue value) =>
-            Add(new Binary(key), value);
-
-        public Dictionary Add(ImmutableArray<byte> key, Text value) =>
             Add(new Binary(key), value);
 
         public Dictionary Add(ImmutableArray<byte> key, Boolean value) =>
@@ -438,14 +445,17 @@ namespace Bencodex.Types
         public Dictionary Add(ImmutableArray<byte> key, Binary value) =>
             Add(new Binary(key), value);
 
+        public Dictionary Add(ImmutableArray<byte> key, Text value) =>
+            Add(new Binary(key), value);
+
         public Dictionary Add(ImmutableArray<byte> key, List value) =>
             Add(new Binary(key), value);
 
         public Dictionary Add(ImmutableArray<byte> key, Dictionary value) =>
             Add(new Binary(key), value);
 
-        public Dictionary Add(ImmutableArray<byte> key, string value) =>
-            Add(key, new Text(value));
+        public Dictionary Add(ImmutableArray<byte> key, bool value) =>
+            Add(key, new Boolean(value));
 
         public Dictionary Add(ImmutableArray<byte> key, int value) =>
             Add(key, new Integer(value));
@@ -459,22 +469,22 @@ namespace Bencodex.Types
         public Dictionary Add(ImmutableArray<byte> key, ulong value) =>
             Add(key, new Integer(value));
 
-        public Dictionary Add(ImmutableArray<byte> key, ImmutableArray<byte> value) =>
-            Add(key, new Binary(value));
+        public Dictionary Add(ImmutableArray<byte> key, BigInteger value) =>
+            Add(key, new Integer(value));
 
         public Dictionary Add(ImmutableArray<byte> key, byte[] value) =>
             Add(key, new Binary(value));
 
-        public Dictionary Add(ImmutableArray<byte> key, bool value) =>
-            Add(key, new Boolean(value));
+        public Dictionary Add(ImmutableArray<byte> key, ImmutableArray<byte> value) =>
+            Add(key, new Binary(value));
+
+        public Dictionary Add(ImmutableArray<byte> key, string value) =>
+            Add(key, new Text(value));
 
         public Dictionary Add(ImmutableArray<byte> key, IEnumerable<IValue> value) =>
             Add(key, new List(value));
 
         public Dictionary Add(byte[] key, IValue value) =>
-            Add(new Binary(key), value);
-
-        public Dictionary Add(byte[] key, Text value) =>
             Add(new Binary(key), value);
 
         public Dictionary Add(byte[] key, Boolean value) =>
@@ -486,14 +496,17 @@ namespace Bencodex.Types
         public Dictionary Add(byte[] key, Binary value) =>
             Add(new Binary(key), value);
 
+        public Dictionary Add(byte[] key, Text value) =>
+            Add(new Binary(key), value);
+
         public Dictionary Add(byte[] key, List value) =>
             Add(new Binary(key), value);
 
         public Dictionary Add(byte[] key, Dictionary value) =>
             Add(new Binary(key), value);
 
-        public Dictionary Add(byte[] key, string value) =>
-            Add(key, new Text(value));
+        public Dictionary Add(byte[] key, bool value) =>
+            Add(key, new Boolean(value));
 
         public Dictionary Add(byte[] key, int value) =>
             Add(key, new Integer(value));
@@ -507,14 +520,17 @@ namespace Bencodex.Types
         public Dictionary Add(byte[] key, ulong value) =>
             Add(key, new Integer(value));
 
-        public Dictionary Add(byte[] key, ImmutableArray<byte> value) =>
-            Add(key, new Binary(value));
+        public Dictionary Add(byte[] key, BigInteger value) =>
+            Add(key, new Integer(value));
 
         public Dictionary Add(byte[] key, byte[] value) =>
             Add(key, new Binary(value));
 
-        public Dictionary Add(byte[] key, bool value) =>
-            Add(key, new Boolean(value));
+        public Dictionary Add(byte[] key, ImmutableArray<byte> value) =>
+            Add(key, new Binary(value));
+
+        public Dictionary Add(byte[] key, string value) =>
+            Add(key, new Text(value));
 
         public Dictionary Add(byte[] key, IEnumerable<IValue> value) =>
             Add(key, new List(value));
