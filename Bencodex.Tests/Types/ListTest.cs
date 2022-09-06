@@ -80,27 +80,20 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void ParameterTypesForConstructors()
         {
-            List<string> strings = new List<string>() { "foo", "bar", "baz" };
-            List<Text> texts = strings.Select(s => (Text)s).ToList();
-            List<int> ints = new List<int>() { 0, 1, 2 };
-            List<Integer> integers = ints.Select(i => (Integer)i).ToList();
-            List<byte[]> byteArrays = new List<byte[]>() {
+            List<string> stringList = new List<string>() { "foo", "bar", "baz" };
+            List<Text> textList = stringList.Select(s => (Text)s).ToList();
+            List<int> intList = new List<int> { 0, 1, 2 };
+            List<Integer> integerList = intList.Select(i => (Integer)i).ToList();
+            List<byte[]> bytesList = new List<byte[]>
+            {
                 new byte[] { 1, 2 },
                 new byte[] { 3, 4, 5 },
             };
-            List<Binary> binaries = byteArrays.Select(bs => (Binary)bs).ToList();
+            List<Binary> binaryList = bytesList.Select(bs => (Binary)bs).ToList();
 
-            List list1 = new List(strings);
-            List list2 = new List(texts);
-            Assert.Equal(list1, list2);
-
-            list1 = new List(ints);
-            list2 = new List(integers);
-            Assert.Equal(list1, list2);
-
-            list1 = new List(byteArrays);
-            list2 = new List(binaries);
-            Assert.Equal(list1, list2);
+            Assert.Equal(new List(stringList), new List(textList));
+            Assert.Equal(new List(intList), new List(integerList));
+            Assert.Equal(new List(bytesList), new List(binaryList));
         }
 
         [Fact]
