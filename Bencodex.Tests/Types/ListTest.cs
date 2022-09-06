@@ -340,31 +340,40 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Add()
         {
+            string someString = "foo";
+            byte[] someBytes = Encoding.UTF8.GetBytes("bar");
+            short someShort = 123;
+            int someInt = 123_456;
+            bool someBool = true;
             var list = List.Empty
-                .Add("foo")
-                .Add(Encoding.UTF8.GetBytes("bar"))
-                .Add(0xbeef)
-                .Add(true);
+                .Add(someString)
+                .Add(someBytes)
+                .Add(someShort)
+                .Add(someInt)
+                .Add(someBool);
 
-            Assert.Equal((Text)"foo", list[0]);
-            Assert.Equal((Binary)Encoding.UTF8.GetBytes("bar"), list[1]);
-            Assert.Equal((Integer)0xbeef, list[2]);
-            Assert.Equal((Boolean)true, list[3]);
+            Assert.Equal((Text)someString, list[0]);
+            Assert.Equal((Binary)someBytes, list[1]);
+            Assert.Equal((Integer)someShort, list[2]);
+            Assert.Equal((Integer)someInt, list[3]);
+            Assert.Equal((Boolean)someBool, list[4]);
 
             list = List.Empty
-                .Add((Text)"foo")
-                .Add((Binary)Encoding.UTF8.GetBytes("bar"))
-                .Add((Integer)0xbeef)
-                .Add((Boolean)true)
+                .Add((Text)someString)
+                .Add((Binary)someBytes)
+                .Add((Integer)someShort)
+                .Add((Integer)someInt)
+                .Add((Boolean)someBool)
                 .Add(List.Empty)
                 .Add(Dictionary.Empty);
 
-            Assert.Equal((Text)"foo", list[0]);
-            Assert.Equal((Binary)Encoding.UTF8.GetBytes("bar"), list[1]);
-            Assert.Equal((Integer)0xbeef, list[2]);
-            Assert.Equal((Boolean)true, list[3]);
-            Assert.Equal(List.Empty, list[4]);
-            Assert.Equal(Dictionary.Empty, list[5]);
+            Assert.Equal((Text)someString, list[0]);
+            Assert.Equal((Binary)someBytes, list[1]);
+            Assert.Equal((Integer)someShort, list[2]);
+            Assert.Equal((Integer)someInt, list[3]);
+            Assert.Equal((Boolean)someBool, list[4]);
+            Assert.Equal(List.Empty, list[5]);
+            Assert.Equal(Dictionary.Empty, list[6]);
 
             List nullAddedToPartiallyLoaded = _partiallyLoaded.Add(Null.Value);
             Assert.Equal(nullAddedToPartiallyLoaded, new List(_loadedValues).Add(Null.Value));

@@ -283,180 +283,229 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Add()
         {
-            byte[] textKey = new byte[] { 0x00 };
-            byte[] integerKey = new byte[] { 0x01 };
-            byte[] binaryKey = new byte[] { 0x02 };
-            byte[] booleanKey = new byte[] { 0x03 };
-            byte[] listKey = new byte[] { 0x04 };
+            string sTextKey = "text";
+            string sText = "foo";
+            string sShortKey = "short";
+            short sShort = 123;
+            string sIntKey = "integer";
+            int sInt = 123_456;
+            string sBinaryKey = "binary";
+            byte[] sBinary = new byte[] { 0x01, 0x02, 0x03, 0x04 };
+            string sBooleanKey = "boolean";
+            bool sBoolean = true;
+            string sListKey = "list";
+            IValue[] sList = new IValue[] { (Text)"bar", (Integer)1337 };
+            byte[] bTextKey = new byte[] { 0x00 };
+            string bText = "baz";
+            byte[] bShortKey = new byte[] { 0x01 };
+            short bShort = 321;
+            byte[] bIntKey = new byte[] { 0x02 };
+            int bInt = 654_321;
+            byte[] bBinaryKey = new byte[] { 0x03 };
+            byte[] bBinary = new byte[] { 0x05, 0x06, 0x07, 0x08 };
+            byte[] bBooleanKey = new byte[] { 0x04 };
+            bool bBoolean = false;
+            byte[] bListKey = new byte[] { 0x05 };
+            IValue[] bList = new IValue[] { (Text)"qux", (Integer)2020 };
 
             // NOTE: Assigned multiple times with the same values for checking syntax.
             var dictionary = Dictionary.Empty
-                .Add("text", "foo")
-                .Add("integer", 1337)
-                .Add("binary", new byte[] { 0x01, 0x02, 0x03, 0x04 })
-                .Add("boolean", true)
-                .Add("list", new IValue[] { (Text)"bar", (Integer)1337 })
-                .Add(textKey, "baz")
-                .Add(integerKey, 2020)
-                .Add(binaryKey, new byte[] { 0x05, 0x06, 0x07, 0x08 })
-                .Add(booleanKey, false)
-                .Add(listKey, new IValue[] { (Text)"qux", (Integer)2020 });
+                .Add(sTextKey, sText)
+                .Add(sShortKey, sShort)
+                .Add(sIntKey, sInt)
+                .Add(sBinaryKey, sBinary)
+                .Add(sBooleanKey, sBoolean)
+                .Add(sListKey, sList)
+                .Add(bTextKey, bText)
+                .Add(bIntKey, bInt)
+                .Add(bShortKey, bShort)
+                .Add(bBinaryKey, bBinary)
+                .Add(bBooleanKey, bBoolean)
+                .Add(bListKey, bList);
 
             dictionary = Dictionary.Empty
-                .Add((Text)"text", "foo")
-                .Add((Text)"integer", 1337)
-                .Add((Text)"binary", new byte[] { 0x01, 0x02, 0x03, 0x04 })
-                .Add((Text)"boolean", true)
-                .Add((Text)"list", new IValue[] { (Text)"bar", (Integer)1337 })
-                .Add((Binary)textKey, "baz")
-                .Add((Binary)integerKey, 2020)
-                .Add((Binary)binaryKey, new byte[] { 0x05, 0x06, 0x07, 0x08 })
-                .Add((Binary)booleanKey, false)
-                .Add((Binary)listKey, new IValue[] { (Text)"qux", (Integer)2020 });
+                .Add((Text)sTextKey, sText)
+                .Add((Text)sShortKey, sShort)
+                .Add((Text)sIntKey, sInt)
+                .Add((Text)sBinaryKey, sBinary)
+                .Add((Text)sBooleanKey, sBoolean)
+                .Add((Text)sListKey, sList)
+                .Add((Binary)bTextKey, bText)
+                .Add((Binary)bIntKey, bInt)
+                .Add((Binary)bShortKey, bShort)
+                .Add((Binary)bBinaryKey, bBinary)
+                .Add((Binary)bBooleanKey, bBoolean)
+                .Add((Binary)bListKey, bList);
 
             dictionary = Dictionary.Empty
-                .Add("text", (Text)"foo")
-                .Add("integer", (Integer)1337)
-                .Add("binary", (Binary)new byte[] { 0x01, 0x02, 0x03, 0x04 })
-                .Add("boolean", (Bencodex.Types.Boolean)true)
-                .Add("list", new List(new IValue[] { (Text)"bar", (Integer)1337 }))
-                .Add(textKey, (Text)"baz")
-                .Add(integerKey, (Integer)2020)
-                .Add(binaryKey, (Binary)new byte[] { 0x05, 0x06, 0x07, 0x08 })
-                .Add(booleanKey, (Bencodex.Types.Boolean)false)
-                .Add(listKey, new List(new IValue[] { (Text)"qux", (Integer)2020 }));
+                .Add(sTextKey, (Text)sText)
+                .Add(sShortKey, (Integer)sShort)
+                .Add(sIntKey, (Integer)sInt)
+                .Add(sBinaryKey, (Binary)sBinary)
+                .Add(sBooleanKey, (Bencodex.Types.Boolean)sBoolean)
+                .Add(sListKey, new List(sList))
+                .Add(bTextKey, (Text)bText)
+                .Add(bIntKey, (Integer)bInt)
+                .Add(bShortKey, (Integer)bShort)
+                .Add(bBinaryKey, (Binary)bBinary)
+                .Add(bBooleanKey, (Bencodex.Types.Boolean)bBoolean)
+                .Add(bListKey, new List(bList));
 
             dictionary = Dictionary.Empty
-                .Add((Text)"text", (Text)"foo")
-                .Add((Text)"integer", (Integer)1337)
-                .Add((Text)"binary", (Binary)new byte[] { 0x01, 0x02, 0x03, 0x04 })
-                .Add((Text)"boolean", (Bencodex.Types.Boolean)true)
-                .Add((Text)"list", new List(new IValue[] { (Text)"bar", (Integer)1337 }))
-                .Add((Binary)textKey, (Text)"baz")
-                .Add((Binary)integerKey, (Integer)2020)
-                .Add((Binary)binaryKey, (Binary)new byte[] { 0x05, 0x06, 0x07, 0x08 })
-                .Add((Binary)booleanKey, (Bencodex.Types.Boolean)false)
-                .Add((Binary)listKey, new List(new IValue[] { (Text)"qux", (Integer)2020 }));
+                .Add((Text)sTextKey, (Text)sText)
+                .Add((Text)sShortKey, (Integer)sShort)
+                .Add((Text)sIntKey, (Integer)sInt)
+                .Add((Text)sBinaryKey, (Binary)sBinary)
+                .Add((Text)sBooleanKey, (Bencodex.Types.Boolean)sBoolean)
+                .Add((Text)sListKey, new List(sList))
+                .Add((Binary)bTextKey, (Text)bText)
+                .Add((Binary)bIntKey, (Integer)bInt)
+                .Add((Binary)bShortKey, (Integer)bShort)
+                .Add((Binary)bBinaryKey, (Binary)bBinary)
+                .Add((Binary)bBooleanKey, (Bencodex.Types.Boolean)bBoolean)
+                .Add((Binary)bListKey, new List(bList));
 
             // String keys
-            Assert.Equal("foo", (Text)dictionary["text"]);
-            Assert.Equal("foo", dictionary.GetValue<Text>("text"));
+            Assert.Equal(sText, (Text)dictionary[sTextKey]);
+            Assert.Equal(sText, dictionary.GetValue<Text>(sTextKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Integer>("text"));
+                () => dictionary.GetValue<Integer>(sTextKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Binary>("text"));
+                () => dictionary.GetValue<Binary>(sTextKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Bencodex.Types.Boolean>("text"));
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(sTextKey));
 
-            Assert.Equal((Integer)1337, (Integer)dictionary["integer"]);
+            Assert.Equal((Integer)sShort, (Integer)dictionary[sShortKey]);
             Assert.Equal(
-                (Integer)1337,
-                dictionary.GetValue<Integer>("integer"));
+                (Integer)sShort,
+                dictionary.GetValue<Integer>(sShortKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Binary>("integer"));
+                () => dictionary.GetValue<Binary>(sShortKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Text>("integer"));
+                () => dictionary.GetValue<Text>(sShortKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Bencodex.Types.Boolean>("integer"));
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(sShortKey));
 
+            Assert.Equal((Integer)sInt, (Integer)dictionary[sIntKey]);
             Assert.Equal(
-                new byte[] { 0x01, 0x02, 0x03, 0x04 },
-                (Binary)dictionary["binary"]);
-            Assert.Equal(
-                new byte[] { 0x01, 0x02, 0x03, 0x04 },
-                dictionary.GetValue<Binary>("binary"));
+                (Integer)sInt,
+                dictionary.GetValue<Integer>(sIntKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Integer>("binary"));
+                () => dictionary.GetValue<Binary>(sIntKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Text>("binary"));
+                () => dictionary.GetValue<Text>(sIntKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Bencodex.Types.Boolean>("binary"));
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(sIntKey));
 
             Assert.Equal(
-                (Bencodex.Types.Boolean)true,
-                (Bencodex.Types.Boolean)dictionary["boolean"]);
+                sBinary,
+                (Binary)dictionary[sBinaryKey]);
             Assert.Equal(
-                (Bencodex.Types.Boolean)true,
-                dictionary.GetValue<Bencodex.Types.Boolean>("boolean"));
+                sBinary,
+                dictionary.GetValue<Binary>(sBinaryKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Integer>("boolean"));
+                () => dictionary.GetValue<Integer>(sBinaryKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Binary>("boolean"));
+                () => dictionary.GetValue<Text>(sBinaryKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Text>("boolean"));
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(sBinaryKey));
 
             Assert.Equal(
-                new IValue[] { (Text)"bar", (Integer)1337 },
-                (Bencodex.Types.List)dictionary["list"]);
+                (Bencodex.Types.Boolean)sBoolean,
+                (Bencodex.Types.Boolean)dictionary[sBooleanKey]);
             Assert.Equal(
-                new IValue[] { (Text)"bar", (Integer)1337 },
-                dictionary.GetValue<Bencodex.Types.List>("list"));
+                (Bencodex.Types.Boolean)sBoolean,
+                dictionary.GetValue<Bencodex.Types.Boolean>(sBooleanKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Integer>("list"));
+                () => dictionary.GetValue<Integer>(sBooleanKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Binary>("list"));
+                () => dictionary.GetValue<Binary>(sBooleanKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Text>("list"));
+                () => dictionary.GetValue<Text>(sBooleanKey));
+
+            Assert.Equal(
+                sList,
+                (Bencodex.Types.List)dictionary[sListKey]);
+            Assert.Equal(
+                sList,
+                dictionary.GetValue<Bencodex.Types.List>(sListKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Integer>(sListKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Binary>(sListKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Text>(sListKey));
 
             // Byte array keys
-            Assert.Equal("baz", (Text)dictionary[textKey]);
-            Assert.Equal("baz", dictionary.GetValue<Text>(textKey));
+            Assert.Equal(bText, (Text)dictionary[bTextKey]);
+            Assert.Equal(bText, dictionary.GetValue<Text>(bTextKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Integer>(textKey));
+                () => dictionary.GetValue<Integer>(bTextKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Binary>(textKey));
+                () => dictionary.GetValue<Binary>(bTextKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Bencodex.Types.Boolean>(textKey));
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(bTextKey));
 
-            Assert.Equal((Integer)2020, (Integer)dictionary[integerKey]);
+            Assert.Equal((Integer)bShort, (Integer)dictionary[bShortKey]);
             Assert.Equal(
-                (Integer)2020,
-                dictionary.GetValue<Integer>(integerKey));
+                (Integer)bShort,
+                dictionary.GetValue<Integer>(bShortKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Binary>(integerKey));
+                () => dictionary.GetValue<Binary>(bShortKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Text>(integerKey));
+                () => dictionary.GetValue<Text>(bShortKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Bencodex.Types.Boolean>(integerKey));
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(bShortKey));
 
+            Assert.Equal((Integer)bInt, (Integer)dictionary[bIntKey]);
             Assert.Equal(
-                new byte[] { 0x05, 0x06, 0x07, 0x08 },
-                (Binary)dictionary[binaryKey]);
-            Assert.Equal(
-                new byte[] { 0x05, 0x06, 0x07, 0x08 },
-                dictionary.GetValue<Binary>(binaryKey));
+                (Integer)bInt,
+                dictionary.GetValue<Integer>(bIntKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Integer>(binaryKey));
+                () => dictionary.GetValue<Binary>(bIntKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Text>(binaryKey));
+                () => dictionary.GetValue<Text>(bIntKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Bencodex.Types.Boolean>(binaryKey));
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(bIntKey));
 
             Assert.Equal(
-                (Bencodex.Types.Boolean)false,
-                (Bencodex.Types.Boolean)dictionary[booleanKey]);
+                bBinary,
+                (Binary)dictionary[bBinaryKey]);
             Assert.Equal(
-                (Bencodex.Types.Boolean)false,
-                dictionary.GetValue<Bencodex.Types.Boolean>(booleanKey));
+                bBinary,
+                dictionary.GetValue<Binary>(bBinaryKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Integer>(booleanKey));
+                () => dictionary.GetValue<Integer>(bBinaryKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Binary>(booleanKey));
+                () => dictionary.GetValue<Text>(bBinaryKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Text>(booleanKey));
+                () => dictionary.GetValue<Bencodex.Types.Boolean>(bBinaryKey));
 
             Assert.Equal(
-                new IValue[] { (Text)"qux", (Integer)2020 },
-                (Bencodex.Types.List)dictionary[listKey]);
+                (Bencodex.Types.Boolean)bBoolean,
+                (Bencodex.Types.Boolean)dictionary[bBooleanKey]);
             Assert.Equal(
-                new IValue[] { (Text)"qux", (Integer)2020 },
-                dictionary.GetValue<Bencodex.Types.List>(listKey));
+                (Bencodex.Types.Boolean)bBoolean,
+                dictionary.GetValue<Bencodex.Types.Boolean>(bBooleanKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Integer>(listKey));
+                () => dictionary.GetValue<Integer>(bBooleanKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Binary>(listKey));
+                () => dictionary.GetValue<Binary>(bBooleanKey));
             Assert.Throws<InvalidCastException>(
-                () => dictionary.GetValue<Text>(listKey));
+                () => dictionary.GetValue<Text>(bBooleanKey));
+
+            Assert.Equal(
+                bList,
+                (Bencodex.Types.List)dictionary[bListKey]);
+            Assert.Equal(
+                bList,
+                dictionary.GetValue<Bencodex.Types.List>(bListKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Integer>(bListKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Binary>(bListKey));
+            Assert.Throws<InvalidCastException>(
+                () => dictionary.GetValue<Text>(bListKey));
         }
 
         [Fact]
