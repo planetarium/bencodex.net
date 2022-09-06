@@ -591,98 +591,290 @@ namespace Bencodex.Types
         public IImmutableDictionary<IKey, IValue> SetItem(IKey key, IValue value) =>
             new Dictionary(_dict.SetItem(key, new IndirectValue(value)), Loader);
 
-        public Dictionary SetItem(IKey key, string value) =>
-            (Dictionary)SetItem(key, (IValue)new Text(value));
+        public Dictionary SetItem(Text key, IValue value) =>
+            (Dictionary)SetItem((IKey)key, value);
 
-        public Dictionary SetItem(IKey key, ImmutableArray<byte> value) =>
-            (Dictionary)SetItem(key, (IValue)new Binary(value));
+        public Dictionary SetItem(Text key, Boolean value) =>
+            SetItem(key, (IValue)value);
 
-        public Dictionary SetItem(IKey key, byte[] value) =>
-            (Dictionary)SetItem(key, (IValue)new Binary(value));
+        public Dictionary SetItem(Text key, Integer value) =>
+            SetItem(key, (IValue)value);
 
-        public Dictionary SetItem(IKey key, long value) =>
-            (Dictionary)SetItem(key, (IValue)new Integer(value));
+        public Dictionary SetItem(Text key, Binary value) =>
+            SetItem(key, (IValue)value);
 
-        public Dictionary SetItem(IKey key, ulong value) =>
-            (Dictionary)SetItem(key, (IValue)new Integer(value));
+        public Dictionary SetItem(Text key, Text value) =>
+            SetItem(key, (IValue)value);
 
-        public Dictionary SetItem(IKey key, bool value) =>
-            (Dictionary)SetItem(key, (IValue)new Boolean(value));
+        public Dictionary SetItem(Text key, List value) =>
+            SetItem(key, (IValue)value);
 
-        public Dictionary SetItem(IKey key, IEnumerable<IValue> value) =>
-            (Dictionary)SetItem(key, (IValue)new List(value));
+        public Dictionary SetItem(Text key, Dictionary value) =>
+            SetItem(key, (IValue)value);
+
+        public Dictionary SetItem(Text key, bool value) =>
+            SetItem(key, new Boolean(value));
+
+        public Dictionary SetItem(Text key, short value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Text key, ushort value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Text key, int value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Text key, uint value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Text key, long value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Text key, ulong value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Text key, BigInteger value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Text key, byte[] value) =>
+            SetItem(key, new Binary(value));
+
+        public Dictionary SetItem(Text key, ImmutableArray<byte> value) =>
+            SetItem(key, new Binary(value));
+
+        public Dictionary SetItem(Text key, string value) =>
+            SetItem(key, new Text(value));
+
+        public Dictionary SetItem(Text key, IEnumerable<IValue> value) =>
+            SetItem(key, new List(value));
+
+        public Dictionary SetItem(Binary key, IValue value) =>
+            (Dictionary)SetItem((IKey)key, value);
+
+        public Dictionary SetItem(Binary key, Boolean value) =>
+            SetItem(key, (IValue)value);
+
+        public Dictionary SetItem(Binary key, Integer value) =>
+            SetItem(key, (IValue)value);
+
+        public Dictionary SetItem(Binary key, Binary value) =>
+            SetItem(key, (IValue)value);
+
+        public Dictionary SetItem(Binary key, Text value) =>
+            SetItem(key, (IValue)value);
+
+        public Dictionary SetItem(Binary key, List value) =>
+            SetItem(key, (IValue)value);
+
+        public Dictionary SetItem(Binary key, Dictionary value) =>
+            SetItem(key, (IValue)value);
+
+        public Dictionary SetItem(Binary key, bool value) =>
+            SetItem(key, new Boolean(value));
+
+        public Dictionary SetItem(Binary key, short value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Binary key, ushort value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Binary key, int value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Binary key, uint value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Binary key, long value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Binary key, ulong value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Binary key, BigInteger value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(Binary key, byte[] value) =>
+            SetItem(key, new Binary(value));
+
+        public Dictionary SetItem(Binary key, ImmutableArray<byte> value) =>
+            SetItem(key, new Binary(value));
+
+        public Dictionary SetItem(Binary key, string value) =>
+            SetItem(key, new Text(value));
+
+        public Dictionary SetItem(Binary key, IEnumerable<IValue> value) =>
+            SetItem(key, new List(value));
 
         public Dictionary SetItem(string key, IValue value) =>
-            (Dictionary)SetItem((IKey)new Text(key), value);
+            SetItem(new Text(key), value);
 
-        public Dictionary SetItem(string key, string value) =>
-            SetItem(key, (IValue)new Text(value));
+        public Dictionary SetItem(string key, Boolean value) =>
+            SetItem(new Text(key), value);
 
-        public Dictionary SetItem(string key, ImmutableArray<byte> value) =>
-            SetItem(key, (IValue)new Binary(value));
+        public Dictionary SetItem(string key, Integer value) =>
+            SetItem(new Text(key), value);
 
-        public Dictionary SetItem(string key, byte[] value) =>
-            SetItem(key, (IValue)new Binary(value));
+        public Dictionary SetItem(string key, Binary value) =>
+            SetItem(new Text(key), value);
 
-        public Dictionary SetItem(string key, long value) =>
-            SetItem(key, (IValue)new Integer(value));
+        public Dictionary SetItem(string key, Text value) =>
+            SetItem(new Text(key), value);
 
-        public Dictionary SetItem(string key, ulong value) =>
-            SetItem(key, (IValue)new Integer(value));
+        public Dictionary SetItem(string key, List value) =>
+            SetItem(new Text(key), value);
+
+        public Dictionary SetItem(string key, Dictionary value) =>
+            SetItem(new Text(key), value);
 
         public Dictionary SetItem(string key, bool value) =>
-            SetItem(key, (IValue)new Boolean(value));
+            SetItem(key, new Boolean(value));
+
+        public Dictionary SetItem(string key, short value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(string key, ushort value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(string key, int value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(string key, uint value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(string key, long value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(string key, ulong value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(string key, BigInteger value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(string key, byte[] value) =>
+            SetItem(key, new Binary(value));
+
+        public Dictionary SetItem(string key, ImmutableArray<byte> value) =>
+            SetItem(key, new Binary(value));
+
+        public Dictionary SetItem(string key, string value) =>
+            SetItem(key, new Text(value));
 
         public Dictionary SetItem(string key, IEnumerable<IValue> value) =>
-            SetItem(key, (IValue)new List(value));
+            SetItem(key, new List(value));
 
         public Dictionary SetItem(ImmutableArray<byte> key, IValue value) =>
-            (Dictionary)SetItem((IKey)new Binary(key), value);
+            SetItem(new Binary(key), value);
 
-        public Dictionary SetItem(ImmutableArray<byte> key, string value) =>
-            SetItem(key, (IValue)new Text(value));
+        public Dictionary SetItem(ImmutableArray<byte> key, Boolean value) =>
+            SetItem(new Binary(key), value);
 
-        public Dictionary SetItem(ImmutableArray<byte> key, ImmutableArray<byte> value) =>
-            SetItem(key, (IValue)new Binary(value));
+        public Dictionary SetItem(ImmutableArray<byte> key, Integer value) =>
+            SetItem(new Binary(key), value);
 
-        public Dictionary SetItem(ImmutableArray<byte> key, byte[] value) =>
-            SetItem(key, (IValue)new Binary(value));
+        public Dictionary SetItem(ImmutableArray<byte> key, Binary value) =>
+            SetItem(new Binary(key), value);
 
-        public Dictionary SetItem(ImmutableArray<byte> key, long value) =>
-            SetItem(key, (IValue)new Integer(value));
+        public Dictionary SetItem(ImmutableArray<byte> key, Text value) =>
+            SetItem(new Binary(key), value);
 
-        public Dictionary SetItem(ImmutableArray<byte> key, ulong value) =>
-            SetItem(key, (IValue)new Integer(value));
+        public Dictionary SetItem(ImmutableArray<byte> key, List value) =>
+            SetItem(new Binary(key), value);
+
+        public Dictionary SetItem(ImmutableArray<byte> key, Dictionary value) =>
+            SetItem(new Binary(key), value);
 
         public Dictionary SetItem(ImmutableArray<byte> key, bool value) =>
-            SetItem(key, (IValue)new Boolean(value));
+            SetItem(key, new Boolean(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, short value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, ushort value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, int value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, uint value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, long value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, ulong value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, BigInteger value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, byte[] value) =>
+            SetItem(key, new Binary(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, ImmutableArray<byte> value) =>
+            SetItem(key, new Binary(value));
+
+        public Dictionary SetItem(ImmutableArray<byte> key, string value) =>
+            SetItem(key, new Text(value));
 
         public Dictionary SetItem(ImmutableArray<byte> key, IEnumerable<IValue> value) =>
-            SetItem(key, (IValue)new List(value));
+            SetItem(key, new List(value));
 
         public Dictionary SetItem(byte[] key, IValue value) =>
-            (Dictionary)SetItem((IKey)new Binary(key), value);
+            SetItem(new Binary(key), value);
 
-        public Dictionary SetItem(byte[] key, string value) =>
-            SetItem(key, (IValue)new Text(value));
+        public Dictionary SetItem(byte[] key, Boolean value) =>
+            SetItem(new Binary(key), value);
 
-        public Dictionary SetItem(byte[] key, ImmutableArray<byte> value) =>
-            SetItem(key, (IValue)new Binary(value));
+        public Dictionary SetItem(byte[] key, Integer value) =>
+            SetItem(new Binary(key), value);
 
-        public Dictionary SetItem(byte[] key, byte[] value) =>
-            SetItem(key, (IValue)new Binary(value));
+        public Dictionary SetItem(byte[] key, Binary value) =>
+            SetItem(new Binary(key), value);
 
-        public Dictionary SetItem(byte[] key, long value) =>
-            SetItem(key, (IValue)new Integer(value));
+        public Dictionary SetItem(byte[] key, Text value) =>
+            SetItem(new Binary(key), value);
 
-        public Dictionary SetItem(byte[] key, ulong value) =>
-            SetItem(key, (IValue)new Integer(value));
+        public Dictionary SetItem(byte[] key, List value) =>
+            SetItem(new Binary(key), value);
+
+        public Dictionary SetItem(byte[] key, Dictionary value) =>
+            SetItem(new Binary(key), value);
 
         public Dictionary SetItem(byte[] key, bool value) =>
-            SetItem(key, (IValue)new Boolean(value));
+            SetItem(key, new Boolean(value));
+
+        public Dictionary SetItem(byte[] key, short value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(byte[] key, ushort value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(byte[] key, int value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(byte[] key, uint value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(byte[] key, long value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(byte[] key, ulong value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(byte[] key, BigInteger value) =>
+            SetItem(key, new Integer(value));
+
+        public Dictionary SetItem(byte[] key, byte[] value) =>
+            SetItem(key, new Binary(value));
+
+        public Dictionary SetItem(byte[] key, ImmutableArray<byte> value) =>
+            SetItem(key, new Binary(value));
+
+        public Dictionary SetItem(byte[] key, string value) =>
+            SetItem(key, new Text(value));
 
         public Dictionary SetItem(byte[] key, IEnumerable<IValue> value) =>
-            SetItem(key, (IValue)new List(value));
+            SetItem(key, new List(value));
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.SetItems"/>
         public IImmutableDictionary<IKey, IValue> SetItems(
