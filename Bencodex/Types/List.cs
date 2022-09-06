@@ -56,6 +56,81 @@ namespace Bencodex.Types
         {
         }
 
+        public List(IEnumerable<Boolean> elements)
+            : this(elements.Select(v => (IValue)v))
+        {
+        }
+
+        public List(IEnumerable<Integer> elements)
+            : this(elements.Select(v => (IValue)v))
+        {
+        }
+
+        public List(IEnumerable<Binary> elements)
+            : this(elements.Select(v => (IValue)v))
+        {
+        }
+
+        public List(IEnumerable<Text> elements)
+            : this(elements.Select(v => (IValue)v))
+        {
+        }
+
+        public List(IEnumerable<bool> elements)
+            : this(elements.Select(v => new Boolean(v)))
+        {
+        }
+
+        public List(IEnumerable<short> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        public List(IEnumerable<ushort> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        public List(IEnumerable<int> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        public List(IEnumerable<uint> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        public List(IEnumerable<long> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        public List(IEnumerable<ulong> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        public List(IEnumerable<BigInteger> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        public List(IEnumerable<byte[]> elements)
+            : this(elements.Select(v => new Binary(v)))
+        {
+        }
+
+        public List(IEnumerable<ImmutableArray<byte>> elements)
+            : this(elements.Select(v => new Binary(v)))
+        {
+        }
+
+        public List(IEnumerable<string> elements)
+            : this(elements.Select(v => new Text(v)))
+        {
+        }
+
         /// <summary>
         /// Creates a <see cref="List"/> instance with <paramref name="indirectValues"/> and
         /// a <paramref name="loader"/> used for loading unloaded values.
