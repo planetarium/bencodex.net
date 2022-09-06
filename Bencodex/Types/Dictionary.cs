@@ -304,6 +304,12 @@ namespace Bencodex.Types
         public Dictionary Add(Text key, bool value) =>
             Add(key, new Boolean(value));
 
+        public Dictionary Add(Text key, short value) =>
+            Add(key, new Integer(value));
+
+        public Dictionary Add(Text key, ushort value) =>
+            Add(key, new Integer(value));
+
         public Dictionary Add(Text key, int value) =>
             Add(key, new Integer(value));
 
@@ -354,6 +360,12 @@ namespace Bencodex.Types
 
         public Dictionary Add(Binary key, bool value) =>
             Add(key, new Boolean(value));
+
+        public Dictionary Add(Binary key, short value) =>
+            Add(key, new Integer(value));
+
+        public Dictionary Add(Binary key, ushort value) =>
+            Add(key, new Integer(value));
 
         public Dictionary Add(Binary key, int value) =>
             Add(key, new Integer(value));
@@ -406,6 +418,12 @@ namespace Bencodex.Types
         public Dictionary Add(string key, bool value) =>
             Add(key, new Boolean(value));
 
+        public Dictionary Add(string key, short value) =>
+            Add(key, new Integer(value));
+
+        public Dictionary Add(string key, ushort value) =>
+            Add(key, new Integer(value));
+
         public Dictionary Add(string key, int value) =>
             Add(key, new Integer(value));
 
@@ -457,6 +475,12 @@ namespace Bencodex.Types
         public Dictionary Add(ImmutableArray<byte> key, bool value) =>
             Add(key, new Boolean(value));
 
+        public Dictionary Add(ImmutableArray<byte> key, short value) =>
+            Add(key, new Integer(value));
+
+        public Dictionary Add(ImmutableArray<byte> key, ushort value) =>
+            Add(key, new Integer(value));
+
         public Dictionary Add(ImmutableArray<byte> key, int value) =>
             Add(key, new Integer(value));
 
@@ -507,6 +531,12 @@ namespace Bencodex.Types
 
         public Dictionary Add(byte[] key, bool value) =>
             Add(key, new Boolean(value));
+
+        public Dictionary Add(byte[] key, short value) =>
+            Add(key, new Integer(value));
+
+        public Dictionary Add(byte[] key, ushort value) =>
+            Add(key, new Integer(value));
 
         public Dictionary Add(byte[] key, int value) =>
             Add(key, new Integer(value));

@@ -261,6 +261,22 @@ namespace Bencodex.Types
         /// <param name="value">The value to add to the list.  It is automatically turned into
         /// a Bencodex <see cref="Integer"/> instance.</param>
         /// <returns>A new list with the value added.</returns>
+        public List Add(short value) =>
+            Add(new Integer(value));
+
+        /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
+        /// to the end of the copied list.</summary>
+        /// <param name="value">The value to add to the list.  It is automatically turned into
+        /// a Bencodex <see cref="Integer"/> instance.</param>
+        /// <returns>A new list with the value added.</returns>
+        public List Add(ushort value) =>
+            Add(new Integer(value));
+
+        /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
+        /// to the end of the copied list.</summary>
+        /// <param name="value">The value to add to the list.  It is automatically turned into
+        /// a Bencodex <see cref="Integer"/> instance.</param>
+        /// <returns>A new list with the value added.</returns>
         public List Add(int value) =>
             Add(new Integer(value));
 
