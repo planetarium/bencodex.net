@@ -6,6 +6,13 @@ Version 0.6.0
 
 To be released.
 
+ -  `Bencodex.Types.List.Add()` now directly supports `short` and `ushort`
+    types.  [[#62]]
+ -  `Bencodex.Types.Dictionary.Add()` now directly supports `short` and `ushort`
+    types.  [[#62]]
+
+[#62]: https://github.com/planetarium/bencodex.net/pull/62
+
 
 Version 0.5.0
 -------------

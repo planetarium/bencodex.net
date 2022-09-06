@@ -224,13 +224,6 @@ namespace Bencodex.Types
         /// to the end of the copied list.</summary>
         /// <param name="value">The value to add to the list.</param>
         /// <returns>A new list with the value added.</returns>
-        public List Add(Text value) =>
-            Add((IValue)value);
-
-        /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
-        /// to the end of the copied list.</summary>
-        /// <param name="value">The value to add to the list.</param>
-        /// <returns>A new list with the value added.</returns>
         public List Add(Boolean value) =>
             Add((IValue)value);
 
@@ -250,11 +243,10 @@ namespace Bencodex.Types
 
         /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
         /// to the end of the copied list.</summary>
-        /// <param name="value">The value to add to the list.  It is automatically turned into
-        /// a Bencodex <see cref="Text"/> instance.</param>
+        /// <param name="value">The value to add to the list.</param>
         /// <returns>A new list with the value added.</returns>
-        public List Add(string value) =>
-            Add(new Text(value));
+        public List Add(Text value) =>
+            Add((IValue)value);
 
         /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
         /// to the end of the copied list.</summary>
@@ -269,7 +261,15 @@ namespace Bencodex.Types
         /// <param name="value">The value to add to the list.  It is automatically turned into
         /// a Bencodex <see cref="Integer"/> instance.</param>
         /// <returns>A new list with the value added.</returns>
-        public List Add(BigInteger value) =>
+        public List Add(short value) =>
+            Add(new Integer(value));
+
+        /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
+        /// to the end of the copied list.</summary>
+        /// <param name="value">The value to add to the list.  It is automatically turned into
+        /// a Bencodex <see cref="Integer"/> instance.</param>
+        /// <returns>A new list with the value added.</returns>
+        public List Add(ushort value) =>
             Add(new Integer(value));
 
         /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
@@ -278,7 +278,15 @@ namespace Bencodex.Types
         /// a Bencodex <see cref="Integer"/> instance.</param>
         /// <returns>A new list with the value added.</returns>
         public List Add(int value) =>
-            Add(new BigInteger(value));
+            Add(new Integer(value));
+
+        /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
+        /// to the end of the copied list.</summary>
+        /// <param name="value">The value to add to the list.  It is automatically turned into
+        /// a Bencodex <see cref="Integer"/> instance.</param>
+        /// <returns>A new list with the value added.</returns>
+        public List Add(uint value) =>
+            Add(new Integer(value));
 
         /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
         /// to the end of the copied list.</summary>
@@ -286,7 +294,23 @@ namespace Bencodex.Types
         /// a Bencodex <see cref="Integer"/> instance.</param>
         /// <returns>A new list with the value added.</returns>
         public List Add(long value) =>
-            Add(new BigInteger(value));
+            Add(new Integer(value));
+
+        /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
+        /// to the end of the copied list.</summary>
+        /// <param name="value">The value to add to the list.  It is automatically turned into
+        /// a Bencodex <see cref="Integer"/> instance.</param>
+        /// <returns>A new list with the value added.</returns>
+        public List Add(ulong value) =>
+            Add(new Integer(value));
+
+        /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
+        /// to the end of the copied list.</summary>
+        /// <param name="value">The value to add to the list.  It is automatically turned into
+        /// a Bencodex <see cref="Integer"/> instance.</param>
+        /// <returns>A new list with the value added.</returns>
+        public List Add(BigInteger value) =>
+            Add(new Integer(value));
 
         /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
         /// to the end of the copied list.</summary>
@@ -295,6 +319,22 @@ namespace Bencodex.Types
         /// <returns>A new list with the value added.</returns>
         public List Add(byte[] value) =>
             Add(new Binary(value));
+
+        /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
+        /// to the end of the copied list.</summary>
+        /// <param name="value">The value to add to the list.  It is automatically turned into
+        /// a Bencodex <see cref="Binary"/> instance.</param>
+        /// <returns>A new list with the value added.</returns>
+        public List Add(ImmutableArray<byte> value) =>
+            Add(new Binary(value));
+
+        /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
+        /// to the end of the copied list.</summary>
+        /// <param name="value">The value to add to the list.  It is automatically turned into
+        /// a Bencodex <see cref="Text"/> instance.</param>
+        /// <returns>A new list with the value added.</returns>
+        public List Add(string value) =>
+            Add(new Text(value));
 
         IImmutableList<IValue> IImmutableList<IValue>.AddRange(
             IEnumerable<IValue> items
