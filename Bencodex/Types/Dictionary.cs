@@ -1184,9 +1184,6 @@ namespace Bencodex.Types
         public Dictionary Add(Text key, string value) =>
             Add(key, new Text(value));
 
-        public Dictionary Add(Text key, IEnumerable<IValue> value) =>
-            Add(key, new List(value));
-
         public Dictionary Add(Binary key, IValue value) =>
             (Dictionary)Add((IKey)key, value);
 
@@ -1240,9 +1237,6 @@ namespace Bencodex.Types
 
         public Dictionary Add(Binary key, string value) =>
             Add(key, new Text(value));
-
-        public Dictionary Add(Binary key, IEnumerable<IValue> value) =>
-            Add(key, new List(value));
 
         public Dictionary Add(string key, IValue value) =>
             Add(new Text(key), value);
@@ -1298,9 +1292,6 @@ namespace Bencodex.Types
         public Dictionary Add(string key, string value) =>
             Add(key, new Text(value));
 
-        public Dictionary Add(string key, IEnumerable<IValue> value) =>
-            Add(key, new List(value));
-
         public Dictionary Add(ImmutableArray<byte> key, IValue value) =>
             Add(new Binary(key), value);
 
@@ -1355,9 +1346,6 @@ namespace Bencodex.Types
         public Dictionary Add(ImmutableArray<byte> key, string value) =>
             Add(key, new Text(value));
 
-        public Dictionary Add(ImmutableArray<byte> key, IEnumerable<IValue> value) =>
-            Add(key, new List(value));
-
         public Dictionary Add(byte[] key, IValue value) =>
             Add(new Binary(key), value);
 
@@ -1411,9 +1399,6 @@ namespace Bencodex.Types
 
         public Dictionary Add(byte[] key, string value) =>
             Add(key, new Text(value));
-
-        public Dictionary Add(byte[] key, IEnumerable<IValue> value) =>
-            Add(key, new List(value));
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.AddRange"/>
         public IImmutableDictionary<IKey, IValue> AddRange(
@@ -1495,9 +1480,6 @@ namespace Bencodex.Types
         public Dictionary SetItem(Text key, string value) =>
             SetItem(key, new Text(value));
 
-        public Dictionary SetItem(Text key, IEnumerable<IValue> value) =>
-            SetItem(key, new List(value));
-
         public Dictionary SetItem(Binary key, IValue value) =>
             (Dictionary)SetItem((IKey)key, value);
 
@@ -1551,9 +1533,6 @@ namespace Bencodex.Types
 
         public Dictionary SetItem(Binary key, string value) =>
             SetItem(key, new Text(value));
-
-        public Dictionary SetItem(Binary key, IEnumerable<IValue> value) =>
-            SetItem(key, new List(value));
 
         public Dictionary SetItem(string key, IValue value) =>
             SetItem(new Text(key), value);
@@ -1609,9 +1588,6 @@ namespace Bencodex.Types
         public Dictionary SetItem(string key, string value) =>
             SetItem(key, new Text(value));
 
-        public Dictionary SetItem(string key, IEnumerable<IValue> value) =>
-            SetItem(key, new List(value));
-
         public Dictionary SetItem(ImmutableArray<byte> key, IValue value) =>
             SetItem(new Binary(key), value);
 
@@ -1666,9 +1642,6 @@ namespace Bencodex.Types
         public Dictionary SetItem(ImmutableArray<byte> key, string value) =>
             SetItem(key, new Text(value));
 
-        public Dictionary SetItem(ImmutableArray<byte> key, IEnumerable<IValue> value) =>
-            SetItem(key, new List(value));
-
         public Dictionary SetItem(byte[] key, IValue value) =>
             SetItem(new Binary(key), value);
 
@@ -1722,9 +1695,6 @@ namespace Bencodex.Types
 
         public Dictionary SetItem(byte[] key, string value) =>
             SetItem(key, new Text(value));
-
-        public Dictionary SetItem(byte[] key, IEnumerable<IValue> value) =>
-            SetItem(key, new List(value));
 
         /// <inheritdoc cref="IImmutableDictionary{TKey,TValue}.SetItems"/>
         public IImmutableDictionary<IKey, IValue> SetItems(
