@@ -4,7 +4,7 @@ Changelog
 Version 0.6.0
 -------------
 
-To be released.
+Released on September 7, 2022.
 
  -  `Bencodex.Types.List.Add()` now directly supports `short` and `ushort`
     types.  [[#63]]
