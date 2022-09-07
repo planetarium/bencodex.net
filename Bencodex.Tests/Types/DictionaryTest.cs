@@ -267,14 +267,14 @@ namespace Bencodex.Tests.Types
                 .SetItem("integer", 1337)
                 .SetItem("binary", new byte[] { 0x01, 0x02, 0x03, 0x04 })
                 .SetItem("boolean", true)
-                .SetItem("list", new IValue[] { (Text)"bar", (Integer)1337 });
+                .SetItem("list", new List(new IValue[] { (Text)"bar", (Integer)1337 }));
 
             dictionary = Dictionary.Empty
                 .SetItem((Text)"text", "foo")
                 .SetItem((Text)"integer", 1337)
                 .SetItem((Text)"binary", new byte[] { 0x01, 0x02, 0x03, 0x04 })
                 .SetItem((Text)"boolean", true)
-                .SetItem((Text)"list", new IValue[] { (Text)"bar", (Integer)1337 });
+                .SetItem((Text)"list", new List(new IValue[] { (Text)"bar", (Integer)1337 }));
 
             dictionary = Dictionary.Empty
                 .SetItem("text", (Text)"foo")
@@ -364,7 +364,7 @@ namespace Bencodex.Tests.Types
             string sBooleanKey = "boolean";
             bool sBoolean = true;
             string sListKey = "list";
-            IValue[] sList = new IValue[] { (Text)"bar", (Integer)1337 };
+            List sList = new List(new IValue[] { (Text)"bar", (Integer)1337 });
             byte[] bTextKey = new byte[] { 0x00 };
             string bText = "baz";
             byte[] bShortKey = new byte[] { 0x01 };
@@ -376,7 +376,7 @@ namespace Bencodex.Tests.Types
             byte[] bBooleanKey = new byte[] { 0x04 };
             bool bBoolean = false;
             byte[] bListKey = new byte[] { 0x05 };
-            IValue[] bList = new IValue[] { (Text)"qux", (Integer)2020 };
+            List bList = new List(new IValue[] { (Text)"qux", (Integer)2020 });
 
             // NOTE: Assigned multiple times with the same values for checking syntax.
             var dictionary = Dictionary.Empty
@@ -413,13 +413,13 @@ namespace Bencodex.Tests.Types
                 .Add(sIntKey, (Integer)sInt)
                 .Add(sBinaryKey, (Binary)sBinary)
                 .Add(sBooleanKey, (Bencodex.Types.Boolean)sBoolean)
-                .Add(sListKey, new List(sList))
+                .Add(sListKey, sList)
                 .Add(bTextKey, (Text)bText)
                 .Add(bIntKey, (Integer)bInt)
                 .Add(bShortKey, (Integer)bShort)
                 .Add(bBinaryKey, (Binary)bBinary)
                 .Add(bBooleanKey, (Bencodex.Types.Boolean)bBoolean)
-                .Add(bListKey, new List(bList));
+                .Add(bListKey, bList);
 
             dictionary = Dictionary.Empty
                 .Add((Text)sTextKey, (Text)sText)
@@ -427,13 +427,13 @@ namespace Bencodex.Tests.Types
                 .Add((Text)sIntKey, (Integer)sInt)
                 .Add((Text)sBinaryKey, (Binary)sBinary)
                 .Add((Text)sBooleanKey, (Bencodex.Types.Boolean)sBoolean)
-                .Add((Text)sListKey, new List(sList))
+                .Add((Text)sListKey, sList)
                 .Add((Binary)bTextKey, (Text)bText)
                 .Add((Binary)bIntKey, (Integer)bInt)
                 .Add((Binary)bShortKey, (Integer)bShort)
                 .Add((Binary)bBinaryKey, (Binary)bBinary)
                 .Add((Binary)bBooleanKey, (Bencodex.Types.Boolean)bBoolean)
-                .Add((Binary)bListKey, new List(bList));
+                .Add((Binary)bListKey, bList);
 
             // String keys
             Assert.Equal(sText, (Text)dictionary[sTextKey]);

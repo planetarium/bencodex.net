@@ -25,7 +25,7 @@ namespace Bencodex.Benchmarks
             .Add("null", Null.Value)
             .Add("int", 1234)
             .Add("dict", Dictionary.Empty.Add("foo", 123).Add("bar", 456))
-            .Add("list", new IValue[] { (Text)"a", (Text)"b", (Text)"c" });
+            .Add("list", new List(new IValue[] { (Text)"a", (Text)"b", (Text)"c" }));
         private static readonly Dictionary _dictCopyA = _dict.Add("z", 1);
         private static readonly Dictionary _dictCopyB = _dict.Add("z", 1);
 
