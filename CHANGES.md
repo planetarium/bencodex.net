@@ -21,10 +21,13 @@ To be released.
     `Text`, `byte[]`, `ImmutableArray<byte>`, or `string` and `V` is `Boolean`,
     `Integer`, `Binary`, `Text`, `bool`, `short`, `ushort`, `int`, `uint`,
     `long`, `ulong`, `byte[]`, `ImmutableArray<byte>`, or `string`.  [[#65]]
+ -  `Bencodex.Types.Dictionary.Add()` and `Bencodex.Types.Dictionary.SetItem()`
+    no longer support `IEnumerable<IValue>` type parameter.  [[#66]]
 
 [#63]: https://github.com/planetarium/bencodex.net/pull/63
 [#64]: https://github.com/planetarium/bencodex.net/pull/64
 [#65]: https://github.com/planetarium/bencodex.net/pull/65
+[#66]: https://github.com/planetarium/bencodex.net/pull/66
 
 
 Version 0.5.0
