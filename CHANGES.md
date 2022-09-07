@@ -12,9 +12,19 @@ To be released.
     types.  [[#63]]
  -  `Bencodex.Types.Dictionary.SetItem()` now directly supports `Text`,
     `Beoolean`, `Integer`, `Binary`, `short`, and `ushort` types.  [[#64]]
+ -  `Bencodex.Types.List()` now directly supports `IEnumerable<T>` type
+    parameter where `T` is `Boolean`, `Integer`, `Binary`, `Text`, `bool`,
+    `short`, `ushort`, `int`, `uint`, `long`, `ulong`, `byte[]`,
+    `ImmutableArray<byte>`, or `string`.  [[#65]]
+ -  `Bencodex.Types.List()` now directly supports
+    `IEnumerable<KeyValuePair<K, V>>` type parameter where `K` is `Binary`,
+    `Text`, `byte[]`, `ImmutableArray<byte>`, or `string` and `V` is `Boolean`,
+    `Integer`, `Binary`, `Text`, `bool`, `short`, `ushort`, `int`, `uint`,
+    `long`, `ulong`, `byte[]`, `ImmutableArray<byte>`, or `string`.  [[#65]]
 
 [#63]: https://github.com/planetarium/bencodex.net/pull/63
 [#64]: https://github.com/planetarium/bencodex.net/pull/64
+[#65]: https://github.com/planetarium/bencodex.net/pull/65
 
 
 Version 0.5.0

@@ -57,6 +57,856 @@ namespace Bencodex.Types
         }
 
         /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, IValue>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, Boolean>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, Integer>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, Binary>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, Text>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, List>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, Dictionary>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, bool>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Boolean(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, short>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, ushort>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, int>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, uint>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, long>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, ulong>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, byte[]>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Binary(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, ImmutableArray<byte>>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Binary(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Text, string>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Text(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, IValue>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, Boolean>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, Integer>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, Binary>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, Text>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, List>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, Dictionary>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, bool>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Boolean(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, short>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, ushort>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, int>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, uint>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, long>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, ulong>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, byte[]>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Binary(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, ImmutableArray<byte>>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Binary(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<Binary, string>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Text(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, IValue>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, Boolean>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, Integer>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, Binary>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, Text>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, List>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, Dictionary>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, bool>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Boolean(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, short>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, ushort>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, int>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, uint>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, long>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, ulong>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, byte[]>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Binary(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, ImmutableArray<byte>>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Binary(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<string, string>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Text(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], IValue>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], Boolean>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], Integer>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], Binary>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], Text>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], List>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], Dictionary>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], bool>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Boolean(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], short>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], ushort>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], int>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], uint>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], long>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], ulong>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], byte[]>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Binary(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], ImmutableArray<byte>>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Binary(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<byte[], string>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Text(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, IValue>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, Boolean>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, Integer>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, Binary>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, Text>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, List>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, Dictionary>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, bool>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Boolean(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, short>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, ushort>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, int>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, uint>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, long>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, ulong>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, byte[]>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Binary(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, ImmutableArray<byte>>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Binary(p.Value))))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Dictionary"/> instance with key-value <paramref name="pairs"/>.
+        /// </summary>
+        /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
+        /// later pairs overwrite earlier ones.</param>
+        public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, string>> pairs)
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Text(p.Value))))
+        {
+        }
+
+        /// <summary>
         /// Creates a <see cref="Dictionary"/> instance with key-value
         /// <paramref name="indirectPairs"/>. (Note that only values can be indirect.)
         /// </summary>

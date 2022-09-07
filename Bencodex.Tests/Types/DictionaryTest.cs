@@ -76,6 +76,54 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void ParameterTypesForConstructors()
+        {
+            Dictionary<string, byte[]> stringBytesDict = new Dictionary<string, byte[]>
+            {
+                { "foo", new byte[] { 1, 2 } },
+                { "bar", new byte[] { 3, 4, 5 } },
+            };
+            Dictionary<string, Binary> stringBinarydict = stringBytesDict.ToDictionary(
+                pair => pair.Key, pair => (Binary)pair.Value);
+            Dictionary<string, IValue> stringValueDict = stringBytesDict.ToDictionary(
+                pair => pair.Key, pair => (IValue)(Binary)pair.Value);
+            Dictionary<Text, byte[]> textBytesDict = stringBytesDict.ToDictionary(
+                pair => (Text)pair.Key, pair => pair.Value);
+            Dictionary<Text, Binary> textBinaryDict = stringBytesDict.ToDictionary(
+                pair => (Text)pair.Key, pair => (Binary)pair.Value);
+            Dictionary<Text, IValue> textValueDict = stringBytesDict.ToDictionary(
+                pair => (Text)pair.Key, pair => (IValue)(Binary)pair.Value);
+
+            Assert.Equal(new Dictionary(stringBytesDict), new Dictionary(stringBinarydict));
+            Assert.Equal(new Dictionary(stringBytesDict), new Dictionary(stringValueDict));
+            Assert.Equal(new Dictionary(stringBytesDict), new Dictionary(textBytesDict));
+            Assert.Equal(new Dictionary(stringBytesDict), new Dictionary(textBinaryDict));
+            Assert.Equal(new Dictionary(stringBytesDict), new Dictionary(textValueDict));
+
+            Dictionary<byte[], int> bytesIntDict = new Dictionary<byte[], int>
+            {
+                { new byte[] { 1, 2, 3 }, 4 },
+                { new byte[] { 5, 6, 7, 8 }, 9 },
+            };
+            Dictionary<byte[], Integer> bytesIntegerDict = bytesIntDict.ToDictionary(
+                pair => pair.Key, pair => (Integer)pair.Value);
+            Dictionary<byte[], IValue> bytesValueDict = bytesIntDict.ToDictionary(
+                pair => pair.Key, pair => (IValue)(Integer)pair.Value);
+            Dictionary<Binary, int> binaryIntDict = bytesIntDict.ToDictionary(
+                pair => (Binary)pair.Key, pair => pair.Value);
+            Dictionary<Binary, Integer> binaryIntegerDict = bytesIntDict.ToDictionary(
+                pair => (Binary)pair.Key, pair => (Integer)pair.Value);
+            Dictionary<Binary, IValue> binaryValueDict = bytesIntDict.ToDictionary(
+                pair => (Binary)pair.Key, pair => (IValue)(Integer)pair.Value);
+
+            Assert.Equal(new Dictionary(bytesIntDict), new Dictionary(bytesIntegerDict));
+            Assert.Equal(new Dictionary(bytesIntDict), new Dictionary(bytesValueDict));
+            Assert.Equal(new Dictionary(bytesIntDict), new Dictionary(binaryIntDict));
+            Assert.Equal(new Dictionary(bytesIntDict), new Dictionary(binaryIntegerDict));
+            Assert.Equal(new Dictionary(bytesIntDict), new Dictionary(binaryValueDict));
+        }
+
+        [Fact]
         public void Equality()
         {
             var a = new Dictionary(new KeyValuePair<IKey, IValue>[]

@@ -54,8 +54,7 @@ namespace Bencodex.Tests.Types
         [Fact]
         public void Constructors()
         {
-            Assert.Equal(_zero, new List(Enumerable.Empty<IValue>())
-            );
+            Assert.Equal(_zero, new List(Enumerable.Empty<IValue>()));
             Assert.Equal(
                 new List(ImmutableArray<IValue>.Empty.Add(Null.Value)),
                 new List(Enumerable.Empty<IValue>().Append(Null.Value))
@@ -76,6 +75,25 @@ namespace Bencodex.Tests.Types
                 _one.Add(_zero).Add(_one).Add(_two),
                 new List(Null.Value, _zero, _one, _two)
             );
+        }
+
+        [Fact]
+        public void ParameterTypesForConstructors()
+        {
+            List<string> stringList = new List<string>() { "foo", "bar", "baz" };
+            List<Text> textList = stringList.Select(s => (Text)s).ToList();
+            List<int> intList = new List<int> { 0, 1, 2 };
+            List<Integer> integerList = intList.Select(i => (Integer)i).ToList();
+            List<byte[]> bytesList = new List<byte[]>
+            {
+                new byte[] { 1, 2 },
+                new byte[] { 3, 4, 5 },
+            };
+            List<Binary> binaryList = bytesList.Select(bs => (Binary)bs).ToList();
+
+            Assert.Equal(new List(stringList), new List(textList));
+            Assert.Equal(new List(intList), new List(integerList));
+            Assert.Equal(new List(bytesList), new List(binaryList));
         }
 
         [Fact]

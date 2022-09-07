@@ -57,6 +57,141 @@ namespace Bencodex.Types
         }
 
         /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<Boolean> elements)
+            : this(elements.Select(v => (IValue)v))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<Integer> elements)
+            : this(elements.Select(v => (IValue)v))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<Binary> elements)
+            : this(elements.Select(v => (IValue)v))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<Text> elements)
+            : this(elements.Select(v => (IValue)v))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<bool> elements)
+            : this(elements.Select(v => new Boolean(v)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<short> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<ushort> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<int> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<uint> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<long> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<ulong> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<BigInteger> elements)
+            : this(elements.Select(v => new Integer(v)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<byte[]> elements)
+            : this(elements.Select(v => new Binary(v)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<ImmutableArray<byte>> elements)
+            : this(elements.Select(v => new Binary(v)))
+        {
+        }
+
+        /// <summary>
+        /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
+        /// </summary>
+        /// <param name="elements">The element values to include.</param>
+        public List(IEnumerable<string> elements)
+            : this(elements.Select(v => new Text(v)))
+        {
+        }
+
+        /// <summary>
         /// Creates a <see cref="List"/> instance with <paramref name="indirectValues"/> and
         /// a <paramref name="loader"/> used for loading unloaded values.
         /// </summary>
