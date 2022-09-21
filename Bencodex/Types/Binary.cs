@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using Bencodex.Misc;
@@ -179,6 +180,53 @@ namespace Bencodex.Types
             }
 
             return new Binary(bytes.MoveToImmutable());
+        }
+
+#if !NETSTANDARD2_0
+        /// <summary>
+        /// Creates a new <see cref="Binary"/> instance from a binary turned into
+        /// <paramref name="base64"/>.
+        /// </summary>
+        /// <param name="base64">A base64 representation of a binary.</param>
+        /// <returns>A new <see cref="Binary"/> instance.</returns>
+        /// <exception cref="FormatException">Thrown when the given
+        /// <paramref name="base64"/> is not a valid base64 representation.</exception>
+        public static Binary FromBase64(ReadOnlySpan<char> base64)
+        {
+            int length = base64.Length / 4 * 3;
+            if (base64.Length > 0 && base64[base64.Length - 1] == '=')
+            {
+                length--;
+                if (base64[base64.Length - 2] == '=')
+                {
+                    length--;
+                }
+            }
+
+            var bytes = new byte[length];
+            if (!Convert.TryFromBase64Chars(base64, bytes, out int written))
+            {
+                throw new FormatException("The given base64 string is invalid.");
+            }
+
+            ImmutableArray<byte> moved = Unsafe.As<byte[], ImmutableArray<byte>>(ref bytes);
+            return new Binary(moved);
+        }
+#endif
+
+        /// <summary>
+        /// Creates a new <see cref="Binary"/> instance from a binary turned into
+        /// <paramref name="base64"/>.
+        /// </summary>
+        /// <param name="base64">A base64 representation of a binary.</param>
+        /// <returns>A new <see cref="Binary"/> instance.</returns>
+        /// <exception cref="FormatException">Thrown when the given
+        /// <paramref name="base64"/> is not a valid base64 representation.</exception>
+        public static Binary FromBase64(string base64)
+        {
+            byte[] bytes = Convert.FromBase64String(base64);
+            ImmutableArray<byte> moved = Unsafe.As<byte[], ImmutableArray<byte>>(ref bytes);
+            return new Binary(moved);
         }
 
         bool IEquatable<ImmutableArray<byte>>.Equals(ImmutableArray<byte> other) =>

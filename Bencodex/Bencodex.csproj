@@ -5,14 +5,14 @@
     <Summary>Bencodex codec for .NET</Summary>
     <VersionPrefix>0.7.0</VersionPrefix>
     <PackageProjectUrl>https://github.com/planetarium/bencodex.net</PackageProjectUrl>
-    <Authors>Hong Minhee</Authors>
+    <Authors>Planetarium</Authors>
     <Company>Planetarium</Company>
     <PackageLicenseExpression>LGPL-2.1-or-later</PackageLicenseExpression>
     <PackageReleaseNotes>https://github.com/planetarium/bencodex.net/blob/master/CHANGES.md</PackageReleaseNotes>
     <PackageTags>bencodex;bencoding;serialization</PackageTags>
-    <RepositoryUrl>git://github.com/planetarium/bencodex.net.git</RepositoryUrl>
-    <LangVersion>8.0</LangVersion>
+    <RepositoryUrl>https://github.com/planetarium/bencodex.net.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <LangVersion>8.0</LangVersion>
     <RootNamespace>Bencodex</RootNamespace>
     <AssemblyName>Bencodex</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

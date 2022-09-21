@@ -81,6 +81,18 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void FromBase64()
+        {
+            Assert.Equal(_empty, Binary.FromBase64(string.Empty));
+            Assert.Equal(_hello, Binary.FromBase64("aGVsbG8="));
+
+#if !NETSTANDARD2_0
+            Assert.Equal(_empty, Binary.FromBase64(ReadOnlySpan<char>.Empty));
+            Assert.Equal(_hello, Binary.FromBase64("aGVsbG8=".AsSpan()));
+#endif
+        }
+
+        [Fact]
         public void Kind()
         {
             Assert.Equal(ValueKind.Binary, _empty.Kind);
