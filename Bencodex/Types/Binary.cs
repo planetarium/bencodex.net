@@ -360,6 +360,17 @@ namespace Bencodex.Types
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Returns the base64 representation of the binary.
+        /// </summary>
+        /// <returns>The base64 representation of the binary.</returns>
+        [Pure]
+        public string ToBase64()
+        {
+            ImmutableArray<byte> bytes = ByteArray;
+            return Convert.ToBase64String(Unsafe.As<ImmutableArray<byte>, byte[]>(ref bytes));
+        }
+
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)
         {
