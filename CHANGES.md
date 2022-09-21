@@ -7,6 +7,7 @@ Version 0.7.0
 To be released.
 
  -  Added `Bencodex.Types.Binary.FromHex()` static method.  [[#69]]
+ -  Added `Bencodex.Types.Binary.ToHex()` method.  [[#69]]
 
 [#69]: https://github.com/planetarium/bencodex.net/pull/69
 

@@ -186,5 +186,19 @@ namespace Bencodex.Tests.Types
                 _hello.ToString()
             );
         }
+
+        [Fact]
+        public void ToHex()
+        {
+            var builder = new StringBuilder();
+            _empty.ToHex(builder);
+            Assert.Empty(builder.ToString());
+            Assert.Empty(_empty.ToHex());
+
+            builder.Clear();
+            _hello.ToHex(builder);
+            Assert.Equal("68656c6c6f", builder.ToString());
+            Assert.Equal("68656c6c6f", _hello.ToHex());
+        }
     }
 }

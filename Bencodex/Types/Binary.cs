@@ -283,6 +283,35 @@ namespace Bencodex.Types
             return ByteArray.ToBuilder().ToArray();
         }
 
+        /// <summary>
+        /// Writes the hexadecimal representation of the binary to the given
+        /// <paramref name="builder"/>.
+        /// </summary>
+        /// <param name="builder">A <see cref="StringBuilder"/> to write the
+        /// hexadecimal representation of the binary.</param>
+        [Pure]
+        public void ToHex(StringBuilder builder)
+        {
+            const string hex = "0123456789abcdef";
+            foreach (byte b in ByteArray)
+            {
+                builder.Append(hex[b >> 4]);
+                builder.Append(hex[b & 0x0f]);
+            }
+        }
+
+        /// <summary>
+        /// Returns the hexadecimal representation of the binary.
+        /// </summary>
+        /// <returns>The hexadecimal representation of the binary.</returns>
+        [Pure]
+        public string ToHex()
+        {
+            var builder = new StringBuilder(ByteArray.Length * 2);
+            ToHex(builder);
+            return builder.ToString();
+        }
+
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)
         {
