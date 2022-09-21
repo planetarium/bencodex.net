@@ -112,6 +112,75 @@ namespace Bencodex.Types
             return !left.Equals(right);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="Binary"/> instance from a binary turned into
+        /// <paramref name="hex"/>.
+        /// </summary>
+        /// <param name="hex">A hexadecimal representation of a binary.</param>
+        /// <param name="offset">The offset of the first character to convert.
+        /// </param>
+        /// <param name="count">The number of characters to convert.  If omitted
+        /// or -1, the rest of the string is used.</param>
+        /// <returns>A new <see cref="Binary"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when any of
+        /// <paramref name="offset"/> or <paramref name="count"/> refers to a
+        /// position outside of <paramref name="hex"/>.</exception>
+        /// <exception cref="FormatException">Thrown when the given range of
+        /// <paramref name="hex"/> is not a valid hexadecimal representation of
+        /// a binary.</exception>
+        public static Binary FromHex(string hex, int offset = 0, int count = -1)
+        {
+            if (offset < 0 || offset > hex.Length)
+            {
+                const string msg = "Offset must be non-negative and less than or equal to " +
+                    "the length of the range.";
+                throw new ArgumentOutOfRangeException(nameof(offset), msg);
+            }
+            else if (count == -1)
+            {
+                count = hex.Length - offset;
+            }
+            else if (count < 0 || offset + count > hex.Length)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(count),
+                    "Count must be non-negative and less than or equal to the string length."
+                );
+            }
+
+            if (count % 2 != 0)
+            {
+                throw new ArgumentException(
+                    "The length of the hex string must be even.",
+                    nameof(count)
+                );
+            }
+
+            byte ParseNibble(char hex)
+            {
+                var v = hex >= '0' && hex <= '9'
+                    ? hex - '0'
+                    : hex >= 'a' && hex <= 'f'
+                    ? hex - 'a' + 10
+                    : hex >= 'A' && hex <= 'F'
+                    ? hex - 'A' + 10
+                    : throw new FormatException(
+                        "The string contains invalid hex character."
+                    );
+                return (byte)v;
+            }
+
+            var bytes = ImmutableArray.CreateBuilder<byte>(count / 2);
+            for (int i = 0; i < count; i += 2)
+            {
+                char upper = hex[offset + i];
+                char lower = hex[offset + i + 1];
+                bytes.Add((byte)(ParseNibble(upper) << 4 | ParseNibble(lower)));
+            }
+
+            return new Binary(bytes.MoveToImmutable());
+        }
+
         bool IEquatable<ImmutableArray<byte>>.Equals(ImmutableArray<byte> other) =>
             ByteArray.SequenceEqual(other);
 

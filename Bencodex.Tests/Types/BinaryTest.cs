@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Immutable;
 using System.Text;
 using Bencodex.Types;
@@ -55,6 +56,28 @@ namespace Bencodex.Tests.Types
             var hello = new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f });
             var fromString = new Binary("hello", Encoding.ASCII);
             Assert.Equal(hello, fromString);
+        }
+
+        [Fact]
+        public void FromHex()
+        {
+            Assert.Equal(_empty, Binary.FromHex(string.Empty));
+            Assert.Equal(_empty, Binary.FromHex("abc", 3));
+            Assert.Equal(_empty, Binary.FromHex("ABC", 1, 0));
+
+            Assert.Equal(_hello, Binary.FromHex("68656c6c6f"));
+            Assert.Equal(_hello, Binary.FromHex("hex:68656C6C6F", 4));
+            Assert.Equal(_hello, Binary.FromHex("hex:'68656C6C6F'", 5, 10));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binary.FromHex("abc", -1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binary.FromHex("abc", 4));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binary.FromHex("abc", 0, -2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binary.FromHex("abc", 0, 4));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binary.FromHex("abc", 2, 2));
+            Assert.Throws<ArgumentException>(() => Binary.FromHex("abc"));
+            Assert.Throws<ArgumentException>(() => Binary.FromHex("abc", 2));
+            Assert.Throws<ArgumentException>(() => Binary.FromHex("abcd", 1, 3));
+            Assert.Throws<FormatException>(() => Binary.FromHex("abcx"));
         }
 
         [Fact]
