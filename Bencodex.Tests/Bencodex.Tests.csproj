@@ -5,20 +5,14 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsTestProject>true</IsTestProject>
     <DebugType>portable</DebugType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>7.2</LangVersion>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
     <CodeAnalysisRuleSet>../Bencodex.Tests.ruleset</CodeAnalysisRuleSet>
     <NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="
-    '$([System.Runtime.InteropServices.RuntimeInformation]::
-      OSArchitecture.ToString())' == 'Arm64' ">
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup> 
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.1" />
     <PackageReference Include="SharpYaml" Version="1.6.4" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
       <PrivateAssets>all</PrivateAssets>
@@ -26,8 +20,13 @@
         runtime; build; native; contentfiles; analyzers
       </IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit" Version="2.3.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>
+        runtime; build; native; contentfiles; analyzers; buildtransitive
+      </IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

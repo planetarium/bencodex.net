@@ -10,14 +10,9 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-    - uses: actions/setup-dotnet@v1
+    - uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '2.2.207'
-    - uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1.301'
-    # https://github.com/actions/setup-dotnet/issues/25#issuecomment-557570168
-    - run: 'rsync -a ${DOTNET_ROOT/3.1.301/2.2.207}/* $DOTNET_ROOT/'
+        dotnet-version: '6.0.x'
     - run: dotnet build
     - run: dotnet test
     - run: LANG=ar_SA.UTF8 LANGUAGE="$LANG" LC_ALL="$LANG" dotnet test
@@ -32,6 +27,7 @@ jobs:
         dotnet run -c Release -p Bencodex.Benchmarks
       env:
         BENCODEX_BENCHMARKS_SIMPLE: true
+
   deploy:
     needs: build_and_test
     runs-on: ubuntu-20.04
@@ -39,9 +35,9 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-    - uses: actions/setup-dotnet@v1
+    - uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '3.1.301'
+        dotnet-version: '6.0.x'
     - name: bulid
       run: |
         timestamp="$(jq -r \
@@ -62,7 +58,7 @@ jobs:
           "$GITHUB_EVENT_PATH" \
         )"
         dotnet_args="-c Release -p:NoPackageAnalysis=true"
-        if [[ ! "$GITHUB_REF" =~ ^refs/tags/* ]]; then
+        if [[ "$GITHUB_REF_TYPE" != tag ]]; then
           project_suffix="dev.$timestamp+$commit_hash"
           dotnet_args="$dotnet_args --version-suffix $project_suffix"
         fi
@@ -74,6 +70,9 @@ jobs:
       run: |
         if [[ "$NUGET_API_KEY" != "" ]]; then
           dotnet nuget push ./Bencodex/bin/Release/Bencodex.*.nupkg \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json
+          dotnet nuget push ./Bencodex.Json/bin/Release/Bencodex.Json.*.nupkg \
             --api-key "$NUGET_API_KEY" \
             --source https://api.nuget.org/v3/index.json
         fi
