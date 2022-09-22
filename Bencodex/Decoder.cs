@@ -372,7 +372,7 @@ namespace Bencodex
             return converter(new string(digits), CultureInfo.InvariantCulture);
         }
 
-        private (byte[] byteArray, int offsetAfterColon) ReadByteArray()
+        private (byte[] ByteArray, int OffsetAfterColon) ReadByteArray()
         {
             const byte colon = 0x3a;  // ':'
             byte[] digits = ReadDigits(false, colon);
