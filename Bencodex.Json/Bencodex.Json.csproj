@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>Bencodex</PackageId>
-    <Title>Bencodex</Title>
-    <Summary>Bencodex codec for .NET</Summary>
-    <!-- TODO: Remove duplicate data between this and Bencodex.Json.csproj: -->
+    <PackageId>Bencodex.Json</PackageId>
+    <Title>Bencodex.Json</Title>
+    <Summary>Bencodex JSON representation codec for .NET</Summary>
+    <!-- TODO: Remove duplicate data between this and Bencodex.csproj: -->
     <VersionPrefix>0.7.0</VersionPrefix>
     <PackageProjectUrl>https://github.com/planetarium/bencodex.net</PackageProjectUrl>
     <Authors>Planetarium</Authors>
@@ -13,9 +13,9 @@
     <PackageTags>bencodex;bencoding;serialization</PackageTags>
     <RepositoryUrl>https://github.com/planetarium/bencodex.net.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <LangVersion>8.0</LangVersion>
-    <RootNamespace>Bencodex</RootNamespace>
-    <AssemblyName>Bencodex</AssemblyName>
+    <LangVersion>10.0</LangVersion>
+    <RootNamespace>Bencodex.Json</RootNamespace>
+    <AssemblyName>Bencodex.Json</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
@@ -41,5 +41,9 @@
       </IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Collections.Immutable" Version="1.*" />
+    <PackageReference Include="System.Text.Json" Version="6.0.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bencodex\Bencodex.csproj" />
   </ItemGroup>
 </Project>

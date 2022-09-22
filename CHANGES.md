@@ -6,11 +6,17 @@ Version 0.7.0
 
 To be released.
 
+Since version 0.7.0, project *Bencodex.Json* is introduced to provide
+[Bencodex JSON Representation].
+
  -  Added `Bencodex.Types.Binary.FromHex()` static method.  [[#69]]
  -  Added `Bencodex.Types.Binary.FromBase64()` static method.  [[#69]]
  -  Added `Bencodex.Types.Binary.ToHex()` method.  [[#69]]
  -  Added `Bencodex.Types.Binary.ToBase64()` method.  [[#69]]
+ -  (Bencodex.Json) a new package named *Bencodex.Json* is added.  [[#69]]
+ -  (Bencodex.Json) Added `BencodexJsonConverter` class.  [[#69]]
 
+[Bencodex JSON Representation]: https://github.com/planetarium/bencodex/blob/4a92a98e859a54bc6e9617d4dd3035250fe69a86/JSON.md
 [#69]: https://github.com/planetarium/bencodex.net/pull/69
 
 
