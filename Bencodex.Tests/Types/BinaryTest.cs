@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Immutable;
 using System.Text;
 using Bencodex.Types;
@@ -55,6 +56,40 @@ namespace Bencodex.Tests.Types
             var hello = new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f });
             var fromString = new Binary("hello", Encoding.ASCII);
             Assert.Equal(hello, fromString);
+        }
+
+        [Fact]
+        public void FromHex()
+        {
+            Assert.Equal(_empty, Binary.FromHex(string.Empty));
+            Assert.Equal(_empty, Binary.FromHex("abc", 3));
+            Assert.Equal(_empty, Binary.FromHex("ABC", 1, 0));
+
+            Assert.Equal(_hello, Binary.FromHex("68656c6c6f"));
+            Assert.Equal(_hello, Binary.FromHex("hex:68656C6C6F", 4));
+            Assert.Equal(_hello, Binary.FromHex("hex:'68656C6C6F'", 5, 10));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binary.FromHex("abc", -1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binary.FromHex("abc", 4));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binary.FromHex("abc", 0, -2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binary.FromHex("abc", 0, 4));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Binary.FromHex("abc", 2, 2));
+            Assert.Throws<ArgumentException>(() => Binary.FromHex("abc"));
+            Assert.Throws<ArgumentException>(() => Binary.FromHex("abc", 2));
+            Assert.Throws<ArgumentException>(() => Binary.FromHex("abcd", 1, 3));
+            Assert.Throws<FormatException>(() => Binary.FromHex("abcx"));
+        }
+
+        [Fact]
+        public void FromBase64()
+        {
+            Assert.Equal(_empty, Binary.FromBase64(string.Empty));
+            Assert.Equal(_hello, Binary.FromBase64("aGVsbG8="));
+
+#if !NETSTANDARD2_0
+            Assert.Equal(_empty, Binary.FromBase64(ReadOnlySpan<char>.Empty));
+            Assert.Equal(_hello, Binary.FromBase64("aGVsbG8=".AsSpan()));
+#endif
         }
 
         [Fact]
@@ -162,6 +197,20 @@ namespace Bencodex.Tests.Types
                 @"Bencodex.Types.Binary b""\x68\x65\x6c\x6c\x6f""",
                 _hello.ToString()
             );
+        }
+
+        [Fact]
+        public void ToHex()
+        {
+            var builder = new StringBuilder();
+            _empty.ToHex(builder);
+            Assert.Empty(builder.ToString());
+            Assert.Empty(_empty.ToHex());
+
+            builder.Clear();
+            _hello.ToHex(builder);
+            Assert.Equal("68656c6c6f", builder.ToString());
+            Assert.Equal("68656c6c6f", _hello.ToHex());
         }
     }
 }

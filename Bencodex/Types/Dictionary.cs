@@ -1729,7 +1729,7 @@ namespace Bencodex.Types
             {
                 null => false,
                 Dictionary d => Equals(d),
-                _ => false
+                _ => false,
             };
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
