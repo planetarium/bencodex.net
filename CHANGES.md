@@ -4,7 +4,7 @@ Changelog
 Version 0.7.0
 -------------
 
-To be released.
+Released on October 19, 2022.
 
 Since version 0.7.0, project *Bencodex.Json* is introduced to provide
 [Bencodex JSON Representation].
