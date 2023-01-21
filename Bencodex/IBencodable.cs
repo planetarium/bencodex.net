@@ -42,6 +42,8 @@ namespace Bencodex
     ///
     ///     public int Y { get; }
     ///
+    ///     public IValue Bencoded => List.Empty.Add(X).Add(Y);
+    ///
     ///     public static Point Decode(IValue bencoded)
     ///     {
     ///         return bencoded is List list
@@ -74,6 +76,6 @@ namespace Bencodex
         /// </para>
         /// </remarks>
         [Pure]
-        public IValue Bencoded { get; }
+        IValue Bencoded { get; }
     }
 }
