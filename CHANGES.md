@@ -4,7 +4,7 @@ Changelog
 Version 0.8.0
 -------------
 
-To be released.
+Released on January 21st, 2023.
 
  -  Added `IBencodable` interface.  [[#73]]
 
