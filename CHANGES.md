@@ -6,6 +6,10 @@ Version 0.8.0
 
 To be released.
 
+ -  Added `IBencodable` interface.  [[#73]]
+
+[#73]: https://github.com/planetarium/bencodex.net/pull/73
+
 
 Version 0.7.0
 -------------
