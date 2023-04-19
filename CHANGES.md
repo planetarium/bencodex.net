@@ -4,7 +4,7 @@ Changelog
 Version 0.9.0
 -------------
 
-To be released.
+Released on April 19th, 2023.
 
  -  Fixed `Bencodex.Types.Dictionary.GetHashCode()` to return hash code derived
     from its content.  [[#72], [#76]]
