@@ -456,6 +456,28 @@ namespace Bencodex.Tests.Types
             Assert.Empty(_loadLog);
         }
 
+        [Fact]
+        public void HashCode()
+        {
+            Assert.Equal(
+                _zero.GetHashCode(),
+                List.Empty.GetHashCode());
+            Assert.Equal(
+                _one.GetHashCode(),
+                new List(Null.Value).GetHashCode());
+            Assert.Equal(
+                _two.GetHashCode(),
+                new List(new Text[] { "hello", "world" }.Cast<IValue>()).GetHashCode());
+            Assert.Equal(
+                _nest.GetHashCode(),
+                new List(Null.Value, _zero, _one, _two).GetHashCode());
+
+            var added = _nest.Add("baz");
+            Assert.NotEqual(_nest.GetHashCode(), added.GetHashCode());
+            Assert.Equal(added.GetHashCode(), _nest.Add("baz").GetHashCode());
+            Assert.Equal(_nest.GetHashCode(), added.Remove(new Text("baz")).GetHashCode());
+        }
+
         private IValue Loader(Fingerprint f)
         {
             _loadLog.Add(f);

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Bencodex.Misc;
 using Bencodex.Types;
+using SharpYaml.Tokens;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
 using static Bencodex.Tests.TestUtils;
@@ -806,6 +807,27 @@ namespace Bencodex.Tests.Types
             }
 
             Assert.Empty(_loadLog);
+        }
+
+        [Fact]
+        public void HashCode()
+        {
+            Assert.Equal(
+                _textKey.GetHashCode(),
+                Dictionary.Empty.SetItem("foo", "bar").GetHashCode());
+            Assert.Equal(
+                _binaryKey.GetHashCode(),
+                Dictionary.Empty.SetItem(Encoding.ASCII.GetBytes("foo"), "bar").GetHashCode());
+            Assert.Equal(
+                _mixedKeys.GetHashCode(),
+                Dictionary.Empty
+                    .Add("stringKey", "string")
+                    .Add(new byte[] { 0x00 }, "byte").GetHashCode());
+
+            var added = _mixedKeys.Add("baz", "qux");
+            Assert.NotEqual(_mixedKeys.GetHashCode(), added.GetHashCode());
+            Assert.Equal(added.GetHashCode(), _mixedKeys.Add("baz", "qux").GetHashCode());
+            Assert.Equal(_mixedKeys.GetHashCode(), added.Remove(new Text("baz")).GetHashCode());
         }
 
         private IValue Loader(Fingerprint f)
