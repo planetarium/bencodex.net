@@ -113,5 +113,7 @@ namespace Bencodex.Types
 
             return v;
         }
+
+        public override int GetHashCode() => Fingerprint.GetHashCode();
     }
 }

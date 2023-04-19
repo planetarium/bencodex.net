@@ -828,6 +828,11 @@ namespace Bencodex.Tests.Types
             Assert.NotEqual(_mixedKeys.GetHashCode(), added.GetHashCode());
             Assert.Equal(added.GetHashCode(), _mixedKeys.Add("baz", "qux").GetHashCode());
             Assert.Equal(_mixedKeys.GetHashCode(), added.Remove(new Text("baz")).GetHashCode());
+
+            Assert.NotEqual(
+                Dictionary.Empty.Add("type_id", 0).Add("values", List.Empty).GetHashCode(),
+                Dictionary.Empty.Add("type_id", 1).Add("values", "foo").GetHashCode()
+            );
         }
 
         private IValue Loader(Fingerprint f)

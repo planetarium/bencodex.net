@@ -476,6 +476,12 @@ namespace Bencodex.Tests.Types
             Assert.NotEqual(_nest.GetHashCode(), added.GetHashCode());
             Assert.Equal(added.GetHashCode(), _nest.Add("baz").GetHashCode());
             Assert.Equal(_nest.GetHashCode(), added.Remove(new Text("baz")).GetHashCode());
+
+            // Same length but different contents.
+            Assert.NotEqual(
+                new List((Integer)0, Null.Value, (Integer)2).GetHashCode(),
+                new List(Null.Value, (Text)"FOO", Dictionary.Empty).GetHashCode()
+            );
         }
 
         private IValue Loader(Fingerprint f)

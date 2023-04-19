@@ -106,5 +106,11 @@ namespace Bencodex.Tests.Types
             Assert.Throws<ArgumentNullException>(() => _default.GetValue(null));
             Assert.Null(_default.LoadedValue);
         }
+
+        [Fact]
+        public void HashCode()
+        {
+            Assert.NotEqual(new IndirectValue((Integer)1), new IndirectValue((Integer)0));
+        }
     }
 }
