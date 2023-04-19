@@ -6,6 +6,14 @@ Version 0.9.0
 
 To be released.
 
+ -  Fixed `Bencodex.Types.Dictionary.GetHashCode()` to return hash code derived
+    from its content.  [[#72], [#76]]
+ -  Fixed `Bencodex.Types.List.GetHashCode()` to return hash code derived from
+    its content.  [[#72], [#76]]
+
+[#72]: https://github.com/planetarium/bencodex.net/issues/72
+[#76]: https://github.com/planetarium/bencodex.net/pull/76
+
 
 Version 0.8.0
 -------------

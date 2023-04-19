@@ -336,8 +336,9 @@ namespace Bencodex.Types
             ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
 
         /// <inheritdoc cref="object.GetHashCode()"/>
-        public override int GetHashCode() =>
-            _values.GetHashCode();
+        public override int GetHashCode()
+            => unchecked(_values.Aggregate(GetType().GetHashCode(), (accum, next)
+                => (accum * 397) ^ next.GetHashCode()));
 
         IEnumerator IEnumerable.GetEnumerator() =>
             ((IEnumerable<IValue>)this).GetEnumerator();
