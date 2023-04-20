@@ -4,13 +4,13 @@ Changelog
 Version 0.10.0
 -------------
 
-To be released.
+Released on April 20th, 2023.
 
  -  Fixed `Bencodex.Types.IndirectValue.GetHashCode()` to return hash code derived
     from its content.  [[#79]]
 
-
 [#79]: https://github.com/planetarium/bencodex.net/pull/79
+
 
 Version 0.9.0
 -------------
