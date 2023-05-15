@@ -409,7 +409,11 @@ namespace Bencodex
             string textContent;
             try
             {
+#if NETSTANDARD2_0
                 textContent = Encoding.UTF8.GetString(bytes);
+#else
+                textContent = Encoding.UTF8.GetString(bytes.AsSpan());
+#endif
             }
             catch (ArgumentException e)
             {

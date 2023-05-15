@@ -164,7 +164,7 @@ namespace Bencodex.Tests
         public void EncodeBinary()
         {
             var buffer = new byte[20];
-            long size = Encoder.EncodeBinary(new Binary("hello world", Encoding.ASCII), buffer, 2L);
+            long size = Encoder.EncodeBinary(new Binary("hello world", Encoding.ASCII).ByteArray.AsSpan(), buffer, 2L);
             Assert.Equal(14L, size);
             AssertEqual(
                 new byte[20]
