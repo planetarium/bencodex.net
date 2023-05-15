@@ -23,7 +23,7 @@ namespace Bencodex.Types
         /// <summary>
         /// The empty list.
         /// </summary>
-        public static readonly List Empty = new List(ImmutableArray<IndirectValue>.Empty, null)
+        public static readonly List Empty = new List(ImmutableArray<IndirectValue>.Empty.AsSpan(), null)
         {
             EncodingLength = 2L,
         };
@@ -52,7 +52,7 @@ namespace Bencodex.Types
         /// </summary>
         /// <param name="elements">The element values to include.</param>
         public List(IEnumerable<IValue> elements)
-            : this(elements.Select(v => new IndirectValue(v)).ToImmutableArray(), null)
+            : this(elements.Select(v => new IndirectValue(v)).ToArray().AsSpan(), null)
         {
         }
 
@@ -61,7 +61,7 @@ namespace Bencodex.Types
         /// </summary>
         /// <param name="elements">The element values to include.</param>
         public List(IEnumerable<Boolean> elements)
-            : this(elements.Select(v => (IValue)v))
+            : this(elements.Cast<IValue>())
         {
         }
 
@@ -70,7 +70,7 @@ namespace Bencodex.Types
         /// </summary>
         /// <param name="elements">The element values to include.</param>
         public List(IEnumerable<Integer> elements)
-            : this(elements.Select(v => (IValue)v))
+            : this(elements.Cast<IValue>())
         {
         }
 
@@ -79,7 +79,7 @@ namespace Bencodex.Types
         /// </summary>
         /// <param name="elements">The element values to include.</param>
         public List(IEnumerable<Binary> elements)
-            : this(elements.Select(v => (IValue)v))
+            : this(elements.Cast<IValue>())
         {
         }
 
@@ -88,7 +88,7 @@ namespace Bencodex.Types
         /// </summary>
         /// <param name="elements">The element values to include.</param>
         public List(IEnumerable<Text> elements)
-            : this(elements.Select(v => (IValue)v))
+            : this(elements.Cast<IValue>())
         {
         }
 
@@ -178,7 +178,7 @@ namespace Bencodex.Types
         /// </summary>
         /// <param name="elements">The element values to include.</param>
         public List(IEnumerable<ImmutableArray<byte>> elements)
-            : this(elements.Select(v => new Binary(v)))
+            : this(elements.Select(v => new Binary(v.AsSpan())))
         {
         }
 
@@ -200,20 +200,26 @@ namespace Bencodex.Types
         /// unloaded values are needed.</param>
         public List(IEnumerable<IndirectValue> indirectValues, IndirectValue.Loader loader)
             : this(
-                indirectValues is ImmutableArray<IndirectValue> ia
+                (indirectValues is ImmutableArray<IndirectValue> ia
                     ? ia
-                    : indirectValues.ToImmutableArray(),
+                    : indirectValues.ToImmutableArray()).AsSpan(),
                 loader
             )
         {
         }
 
         internal List(
-            in ImmutableArray<IndirectValue> indirectValues,
+            in ReadOnlySpan<IndirectValue> indirectValues,
             IndirectValue.Loader? loader
         )
         {
-            _values = indirectValues;
+            var builder = ImmutableArray.CreateBuilder<IndirectValue>(indirectValues.Length);
+            foreach (IndirectValue iv in indirectValues)
+            {
+                builder.Add(iv);
+            }
+
+            _values = builder.MoveToImmutable();
             Loader = loader;
             _hash = null;
         }
@@ -350,7 +356,7 @@ namespace Bencodex.Types
         /// <param name="value">The value to add to the list.</param>
         /// <returns>A new list with the value added.</returns>
         public List Add(IValue value) =>
-            new List(_values.Add(new IndirectValue(value)), Loader)
+            new List(_values.Add(new IndirectValue(value)).AsSpan(), Loader)
             {
                 EncodingLength = _encodingLength < 2L ? -1 : _encodingLength + value.EncodingLength,
             };
@@ -461,7 +467,7 @@ namespace Bencodex.Types
         /// a Bencodex <see cref="Binary"/> instance.</param>
         /// <returns>A new list with the value added.</returns>
         public List Add(ImmutableArray<byte> value) =>
-            Add(new Binary(value));
+            Add(new Binary(value.AsSpan()));
 
         /// <summary>Makes a copy of the list, and adds the specified <paramref name="value"/>
         /// to the end of the copied list.</summary>
@@ -474,7 +480,7 @@ namespace Bencodex.Types
         IImmutableList<IValue> IImmutableList<IValue>.AddRange(
             IEnumerable<IValue> items
         ) =>
-            new List(_values.AddRange(items.Select(v => new IndirectValue(v))), Loader);
+            new List(_values.AddRange(items.Select(v => new IndirectValue(v))).AsSpan(), Loader);
 
         IImmutableList<IValue> IImmutableList<IValue>.Clear() =>
             List.Empty;
@@ -495,7 +501,7 @@ namespace Bencodex.Types
             );
 
         IImmutableList<IValue> IImmutableList<IValue>.Insert(int index, IValue element) =>
-            new List(_values.Insert(index, new IndirectValue(element)), Loader);
+            new List(_values.Insert(index, new IndirectValue(element)).AsSpan(), Loader);
 
         IImmutableList<IValue> IImmutableList<IValue>.InsertRange(
             int index,
@@ -503,7 +509,7 @@ namespace Bencodex.Types
         )
         {
             IEnumerable<IndirectValue> vs = items.Select(v => new IndirectValue(v));
-            return new List(_values.InsertRange(index, vs), Loader);
+            return new List(_values.InsertRange(index, vs).AsSpan(), Loader);
         }
 
         [Obsolete("This operation immediately loads all unloaded values in the range on " +
@@ -530,7 +536,7 @@ namespace Bencodex.Types
                 _values.Remove(
                     new IndirectValue(value),
                     new IndirectValueEqualityComparer(equalityComparer, Loader)
-                ),
+                ).AsSpan(),
                 Loader
             );
 
@@ -538,10 +544,10 @@ namespace Bencodex.Types
         IImmutableList<IValue> IImmutableList<IValue>.RemoveAll(
             Predicate<IValue> match
         ) =>
-            new List(_values.RemoveAll(iv => match(iv.GetValue(Loader))), Loader);
+            new List(_values.RemoveAll(iv => match(iv.GetValue(Loader))).AsSpan(), Loader);
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveAt(int index) =>
-            new List(_values.RemoveAt(index), Loader);
+            new List(_values.RemoveAt(index).AsSpan(), Loader);
 
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.RemoveRange(
@@ -552,12 +558,12 @@ namespace Bencodex.Types
                 _values.RemoveRange(
                     items.Select(v => new IndirectValue(v)),
                     new IndirectValueEqualityComparer(equalityComparer, Loader)
-                ),
+                ).AsSpan(),
                 Loader
             );
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveRange(int index, int count) =>
-            new List(_values.RemoveRange(index, count), Loader);
+            new List(_values.RemoveRange(index, count).AsSpan(), Loader);
 
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.Replace(
@@ -570,12 +576,12 @@ namespace Bencodex.Types
                     new IndirectValue(oldValue),
                     new IndirectValue(newValue),
                     new IndirectValueEqualityComparer(equalityComparer, Loader)
-                ),
+                ).AsSpan(),
                 Loader
             );
 
         IImmutableList<IValue> IImmutableList<IValue>.SetItem(int index, IValue value) =>
-            new List(_values.SetItem(index, new IndirectValue(value)), Loader);
+            new List(_values.SetItem(index, new IndirectValue(value)).AsSpan(), Loader);
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)

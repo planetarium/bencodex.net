@@ -212,7 +212,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<Text, ImmutableArray<byte>>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Binary(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Binary(p.Value.AsSpan()))))
         {
         }
 
@@ -382,7 +382,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<Binary, ImmutableArray<byte>>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Binary(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(p.Key, new Binary(p.Value.AsSpan()))))
         {
         }
 
@@ -552,7 +552,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<string, ImmutableArray<byte>>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Binary(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Text(p.Key), new Binary(p.Value.AsSpan()))))
         {
         }
 
@@ -722,7 +722,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<byte[], ImmutableArray<byte>>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Binary(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Binary(p.Value.AsSpan()))))
         {
         }
 
@@ -742,7 +742,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, IValue>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), p.Value)))
         {
         }
 
@@ -752,7 +752,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, Boolean>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), p.Value)))
         {
         }
 
@@ -762,7 +762,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, Integer>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), p.Value)))
         {
         }
 
@@ -772,7 +772,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, Binary>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), p.Value)))
         {
         }
 
@@ -782,7 +782,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, Text>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), p.Value)))
         {
         }
 
@@ -792,7 +792,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, List>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), p.Value)))
         {
         }
 
@@ -802,7 +802,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, Dictionary>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), p.Value)))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), p.Value)))
         {
         }
 
@@ -812,7 +812,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, bool>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Boolean(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), new Boolean(p.Value))))
         {
         }
 
@@ -822,7 +822,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, short>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), new Integer(p.Value))))
         {
         }
 
@@ -832,7 +832,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, ushort>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), new Integer(p.Value))))
         {
         }
 
@@ -842,7 +842,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, int>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), new Integer(p.Value))))
         {
         }
 
@@ -852,7 +852,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, uint>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), new Integer(p.Value))))
         {
         }
 
@@ -862,7 +862,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, long>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), new Integer(p.Value))))
         {
         }
 
@@ -872,7 +872,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, ulong>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Integer(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), new Integer(p.Value))))
         {
         }
 
@@ -882,7 +882,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, byte[]>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Binary(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), new Binary(p.Value))))
         {
         }
 
@@ -892,7 +892,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, ImmutableArray<byte>>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Binary(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), new Binary(p.Value.AsSpan()))))
         {
         }
 
@@ -902,7 +902,7 @@ namespace Bencodex.Types
         /// <param name="pairs">Key-value pairs to include.  If there are duplicated keys,
         /// later pairs overwrite earlier ones.</param>
         public Dictionary(IEnumerable<KeyValuePair<ImmutableArray<byte>, string>> pairs)
-            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key), new Text(p.Value))))
+            : this(pairs.Select(p => new KeyValuePair<IKey, IValue>(new Binary(p.Key.AsSpan()), new Text(p.Value))))
         {
         }
 
@@ -1105,7 +1105,7 @@ namespace Bencodex.Types
         /// <param name="key">The bytes key to locate.</param>
         /// <returns><see langword="true" /> if the dictionary contains the specified key;
         /// otherwise, <see langword="false" />.</returns>
-        public bool ContainsKey(ImmutableArray<byte> key) => ContainsKey(new Binary(key));
+        public bool ContainsKey(ImmutableArray<byte> key) => ContainsKey(new Binary(key.AsSpan()));
 
         /// <summary>Determines whether the dictionary contains the specified bytes key.</summary>
         /// <param name="key">The bytes key to locate.</param>
@@ -1233,7 +1233,7 @@ namespace Bencodex.Types
             Add(key, new Binary(value));
 
         public Dictionary Add(Binary key, ImmutableArray<byte> value) =>
-            Add(key, new Binary(value));
+            Add(key, new Binary(value.AsSpan()));
 
         public Dictionary Add(Binary key, string value) =>
             Add(key, new Text(value));
@@ -1475,7 +1475,7 @@ namespace Bencodex.Types
             SetItem(key, new Binary(value));
 
         public Dictionary SetItem(Text key, ImmutableArray<byte> value) =>
-            SetItem(key, new Binary(value));
+            SetItem(key, new Binary(value.AsSpan()));
 
         public Dictionary SetItem(Text key, string value) =>
             SetItem(key, new Text(value));
@@ -1583,31 +1583,31 @@ namespace Bencodex.Types
             SetItem(key, new Binary(value));
 
         public Dictionary SetItem(string key, ImmutableArray<byte> value) =>
-            SetItem(key, new Binary(value));
+            SetItem(key, new Binary(value.AsSpan()));
 
         public Dictionary SetItem(string key, string value) =>
             SetItem(key, new Text(value));
 
         public Dictionary SetItem(ImmutableArray<byte> key, IValue value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(ImmutableArray<byte> key, Boolean value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(ImmutableArray<byte> key, Integer value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(ImmutableArray<byte> key, Binary value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(ImmutableArray<byte> key, Text value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(ImmutableArray<byte> key, List value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(ImmutableArray<byte> key, Dictionary value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(ImmutableArray<byte> key, bool value) =>
             SetItem(key, new Boolean(value));
@@ -1637,31 +1637,31 @@ namespace Bencodex.Types
             SetItem(key, new Binary(value));
 
         public Dictionary SetItem(ImmutableArray<byte> key, ImmutableArray<byte> value) =>
-            SetItem(key, new Binary(value));
+            SetItem(key, new Binary(value.AsSpan()));
 
         public Dictionary SetItem(ImmutableArray<byte> key, string value) =>
             SetItem(key, new Text(value));
 
         public Dictionary SetItem(byte[] key, IValue value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(byte[] key, Boolean value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(byte[] key, Integer value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(byte[] key, Binary value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(byte[] key, Text value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(byte[] key, List value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(byte[] key, Dictionary value) =>
-            SetItem(new Binary(key), value);
+            SetItem(new Binary(key.AsSpan()), value);
 
         public Dictionary SetItem(byte[] key, bool value) =>
             SetItem(key, new Boolean(value));
@@ -1688,10 +1688,10 @@ namespace Bencodex.Types
             SetItem(key, new Integer(value));
 
         public Dictionary SetItem(byte[] key, byte[] value) =>
-            SetItem(key, new Binary(value));
+            SetItem(key, new Binary(value.AsSpan()));
 
         public Dictionary SetItem(byte[] key, ImmutableArray<byte> value) =>
-            SetItem(key, new Binary(value));
+            SetItem(key, new Binary(value.AsSpan()));
 
         public Dictionary SetItem(byte[] key, string value) =>
             SetItem(key, new Text(value));
