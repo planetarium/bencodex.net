@@ -30,11 +30,22 @@ namespace Bencodex.Types
         private readonly int?[] _hashCode;
         private readonly ImmutableArray<byte>?[] _digest;
 
-        public Binary(ImmutableArray<byte> value)
+        public Binary(ReadOnlySpan<byte> value)
         {
-            _value = value;
+            var builder = ImmutableArray.CreateBuilder<byte>(value.Length);
+            foreach (byte b in value)
+            {
+                builder.Add(b);
+            }
+
+            _value = builder.MoveToImmutable();
             _hashCode = new int?[1];
             _digest = new[] { (ImmutableArray<byte>?)null };
+        }
+
+        public Binary(ImmutableArray<byte> value)
+            : this(value.AsSpan())
+        {
         }
 
         public Binary(params byte[] value)
@@ -90,7 +101,7 @@ namespace Bencodex.Types
         public string Inspection => Inspect(true);
 
         public static implicit operator Binary(ImmutableArray<byte> bytes) =>
-            new Binary(bytes);
+            new Binary(bytes.AsSpan());
 
         public static implicit operator ImmutableArray<byte>(Binary binary) =>
             binary.ByteArray;
@@ -179,7 +190,7 @@ namespace Bencodex.Types
                 bytes.Add((byte)(ParseNibble(upper) << 4 | ParseNibble(lower)));
             }
 
-            return new Binary(bytes.MoveToImmutable());
+            return new Binary(bytes.MoveToImmutable().AsSpan());
         }
 
 #if !NETSTANDARD2_0
@@ -225,8 +236,7 @@ namespace Bencodex.Types
         public static Binary FromBase64(string base64)
         {
             byte[] bytes = Convert.FromBase64String(base64);
-            ImmutableArray<byte> moved = Unsafe.As<byte[], ImmutableArray<byte>>(ref bytes);
-            return new Binary(moved);
+            return new Binary(bytes.AsSpan());
         }
 
         bool IEquatable<ImmutableArray<byte>>.Equals(ImmutableArray<byte> other) =>
@@ -325,10 +335,10 @@ namespace Bencodex.Types
         {
             if (ByteArray.IsDefaultOrEmpty)
             {
-                return new byte[0];
+                return Array.Empty<byte>();
             }
 
-            return ByteArray.ToBuilder().ToArray();
+            return ByteArray.ToArray();
         }
 
         /// <summary>

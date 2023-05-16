@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Bencodex.Misc;
 using Bencodex.Types;
@@ -12,7 +13,6 @@ namespace Bencodex
 {
     internal sealed class Decoder
     {
-        private readonly byte[] _tinyBuffer = new byte[1];
         private readonly Stream _stream;
         private readonly IndirectValue.Loader? _indirectValueLoader;
         private byte _lastRead;
@@ -74,7 +74,7 @@ namespace Bencodex
                     return ReadTextAfterPrefix();
 
                 case 0x6c: // 'l'
-                    var indirElements = new List<IndirectValue>();
+                    var indirBuilder = ImmutableArray.CreateBuilder<IndirectValue>();
                     while (true)
                     {
                         byte b = ReadByte() ?? throw new DecodingException(
@@ -87,17 +87,17 @@ namespace Bencodex
                         else if (b == indir)
                         {
                             Fingerprint fp = DecodeFingerprint();
-                            indirElements.Add(new IndirectValue(fp));
+                            indirBuilder.Add(new IndirectValue(fp));
                             continue;
                         }
 
                         Back();
                         IValue element = DecodeValue();
-                        indirElements.Add(new IndirectValue(element));
+                        indirBuilder.Add(new IndirectValue(element));
                     }
 
                     return new Bencodex.Types.List(
-                        indirElements.ToImmutableArray(),
+                        indirBuilder.MoveToImmutable().AsSpan(),
                         _indirectValueLoader
                     );
 
@@ -255,15 +255,15 @@ namespace Bencodex
                 return _lastRead;
             }
 
-            int read = _stream.Read(_tinyBuffer, 0, 1);
+            int read = _stream.ReadByte();
             if (read > 0)
             {
-                _lastRead = _tinyBuffer[0];
+                _lastRead = (byte)read;
             }
 
             _offset++;
             _didBack = false;
-            return read == 0 ? (byte?)null : _tinyBuffer[0];
+            return read == -1 ? (byte?)null : _lastRead;
         }
 
         private void Back()
@@ -363,12 +363,7 @@ namespace Bencodex
         )
         {
             byte[] buffer = ReadDigits(takeMinusSign, delimiter);
-            var digits = new char[buffer.Length];
-            for (int i = 0; i < buffer.Length; i++)
-            {
-                digits[i] = (char)buffer[i];
-            }
-
+            var digits = Unsafe.As<byte[], char[]>(ref buffer);
             return converter(new string(digits), CultureInfo.InvariantCulture);
         }
 
@@ -399,7 +394,7 @@ namespace Bencodex
         private Binary ReadBinary()
         {
             (byte[] bytes, _) = ReadByteArray();
-            return new Binary(bytes);
+            return new Binary(bytes.AsSpan());
         }
 
         private Text ReadTextAfterPrefix()
@@ -409,7 +404,11 @@ namespace Bencodex
             string textContent;
             try
             {
+#if NETSTANDARD2_0
                 textContent = Encoding.UTF8.GetString(bytes);
+#else
+                textContent = Encoding.UTF8.GetString(bytes.AsSpan());
+#endif
             }
             catch (ArgumentException e)
             {

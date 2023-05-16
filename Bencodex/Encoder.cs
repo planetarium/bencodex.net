@@ -60,7 +60,11 @@ namespace Bencodex
             }
 
             byte[] buffer = Encode(value, offloadOptions);
+#if NETSTANDARD2_0
             output.Write(buffer, 0, buffer.Length);
+#else
+            output.Write(buffer.AsSpan());
+#endif
         }
 
         internal static long EstimateLength(IValue value, IOffloadOptions? offloadOptions)
@@ -145,23 +149,22 @@ namespace Bencodex
             return 1L + digits.Length + 1L;
         }
 
-        internal static long EncodeBinary(in Binary value, byte[] buffer, long offset)
+        internal static long EncodeBinary(in ReadOnlySpan<byte> bin, byte[] buffer, long offset)
         {
-            long len = value.ByteArray.Length;
+            long len = bin.Length;
             long lenStrLength = EncodeDigits(len, buffer, offset);
             offset += lenStrLength;
             buffer[offset] = 0x3a;  // ':'
             offset++;
 
-            if (offset + len <= int.MaxValue)
+            long ct = 0;
+            foreach (byte b in bin)
             {
-                value.ByteArray.CopyTo(buffer, (int)offset);
-                return lenStrLength + 1L + len;
+                buffer[offset + ct] = b;
+                ct++;
             }
 
-            byte[] b = value.ToByteArray();
-            Array.Copy(b, 0L, buffer, offset, b.LongLength);
-            return lenStrLength + 1L + b.LongLength;
+            return lenStrLength + 1L + ct;
         }
 
         internal static long EncodeText(in Text value, byte[] buffer, long offset)
@@ -240,7 +243,7 @@ namespace Bencodex
                 actualBytes += pair.Key switch
                 {
                     Text tk => EncodeText(tk, buffer, offset + actualBytes),
-                    Binary bk => EncodeBinary(bk, buffer, offset + actualBytes),
+                    Binary bk => EncodeBinary(bk.ByteArray.AsSpan(), buffer, offset + actualBytes),
                     { } k => Encode(k, offloadOptions, buffer, offset + actualBytes),
                 };
                 if (offloadOptions is { } oo && !oo.Embeds(pair.Value))
@@ -322,7 +325,7 @@ namespace Bencodex
                 Null _ => EncodeNull(buffer, offset),
                 Types.Boolean b => EncodeBoolean(b, buffer, offset),
                 Integer i => EncodeInteger(i, buffer, offset),
-                Binary bin => EncodeBinary(bin, buffer, offset),
+                Binary bin => EncodeBinary(bin.ByteArray.AsSpan(), buffer, offset),
                 Text t => EncodeText(t, buffer, offset),
                 List l => EncodeList(l, offloadOptions, buffer, offset),
                 Dictionary d => EncodeDictionary(d, offloadOptions, buffer, offset),
