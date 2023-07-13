@@ -286,27 +286,42 @@ namespace Bencodex
             return 2L + lenStrLength + fingerprint.SerializeInto(buffer, offset);
         }
 
-        internal static long CountDecimalDigits(long value) => value < 10L
-            ? 1L
-            : value < 100L
-                ? 2L
-                : value < 1000L
-                    ? 3L
-                    : value < 10000L
-                        ? 4L
-                        : (long)Math.Floor(Math.Log10(value)) + 1L;
+        internal static long CountDecimalDigits(long value)
+        {
+#pragma warning disable SA1503 // Braces should not be omitted
+            if (value < 10L) return 1;
+            if (value < 100L) return 2;
+            if (value < 1000L) return 3;
+            if (value < 10000L) return 4;
+            if (value < 100000L) return 5;
+            if (value < 1000000L) return 6;
+            if (value < 10000000L) return 7;
+            if (value < 100000000L) return 8;
+            if (value < 1000000000L) return 9;
+            if (value < 10000000000L) return 10;
+            if (value < 100000000000L) return 11;
+            if (value < 1000000000000L) return 12;
+            if (value < 10000000000000L) return 13;
+            if (value < 100000000000000L) return 14;
+            if (value < 1000000000000000L) return 15;
+            if (value < 10000000000000000L) return 16;
+            if (value < 100000000000000000L) return 17;
+            if (value < 1000000000000000000L) return 18;
+            return 19;
+#pragma warning restore SA1503
+        }
 
         internal static long EncodeDigits(long positiveInt, byte[] buffer, long offset)
         {
-            string digits = positiveInt.ToString(CultureInfo.InvariantCulture);
-            if (offset < int.MaxValue)
+            const int asciiZero = 0x30; // '0'
+            long length = CountDecimalDigits(positiveInt);
+            for (long i = offset + length - 1; i >= offset; i--)
             {
-                return Encoding.ASCII.GetBytes(digits, 0, digits.Length, buffer, (int)offset);
+                buffer[i] = (byte)(positiveInt % 10 + asciiZero);
+                positiveInt /= 10;
             }
 
-            byte[] ascii = Encoding.ASCII.GetBytes(digits);
-            Array.Copy(ascii, 0L, buffer, offset, ascii.LongLength);
-            return ascii.Length;
+            return length;
         }
 
         // TODO: Needs a unit test.
