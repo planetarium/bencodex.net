@@ -4,7 +4,7 @@ Changelog
 Version 0.11.0
 --------------
 
-To be released.
+Released on July 14th, 2023.
 
  -  Slightly optimized encoding both for speed and memory.  [[#83]]
 
