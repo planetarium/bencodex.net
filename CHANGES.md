@@ -6,6 +6,10 @@ Version 0.12.0
 
 To be released.
 
+ -  Slightly optimized decoding both for speed and memory.  [[#86]]
+
+[#86]: https://github.com/planetarium/bencodex.net/pull/86
+
 
 Version 0.11.0
 --------------
