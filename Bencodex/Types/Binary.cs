@@ -325,7 +325,7 @@ namespace Bencodex.Types
         {
             if (ByteArray.IsDefaultOrEmpty)
             {
-                return new byte[0];
+                return Array.Empty<byte>();
             }
 
             return ByteArray.ToBuilder().ToArray();

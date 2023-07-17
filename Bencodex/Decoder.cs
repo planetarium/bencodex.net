@@ -414,7 +414,7 @@ namespace Bencodex
             int length = ReadLength();
             if (length < 1)
             {
-                return (new byte[0], _offset);
+                return (Array.Empty<byte>(), _offset);
             }
 
             int pos = _offset;
