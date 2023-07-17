@@ -279,6 +279,45 @@ namespace Bencodex
             _offset--;
         }
 
+        // Reads the length portion for byte strings and unicode strings.
+        private int ReadLength()
+        {
+            const byte colon = 0x3a;    // ':'
+            const int asciiZero = 0x30; // '0'
+            int length = 0;
+
+            var b = ReadByte();
+
+            if (b is null)
+            {
+                throw new DecodingException(
+                    $"Expected digits, but the byte stream terminates at {_offset}.");
+            }
+
+            byte lastByte = b.Value;
+            while (lastByte != colon)
+            {
+#pragma warning disable SA1131
+                if (lastByte < 0x30 || 0x39 < lastByte) // not '0'-'9'
+#pragma warning restore SA1131
+                {
+                    throw new ArgumentException(
+                        $"Expected a digit (0x30-0x40), but got 0x{lastByte:x} at {_offset}."
+                    );
+                }
+
+                length *= 10;
+                length += lastByte - asciiZero;
+
+                lastByte = ReadByte() ?? throw new DecodingException(
+                    $"Expected a delimiter byte 0x{colon:x}, but the byte stream terminates " +
+                    $"at {_offset}."
+                );
+            }
+
+            return length;
+        }
+
         private byte[] ReadDigits(bool takeMinusSign, byte delimiter)
         {
             const int defaultBufferSize = 10;
@@ -374,9 +413,7 @@ namespace Bencodex
 
         private (byte[] ByteArray, int OffsetAfterColon) ReadByteArray()
         {
-            const byte colon = 0x3a;  // ':'
-            byte[] digits = ReadDigits(false, colon);
-            int length = Atoi(digits);
+            int length = ReadLength();
             if (length < 1)
             {
                 return (new byte[0], _offset);
@@ -417,28 +454,6 @@ namespace Bencodex
             }
 
             return new Text(textContent);
-        }
-
-        private int Atoi(byte[] b)
-        {
-            int result = 0;
-            int offset = 0;
-            int sign = 1;
-
-            if (b[offset] == 0x2d) // '-'
-            {
-                sign = -1;
-                offset++;
-            }
-
-            const int asciiZero = 0x30;  // '0'
-            for (; offset < b.Length; offset++)
-            {
-                int digit = b[offset] - asciiZero;
-                result = result * 10 + digit;
-            }
-
-            return sign * result;
         }
     }
 }
