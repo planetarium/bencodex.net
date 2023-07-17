@@ -67,7 +67,7 @@ namespace Bencodex
                     return new Bencodex.Types.Boolean(false);
 
                 case 0x69: // 'i'
-                    BigInteger integer = ReadDigits(true, e, BigInteger.Parse);
+                    BigInteger integer = ReadDigits(e, BigInteger.Parse);
                     return new Integer(integer);
 
                 case 0x75: // 'u'
@@ -318,7 +318,7 @@ namespace Bencodex
             return length;
         }
 
-        private byte[] ReadDigits(bool takeMinusSign, byte delimiter)
+        private byte[] ReadDigits(byte delimiter)
         {
             const int defaultBufferSize = 10;
             byte[] buffer = new byte[defaultBufferSize];
@@ -327,15 +327,14 @@ namespace Bencodex
 
             if (b is null)
             {
-                const string minusSignOr = "a minus sign or ";
                 throw new DecodingException(
-                    $"Expected {(takeMinusSign ? minusSignOr : string.Empty)}digits, " +
+                    $"Expected a minus sign or a digit, " +
                     $"but the byte stream terminates at {_offset}."
                 );
             }
 
             bool minus = false;
-            if (takeMinusSign && b == 0x2d) // '-'
+            if (b == 0x2d) // '-'
             {
                 minus = true;
                 b = ReadByte();
@@ -396,12 +395,11 @@ namespace Bencodex
         }
 
         private T ReadDigits<T>(
-            bool takeMinusSign,
             byte delimiter,
             Func<string, IFormatProvider, T> converter
         )
         {
-            byte[] buffer = ReadDigits(takeMinusSign, delimiter);
+            byte[] buffer = ReadDigits(delimiter);
             var digits = new char[buffer.Length];
             for (int i = 0; i < buffer.Length; i++)
             {
