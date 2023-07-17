@@ -302,7 +302,7 @@ namespace Bencodex
 #pragma warning restore SA1131
                 {
                     throw new ArgumentException(
-                        $"Expected a digit (0x30-0x40), but got 0x{lastByte:x} at {_offset}."
+                        $"Expected a digit (0x30-0x39), but got 0x{lastByte:x} at {_offset}."
                     );
                 }
 
@@ -366,10 +366,10 @@ namespace Bencodex
             while (lastByte != delimiter)
             {
 #pragma warning disable SA1131
-                if (!(0x30 <= lastByte && lastByte < 0x40)) // not '0'-'9'
+                if (lastByte < 0x30 || 0x39 < lastByte) // not '0'-'9'
                 {
                     throw new DecodingException(
-                        $"Expected a digit (0x30-0x40), but got 0x{lastByte:x} at {_offset}."
+                        $"Expected a digit (0x30-0x39), but got 0x{lastByte:x} at {_offset}."
                     );
                 }
 #pragma warning restore SA1131
