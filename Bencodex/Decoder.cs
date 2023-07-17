@@ -67,7 +67,7 @@ namespace Bencodex
                     return new Bencodex.Types.Boolean(false);
 
                 case 0x69: // 'i'
-                    BigInteger integer = ReadDigits(true, e, BigInteger.Parse);
+                    BigInteger integer = ReadDigits(e, BigInteger.Parse);
                     return new Integer(integer);
 
                 case 0x75: // 'u'
@@ -279,7 +279,46 @@ namespace Bencodex
             _offset--;
         }
 
-        private byte[] ReadDigits(bool takeMinusSign, byte delimiter)
+        // Reads the length portion for byte strings and unicode strings.
+        private int ReadLength()
+        {
+            const byte colon = 0x3a;    // ':'
+            const int asciiZero = 0x30; // '0'
+            int length = 0;
+
+            var b = ReadByte();
+
+            if (b is null)
+            {
+                throw new DecodingException(
+                    $"Expected digits, but the byte stream terminates at {_offset}.");
+            }
+
+            byte lastByte = b.Value;
+            while (lastByte != colon)
+            {
+#pragma warning disable SA1131
+                if (lastByte < 0x30 || 0x39 < lastByte) // not '0'-'9'
+#pragma warning restore SA1131
+                {
+                    throw new ArgumentException(
+                        $"Expected a digit (0x30-0x39), but got 0x{lastByte:x} at {_offset}."
+                    );
+                }
+
+                length *= 10;
+                length += lastByte - asciiZero;
+
+                lastByte = ReadByte() ?? throw new DecodingException(
+                    $"Expected a delimiter byte 0x{colon:x}, but the byte stream terminates " +
+                    $"at {_offset}."
+                );
+            }
+
+            return length;
+        }
+
+        private byte[] ReadDigits(byte delimiter)
         {
             const int defaultBufferSize = 10;
             byte[] buffer = new byte[defaultBufferSize];
@@ -288,15 +327,14 @@ namespace Bencodex
 
             if (b is null)
             {
-                const string minusSignOr = "a minus sign or ";
                 throw new DecodingException(
-                    $"Expected {(takeMinusSign ? minusSignOr : string.Empty)}digits, " +
+                    $"Expected a minus sign or a digit, " +
                     $"but the byte stream terminates at {_offset}."
                 );
             }
 
             bool minus = false;
-            if (takeMinusSign && b == 0x2d) // '-'
+            if (b == 0x2d) // '-'
             {
                 minus = true;
                 b = ReadByte();
@@ -328,10 +366,10 @@ namespace Bencodex
             while (lastByte != delimiter)
             {
 #pragma warning disable SA1131
-                if (!(0x30 <= lastByte && lastByte < 0x40)) // not '0'-'9'
+                if (lastByte < 0x30 || 0x39 < lastByte) // not '0'-'9'
                 {
                     throw new DecodingException(
-                        $"Expected a digit (0x30-0x40), but got 0x{lastByte:x} at {_offset}."
+                        $"Expected a digit (0x30-0x39), but got 0x{lastByte:x} at {_offset}."
                     );
                 }
 #pragma warning restore SA1131
@@ -357,12 +395,11 @@ namespace Bencodex
         }
 
         private T ReadDigits<T>(
-            bool takeMinusSign,
             byte delimiter,
             Func<string, IFormatProvider, T> converter
         )
         {
-            byte[] buffer = ReadDigits(takeMinusSign, delimiter);
+            byte[] buffer = ReadDigits(delimiter);
             var digits = new char[buffer.Length];
             for (int i = 0; i < buffer.Length; i++)
             {
@@ -374,9 +411,7 @@ namespace Bencodex
 
         private (byte[] ByteArray, int OffsetAfterColon) ReadByteArray()
         {
-            const byte colon = 0x3a;  // ':'
-            byte[] digits = ReadDigits(false, colon);
-            int length = Atoi(digits);
+            int length = ReadLength();
             if (length < 1)
             {
                 return (new byte[0], _offset);
@@ -417,28 +452,6 @@ namespace Bencodex
             }
 
             return new Text(textContent);
-        }
-
-        private int Atoi(byte[] b)
-        {
-            int result = 0;
-            int offset = 0;
-            int sign = 1;
-
-            if (b[offset] == 0x2d) // '-'
-            {
-                sign = -1;
-                offset++;
-            }
-
-            const int asciiZero = 0x30;  // '0'
-            for (; offset < b.Length; offset++)
-            {
-                int digit = b[offset] - asciiZero;
-                result = result * 10 + digit;
-            }
-
-            return sign * result;
         }
     }
 }
