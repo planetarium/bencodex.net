@@ -9,24 +9,6 @@ namespace Bencodex
     public static class OffloadingInspector
     {
         /// <summary>
-        /// Inspects the internal states of how a Bencodex <paramref name="list"/> load and offload
-        /// its elements.
-        /// </summary>
-        /// <param name="list">The Bencodex list to inspect.</param>
-        /// <param name="loader">The loader that the <paramref name="list"/> internally holds.
-        /// It can be <see langword="null"/> if the <paramref name="list"/> has no offloaded
-        /// elements.</param>
-        /// <returns>An enumerable of <see cref="IndirectValue"/>s.</returns>
-        public static IEnumerable<IndirectValue> EnumerateIndirectValues(
-            this List list,
-            out IndirectValue.Loader? loader
-        )
-        {
-            loader = list.Loader;
-            return list.EnumerateIndirectValues();
-        }
-
-        /// <summary>
         /// Inspects the internal states of how a Bencodex <paramref name="dictionary"/> load and
         /// offload its values.
         /// </summary>
