@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 using System.Numerics;
 using System.Text;
-using Bencodex.Misc;
 using Bencodex.Types;
 
 namespace Bencodex
@@ -14,17 +12,15 @@ namespace Bencodex
     {
         private readonly byte[] _tinyBuffer = new byte[1];
         private readonly Stream _stream;
-        private readonly IndirectValue.Loader? _indirectValueLoader;
         private byte _lastRead;
         private bool _didBack;
         private int _offset;
 
-        public Decoder(Stream stream, IndirectValue.Loader? indirectValueLoader)
+        public Decoder(Stream stream)
         {
             // We assume the stream is buffered by itself.  Otherwise the caller should wrap it
             // with BufferedStream: stream = new BufferedStream(stream);
             _stream = stream;
-            _indirectValueLoader = indirectValueLoader;
             _lastRead = 0;
             _didBack = false;
             _offset = 0;
@@ -160,33 +156,6 @@ namespace Bencodex
                         $"{_offset - 1}."
                     );
             }
-        }
-
-        private Fingerprint DecodeFingerprint()
-        {
-            if (_indirectValueLoader is null)
-            {
-                throw new DecodingException(
-                    $"An unexpected byte 0x2a at {_offset - 1}.  Note that it means an indirect " +
-                    $"value.  To load an indirect value, {nameof(IndirectValue.Loader)} is needed."
-                );
-            }
-
-            (byte[] bytes, int offset) = ReadByteArray();
-            Fingerprint fp;
-            try
-            {
-                fp = Fingerprint.Deserialize(bytes);
-            }
-            catch (FormatException e)
-            {
-                throw new DecodingException(
-                    "Expected a fingerprint, bug got an unexpected byte sequence at " +
-                    $"{_offset - 1}: {e.Message}."
-                );
-            }
-
-            return fp;
         }
 
         private byte[] Read(byte[] buffer)

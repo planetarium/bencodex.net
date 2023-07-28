@@ -13,110 +13,17 @@ namespace Bencodex.Tests
 {
     public class EncoderTest
     {
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void EstimateLength(bool offload)
+        [Fact]
+        public void EstimateLength()
         {
-            int offloaded = 0;
-            IOffloadOptions offloadOptions = offload
-                ? new OffloadOptions(_ => false, (i, l) => offloaded++)
-                : null;
-            Assert.Equal(1, Encoder.EstimateLength(Null.Value, offloadOptions));
-            Assert.Equal(1, Encoder.EstimateLength(new Boolean(true), offloadOptions));
-            Assert.Equal(5, Encoder.EstimateLength(new Integer(123), offloadOptions));
+            Assert.Equal(1, Encoder.EstimateLength(Null.Value));
+            Assert.Equal(1, Encoder.EstimateLength(new Boolean(true)));
+            Assert.Equal(5, Encoder.EstimateLength(new Integer(123)));
             Assert.Equal(
                 14,
-                Encoder.EstimateLength(new Binary("hello world", Encoding.ASCII), offloadOptions)
+                Encoder.EstimateLength(new Binary("hello world", Encoding.ASCII))
             );
-            Assert.Equal(15, Encoder.EstimateLength(new Text("hello world"), offloadOptions));
-            Assert.Equal(0, offloaded);
-        }
-
-        [Fact]
-        public void Offload()
-        {
-            var offloaded = new HashSet<Fingerprint>();
-            var offloadOptions = new OffloadOptions(
-                embedPredicate: i => i.EncodingLength < 10L || i.Kind == ValueKind.Dictionary,
-                offloadAction: (i, _) => offloaded.Add(i.Fingerprint)
-            );
-            var longText = new Text("hello world");
-            var subList = new List(Null.Value, new Boolean(false), new Text("foobar"));
-            var anotherLongText = new Text("another long text");
-            var list = new List(
-                Null.Value,
-                new Boolean(true),
-                new Integer(12345),
-                new Binary("foo", Encoding.ASCII),
-                longText,
-                subList,
-                new Dictionary(new[]
-                {
-                    new KeyValuePair<IKey, IValue>(new Text("foo"), Null.Value),
-                    new KeyValuePair<IKey, IValue>(new Text("bar"), anotherLongText),
-                })
-            );
-            Assert.Equal(list.EncodingLength, Encoder.EstimateLength(list, null));
-            Assert.Empty(offloaded);
-            Assert.Equal(118L, Encoder.EstimateLength(list, offloadOptions));
-            Assert.Empty(offloaded);
-            byte[] encoded = Encoder.Encode(list, offloadOptions);
-            Assert.Equal(118L, encoded.Length);
-            Assert.Equal(
-                new HashSet<Fingerprint>()
-                {
-                    longText.Fingerprint,
-                    subList.Fingerprint,
-                    anotherLongText.Fingerprint,
-                },
-                offloaded
-            );
-            byte[] expectedEncoding =
-            {
-                0x6c,  // 'l'
-
-                0x6e,  // 'n'
-                0x74,  // 't'
-                0x69, 0x31, 0x32, 0x33, 0x34, 0x35, 0x65,  // "i12345e"
-                0x33, 0x3a, 0x66, 0x6f, 0x6f,  // "3:foo"
-
-                0x2a, 0x32, 0x30, 0x3a,  // "*20:"
-                4, // ValueKind.Text = 4
-                0, 0, 0, 0, 0, 0, 0, 15, // [64-bit int big endian] 15
-                0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64,  // "hello world"
-
-                0x2a, 0x32, 0x39, 0x3a,  // "*29:"
-                5,  // ValueKind.List = 5
-                0, 0, 0, 0, 0, 0, 0, 13,  // [64-bit int big endian] 13
-                0x6e, 0x34, 0x7e, 0xb8, 0xa1, 0xfd, 0x7e, 0xd7, 0xfb, 0xad,  // SHA 1 (upper)
-                0xee, 0x1d, 0x04, 0x4f, 0xef, 0x42, 0x51, 0x61, 0x2a, 0x93,  // SHA 1 (lower)
-
-                0x64,  // 'd'
-                0x75, 0x33, 0x3a, 0x62, 0x61, 0x72,  // 'u3:bar'
-                0x2a, 0x32, 0x36, 0x3a,  // "*26:"
-                4, // ValueKind.Text = 4
-                0, 0, 0, 0, 0, 0, 0, 21, // [64-bit int big endian] 21
-                0x61, 0x6e, 0x6f, 0x74, 0x68, 0x65, 0x72, 0x20,  // "another "
-                0x6c, 0x6f, 0x6e, 0x67, 0x20, 0x74, 0x65, 0x78, 0x74,  // "long text"
-                0x75, 0x33, 0x3a, 0x66, 0x6f, 0x6f,  // "u3:foo"
-                0x6e,  // 'n'
-                0x65,  // 'e'
-
-                0x65,  // 'e'
-            };
-            AssertEqual(expectedEncoding, encoded);
-            var decoder = new Decoder(
-                new MemoryStream(encoded),
-                f =>
-                    new IValue[]
-                    {
-                        longText,
-                        subList,
-                        anotherLongText,
-                    }.First(v => v.Fingerprint.Equals(f))
-            );
-            Assert.Equal(list, decoder.Decode());
+            Assert.Equal(15, Encoder.EstimateLength(new Text("hello world")));
         }
 
         [Fact]

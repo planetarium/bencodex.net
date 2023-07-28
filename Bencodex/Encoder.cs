@@ -10,16 +10,16 @@ namespace Bencodex
     internal static class Encoder
     {
         // TODO: Needs a unit test.
-        public static byte[] Encode(IValue value, IOffloadOptions? offloadOptions)
+        public static byte[] Encode(IValue value)
         {
-            long estimatedLength = EstimateLength(value, offloadOptions);
+            long estimatedLength = EstimateLength(value);
             var buffer = new byte[estimatedLength];
-            Encode(value, offloadOptions, buffer, 0L);
+            Encode(value, buffer, 0L);
             return buffer;
         }
 
         // TODO: Needs a unit test.
-        public static void Encode(IValue value, Stream output, IOffloadOptions? offloadOptions)
+        public static void Encode(IValue value, Stream output)
         {
             if (!output.CanWrite)
             {
@@ -29,7 +29,7 @@ namespace Bencodex
                 );
             }
 
-            long estimatedLength = EstimateLength(value, offloadOptions);
+            long estimatedLength = EstimateLength(value);
             if (estimatedLength > 4096L)
             {
                 switch (value)
@@ -38,7 +38,7 @@ namespace Bencodex
                         output.WriteByte(0x6c);  // 'l'
                         foreach (IValue el in l)
                         {
-                            Encode(el, output, offloadOptions);
+                            Encode(el, output);
                         }
 
                         output.WriteByte(0x65);  // 'e'
@@ -48,8 +48,8 @@ namespace Bencodex
                         output.WriteByte(0x6c);  // 'l'
                         foreach (KeyValuePair<IKey, IValue> pair in d)
                         {
-                            Encode(pair.Key, output, offloadOptions);
-                            Encode(pair.Value, output, offloadOptions);
+                            Encode(pair.Key, output);
+                            Encode(pair.Value, output);
                         }
 
                         output.WriteByte(0x65);  // 'e'
@@ -59,38 +59,12 @@ namespace Bencodex
                 return;
             }
 
-            byte[] buffer = Encode(value, offloadOptions);
+            byte[] buffer = Encode(value);
             output.Write(buffer, 0, buffer.Length);
         }
 
-        internal static long EstimateLength(IValue value, IOffloadOptions? offloadOptions)
+        internal static long EstimateLength(IValue value)
         {
-            if (!(offloadOptions is { } oo))
-            {
-                return value.EncodingLength;
-            }
-            else if (value is List list)
-            {
-                long listLen = 2L;
-                foreach (IValue v in list)
-                {
-                    listLen += v.EncodingLength;
-                }
-
-                return listLen;
-            }
-            else if (value is Dictionary dict)
-            {
-                long dictLen = 2L;
-                foreach (KeyValuePair<IKey, IValue> pair in dict)
-                {
-                    dictLen += pair.Key.EncodingLength;
-                    dictLen += pair.Value.EncodingLength;
-                }
-
-                return dictLen;
-            }
-
             return value.EncodingLength;
         }
 
@@ -180,13 +154,7 @@ namespace Bencodex
             long actualBytes = 1L;  // This means the actual "collapsed" encoding length.
             foreach (IValue v in value)
             {
-                actualBytes += Encode(
-                    v,
-                    null,
-                    buffer,
-                    offset + actualBytes
-                );
-
+                actualBytes += Encode(v, buffer, offset + actualBytes);
                 encLen += v.EncodingLength;
             }
 
@@ -217,12 +185,7 @@ namespace Bencodex
                         $"Unsupported type: {k.GetType()}", nameof(k)),
                 };
 
-                actualBytes += Encode(
-                    pair.Value,
-                    null,
-                    buffer,
-                    offset + actualBytes
-                );
+                actualBytes += Encode(pair.Value, buffer, offset + actualBytes);
 
                 encLen += pair.Key.EncodingLength + pair.Value.EncodingLength;
             }
@@ -291,12 +254,7 @@ namespace Bencodex
         }
 
         // TODO: Needs a unit test.
-        internal static long Encode(
-            in IValue value,
-            IOffloadOptions? offloadOptions,
-            byte[] buffer,
-            long offset
-        )
+        internal static long Encode(in IValue value, byte[] buffer, long offset)
         {
             return value switch
             {

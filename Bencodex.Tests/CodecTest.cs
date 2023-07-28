@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Text;
 using Bencodex.Types;
 using Xunit;
@@ -40,39 +37,6 @@ namespace Bencodex.Tests
 
             byte[] encoded = codec.Encode(spec.Semantics);
             AssertEqual(spec.Encoding, encoded);
-
-            var random = new Random();
-            var toOffload = new ConcurrentDictionary<Fingerprint, bool>();
-            var offloaded = new ConcurrentDictionary<Fingerprint, IValue>();
-            var offloadOptions = new OffloadOptions(
-                iv => toOffload.TryGetValue(iv.Fingerprint, out bool v)
-                    ? v
-                    : toOffload[iv.Fingerprint] = random.Next() % 2 == 0,
-                (iv, loader) => offloaded[iv.Fingerprint] = iv.GetValue(loader)
-            );
-            byte[] encodingWithOffload = codec.Encode(spec.Semantics, offloadOptions);
-            _output.WriteLine(
-                "Encoding with offload ({0}): {1}",
-                encodingWithOffload.LongLength,
-                _utf8.GetString(encodingWithOffload)
-            );
-            _output.WriteLine(
-                "Encoding with offload (hex): {0}",
-                BitConverter.ToString(encodingWithOffload)
-            );
-            _output.WriteLine("Offloaded values:");
-            foreach (KeyValuePair<Fingerprint, IValue> pair in offloaded)
-            {
-                _output.WriteLine("- {0}", pair.Key);
-            }
-
-            IValue partiallyDecoded = codec.Decode(
-                encodingWithOffload,
-                fp => offloaded[fp]
-            );
-            Assert.Equal(spec.Semantics.Fingerprint, partiallyDecoded.Fingerprint);
-            Assert.Equal(spec.Semantics, partiallyDecoded);
-            Assert.Equal(spec.Semantics.Inspect(true), partiallyDecoded.Inspect(true));
         }
     }
 }
