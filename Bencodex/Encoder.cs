@@ -72,17 +72,9 @@ namespace Bencodex
             else if (value is List list)
             {
                 long listLen = 2L;
-                foreach (IndirectValue iv in list.EnumerateIndirectValues())
+                foreach (IValue v in list)
                 {
-                    if (oo.Embeds(iv))
-                    {
-                        listLen += EstimateLength(iv.GetValue(list.Loader), oo);
-                    }
-                    else
-                    {
-                        long fpLen = iv.Fingerprint.CountSerializationBytes();
-                        listLen += 2L + CountDecimalDigits(fpLen) + fpLen;
-                    }
+                    listLen += EstimateLength(v, null);
                 }
 
                 return listLen;
@@ -196,24 +188,16 @@ namespace Bencodex
             buffer[offset] = 0x6c;  // 'l'
             long encLen = 1L;  // This means the logical "expanded" encoding length.
             long actualBytes = 1L;  // This means the actual "collapsed" encoding length.
-            foreach (IndirectValue el in value.EnumerateIndirectValues())
+            foreach (IValue v in value)
             {
-                if (offloadOptions is { } oo && !oo.Embeds(el))
-                {
-                    actualBytes += EncodeFingerprint(el.Fingerprint, buffer, offset + actualBytes);
-                    oo.Offload(el, value.Loader);
-                }
-                else
-                {
-                    actualBytes += Encode(
-                        el.GetValue(value.Loader),
-                        offloadOptions,
-                        buffer,
-                        offset + actualBytes
-                    );
-                }
+                actualBytes += Encode(
+                    v,
+                    offloadOptions,
+                    buffer,
+                    offset + actualBytes
+                );
 
-                encLen += el.EncodingLength;
+                encLen += v.EncodingLength;
             }
 
             offset += actualBytes;

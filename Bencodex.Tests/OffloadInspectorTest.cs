@@ -9,37 +9,6 @@ namespace Bencodex.Tests
     public class OffloadInspectorTest
     {
         [Fact]
-        public void List()
-        {
-            var allLoaded = new List(new Text("foo"), new Text("bar"));
-            IndirectValue[] values = allLoaded.EnumerateIndirectValues(out IndirectValue.Loader loader)
-                .ToArray();
-            Assert.Null(loader);
-            Assert.Equal(2, values.Length);
-            Assert.Equal(new Text("foo"), values[0].LoadedValue);
-            Assert.Equal(new Text("bar"), values[1].LoadedValue);
-
-            var offloadValue = new Text("offloaded");
-            var someOffloaded = new List(
-                new[]
-                {
-                    new IndirectValue(new Text("loaded")),
-                    new IndirectValue(offloadValue.Fingerprint),
-                    new IndirectValue(new Binary("loaded", Encoding.ASCII)),
-                },
-                _ => offloadValue
-            );
-            values = someOffloaded.EnumerateIndirectValues(out loader).ToArray();
-            Assert.NotNull(loader);
-            Assert.Equal(offloadValue, loader(offloadValue.Fingerprint));
-            Assert.Equal(3, values.Length);
-            Assert.Equal(new Text("loaded"), values[0].LoadedValue);
-            Assert.Null(values[1].LoadedValue);
-            Assert.Equal(offloadValue.Fingerprint, values[1].Fingerprint);
-            Assert.Equal(new Binary("loaded", Encoding.ASCII), values[2].LoadedValue);
-        }
-
-        [Fact]
         public void Dictionary()
         {
             var allLoaded = new Dictionary(new[]
