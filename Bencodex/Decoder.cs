@@ -46,7 +46,6 @@ namespace Bencodex
         private IValue DecodeValue()
         {
             const byte e = 0x65;  // 'e'
-            const byte indir = 0x2a;  // '*'
 
             switch (ReadByte())
             {
@@ -93,7 +92,7 @@ namespace Bencodex
                     return new Bencodex.Types.List(elements);
 
                 case 0x64: // 'd'
-                    var pairs = new List<KeyValuePair<IKey, IndirectValue>>();
+                    var pairs = new List<KeyValuePair<IKey, IValue>>();
                     while (true)
                     {
                         byte b = ReadByte() ?? throw new DecodingException(
@@ -106,32 +105,11 @@ namespace Bencodex
 
                         Back();
                         IKey key = DecodeKey();
-                        if (_indirectValueLoader is { })
-                        {
-                            b = ReadByte() ?? throw new DecodingException(
-                                $"The byte stream terminates unexpectedly at {_offset}."
-                            );
-                            if (b == indir)
-                            {
-                                Fingerprint fp = DecodeFingerprint();
-                                var indirValue = new IndirectValue(fp);
-                                pairs.Add(new KeyValuePair<IKey, IndirectValue>(key, indirValue));
-                                continue;
-                            }
-
-                            Back();
-                        }
-
                         IValue value = DecodeValue();
-                        pairs.Add(
-                            new KeyValuePair<IKey, IndirectValue>(key, new IndirectValue(value))
-                        );
+                        pairs.Add(new KeyValuePair<IKey, IValue>(key, value));
                     }
 
-                    return new Dictionary(
-                        pairs.ToImmutableSortedDictionary(KeyComparer.Instance),
-                        _indirectValueLoader
-                    );
+                    return new Dictionary(pairs);
 
                 case 0x30: // '0'
                 case 0x31: // '1'

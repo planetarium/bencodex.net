@@ -82,19 +82,10 @@ namespace Bencodex
             else if (value is Dictionary dict)
             {
                 long dictLen = 2L;
-                foreach (KeyValuePair<IKey, IndirectValue> pair in dict.EnumerateIndirectPairs())
+                foreach (KeyValuePair<IKey, IValue> pair in dict)
                 {
                     dictLen += pair.Key.EncodingLength;
-                    IndirectValue iv = pair.Value;
-                    if (oo.Embeds(iv))
-                    {
-                        dictLen += EstimateLength(iv.GetValue(dict.Loader), oo);
-                    }
-                    else
-                    {
-                        long fpLen = iv.Fingerprint.CountSerializationBytes();
-                        dictLen += 2L + CountDecimalDigits(fpLen) + fpLen;
-                    }
+                    dictLen += pair.Value.EncodingLength;
                 }
 
                 return dictLen;
@@ -209,7 +200,6 @@ namespace Bencodex
         // TODO: Needs a unit test.
         internal static long EncodeDictionary(
             in Dictionary value,
-            IOffloadOptions? offloadOptions,
             byte[] buffer,
             long offset
         )
@@ -217,28 +207,22 @@ namespace Bencodex
             buffer[offset] = 0x64;  // 'd'
             long encLen = 1L;  // This means the logical "expanded" encoding length.
             long actualBytes = 1L;  // This means the actual "collapsed" encoding length.
-            foreach (KeyValuePair<IKey, IndirectValue> pair in value.EnumerateIndirectPairs())
+            foreach (KeyValuePair<IKey, IValue> pair in value)
             {
                 actualBytes += pair.Key switch
                 {
                     Text tk => EncodeText(tk, buffer, offset + actualBytes),
                     Binary bk => EncodeBinary(bk, buffer, offset + actualBytes),
-                    { } k => Encode(k, offloadOptions, buffer, offset + actualBytes),
+                    { } k => throw new ArgumentException(
+                        $"Unsupported type: {k.GetType()}", nameof(k)),
                 };
-                if (offloadOptions is { } oo && !oo.Embeds(pair.Value))
-                {
-                    actualBytes += EncodeFingerprint(pair.Value.Fingerprint, buffer, offset + actualBytes);
-                    oo.Offload(pair.Value, value.Loader);
-                }
-                else
-                {
-                    actualBytes += Encode(
-                        pair.Value.GetValue(value.Loader),
-                        offloadOptions,
-                        buffer,
-                        offset + actualBytes
-                    );
-                }
+
+                actualBytes += Encode(
+                    pair.Value,
+                    null,
+                    buffer,
+                    offset + actualBytes
+                );
 
                 encLen += pair.Key.EncodingLength + pair.Value.EncodingLength;
             }
@@ -322,7 +306,7 @@ namespace Bencodex
                 Binary bin => EncodeBinary(bin, buffer, offset),
                 Text t => EncodeText(t, buffer, offset),
                 List l => EncodeList(l, buffer, offset),
-                Dictionary d => EncodeDictionary(d, offloadOptions, buffer, offset),
+                Dictionary d => EncodeDictionary(d, buffer, offset),
                 _ =>
                     throw new ArgumentException(
                         "Unsupported type: " + value.GetType().FullName, nameof(value)
