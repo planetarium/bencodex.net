@@ -74,7 +74,7 @@ namespace Bencodex
                 long listLen = 2L;
                 foreach (IValue v in list)
                 {
-                    listLen += EstimateLength(v, null);
+                    listLen += v.EncodingLength;
                 }
 
                 return listLen;
@@ -180,7 +180,6 @@ namespace Bencodex
         // TODO: Needs a unit test.
         internal static long EncodeList(
             in List value,
-            IOffloadOptions? offloadOptions,
             byte[] buffer,
             long offset
         )
@@ -192,7 +191,7 @@ namespace Bencodex
             {
                 actualBytes += Encode(
                     v,
-                    offloadOptions,
+                    null,
                     buffer,
                     offset + actualBytes
                 );
@@ -204,7 +203,6 @@ namespace Bencodex
             buffer[offset] = 0x65;  // 'e'
             actualBytes++;
             encLen++;
-            value.EncodingLength = encLen;
             return actualBytes;
         }
 
@@ -323,7 +321,7 @@ namespace Bencodex
                 Integer i => EncodeInteger(i, buffer, offset),
                 Binary bin => EncodeBinary(bin, buffer, offset),
                 Text t => EncodeText(t, buffer, offset),
-                List l => EncodeList(l, offloadOptions, buffer, offset),
+                List l => EncodeList(l, buffer, offset),
                 Dictionary d => EncodeDictionary(d, offloadOptions, buffer, offset),
                 _ =>
                     throw new ArgumentException(

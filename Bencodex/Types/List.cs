@@ -258,7 +258,7 @@ namespace Bencodex.Types
                         + 1L
                 : _encodingLength;
 
-            internal set => _encodingLength = value;
+            private set => _encodingLength = value;
         }
 
         /// <inheritdoc cref="IValue.Inspection"/>
