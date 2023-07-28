@@ -74,7 +74,7 @@ namespace Bencodex
                     return ReadTextAfterPrefix();
 
                 case 0x6c: // 'l'
-                    var indirElements = new List<IndirectValue>();
+                    var elements = new List<IValue>();
                     while (true)
                     {
                         byte b = ReadByte() ?? throw new DecodingException(
@@ -84,22 +84,13 @@ namespace Bencodex
                         {
                             break;
                         }
-                        else if (b == indir)
-                        {
-                            Fingerprint fp = DecodeFingerprint();
-                            indirElements.Add(new IndirectValue(fp));
-                            continue;
-                        }
 
                         Back();
                         IValue element = DecodeValue();
-                        indirElements.Add(new IndirectValue(element));
+                        elements.Add(element);
                     }
 
-                    return new Bencodex.Types.List(
-                        indirElements.ToImmutableArray(),
-                        _indirectValueLoader
-                    );
+                    return new Bencodex.Types.List(elements);
 
                 case 0x64: // 'd'
                     var pairs = new List<KeyValuePair<IKey, IndirectValue>>();
