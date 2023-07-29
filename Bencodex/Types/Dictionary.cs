@@ -903,24 +903,6 @@ namespace Bencodex.Types
         {
         }
 
-        /// <summary>
-        /// Creates a <see cref="Dictionary"/> instance with key-value
-        /// <paramref name="indirectPairs"/>. (Note that only values can be indirect.)
-        /// </summary>
-        /// <param name="indirectPairs">Key-value pairs to include.  Values can be either loaded or
-        /// unloaded.  If there are duplicated keys, later pairs overwrite earlier ones.</param>
-        /// <param name="loader">The <see cref="IndirectValue.Loader"/> delegate invoked when
-        /// unloaded values are needed.</param>
-        public Dictionary(
-            IEnumerable<KeyValuePair<IKey, IndirectValue>> indirectPairs,
-            IndirectValue.Loader loader
-        )
-            : this(
-                indirectPairs.Select(
-                    kv => new KeyValuePair<IKey, IValue>(kv.Key, kv.Value.GetValue(loader))))
-        {
-        }
-
         internal Dictionary(in ImmutableSortedDictionary<IKey, IValue> dict)
         {
             _dict = dict;
@@ -992,9 +974,9 @@ namespace Bencodex.Types
             get =>
                 _encodingLength < 2L
                     ? _encodingLength = 1L
-                                        + _dict.Sum(kv =>
-                                            kv.Key.EncodingLength + kv.Value.EncodingLength)
-                                        + CommonVariables.Suffix.LongLength
+                        + _dict.Sum(kv =>
+                            kv.Key.EncodingLength + kv.Value.EncodingLength)
+                        + CommonVariables.Suffix.LongLength
                     : _encodingLength;
             internal set => _encodingLength = value;
         }
@@ -1780,14 +1762,5 @@ namespace Bencodex.Types
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
             $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Dictionary)} {Inspect(false)}";
-
-        /// <summary>
-        /// Enumerates pairs of keys and <see cref="IndirectValue"/>s in the dictionary.
-        /// </summary>
-        /// <returns>An enumerable of pairs of keys and <see cref="IndirectValue"/>s, which can be
-        /// either loaded or offloaded.</returns>
-        internal IEnumerable<KeyValuePair<IKey, IndirectValue>> EnumerateIndirectPairs() =>
-            _dict.Select(
-                kv => new KeyValuePair<IKey, IndirectValue>(kv.Key, new IndirectValue(kv.Value)));
     }
 }

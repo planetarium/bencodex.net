@@ -198,23 +198,6 @@ namespace Bencodex
             return actualBytes;
         }
 
-        // TODO: Needs a unit test.
-        internal static long EncodeFingerprint(
-            in Fingerprint fingerprint,
-            byte[] buffer,
-            long offset
-        )
-        {
-            buffer[offset] = 0x2a;  // '*'
-            offset++;
-            long len = fingerprint.CountSerializationBytes();
-            long lenStrLength = EncodeDigits(len, buffer, offset);
-            offset += lenStrLength;
-            buffer[offset] = 0x3a;  // ':'
-            offset++;
-            return 2L + lenStrLength + fingerprint.SerializeInto(buffer, offset);
-        }
-
         internal static long CountDecimalDigits(long value)
         {
 #pragma warning disable SA1503 // Braces should not be omitted
