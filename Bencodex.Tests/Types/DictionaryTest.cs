@@ -677,59 +677,6 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void EnumerateIndirectValues()
-        {
-            Assert.All(
-                _textKey.EnumerateIndirectPairs(),
-                kv => Assert.NotNull(kv.Value.LoadedValue)
-            );
-            Assert.Equal(
-                new[]
-                {
-                    new KeyValuePair<IKey, IndirectValue>(
-                        (Text)"foo",
-                        new IndirectValue((Text)"bar")
-                    ),
-                },
-                _textKey.EnumerateIndirectPairs()
-            );
-
-            Assert.All(
-                _textKey.EnumerateIndirectPairs(),
-                kv => Assert.NotNull(kv.Value.LoadedValue)
-            );
-            Assert.Equal(
-                new[]
-                {
-                    new KeyValuePair<IKey, IndirectValue>(
-                        new Binary("foo", Encoding.ASCII),
-                        new IndirectValue((Text)"bar")
-                    ),
-                },
-                _binaryKey.EnumerateIndirectPairs()
-            );
-
-            Assert.All(
-                _mixedKeys.EnumerateIndirectPairs(),
-                kv => Assert.NotNull(kv.Value.LoadedValue)
-            );
-            Assert.Equal(
-                new[]
-                {
-                    new KeyValuePair<IKey, IndirectValue>(
-                        (Binary)new byte[] { 0 },
-                        new IndirectValue((Text)"byte")
-                    ),
-                    new KeyValuePair<IKey, IndirectValue>(
-                        (Text)"stringKey",
-                        new IndirectValue((Text)"string")
-                    ),
-                },
-                _mixedKeys.EnumerateIndirectPairs()
-            );
-        }
-
-        [Fact]
         public void HashCode()
         {
             Assert.Equal(

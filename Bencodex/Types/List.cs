@@ -190,18 +190,6 @@ namespace Bencodex.Types
         {
         }
 
-        /// <summary>
-        /// Creates a <see cref="List"/> instance with <paramref name="indirectValues"/> and
-        /// a <paramref name="loader"/> used for loading unloaded values.
-        /// </summary>
-        /// <param name="indirectValues">The loaded and unloaded values to include.</param>
-        /// <param name="loader">The <see cref="IndirectValue.Loader"/> delegate invoked when
-        /// unloaded values are needed.</param>
-        public List(IEnumerable<IndirectValue> indirectValues, IndirectValue.Loader loader)
-            : this(indirectValues.Select(indirectValue => indirectValue.GetValue(loader)))
-        {
-        }
-
         internal List(in ImmutableArray<IValue> values)
         {
             _values = values;
@@ -267,8 +255,6 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
         public int Count => _values.Length;
-
-        internal IndirectValue.Loader? Loader { get; }
 
         /// <inheritdoc cref="IReadOnlyList{T}.this[int]"/>
         public IValue this[int index] => _values[index];
