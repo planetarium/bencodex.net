@@ -6,6 +6,15 @@ Version 0.13.0
 
 To be released.
 
+ -  Removed `IOffloadOptions` interface and its implementation
+    `OffloadOptions` class.  [[#91]]
+ -  Removed `OffloadingInspector` class.  [[#91]]
+ -  Removed `IndirectValue` class.  [[#91]]
+ -  Changed `Codec.Encode()` and `Codec.Decode()` to no longer accept
+    `IOffloadOptions` as an argument.  [[#91]]
+
+[#91]: https://github.com/planetarium/bencodex.net/pull/91
+
 
 Version 0.12.0
 --------------
