@@ -10,16 +10,16 @@ namespace Bencodex
     internal static class Encoder
     {
         // TODO: Needs a unit test.
-        public static byte[] Encode(IValue value, IOffloadOptions? offloadOptions)
+        public static byte[] Encode(IValue value)
         {
-            long estimatedLength = EstimateLength(value, offloadOptions);
+            long estimatedLength = EstimateLength(value);
             var buffer = new byte[estimatedLength];
-            Encode(value, offloadOptions, buffer, 0L);
+            Encode(value, buffer, 0L);
             return buffer;
         }
 
         // TODO: Needs a unit test.
-        public static void Encode(IValue value, Stream output, IOffloadOptions? offloadOptions)
+        public static void Encode(IValue value, Stream output)
         {
             if (!output.CanWrite)
             {
@@ -29,7 +29,7 @@ namespace Bencodex
                 );
             }
 
-            long estimatedLength = EstimateLength(value, offloadOptions);
+            long estimatedLength = EstimateLength(value);
             if (estimatedLength > 4096L)
             {
                 switch (value)
@@ -38,7 +38,7 @@ namespace Bencodex
                         output.WriteByte(0x6c);  // 'l'
                         foreach (IValue el in l)
                         {
-                            Encode(el, output, offloadOptions);
+                            Encode(el, output);
                         }
 
                         output.WriteByte(0x65);  // 'e'
@@ -48,8 +48,8 @@ namespace Bencodex
                         output.WriteByte(0x6c);  // 'l'
                         foreach (KeyValuePair<IKey, IValue> pair in d)
                         {
-                            Encode(pair.Key, output, offloadOptions);
-                            Encode(pair.Value, output, offloadOptions);
+                            Encode(pair.Key, output);
+                            Encode(pair.Value, output);
                         }
 
                         output.WriteByte(0x65);  // 'e'
@@ -59,55 +59,12 @@ namespace Bencodex
                 return;
             }
 
-            byte[] buffer = Encode(value, offloadOptions);
+            byte[] buffer = Encode(value);
             output.Write(buffer, 0, buffer.Length);
         }
 
-        internal static long EstimateLength(IValue value, IOffloadOptions? offloadOptions)
+        internal static long EstimateLength(IValue value)
         {
-            if (!(offloadOptions is { } oo))
-            {
-                return value.EncodingLength;
-            }
-            else if (value is List list)
-            {
-                long listLen = 2L;
-                foreach (IndirectValue iv in list.EnumerateIndirectValues())
-                {
-                    if (oo.Embeds(iv))
-                    {
-                        listLen += EstimateLength(iv.GetValue(list.Loader), oo);
-                    }
-                    else
-                    {
-                        long fpLen = iv.Fingerprint.CountSerializationBytes();
-                        listLen += 2L + CountDecimalDigits(fpLen) + fpLen;
-                    }
-                }
-
-                return listLen;
-            }
-            else if (value is Dictionary dict)
-            {
-                long dictLen = 2L;
-                foreach (KeyValuePair<IKey, IndirectValue> pair in dict.EnumerateIndirectPairs())
-                {
-                    dictLen += pair.Key.EncodingLength;
-                    IndirectValue iv = pair.Value;
-                    if (oo.Embeds(iv))
-                    {
-                        dictLen += EstimateLength(iv.GetValue(dict.Loader), oo);
-                    }
-                    else
-                    {
-                        long fpLen = iv.Fingerprint.CountSerializationBytes();
-                        dictLen += 2L + CountDecimalDigits(fpLen) + fpLen;
-                    }
-                }
-
-                return dictLen;
-            }
-
             return value.EncodingLength;
         }
 
@@ -188,7 +145,6 @@ namespace Bencodex
         // TODO: Needs a unit test.
         internal static long EncodeList(
             in List value,
-            IOffloadOptions? offloadOptions,
             byte[] buffer,
             long offset
         )
@@ -196,38 +152,22 @@ namespace Bencodex
             buffer[offset] = 0x6c;  // 'l'
             long encLen = 1L;  // This means the logical "expanded" encoding length.
             long actualBytes = 1L;  // This means the actual "collapsed" encoding length.
-            foreach (IndirectValue el in value.EnumerateIndirectValues())
+            foreach (IValue v in value)
             {
-                if (offloadOptions is { } oo && !oo.Embeds(el))
-                {
-                    actualBytes += EncodeFingerprint(el.Fingerprint, buffer, offset + actualBytes);
-                    oo.Offload(el, value.Loader);
-                }
-                else
-                {
-                    actualBytes += Encode(
-                        el.GetValue(value.Loader),
-                        offloadOptions,
-                        buffer,
-                        offset + actualBytes
-                    );
-                }
-
-                encLen += el.EncodingLength;
+                actualBytes += Encode(v, buffer, offset + actualBytes);
+                encLen += v.EncodingLength;
             }
 
             offset += actualBytes;
             buffer[offset] = 0x65;  // 'e'
             actualBytes++;
             encLen++;
-            value.EncodingLength = encLen;
             return actualBytes;
         }
 
         // TODO: Needs a unit test.
         internal static long EncodeDictionary(
             in Dictionary value,
-            IOffloadOptions? offloadOptions,
             byte[] buffer,
             long offset
         )
@@ -235,28 +175,17 @@ namespace Bencodex
             buffer[offset] = 0x64;  // 'd'
             long encLen = 1L;  // This means the logical "expanded" encoding length.
             long actualBytes = 1L;  // This means the actual "collapsed" encoding length.
-            foreach (KeyValuePair<IKey, IndirectValue> pair in value.EnumerateIndirectPairs())
+            foreach (KeyValuePair<IKey, IValue> pair in value)
             {
                 actualBytes += pair.Key switch
                 {
                     Text tk => EncodeText(tk, buffer, offset + actualBytes),
                     Binary bk => EncodeBinary(bk, buffer, offset + actualBytes),
-                    { } k => Encode(k, offloadOptions, buffer, offset + actualBytes),
+                    { } k => throw new ArgumentException(
+                        $"Unsupported type: {k.GetType()}", nameof(k)),
                 };
-                if (offloadOptions is { } oo && !oo.Embeds(pair.Value))
-                {
-                    actualBytes += EncodeFingerprint(pair.Value.Fingerprint, buffer, offset + actualBytes);
-                    oo.Offload(pair.Value, value.Loader);
-                }
-                else
-                {
-                    actualBytes += Encode(
-                        pair.Value.GetValue(value.Loader),
-                        offloadOptions,
-                        buffer,
-                        offset + actualBytes
-                    );
-                }
+
+                actualBytes += Encode(pair.Value, buffer, offset + actualBytes);
 
                 encLen += pair.Key.EncodingLength + pair.Value.EncodingLength;
             }
@@ -267,23 +196,6 @@ namespace Bencodex
             actualBytes++;
             value.EncodingLength = encLen;
             return actualBytes;
-        }
-
-        // TODO: Needs a unit test.
-        internal static long EncodeFingerprint(
-            in Fingerprint fingerprint,
-            byte[] buffer,
-            long offset
-        )
-        {
-            buffer[offset] = 0x2a;  // '*'
-            offset++;
-            long len = fingerprint.CountSerializationBytes();
-            long lenStrLength = EncodeDigits(len, buffer, offset);
-            offset += lenStrLength;
-            buffer[offset] = 0x3a;  // ':'
-            offset++;
-            return 2L + lenStrLength + fingerprint.SerializeInto(buffer, offset);
         }
 
         internal static long CountDecimalDigits(long value)
@@ -325,12 +237,7 @@ namespace Bencodex
         }
 
         // TODO: Needs a unit test.
-        internal static long Encode(
-            in IValue value,
-            IOffloadOptions? offloadOptions,
-            byte[] buffer,
-            long offset
-        )
+        internal static long Encode(in IValue value, byte[] buffer, long offset)
         {
             return value switch
             {
@@ -339,8 +246,8 @@ namespace Bencodex
                 Integer i => EncodeInteger(i, buffer, offset),
                 Binary bin => EncodeBinary(bin, buffer, offset),
                 Text t => EncodeText(t, buffer, offset),
-                List l => EncodeList(l, offloadOptions, buffer, offset),
-                Dictionary d => EncodeDictionary(d, offloadOptions, buffer, offset),
+                List l => EncodeList(l, buffer, offset),
+                Dictionary d => EncodeDictionary(d, buffer, offset),
                 _ =>
                     throw new ArgumentException(
                         "Unsupported type: " + value.GetType().FullName, nameof(value)

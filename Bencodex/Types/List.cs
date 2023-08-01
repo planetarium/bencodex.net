@@ -6,7 +6,6 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
-using Bencodex.Misc;
 
 namespace Bencodex.Types
 {
@@ -23,7 +22,7 @@ namespace Bencodex.Types
         /// <summary>
         /// The empty list.
         /// </summary>
-        public static readonly List Empty = new List(ImmutableArray<IndirectValue>.Empty, null)
+        public static readonly List Empty = new List(ImmutableArray<IValue>.Empty)
         {
             EncodingLength = 2L,
         };
@@ -34,7 +33,7 @@ namespace Bencodex.Types
         public static readonly Fingerprint EmptyFingerprint =
             new Fingerprint(ValueKind.List, 2L);
 
-        private readonly ImmutableArray<IndirectValue> _values;
+        private readonly ImmutableArray<IValue> _values;
         private long _encodingLength = -1L;
         private ImmutableArray<byte>? _hash;
 
@@ -52,7 +51,7 @@ namespace Bencodex.Types
         /// </summary>
         /// <param name="elements">The element values to include.</param>
         public List(IEnumerable<IValue> elements)
-            : this(elements.Select(v => new IndirectValue(v)).ToImmutableArray(), null)
+            : this(elements.ToImmutableArray())
         {
         }
 
@@ -191,30 +190,9 @@ namespace Bencodex.Types
         {
         }
 
-        /// <summary>
-        /// Creates a <see cref="List"/> instance with <paramref name="indirectValues"/> and
-        /// a <paramref name="loader"/> used for loading unloaded values.
-        /// </summary>
-        /// <param name="indirectValues">The loaded and unloaded values to include.</param>
-        /// <param name="loader">The <see cref="IndirectValue.Loader"/> delegate invoked when
-        /// unloaded values are needed.</param>
-        public List(IEnumerable<IndirectValue> indirectValues, IndirectValue.Loader loader)
-            : this(
-                indirectValues is ImmutableArray<IndirectValue> ia
-                    ? ia
-                    : indirectValues.ToImmutableArray(),
-                loader
-            )
+        internal List(in ImmutableArray<IValue> values)
         {
-        }
-
-        internal List(
-            in ImmutableArray<IndirectValue> indirectValues,
-            IndirectValue.Loader? loader
-        )
-        {
-            _values = indirectValues;
-            Loader = loader;
+            _values = values;
             _hash = null;
         }
 
@@ -238,7 +216,7 @@ namespace Bencodex.Types
                     long encLength = 2;
                     SHA1 sha1 = SHA1.Create();
                     sha1.Initialize();
-                    foreach (IndirectValue value in _values)
+                    foreach (IValue value in _values)
                     {
                         Fingerprint fp = value.Fingerprint;
                         byte[] fpb = fp.Serialize();
@@ -268,7 +246,7 @@ namespace Bencodex.Types
                         + 1L
                 : _encodingLength;
 
-            internal set => _encodingLength = value;
+            private set => _encodingLength = value;
         }
 
         /// <inheritdoc cref="IValue.Inspection"/>
@@ -278,10 +256,8 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
         public int Count => _values.Length;
 
-        internal IndirectValue.Loader? Loader { get; }
-
         /// <inheritdoc cref="IReadOnlyList{T}.this[int]"/>
-        public IValue this[int index] => _values[index].GetValue(Loader);
+        public IValue this[int index] => _values[index];
 
         bool IEquatable<IImmutableList<IValue>>.Equals(IImmutableList<IValue> other)
         {
@@ -296,19 +272,9 @@ namespace Bencodex.Types
 
             for (int i = 0; i < _values.Length; i++)
             {
-                IndirectValue iv = _values[i];
+                IValue v = _values[i];
                 IValue ov = other[i];
-                if (iv.LoadedValue is { } v)
-                {
-                    if (!ov.Equals(v))
-                    {
-                        return false;
-                    }
-
-                    continue;
-                }
-
-                if (!iv.Fingerprint.Equals(ov.Fingerprint))
+                if (!ov.Equals(v))
                 {
                     return false;
                 }
@@ -325,9 +291,9 @@ namespace Bencodex.Types
 
         IEnumerator<IValue> IEnumerable<IValue>.GetEnumerator()
         {
-            foreach (IndirectValue element in _values)
+            foreach (IValue element in _values)
             {
-                yield return element.GetValue(Loader);
+                yield return element;
             }
         }
 
@@ -351,7 +317,7 @@ namespace Bencodex.Types
         /// <param name="value">The value to add to the list.</param>
         /// <returns>A new list with the value added.</returns>
         public List Add(IValue value) =>
-            new List(_values.Add(new IndirectValue(value)), Loader)
+            new List(_values.Add(value))
             {
                 EncodingLength = _encodingLength < 2L ? -1 : _encodingLength + value.EncodingLength,
             };
@@ -472,10 +438,8 @@ namespace Bencodex.Types
         public List Add(string value) =>
             Add(new Text(value));
 
-        IImmutableList<IValue> IImmutableList<IValue>.AddRange(
-            IEnumerable<IValue> items
-        ) =>
-            new List(_values.AddRange(items.Select(v => new IndirectValue(v))), Loader);
+        IImmutableList<IValue> IImmutableList<IValue>.AddRange(IEnumerable<IValue> items) =>
+            new List(_values.AddRange(items));
 
         IImmutableList<IValue> IImmutableList<IValue>.Clear() =>
             List.Empty;
@@ -489,22 +453,20 @@ namespace Bencodex.Types
             IEqualityComparer<IValue> equalityComparer
         ) =>
             _values.IndexOf(
-                new IndirectValue(item),
+                item,
                 index,
                 count,
-                new IndirectValueEqualityComparer(equalityComparer, Loader)
-            );
+                equalityComparer);
 
         IImmutableList<IValue> IImmutableList<IValue>.Insert(int index, IValue element) =>
-            new List(_values.Insert(index, new IndirectValue(element)), Loader);
+            new List(_values.Insert(index, element));
 
         IImmutableList<IValue> IImmutableList<IValue>.InsertRange(
             int index,
             IEnumerable<IValue> items
         )
         {
-            IEnumerable<IndirectValue> vs = items.Select(v => new IndirectValue(v));
-            return new List(_values.InsertRange(index, vs), Loader);
+            return new List(_values.InsertRange(index, items));
         }
 
         [Obsolete("This operation immediately loads all unloaded values in the range on " +
@@ -516,49 +478,36 @@ namespace Bencodex.Types
             IEqualityComparer<IValue> equalityComparer
         ) =>
             _values.LastIndexOf(
-                new IndirectValue(item),
+                item,
                 index,
                 count,
-                new IndirectValueEqualityComparer(equalityComparer, Loader)
-            );
+                equalityComparer);
 
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.Remove(
             IValue value,
             IEqualityComparer<IValue> equalityComparer
         ) =>
-            new List(
-                _values.Remove(
-                    new IndirectValue(value),
-                    new IndirectValueEqualityComparer(equalityComparer, Loader)
-                ),
-                Loader
-            );
+            new List(_values.Remove(value, equalityComparer));
 
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.RemoveAll(
             Predicate<IValue> match
         ) =>
-            new List(_values.RemoveAll(iv => match(iv.GetValue(Loader))), Loader);
+            new List(_values.RemoveAll(iv => match(iv)));
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveAt(int index) =>
-            new List(_values.RemoveAt(index), Loader);
+            new List(_values.RemoveAt(index));
 
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.RemoveRange(
             IEnumerable<IValue> items,
             IEqualityComparer<IValue> equalityComparer
         ) =>
-            new List(
-                _values.RemoveRange(
-                    items.Select(v => new IndirectValue(v)),
-                    new IndirectValueEqualityComparer(equalityComparer, Loader)
-                ),
-                Loader
-            );
+            new List(_values.RemoveRange(items.Select(v => v), equalityComparer));
 
         IImmutableList<IValue> IImmutableList<IValue>.RemoveRange(int index, int count) =>
-            new List(_values.RemoveRange(index, count), Loader);
+            new List(_values.RemoveRange(index, count));
 
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.Replace(
@@ -568,23 +517,18 @@ namespace Bencodex.Types
         ) =>
             new List(
                 _values.Replace(
-                    new IndirectValue(oldValue),
-                    new IndirectValue(newValue),
-                    new IndirectValueEqualityComparer(equalityComparer, Loader)
-                ),
-                Loader
-            );
+                    oldValue,
+                    newValue,
+                    equalityComparer)
+                );
 
         IImmutableList<IValue> IImmutableList<IValue>.SetItem(int index, IValue value) =>
-            new List(_values.SetItem(index, new IndirectValue(value)), Loader);
+            new List(_values.SetItem(index, value));
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)
         {
-            string InspectItem(IndirectValue value, bool load) =>
-                loadAll || value.LoadedValue is { }
-                    ? value.GetValue(Loader).Inspect(load)
-                    : value.Fingerprint.ToString();
+            string InspectItem(IValue value, bool load) => value.Inspect(load);
 
             string inspection;
             switch (_values.Length)
@@ -594,7 +538,7 @@ namespace Bencodex.Types
                     break;
 
                 case 1:
-                    IndirectValue first = _values[0];
+                    IValue first = _values[0];
                     if (first.Kind == ValueKind.List || first.Kind == ValueKind.Dictionary)
                     {
                         goto default;
@@ -617,12 +561,5 @@ namespace Bencodex.Types
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
             $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(List)} {Inspect(false)}";
-
-        /// <summary>
-        /// Enumerates <see cref="IndirectValue"/>s in the list.
-        /// </summary>
-        /// <returns>An enumerable of <see cref="IndirectValue"/>s, which can be either loaded or
-        /// offloaded.</returns>
-        internal IEnumerable<IndirectValue> EnumerateIndirectValues() => _values;
     }
 }
