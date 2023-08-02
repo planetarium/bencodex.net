@@ -28,7 +28,8 @@ namespace Bencodex
 
         public IValue Decode()
         {
-            IValue value = DecodeValue();
+            IValue value = DecodeValue() ??
+                throw new DecodingException($"Failed to decode stream");
             if (ReadByte() is { } b)
             {
                 throw new DecodingException(
@@ -39,7 +40,7 @@ namespace Bencodex
             return value;
         }
 
-        private IValue DecodeValue()
+        private IValue? DecodeValue()
         {
             const byte e = 0x65;  // 'e'
 
@@ -49,6 +50,9 @@ namespace Bencodex
                     throw new DecodingException(
                         $"The byte stream terminates unexpectedly at {_offset}."
                     );
+
+                case 0x65: // 'e'
+                    return null;
 
                 case 0x6e: // 'n'
 #pragma warning disable SA1129
@@ -70,18 +74,8 @@ namespace Bencodex
 
                 case 0x6c: // 'l'
                     var elements = new List<IValue>();
-                    while (true)
+                    while (DecodeValue() is IValue element)
                     {
-                        byte b = ReadByte() ?? throw new DecodingException(
-                            $"The byte stream terminates unexpectedly at {_offset}."
-                        );
-                        if (b == e)
-                        {
-                            break;
-                        }
-
-                        Back();
-                        IValue element = DecodeValue();
                         elements.Add(element);
                     }
 
@@ -89,19 +83,10 @@ namespace Bencodex
 
                 case 0x64: // 'd'
                     var pairs = new List<KeyValuePair<IKey, IValue>>();
-                    while (true)
+                    while (DecodeKey() is IKey key)
                     {
-                        byte b = ReadByte() ?? throw new DecodingException(
-                            $"The byte stream terminates unexpectedly at {_offset}."
-                        );
-                        if (b == e)
-                        {
-                            break;
-                        }
-
-                        Back();
-                        IKey key = DecodeKey();
-                        IValue value = DecodeValue();
+                        IValue value = DecodeValue()
+                            ?? throw new DecodingException("Failed to decode");
                         pairs.Add(new KeyValuePair<IKey, IValue>(key, value));
                     }
 
@@ -125,7 +110,7 @@ namespace Bencodex
             }
         }
 
-        private IKey DecodeKey()
+        private IKey? DecodeKey()
         {
             switch (ReadByte())
             {
@@ -133,6 +118,9 @@ namespace Bencodex
                     throw new DecodingException(
                         $"Expected a dictionary key, but the byte stream terminates at {_offset}."
                     );
+
+                case 0x65: // 'e'
+                    return null;
 
                 case 0x75: // 'u':
                     return ReadTextAfterPrefix();
