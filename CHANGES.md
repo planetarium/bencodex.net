@@ -13,9 +13,14 @@ To be released.
  -  Changed `Codec.Encode()` and `Codec.Decode()` to no longer accept
     `IOffloadOptions` as an argument.  [[#91]]
  -  Optimized for faster decoding on encoded `List`s and `Dictionary`s.  [[#93]]
+ -  Fixed a bug where a wrongly encoded `byte[]` could be decoded
+    into a `Dictionary`.  [[#92], [#94]]
+ -  Optimized decoding `Dictionary`'s both for speed and memory.  [[#94]]
 
 [#91]: https://github.com/planetarium/bencodex.net/pull/91
+[#92]: https://github.com/planetarium/bencodex.net/issues/92
 [#93]: https://github.com/planetarium/bencodex.net/pull/93
+[#94]: https://github.com/planetarium/bencodex.net/pull/94
 
 
 Version 0.12.0
