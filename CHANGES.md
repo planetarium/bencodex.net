@@ -12,8 +12,10 @@ To be released.
  -  Removed `IndirectValue` class.  [[#91]]
  -  Changed `Codec.Encode()` and `Codec.Decode()` to no longer accept
     `IOffloadOptions` as an argument.  [[#91]]
+ -  Optimized for faster decoding on encoded `List`s and `Dictionary`s.  [[#93]]
 
 [#91]: https://github.com/planetarium/bencodex.net/pull/91
+[#93]: https://github.com/planetarium/bencodex.net/pull/93
 
 
 Version 0.12.0
