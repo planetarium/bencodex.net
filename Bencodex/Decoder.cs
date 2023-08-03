@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.IO;
 using System.Numerics;
 using System.Text;
+using Bencodex.Misc;
 using Bencodex.Types;
 
 namespace Bencodex
@@ -75,16 +77,25 @@ namespace Bencodex
                     return new Bencodex.Types.List(elements);
 
                 case 0x64: // 'd'
-                    var pairs = new List<KeyValuePair<IKey, IValue>>();
+                    var builder = ImmutableSortedDictionary.CreateBuilder<IKey, IValue>(KeyComparer.Instance);
+                    IKey? lastKey = null;
                     while (DecodeKey() is IKey key)
                     {
                         IValue value = DecodeValue()
                             ?? throw new DecodingException(
                                 $"An unexpected token byte 0x{0x65:x} at {_offset - 1}");
-                        pairs.Add(new KeyValuePair<IKey, IValue>(key, value));
+
+                        if (lastKey is { } k && builder.KeyComparer.Compare(k, key) >= 0)
+                        {
+                            throw new DecodingException(
+                                $"Expected an {nameof(IKey)} greater than {k}: {key}");
+                        }
+
+                        lastKey = key;
+                        builder.Add(key, value);
                     }
 
-                    return new Dictionary(pairs);
+                    return new Dictionary(builder.ToImmutable());
 
                 case 0x30: // '0'
                 case 0x31: // '1'
