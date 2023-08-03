@@ -29,15 +29,13 @@ namespace Bencodex
         public IValue Decode()
         {
             IValue value = DecodeValue() ??
-                throw new DecodingException($"Failed to decode stream");
-
-            if (!EndOfStream())
-            {
                 throw new DecodingException(
-                    $"An unexpected trailing byte remain at {_offset}.");
-            }
+                    $"An unexpected token byte 0x{0x65:x} at {_offset - 1}");
 
-            return value;
+            return EndOfStream()
+                ? value
+                : throw new DecodingException(
+                    $"An unexpected trailing byte remains at {_offset}.");
         }
 
         private IValue? DecodeValue()
@@ -81,7 +79,8 @@ namespace Bencodex
                     while (DecodeKey() is IKey key)
                     {
                         IValue value = DecodeValue()
-                            ?? throw new DecodingException("Failed to decode");
+                            ?? throw new DecodingException(
+                                $"An unexpected token byte 0x{0x65:x} at {_offset - 1}");
                         pairs.Add(new KeyValuePair<IKey, IValue>(key, value));
                     }
 
