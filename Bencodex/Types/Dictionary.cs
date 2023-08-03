@@ -905,6 +905,12 @@ namespace Bencodex.Types
 
         internal Dictionary(in ImmutableSortedDictionary<IKey, IValue> dict)
         {
+            if (!KeyComparer.Instance.Equals(dict.KeyComparer))
+            {
+                throw new ArgumentException(
+                    $"Given {nameof(dict)} has an invalid key comparer.");
+            }
+
             _dict = dict;
         }
 
