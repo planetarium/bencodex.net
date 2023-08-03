@@ -677,6 +677,20 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void EncodedMustBeOrdered()
+        {
+            Codec codec = new Codec();
+            string valid = "d3:bar4:spam3:fooi42ee";
+            string invalid = "d3:fooi42e3:bar4:spame";
+            byte[] validEncoded = Encoding.ASCII.GetBytes(valid);
+            byte[] invalidEncoded = Encoding.ASCII.GetBytes(invalid);
+
+            IValue decoded = codec.Decode(validEncoded);
+            Assert.IsType<Dictionary>(decoded);
+            Assert.Throws<DecodingException>(() => codec.Decode(invalidEncoded));
+        }
+
+        [Fact]
         public void HashCode()
         {
             Assert.Equal(
