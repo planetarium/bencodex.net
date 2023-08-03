@@ -30,11 +30,11 @@ namespace Bencodex
         {
             IValue value = DecodeValue() ??
                 throw new DecodingException($"Failed to decode stream");
-            if (ReadByte() is { } b)
+
+            if (!EndOfStream())
             {
                 throw new DecodingException(
-                    $"An unexpected trailing byte 0x{b:x} at {_offset - 1}."
-                );
+                    $"An unexpected trailing byte remain at {_offset}.");
             }
 
             return value;
@@ -46,11 +46,6 @@ namespace Bencodex
 
             switch (ReadByte())
             {
-                case null:
-                    throw new DecodingException(
-                        $"The byte stream terminates unexpectedly at {_offset}."
-                    );
-
                 case 0x65: // 'e'
                     return null;
 
@@ -114,11 +109,6 @@ namespace Bencodex
         {
             switch (ReadByte())
             {
-                case null:
-                    throw new DecodingException(
-                        $"Expected a dictionary key, but the byte stream terminates at {_offset}."
-                    );
-
                 case 0x65: // 'e'
                     return null;
 
@@ -172,7 +162,7 @@ namespace Bencodex
             return buffer;
         }
 
-        private byte? ReadByte()
+        private byte ReadByte()
         {
             if (_didBack)
             {
@@ -189,7 +179,20 @@ namespace Bencodex
 
             _offset++;
             _didBack = false;
-            return read == 0 ? (byte?)null : _tinyBuffer[0];
+            return read == 0
+                ? throw new DecodingException($"The byte stream terminates unexpectedly at {_offset}.")
+                : _tinyBuffer[0];
+        }
+
+        // Checks end of stream.  Should be called only once at the very end.
+        private bool EndOfStream()
+        {
+            if (_didBack)
+            {
+                return false;
+            }
+
+            return _stream.Read(_tinyBuffer, 0, 1) == 0;
         }
 
         private void Back()
@@ -212,15 +215,7 @@ namespace Bencodex
             const int asciiZero = 0x30; // '0'
             int length = 0;
 
-            var b = ReadByte();
-
-            if (b is null)
-            {
-                throw new DecodingException(
-                    $"Expected digits, but the byte stream terminates at {_offset}.");
-            }
-
-            byte lastByte = b.Value;
+            byte lastByte = ReadByte();
             while (lastByte != colon)
             {
 #pragma warning disable SA1131
@@ -235,10 +230,7 @@ namespace Bencodex
                 length *= 10;
                 length += lastByte - asciiZero;
 
-                lastByte = ReadByte() ?? throw new DecodingException(
-                    $"Expected a delimiter byte 0x{colon:x}, but the byte stream terminates " +
-                    $"at {_offset}."
-                );
+                lastByte = ReadByte();
             }
 
             return length;
@@ -250,27 +242,11 @@ namespace Bencodex
             byte[] buffer = new byte[defaultBufferSize];
 
             var b = ReadByte();
-
-            if (b is null)
-            {
-                throw new DecodingException(
-                    $"Expected a minus sign or a digit, " +
-                    $"but the byte stream terminates at {_offset}."
-                );
-            }
-
             bool minus = false;
             if (b == 0x2d) // '-'
             {
                 minus = true;
                 b = ReadByte();
-
-                if (b is null)
-                {
-                    throw new DecodingException(
-                        $"Expected digits, but the byte stream terminates at {_offset}."
-                    );
-                }
             }
 
             int digitsLength;
@@ -278,16 +254,16 @@ namespace Bencodex
             if (minus)
             {
                 buffer[0] = 0x2d;
-                buffer[1] = b.Value;
+                buffer[1] = b;
                 digitsLength = 2;
             }
             else
             {
-                buffer[0] = b.Value;
+                buffer[0] = b;
                 digitsLength = 1;
             }
 
-            byte lastByte = b.Value;
+            byte lastByte = b;
 
             while (lastByte != delimiter)
             {
@@ -300,10 +276,7 @@ namespace Bencodex
                 }
 #pragma warning restore SA1131
 
-                lastByte = ReadByte() ?? throw new DecodingException(
-                    $"Expected a delimiter byte 0x{delimiter:x}, but the byte stream terminates " +
-                    $"at {_offset}."
-                );
+                lastByte = ReadByte();
 
                 if (digitsLength >= buffer.Length)
                 {
