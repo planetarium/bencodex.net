@@ -4,7 +4,7 @@ Changelog
 Version 0.13.0
 --------------
 
-To be released.
+Released on August 3rd, 2023.
 
  -  Removed `IOffloadOptions` interface and its implementation
     `OffloadOptions` class.  [[#91]]
