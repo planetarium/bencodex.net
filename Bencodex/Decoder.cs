@@ -139,17 +139,26 @@ namespace Bencodex
             }
         }
 
-        private byte[] Read(byte[] buffer)
+        /// <summary>
+        /// Fills given <paramref name="buffer"/> from the internal <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="buffer">The buffer to fill.</param>
+        /// <exception cref="DecodingException">Thrown when the internal <see cref="Stream"/>
+        /// terminates before <paramref name="buffer"/> is completely filled.</exception>
+        /// <remarks>This is used only for decoding a <see cref="Text"/> or
+        /// a <see cref="Binary"/> after the separator token ':' has been consumed.
+        /// </remarks>
+        private void Read(byte[] buffer)
         {
             var length = buffer.Length;
             int read = _stream.Read(buffer, 0, length);
+            _offset += read;
+
             if (read < length)
             {
-                Array.Resize(ref buffer, read);
+                throw new DecodingException(
+                    $"The byte stream terminates at {_offset}.");
             }
-
-            _offset += read;
-            return buffer;
         }
 
         private byte ReadByte()
@@ -292,46 +301,30 @@ namespace Bencodex
             }
         }
 
-        private (byte[] ByteArray, int OffsetAfterColon) ReadByteArray(bool peeked)
-        {
-            int length = ReadLength(peeked);
-            if (length < 1)
-            {
-                return (Array.Empty<byte>(), _offset);
-            }
-
-            int pos = _offset;
-            byte[] buffer = new byte[length];
-            byte[] bytes = Read(buffer);
-            if (bytes.Length < length)
-            {
-                throw new DecodingException(
-                    $"The byte stream terminates at {_offset} with insufficient " +
-                    $"{length - bytes.Length} bytes."
-                );
-            }
-
-            return (bytes, pos);
-        }
-
         private Binary ReadBinary()
         {
-            (byte[] bytes, _) = ReadByteArray(true);
-            return new Binary(bytes);
+            int length = ReadLength(peeked: true);
+            byte[] buffer = new byte[length];
+            Read(buffer);
+            return new Binary(buffer);
         }
 
         private Text ReadTextAfterPrefix()
         {
-            (byte[] bytes, int pos) = ReadByteArray(false);
+            int start = _offset - 1;
+            int length = ReadLength(peeked: false);
+            byte[] buffer = new byte[length];
+            Read(buffer);
 
             string textContent;
             try
             {
-                textContent = Encoding.UTF8.GetString(bytes);
+                textContent = Encoding.UTF8.GetString(buffer);
             }
             catch (ArgumentException e)
             {
-                throw new DecodingException($"Expected a UTF-8 sequence at {pos}.", e);
+                throw new DecodingException(
+                    $"Failed to decode {nameof(Text)} starting from {start}.", e);
             }
 
             return new Text(textContent);
