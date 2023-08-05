@@ -9,8 +9,10 @@ To be released.
  -  Fixed a bug where a wrongly encoded `byte[]` could be decoded into
     an `Integer`.  [[#97]]
  -  Optimized decoding `Integer`s both for speed and memory.  [[#97]]
+ -  Optimized for faster decoding on encoded `List`s and `Dictionary`s.  [[#98]]
 
 [#97]: https://github.com/planetarium/bencodex.net/pull/97
+[#98]: https://github.com/planetarium/bencodex.net/pull/98
 
 
 Version 0.13.0
