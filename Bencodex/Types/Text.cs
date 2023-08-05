@@ -36,9 +36,9 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
         public long EncodingLength =>
-            1L +
+            1L + // 'l'
             Utf8Length.ToString(CultureInfo.InvariantCulture).Length +
-            CommonVariables.Separator.LongLength +
+            1L + // 'e'
             Utf8Length;
 
         /// <inheritdoc cref="IValue.Inspection"/>

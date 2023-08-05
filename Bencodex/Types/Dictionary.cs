@@ -933,10 +933,10 @@ namespace Bencodex.Types
         {
             get =>
                 _encodingLength < 2L
-                    ? _encodingLength = 1L
+                    ? _encodingLength = 1L // 'd'
                         + _dict.Sum(kv =>
                             kv.Key.EncodingLength + kv.Value.EncodingLength)
-                        + CommonVariables.Suffix.LongLength
+                        + 1L // 'e'
                     : _encodingLength;
             internal set => _encodingLength = value;
         }
