@@ -33,7 +33,6 @@ namespace Bencodex.Tests
             Assert.Equal(spec.Semantics, decoded);
             Assert.Equal(spec.Encoding.LongLength, decoded.EncodingLength);
             Assert.Equal(spec.Semantics.EncodingLength, decoded.EncodingLength);
-            Assert.Equal(spec.Semantics.Fingerprint, decoded.Fingerprint);
 
             byte[] encoded = codec.Encode(spec.Semantics);
             AssertEqual(spec.Encoding, encoded);

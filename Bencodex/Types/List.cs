@@ -5,7 +5,6 @@ using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Numerics;
-using System.Security.Cryptography;
 
 namespace Bencodex.Types
 {
@@ -27,15 +26,8 @@ namespace Bencodex.Types
             EncodingLength = 2L,
         };
 
-        /// <summary>
-        /// The singleton fingerprint for empty lists.
-        /// </summary>
-        public static readonly Fingerprint EmptyFingerprint =
-            new Fingerprint(ValueKind.List, 2L);
-
         private readonly ImmutableArray<IValue> _values;
         private long _encodingLength = -1L;
-        private ImmutableArray<byte>? _hash;
 
         /// <summary>
         /// Creates a <see cref="List"/> instance with <paramref name="elements"/>.
@@ -193,49 +185,11 @@ namespace Bencodex.Types
         internal List(in ImmutableArray<IValue> values)
         {
             _values = values;
-            _hash = null;
         }
 
         /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
         public ValueKind Kind => ValueKind.List;
-
-        /// <inheritdoc cref="IValue.Fingerprint"/>
-        [Pure]
-        public Fingerprint Fingerprint
-        {
-            get
-            {
-                if (_values.IsDefaultOrEmpty)
-                {
-                    return EmptyFingerprint;
-                }
-
-                if (!(_hash is { } hash))
-                {
-                    long encLength = 2;
-                    SHA1 sha1 = SHA1.Create();
-                    sha1.Initialize();
-                    foreach (IValue value in _values)
-                    {
-                        Fingerprint fp = value.Fingerprint;
-                        byte[] fpb = fp.Serialize();
-                        sha1.TransformBlock(fpb, 0, fpb.Length, null, 0);
-                        encLength += fp.EncodingLength;
-                    }
-
-                    sha1.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
-                    hash = ImmutableArray.Create(sha1.Hash);
-                    _hash = hash;
-                    if (_encodingLength < 0L)
-                    {
-                        _encodingLength = encLength;
-                    }
-                }
-
-                return new Fingerprint(Kind, EncodingLength, hash);
-            }
-        }
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         public long EncodingLength
@@ -259,32 +213,14 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IReadOnlyList{T}.this[int]"/>
         public IValue this[int index] => _values[index];
 
+        // FIXME: Although convenient, this is a non-standard practice, making it
+        // prone to misuse.
         bool IEquatable<IImmutableList<IValue>>.Equals(IImmutableList<IValue> other)
-        {
-            if (Count != other.Count)
-            {
-                return false;
-            }
-            else if (other is List otherList)
-            {
-                return Fingerprint.Equals(otherList.Fingerprint);
-            }
-
-            for (int i = 0; i < _values.Length; i++)
-            {
-                IValue v = _values[i];
-                IValue ov = other[i];
-                if (!ov.Equals(v))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
+            => this.SequenceEqual<IValue>(other);
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-        public bool Equals(List other) => Fingerprint.Equals(other.Fingerprint);
+        public bool Equals(List other) =>
+            this.SequenceEqual<IValue>(other);
 
         bool IEquatable<IValue>.Equals(IValue other) =>
             other is List o && Equals(o);

@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Numerics;
-using System.Security.Cryptography;
 
 namespace Bencodex.Types
 {
@@ -60,21 +58,6 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
         public ValueKind Kind => ValueKind.Integer;
-
-        /// <inheritdoc cref="IValue.Fingerprint"/>
-        [Pure]
-        public Fingerprint Fingerprint
-        {
-            get
-            {
-                // If the byte representation is compact enough, use it as a digest too.
-                // If it's longer than 20 bytes, make a SHA-1 hash for digest.
-                byte[] bytes = Value.ToByteArray();
-                IReadOnlyList<byte> digest =
-                    bytes.Length <= 20 ? bytes : SHA1.Create().ComputeHash(bytes);
-                return new Fingerprint(Kind, EncodingLength, digest);
-            }
-        }
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]

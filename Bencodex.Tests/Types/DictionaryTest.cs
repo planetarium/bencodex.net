@@ -555,39 +555,6 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void Fingerprint()
-        {
-            Assert.Equal(
-                new Fingerprint(ValueKind.Dictionary, 2),
-                Dictionary.Empty.Fingerprint
-            );
-            Assert.Equal(
-                new Fingerprint(
-                    ValueKind.Dictionary,
-                    14L,
-                    ParseHex("bb1bbb4428e03722aa5e5ad2e0d70657e328dae1")
-                ),
-                _textKey.Fingerprint
-            );
-            Assert.Equal(
-                new Fingerprint(
-                    ValueKind.Dictionary,
-                    13L,
-                    ParseHex("0a4571a67289be466635ecc577ac136452d8d532")
-                ),
-                _binaryKey.Fingerprint
-            );
-            Assert.Equal(
-                new Fingerprint(
-                    ValueKind.Dictionary,
-                    33,
-                    ParseHex("83f7620e739e4dd9c6443a93eae4ff9132580ff3")
-                ),
-                _mixedKeys.Fingerprint
-            );
-        }
-
-        [Fact]
         public void EncodingLength()
         {
             Assert.Equal(2L, Dictionary.Empty.EncodingLength);

@@ -28,28 +28,6 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void Fingerprint()
-        {
-            Assert.Equal(new Fingerprint(ValueKind.Text, 3L), _empty.Fingerprint);
-            Assert.Equal(
-                new Fingerprint(
-                    ValueKind.Text,
-                    9L,
-                    new byte[] { 0xe4, 0xbd, 0xa0, 0xe5, 0xa5, 0xbd }
-                ),
-                _nihao.Fingerprint
-            );
-            Assert.Equal(
-                new Fingerprint(
-                    ValueKind.Text,
-                    46L,
-                    ParseHex("e72dcfd0ae50a80aaa8c1a78b27e2e11bef66488")
-                ),
-                _complex.Fingerprint
-            );
-        }
-
-        [Fact]
         public void Encode()
         {
             Codec codec = new Codec();

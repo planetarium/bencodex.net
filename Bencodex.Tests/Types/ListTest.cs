@@ -92,39 +92,6 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
-        public void Fingerprint()
-        {
-            Assert.Equal(
-                new Fingerprint(ValueKind.List, 2L),
-                _zero.Fingerprint
-            );
-            Assert.Equal(
-                new Fingerprint(
-                    ValueKind.List,
-                    3L,
-                    ParseHex("d14952314d5de233ef0dd0a178617f7f07ea082c")
-                ),
-                _one.Fingerprint
-            );
-            Assert.Equal(
-                new Fingerprint(
-                    ValueKind.List,
-                    18L,
-                    ParseHex("16a855873ac787b7c7f2d2d0360119ca4cbb66fe")
-                ),
-                _two.Fingerprint
-            );
-            Assert.Equal(
-                new Fingerprint(
-                    ValueKind.List,
-                    26L,
-                    ParseHex("82daa9e2ff9f01393b718e09ab9fddd9f8c04e2b")
-                ),
-                _nest.Fingerprint
-            );
-        }
-
-        [Fact]
         public void EncodingLength()
         {
             Assert.Equal(2L, _zero.EncodingLength);
