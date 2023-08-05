@@ -92,20 +92,8 @@ namespace Bencodex
 
                     return new Dictionary(builder.ToImmutable());
 
-                case 0x30: // '0'
-                case 0x31: // '1'
-                case 0x32: // '2'
-                case 0x33: // '3'
-                case 0x34: // '4'
-                case 0x35: // '5'
-                case 0x36: // '6'
-                case 0x37: // '7'
-                case 0x38: // '8'
-                case 0x39: // '9'
+                default:
                     return ReadBinary();
-
-                case { } b:
-                    throw new DecodingException($"An unexpected byte 0x{b:x} at {_offset - 1}.");
             }
         }
 
@@ -119,23 +107,8 @@ namespace Bencodex
                 case 0x75: // 'u':
                     return ReadTextAfterPrefix();
 
-                case 0x30: // '0'
-                case 0x31: // '1'
-                case 0x32: // '2'
-                case 0x33: // '3'
-                case 0x34: // '4'
-                case 0x35: // '5'
-                case 0x36: // '6'
-                case 0x37: // '7'
-                case 0x38: // '8'
-                case 0x39: // '9'
+                default:
                     return ReadBinary();
-
-                case { } b:
-                    throw new DecodingException(
-                        $"Expected a dictionary key, but got an unexpected byte 0x{b:x} at " +
-                        $"{_offset - 1}."
-                    );
             }
         }
 
@@ -316,18 +289,15 @@ namespace Bencodex
             byte[] buffer = new byte[length];
             Read(buffer);
 
-            string textContent;
             try
             {
-                textContent = Encoding.UTF8.GetString(buffer);
+                return new Text(Encoding.UTF8.GetString(buffer));
             }
             catch (ArgumentException e)
             {
                 throw new DecodingException(
                     $"Failed to decode {nameof(Text)} starting from {start}.", e);
             }
-
-            return new Text(textContent);
         }
     }
 }
