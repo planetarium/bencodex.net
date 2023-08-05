@@ -12,10 +12,8 @@ namespace Bencodex
 {
     internal sealed class Decoder
     {
-        private readonly byte[] _tinyBuffer = new byte[1];
         private readonly Stream _stream;
         private byte _lastRead;
-        private bool _didBack;
         private int _offset;
 
         public Decoder(Stream stream)
@@ -24,7 +22,6 @@ namespace Bencodex
             // with BufferedStream: stream = new BufferedStream(stream);
             _stream = stream;
             _lastRead = 0;
-            _didBack = false;
             _offset = 0;
         }
 
@@ -105,7 +102,6 @@ namespace Bencodex
                 case 0x37: // '7'
                 case 0x38: // '8'
                 case 0x39: // '9'
-                    Back();
                     return ReadBinary();
 
                 case { } b:
@@ -133,7 +129,6 @@ namespace Bencodex
                 case 0x37: // '7'
                 case 0x38: // '8'
                 case 0x39: // '9'
-                    Back();
                     return ReadBinary();
 
                 case { } b:
@@ -147,83 +142,40 @@ namespace Bencodex
         private byte[] Read(byte[] buffer)
         {
             var length = buffer.Length;
-            if (_didBack)
-            {
-                buffer[0] = _lastRead;
-                length--;
-            }
-
-            int correction = _didBack ? 1 : 0;
-            int read = _stream.Read(buffer, correction, length);
+            int read = _stream.Read(buffer, 0, length);
             if (read < length)
             {
-                Array.Resize(ref buffer, read + correction);
+                Array.Resize(ref buffer, read);
             }
 
-            _offset += read + correction;
-            if (buffer.Length > 0)
-            {
-                _lastRead = buffer[buffer.Length - 1];
-            }
-
-            _didBack = false;
+            _offset += read;
             return buffer;
         }
 
         private byte ReadByte()
         {
-            if (_didBack)
-            {
-                _didBack = false;
-                _offset++;
-                return _lastRead;
-            }
-
-            int read = _stream.Read(_tinyBuffer, 0, 1);
-            if (read > 0)
-            {
-                _lastRead = _tinyBuffer[0];
-            }
-
-            _offset++;
-            _didBack = false;
-            return read == 0
+            int read = _stream.ReadByte();
+            _lastRead = read < 0
                 ? throw new DecodingException($"The byte stream terminates unexpectedly at {_offset}.")
-                : _tinyBuffer[0];
+                : (byte)read;
+            _offset++;
+            return _lastRead;
         }
 
         // Checks end of stream.  Should be called only once at the very end.
         private bool EndOfStream()
         {
-            if (_didBack)
-            {
-                return false;
-            }
-
-            return _stream.Read(_tinyBuffer, 0, 1) == 0;
-        }
-
-        private void Back()
-        {
-            if (_offset < 1)
-            {
-                throw new DecodingException(
-                    "Unexpected internal error: failed to rewind the stream buffer."
-                );
-            }
-
-            _didBack = true;
-            _offset--;
+            return _stream.ReadByte() < 0;
         }
 
         // Reads the length portion for byte strings and unicode strings.
-        private int ReadLength()
+        private int ReadLength(bool peeked)
         {
             const byte colon = 0x3a;    // ':'
             const int asciiZero = 0x30; // '0'
             int length = 0;
 
-            byte lastByte = ReadByte();
+            byte lastByte = peeked ? _lastRead : ReadByte();
             while (lastByte != colon)
             {
 #pragma warning disable SA1131
@@ -340,9 +292,9 @@ namespace Bencodex
             }
         }
 
-        private (byte[] ByteArray, int OffsetAfterColon) ReadByteArray()
+        private (byte[] ByteArray, int OffsetAfterColon) ReadByteArray(bool peeked)
         {
-            int length = ReadLength();
+            int length = ReadLength(peeked);
             if (length < 1)
             {
                 return (Array.Empty<byte>(), _offset);
@@ -364,13 +316,13 @@ namespace Bencodex
 
         private Binary ReadBinary()
         {
-            (byte[] bytes, _) = ReadByteArray();
+            (byte[] bytes, _) = ReadByteArray(true);
             return new Binary(bytes);
         }
 
         private Text ReadTextAfterPrefix()
         {
-            (byte[] bytes, int pos) = ReadByteArray();
+            (byte[] bytes, int pos) = ReadByteArray(false);
 
             string textContent;
             try
