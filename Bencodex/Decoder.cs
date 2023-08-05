@@ -42,8 +42,6 @@ namespace Bencodex
 
         private IValue? DecodeValue()
         {
-            const byte e = 0x65;  // 'e'
-
             switch (ReadByte())
             {
                 case 0x65: // 'e'
@@ -61,7 +59,7 @@ namespace Bencodex
                     return new Bencodex.Types.Boolean(false);
 
                 case 0x69: // 'i'
-                    BigInteger integer = ReadDigits(e, BigInteger.Parse);
+                    BigInteger integer = ReadInteger();
                     return new Integer(integer);
 
                 case 0x75: // 'u'
@@ -246,76 +244,100 @@ namespace Bencodex
             return length;
         }
 
-        private byte[] ReadDigits(byte delimiter)
+        /// <summary>
+        /// Reads the value portion of an encoded <see cref="Integer"/> and
+        /// its end token 'e'.
+        /// </summary>
+        /// <param name="buffer">The buffer to fill.  Its size may be adjusted
+        /// when necessary.</param>
+        /// <returns>The number of bytes read until 'e' is encountered from the
+        /// internal <see cref="Stream"/>.</returns>
+        /// <remarks>
+        /// This is called only from <see cref="ReadInteger"/> after
+        /// a beginning token 'i' has been consumed.
+        /// </remarks>
+        private int ReadDigits(ref byte[] buffer)
         {
-            const int defaultBufferSize = 10;
-            byte[] buffer = new byte[defaultBufferSize];
-
-            var b = ReadByte();
-            bool minus = false;
-            if (b == 0x2d) // '-'
+            const byte e = 0x65;
+            int digitsLength = 0;
+            byte b = ReadByte();
+            while (b != e)
             {
-                minus = true;
-                b = ReadByte();
-            }
-
-            int digitsLength;
-
-            if (minus)
-            {
-                buffer[0] = 0x2d;
-                buffer[1] = b;
-                digitsLength = 2;
-            }
-            else
-            {
-                buffer[0] = b;
-                digitsLength = 1;
-            }
-
-            byte lastByte = b;
-
-            while (lastByte != delimiter)
-            {
-#pragma warning disable SA1131
-                if (lastByte < 0x30 || 0x39 < lastByte) // not '0'-'9'
-                {
-                    throw new DecodingException(
-                        $"Expected a digit (0x30-0x39), but got 0x{lastByte:x} at {_offset}."
-                    );
-                }
-#pragma warning restore SA1131
-
-                lastByte = ReadByte();
-
                 if (digitsLength >= buffer.Length)
                 {
                     Array.Resize(ref buffer, buffer.Length * 2);
                 }
 
-                buffer[digitsLength] = lastByte;
+                buffer[digitsLength] = b;
                 digitsLength++;
+                b = ReadByte();
             }
 
-            digitsLength--;
-            Array.Resize(ref buffer, digitsLength);
-
-            return buffer;
+            return digitsLength;
         }
 
-        private T ReadDigits<T>(
-            byte delimiter,
-            Func<string, IFormatProvider, T> converter
-        )
+        /// <summary>
+        /// Reads the value portion of an encoded <see cref="Integer"/> and
+        /// its end token 'e'.
+        /// </summary>
+        /// <returns>A <see cref="BigInteger"/> corresponding to the
+        /// value portion of an encoded <see cref="Integer"/>.</returns>
+        /// <exception cref="DecodingException">Thrown for any reason
+        /// where the byte array representing the value portion is
+        /// invalid.</exception>
+        private BigInteger ReadInteger()
         {
-            byte[] buffer = ReadDigits(delimiter);
-            var digits = new char[buffer.Length];
-            for (int i = 0; i < buffer.Length; i++)
+            const byte zero = 0x30;
+            const byte plus = 0x2b;
+            const byte minus = 0x2d;
+
+            const int defaultBufferSize = 10;
+            byte[] buffer = new byte[defaultBufferSize];
+            int length = ReadDigits(ref buffer);
+
+            // Checks for invalid formats allowed by BigInteger.Parse below.
+            // - "": Handled by BigInteger.Parse.  Not allowed.
+            // - "x": Handled by bigInteger.Parse.  Non-digits aren't allowed.
+            // - "+x...": Starting with a '+'.
+            // - "0x...": Starting with a '0' without immediately terminating.
+            // - "-0...": Starting with a '-' followed by a '0'.
+            if (length >= 2)
             {
-                digits[i] = (char)buffer[i];
+                if (buffer[0] == plus)
+                {
+                    throw new DecodingException(
+                        $"Encountered an unexpected byte 0x{plus:x} " +
+                        $"at {_offset - length}");
+                }
+
+                if (buffer[0] == zero)
+                {
+                    throw new DecodingException(
+                        $"Encountered an unexpected byte 0x{buffer[1]:x} " +
+                        $"at {_offset - length + 1}");
+                }
+
+                if (buffer[0] == minus && buffer[1] == zero)
+                {
+                    throw new DecodingException(
+                        $"Encountered an unexpected byte 0x{buffer[1]:x}" +
+                        $"at {_offset - length + 1}");
+                }
             }
 
-            return converter(new string(digits), CultureInfo.InvariantCulture);
+            try
+            {
+                return BigInteger.Parse(
+                    Encoding.ASCII.GetString(buffer, 0, length),
+                    NumberStyles.AllowLeadingSign,
+                    CultureInfo.InvariantCulture);
+            }
+            catch (Exception e)
+            {
+                throw new DecodingException(
+                    $"Encountered an invalid encoded integer at {_offset - length}",
+                    e);
+            }
         }
 
         private (byte[] ByteArray, int OffsetAfterColon) ReadByteArray()
