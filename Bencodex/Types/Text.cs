@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bencodex.Types
 {
-    public struct Text :
+    public class Text :
         IKey,
         IEquatable<Text>,
         IComparable<string>,
@@ -13,16 +13,21 @@ namespace Bencodex.Types
         IEquatable<string>,
         IComparable
     {
-        private int? _utf8Length;
-        private string? _value;
+        private int _utf8Length;
+        private string _value;
+
+        public Text()
+            : this(string.Empty)
+        {
+        }
 
         public Text(string value)
         {
             _value = value ?? throw new ArgumentNullException(nameof(value));
-            _utf8Length = null;
+            _utf8Length = -1;
         }
 
-        public string Value => _value ?? (_value = string.Empty);
+        public string Value => _value;
 
         /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
@@ -41,12 +46,9 @@ namespace Bencodex.Types
         public string Inspection => Inspect(true);
 
         [Pure]
-        internal int Utf8Length =>
-            _utf8Length is { } l ? l : (
-                _utf8Length = _value is { } v
-                    ? Encoding.UTF8.GetByteCount(v)
-                    : 0
-                ).Value;
+        internal int Utf8Length => _utf8Length >= 0
+            ? _utf8Length
+            : _utf8Length = Encoding.UTF8.GetByteCount(Value);
 
         public static implicit operator string(Text t)
         {
@@ -68,35 +70,23 @@ namespace Bencodex.Types
             return !left.Equals(right);
         }
 
-        bool IEquatable<string>.Equals(string other)
-        {
-            return other != null && Value.Equals(other);
-        }
+        bool IEquatable<string>.Equals(string other) =>
+            other is { } o && Value.Equals(o);
 
         bool IEquatable<Text>.Equals(Text other) => Value.Equals(other);
 
         bool IEquatable<IValue>.Equals(IValue other) =>
             other is Text o && ((IEquatable<Text>)this).Equals(o);
 
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case null:
-                    return false;
-                case Text txt:
-                    return ((IEquatable<Text>)this).Equals(txt);
-                case string str:
-                    return ((IEquatable<string>)this).Equals(str);
-                default:
-                    return false;
-            }
-        }
+        public override bool Equals(object obj) =>
+            obj is Text t
+                ? Value.Equals(t)
+                : obj is string s
+                    ? Value.Equals(s)
+                    : false;
 
-        public override int GetHashCode()
-        {
-            return Value?.GetHashCode() ?? 0;
-        }
+        public override int GetHashCode() =>
+            Value.GetHashCode();
 
         int IComparable<string>.CompareTo(string other)
         {

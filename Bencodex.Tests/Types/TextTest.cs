@@ -1,13 +1,12 @@
 using Bencodex.Types;
 using Xunit;
-using static Bencodex.Misc.ImmutableByteArrayExtensions;
 using static Bencodex.Tests.TestUtils;
 
 namespace Bencodex.Tests.Types
 {
     public class TextTest
     {
-        private readonly Text _empty = default(Text);
+        private readonly Text _empty = new Text();
         private readonly Text _nihao = new Text("\u4f60\u597d");
         private readonly Text _complex = new Text("new lines and\n\"quotes\" become escaped to \\");
 

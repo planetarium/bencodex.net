@@ -1676,9 +1676,9 @@ namespace Bencodex.Types
             ((IEquatable<IImmutableDictionary<IKey, IValue>>)this).Equals(o);
 
         /// <inheritdoc cref="object.GetHashCode()"/>
-        public override int GetHashCode()
-            => unchecked(_dict.Aggregate(GetType().GetHashCode(), (accum, next)
-                => (accum * 397) ^ ((next.Key.GetHashCode() * 397) ^ next.Value.GetHashCode())));
+        public override int GetHashCode() =>
+            unchecked(_dict.Aggregate(GetType().GetHashCode(), (accum, next) =>
+                (accum * 397) ^ ((next.Key.GetHashCode() * 397) ^ next.Value.GetHashCode())));
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
         public string Inspect(bool loadAll)
