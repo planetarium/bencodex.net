@@ -6,7 +6,7 @@ namespace Bencodex.Tests.Types
 {
     public class TextTest
     {
-        private readonly Text _empty = new Text();
+        private readonly Text _empty = Text.Empty;
         private readonly Text _nihao = new Text("\u4f60\u597d");
         private readonly Text _complex = new Text("new lines and\n\"quotes\" become escaped to \\");
 

@@ -13,13 +13,10 @@ namespace Bencodex.Types
         IEquatable<string>,
         IComparable
     {
+        public static readonly Text Empty = new Text(string.Empty);
+
         private int _utf8Length;
         private string _value;
-
-        public Text()
-            : this(string.Empty)
-        {
-        }
 
         public Text(string value)
         {
