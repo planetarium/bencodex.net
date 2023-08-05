@@ -6,6 +6,12 @@ Version 0.14.0
 
 To be released.
 
+ -  Fixed a bug where a wrongly encoded `byte[]` could be decoded into
+    an `Integer`.  [[#97]]
+ -  Optimized decoding `Integer`s both for speed and memory.  [[#97]]
+
+[#97]: https://github.com/planetarium/bencodex.net/pull/97
+
 
 Version 0.13.0
 --------------
