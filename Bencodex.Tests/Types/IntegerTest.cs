@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Numerics;
+using System.Text;
 using Bencodex.Types;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
@@ -112,6 +113,21 @@ namespace Bencodex.Tests.Types
                     new Integer(n).CountDecimalDigits()
                 );
             }
+        }
+
+        [Fact]
+        public void InvalidFormats()
+        {
+            Codec codec = new Codec();
+            byte[] case1 = Encoding.ASCII.GetBytes("ie");
+            byte[] case2 = Encoding.ASCII.GetBytes("i+142e");
+            byte[] case3 = Encoding.ASCII.GetBytes("i00e");
+            byte[] case4 = Encoding.ASCII.GetBytes("i-0e");
+
+            Assert.Throws<DecodingException>(() => codec.Decode(case1));
+            Assert.Throws<DecodingException>(() => codec.Decode(case2));
+            Assert.Throws<DecodingException>(() => codec.Decode(case3));
+            Assert.Throws<DecodingException>(() => codec.Decode(case4));
         }
 
         private void IntegerGeneric(Func<int, Integer?> convert)
