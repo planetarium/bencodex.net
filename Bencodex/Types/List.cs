@@ -16,7 +16,6 @@ namespace Bencodex.Types
     public sealed class List :
         IValue,
         IImmutableList<IValue>,
-        IEquatable<IImmutableList<IValue>>,
         IEquatable<List>
     {
         /// <summary>
@@ -259,30 +258,6 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IReadOnlyList{T}.this[int]"/>
         public IValue this[int index] => _values[index];
 
-        bool IEquatable<IImmutableList<IValue>>.Equals(IImmutableList<IValue> other)
-        {
-            if (Count != other.Count)
-            {
-                return false;
-            }
-            else if (other is List otherList)
-            {
-                return Fingerprint.Equals(otherList.Fingerprint);
-            }
-
-            for (int i = 0; i < _values.Length; i++)
-            {
-                IValue v = _values[i];
-                IValue ov = other[i];
-                if (!ov.Equals(v))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         public bool Equals(List other) => Fingerprint.Equals(other.Fingerprint);
 
@@ -299,7 +274,7 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="object.Equals(object?)"/>
         public override bool Equals(object? obj) => obj is List other &&
-            ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
+            ((IEquatable<List>)this).Equals(other);
 
         /// <inheritdoc cref="object.GetHashCode()"/>
         public override int GetHashCode()
