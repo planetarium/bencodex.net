@@ -7,9 +7,7 @@ namespace Bencodex.Types
     /// or false (i.e., <c>f</c>).</summary>
     public struct Boolean :
         IValue,
-        IEquatable<bool>,
         IEquatable<Boolean>,
-        IComparable<bool>,
         IComparable<Boolean>,
         IComparable
     {
@@ -54,26 +52,14 @@ namespace Bencodex.Types
             return new Boolean(b);
         }
 
-        public int CompareTo(object obj)
+        int IComparable.CompareTo(object obj)
         {
-            if (obj is bool b)
-            {
-                return ((IComparable<bool>)this).CompareTo(b);
-            }
-
             return Value.CompareTo(obj);
         }
 
-        int IComparable<bool>.CompareTo(bool other) => Value.CompareTo(other);
-
         int IComparable<Boolean>.CompareTo(Boolean other)
         {
-            return CompareTo(other.Value);
-        }
-
-        bool IEquatable<bool>.Equals(bool other)
-        {
-            return Value == other;
+            return Value.CompareTo(other.Value);
         }
 
         bool IEquatable<Boolean>.Equals(Boolean other)
