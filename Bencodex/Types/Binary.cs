@@ -14,11 +14,7 @@ namespace Bencodex.Types
 {
     public readonly struct Binary :
         IKey,
-        IEquatable<ImmutableArray<byte>>,
-        IEquatable<byte[]>,
         IEquatable<Binary>,
-        IComparable<ImmutableArray<byte>>,
-        IComparable<byte[]>,
         IComparable<Binary>,
         IComparable,
         IEnumerable<byte>
@@ -229,14 +225,8 @@ namespace Bencodex.Types
             return new Binary(moved);
         }
 
-        bool IEquatable<ImmutableArray<byte>>.Equals(ImmutableArray<byte> other) =>
-            ByteArray.SequenceEqual(other);
-
-        bool IEquatable<byte[]>.Equals(byte[] other) =>
-            ByteArray.SequenceEqual(other);
-
         bool IEquatable<Binary>.Equals(Binary other) =>
-            ((IEquatable<ImmutableArray<byte>>)this).Equals(other.ByteArray);
+            ByteArray.SequenceEqual(other.ByteArray);
 
         bool IEquatable<IValue>.Equals(IValue other) =>
             other is Binary o && ((IEquatable<Binary>)this).Equals(o);
@@ -245,11 +235,11 @@ namespace Bencodex.Types
             obj switch
             {
                 Binary b =>
-                    ((IEquatable<Binary>)this).Equals(b),
+                    ByteArray.SequenceEqual(b.ByteArray),
                 ImmutableArray<byte> b =>
-                    ((IEquatable<ImmutableArray<byte>>)this).Equals(b),
+                    ByteArray.SequenceEqual(b),
                 byte[] b =>
-                    ((IEquatable<byte[]>)this).Equals(b),
+                    ByteArray.SequenceEqual(b),
                 _ =>
                     false,
             };
@@ -287,14 +277,8 @@ namespace Bencodex.Types
             return hash;
         }
 
-        int IComparable<ImmutableArray<byte>>.CompareTo(ImmutableArray<byte> other) =>
-            ByteArrayComparer.Compare(ByteArray, other);
-
-        int IComparable<byte[]>.CompareTo(byte[] other) =>
-            ByteArrayComparer.Compare(ByteArray, other);
-
         int IComparable<Binary>.CompareTo(Binary other) =>
-            ((IComparable<ImmutableArray<byte>>)this).CompareTo(other.ByteArray);
+            ((IComparable<Binary>)this).CompareTo(other.ByteArray);
 
         int IComparable.CompareTo(object obj) =>
             obj switch
@@ -302,11 +286,11 @@ namespace Bencodex.Types
                 null =>
                     1,
                 Binary binary =>
-                    ((IComparable<Binary>)this).CompareTo(binary),
+                    ByteArrayComparer.Compare(ByteArray, binary.ByteArray),
                 ImmutableArray<byte> bytes =>
-                    ((IComparable<ImmutableArray<byte>>)this).CompareTo(bytes),
+                    ByteArrayComparer.Compare(ByteArray, bytes),
                 byte[] bytes =>
-                    ((IComparable<byte[]>)this).CompareTo(bytes),
+                    ByteArrayComparer.Compare(ToByteArray(), bytes),
                 _ =>
                     throw new ArgumentException(
                         "the argument is neither Binary nor Byte[]",
