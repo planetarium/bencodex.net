@@ -17,7 +17,6 @@ namespace Bencodex.Types
     public sealed class Dictionary :
         IValue,
         IEquatable<Dictionary>,
-        IEquatable<IImmutableDictionary<IKey, IValue>>,
         IImmutableDictionary<IKey, IValue>
     {
         /// <summary>
@@ -1711,39 +1710,8 @@ namespace Bencodex.Types
             Fingerprint.Equals(other.Fingerprint);
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-        bool IEquatable<IImmutableDictionary<IKey, IValue>>.Equals(
-            IImmutableDictionary<IKey, IValue> other
-        )
-        {
-            if (_dict.Count != other.Count)
-            {
-                return false;
-            }
-            else if (other is Dictionary od)
-            {
-                return od.Fingerprint.Equals(Fingerprint);
-            }
-
-            foreach (KeyValuePair<IKey, IValue> kv in _dict)
-            {
-                if (!other.TryGetValue(kv.Key, out IValue v))
-                {
-                    return false;
-                }
-
-                if (!kv.Value.Equals(v))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         bool IEquatable<IValue>.Equals(IValue other) =>
-            other is Dictionary o &&
-            ((IEquatable<IImmutableDictionary<IKey, IValue>>)this).Equals(o);
+            other is Dictionary o && ((IEquatable<Dictionary>)this).Equals(o);
 
         /// <inheritdoc cref="object.GetHashCode()"/>
         public override int GetHashCode()
