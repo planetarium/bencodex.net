@@ -10,9 +10,7 @@ namespace Bencodex.Types
     public struct Text :
         IKey,
         IEquatable<Text>,
-        IComparable<string>,
         IComparable<Text>,
-        IEquatable<string>,
         IComparable
     {
         private int? _utf8Length;
@@ -101,11 +99,6 @@ namespace Bencodex.Types
             return !left.Equals(right);
         }
 
-        bool IEquatable<string>.Equals(string other)
-        {
-            return other != null && Value.Equals(other);
-        }
-
         bool IEquatable<Text>.Equals(Text other) => Value.Equals(other);
 
         bool IEquatable<IValue>.Equals(IValue other) =>
@@ -118,9 +111,9 @@ namespace Bencodex.Types
                 case null:
                     return false;
                 case Text txt:
-                    return ((IEquatable<Text>)this).Equals(txt);
+                    return Value.Equals(txt.Value);
                 case string str:
-                    return ((IEquatable<string>)this).Equals(str);
+                    return Value.Equals(str);
                 default:
                     return false;
             }
@@ -129,11 +122,6 @@ namespace Bencodex.Types
         public override int GetHashCode()
         {
             return Value?.GetHashCode() ?? 0;
-        }
-
-        int IComparable<string>.CompareTo(string other)
-        {
-            return string.Compare(Value, other, StringComparison.Ordinal);
         }
 
         int IComparable<Text>.CompareTo(Text other)
@@ -148,9 +136,9 @@ namespace Bencodex.Types
                 case null:
                     return 1;
                 case Text txt:
-                    return ((IComparable<Text>)this).CompareTo(txt);
+                    return Value.CompareTo(txt.Value);
                 case string str:
-                    return ((IComparable<string>)this).CompareTo(str);
+                    return Value.CompareTo(str);
                 default:
                     throw new ArgumentException(
                         "the argument is neither Text nor String",
