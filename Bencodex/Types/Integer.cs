@@ -9,9 +9,7 @@ namespace Bencodex.Types
 {
     public struct Integer :
         IValue,
-        IEquatable<BigInteger>,
         IEquatable<Integer>,
-        IComparable<BigInteger>,
         IComparable<Integer>,
         IComparable
     {
@@ -195,19 +193,9 @@ namespace Bencodex.Types
             return Value.CompareTo(obj);
         }
 
-        int IComparable<BigInteger>.CompareTo(BigInteger other)
-        {
-            return Value.CompareTo(other);
-        }
-
         int IComparable<Integer>.CompareTo(Integer other)
         {
-            return ((IComparable<BigInteger>)this).CompareTo(other.Value);
-        }
-
-        bool IEquatable<BigInteger>.Equals(BigInteger other)
-        {
-            return Value.Equals(other);
+            return Value.CompareTo(other.Value);
         }
 
         bool IEquatable<Integer>.Equals(Integer other)
@@ -225,9 +213,9 @@ namespace Bencodex.Types
                 case null:
                     return false;
                 case Integer other:
-                    return ((IEquatable<Integer>)this).Equals(other);
+                    return Value.Equals(other.Value);
                 case BigInteger other:
-                    return ((IEquatable<BigInteger>)this).Equals(other);
+                    return Value.Equals(other);
                 default:
                     return false;
             }
