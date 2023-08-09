@@ -4,6 +4,12 @@ Changelog
 Version 0.14.0
 --------------
 
+To be released.
+
+
+Version 0.14.0
+--------------
+
 Released on August 9th, 2023.
 
  -  Fixed a bug where a wrongly encoded `byte[]` could be decoded into
