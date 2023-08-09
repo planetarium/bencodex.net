@@ -12,10 +12,8 @@ namespace Bencodex
 {
     internal sealed class Decoder
     {
-        private readonly byte[] _tinyBuffer = new byte[1];
         private readonly Stream _stream;
         private byte _lastRead;
-        private bool _didBack;
         private int _offset;
 
         public Decoder(Stream stream)
@@ -24,7 +22,6 @@ namespace Bencodex
             // with BufferedStream: stream = new BufferedStream(stream);
             _stream = stream;
             _lastRead = 0;
-            _didBack = false;
             _offset = 0;
         }
 
@@ -95,21 +92,8 @@ namespace Bencodex
 
                     return new Dictionary(builder.ToImmutable());
 
-                case 0x30: // '0'
-                case 0x31: // '1'
-                case 0x32: // '2'
-                case 0x33: // '3'
-                case 0x34: // '4'
-                case 0x35: // '5'
-                case 0x36: // '6'
-                case 0x37: // '7'
-                case 0x38: // '8'
-                case 0x39: // '9'
-                    Back();
+                default:
                     return ReadBinary();
-
-                case { } b:
-                    throw new DecodingException($"An unexpected byte 0x{b:x} at {_offset - 1}.");
             }
         }
 
@@ -123,107 +107,57 @@ namespace Bencodex
                 case 0x75: // 'u':
                     return ReadTextAfterPrefix();
 
-                case 0x30: // '0'
-                case 0x31: // '1'
-                case 0x32: // '2'
-                case 0x33: // '3'
-                case 0x34: // '4'
-                case 0x35: // '5'
-                case 0x36: // '6'
-                case 0x37: // '7'
-                case 0x38: // '8'
-                case 0x39: // '9'
-                    Back();
+                default:
                     return ReadBinary();
-
-                case { } b:
-                    throw new DecodingException(
-                        $"Expected a dictionary key, but got an unexpected byte 0x{b:x} at " +
-                        $"{_offset - 1}."
-                    );
             }
         }
 
-        private byte[] Read(byte[] buffer)
+        /// <summary>
+        /// Fills given <paramref name="buffer"/> from the internal <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="buffer">The buffer to fill.</param>
+        /// <exception cref="DecodingException">Thrown when the internal <see cref="Stream"/>
+        /// terminates before <paramref name="buffer"/> is completely filled.</exception>
+        /// <remarks>This is used only for decoding a <see cref="Text"/> or
+        /// a <see cref="Binary"/> after the separator token ':' has been consumed.
+        /// </remarks>
+        private void Read(byte[] buffer)
         {
             var length = buffer.Length;
-            if (_didBack)
-            {
-                buffer[0] = _lastRead;
-                length--;
-            }
+            int read = _stream.Read(buffer, 0, length);
+            _offset += read;
 
-            int correction = _didBack ? 1 : 0;
-            int read = _stream.Read(buffer, correction, length);
             if (read < length)
             {
-                Array.Resize(ref buffer, read + correction);
+                throw new DecodingException(
+                    $"The byte stream terminates at {_offset}.");
             }
-
-            _offset += read + correction;
-            if (buffer.Length > 0)
-            {
-                _lastRead = buffer[buffer.Length - 1];
-            }
-
-            _didBack = false;
-            return buffer;
         }
 
         private byte ReadByte()
         {
-            if (_didBack)
-            {
-                _didBack = false;
-                _offset++;
-                return _lastRead;
-            }
-
-            int read = _stream.Read(_tinyBuffer, 0, 1);
-            if (read > 0)
-            {
-                _lastRead = _tinyBuffer[0];
-            }
-
-            _offset++;
-            _didBack = false;
-            return read == 0
+            int read = _stream.ReadByte();
+            _lastRead = read < 0
                 ? throw new DecodingException($"The byte stream terminates unexpectedly at {_offset}.")
-                : _tinyBuffer[0];
+                : (byte)read;
+            _offset++;
+            return _lastRead;
         }
 
         // Checks end of stream.  Should be called only once at the very end.
         private bool EndOfStream()
         {
-            if (_didBack)
-            {
-                return false;
-            }
-
-            return _stream.Read(_tinyBuffer, 0, 1) == 0;
-        }
-
-        private void Back()
-        {
-            if (_offset < 1)
-            {
-                throw new DecodingException(
-                    "Unexpected internal error: failed to rewind the stream buffer."
-                );
-            }
-
-            _didBack = true;
-            _offset--;
+            return _stream.ReadByte() < 0;
         }
 
         // Reads the length portion for byte strings and unicode strings.
-        private int ReadLength()
+        private int ReadLength(bool peeked)
         {
             const byte colon = 0x3a;    // ':'
             const int asciiZero = 0x30; // '0'
             int length = 0;
 
-            byte lastByte = ReadByte();
+            byte lastByte = peeked ? _lastRead : ReadByte();
             while (lastByte != colon)
             {
 #pragma warning disable SA1131
@@ -340,49 +274,30 @@ namespace Bencodex
             }
         }
 
-        private (byte[] ByteArray, int OffsetAfterColon) ReadByteArray()
-        {
-            int length = ReadLength();
-            if (length < 1)
-            {
-                return (Array.Empty<byte>(), _offset);
-            }
-
-            int pos = _offset;
-            byte[] buffer = new byte[length];
-            byte[] bytes = Read(buffer);
-            if (bytes.Length < length)
-            {
-                throw new DecodingException(
-                    $"The byte stream terminates at {_offset} with insufficient " +
-                    $"{length - bytes.Length} bytes."
-                );
-            }
-
-            return (bytes, pos);
-        }
-
         private Binary ReadBinary()
         {
-            (byte[] bytes, _) = ReadByteArray();
-            return new Binary(bytes);
+            int length = ReadLength(peeked: true);
+            byte[] buffer = new byte[length];
+            Read(buffer);
+            return new Binary(buffer);
         }
 
         private Text ReadTextAfterPrefix()
         {
-            (byte[] bytes, int pos) = ReadByteArray();
+            int start = _offset - 1;
+            int length = ReadLength(peeked: false);
+            byte[] buffer = new byte[length];
+            Read(buffer);
 
-            string textContent;
             try
             {
-                textContent = Encoding.UTF8.GetString(bytes);
+                return new Text(Encoding.UTF8.GetString(buffer));
             }
             catch (ArgumentException e)
             {
-                throw new DecodingException($"Expected a UTF-8 sequence at {pos}.", e);
+                throw new DecodingException(
+                    $"Failed to decode {nameof(Text)} starting from {start}.", e);
             }
-
-            return new Text(textContent);
         }
     }
 }
