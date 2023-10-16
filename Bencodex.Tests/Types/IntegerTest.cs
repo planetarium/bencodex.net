@@ -48,10 +48,11 @@ namespace Bencodex.Tests.Types
 
 #pragma warning disable CS1718 // Comparison made to same variable
             Assert.True(x == x);
+            Assert.True(x.Equals(x));
             Assert.True(x.Equals(ox));
             Assert.True(ox.Equals(x));
             Assert.True(ox.Equals(ox));
-#pragma warning restore CS1718 // Comparison made to same variable
+#pragma warning restore CS1718
 
             Assert.True(s == x);
             Assert.True(i == x);
@@ -72,6 +73,21 @@ namespace Bencodex.Tests.Types
             Assert.True(x.Equals(i));
             Assert.True(x.Equals(l));
             Assert.True(x.Equals(b));
+
+            Assert.False(s.Equals(ox));
+            Assert.False(i.Equals(ox));
+            Assert.False(l.Equals(ox));
+            Assert.False(b.Equals(ox));
+
+            Assert.False(x.Equals(os));
+            Assert.False(x.Equals(oi));
+            Assert.False(x.Equals(ol));
+            Assert.False(x.Equals(ob));
+
+            Assert.False(os.Equals(x));
+            Assert.False(oi.Equals(x));
+            Assert.False(ol.Equals(x));
+            Assert.False(ob.Equals(x));
 
             Assert.False(os.Equals(ox));
             Assert.False(oi.Equals(ox));
