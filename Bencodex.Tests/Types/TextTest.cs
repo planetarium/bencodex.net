@@ -20,6 +20,35 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void Equality()
+        {
+            string s = "foo";
+            Text t = new Text("foo");
+            object os = (object)s;
+            object ot = (object)t;
+
+#pragma warning disable CS1718 // Comparison made to same variable
+            Assert.True(t == t);
+            Assert.True(t.Equals(t));
+            Assert.True(t.Equals(ot));
+            Assert.True(ot.Equals(t));
+            Assert.True(ot.Equals(ot));
+#pragma warning restore CS1718
+
+            Assert.True(s == t);
+            Assert.True(t == s);
+            Assert.True(s.Equals(t));
+            Assert.True(t.Equals(t));
+
+            Assert.False(s.Equals(ot));
+            Assert.False(t.Equals(os));
+            Assert.False(os.Equals(t));
+            Assert.False(ot.Equals(s));
+            Assert.False(os.Equals(ot));
+            Assert.False(ot.Equals(os));
+        }
+
+        [Fact]
         public void EncodingLength()
         {
             Assert.Equal(3L, _empty.EncodingLength);

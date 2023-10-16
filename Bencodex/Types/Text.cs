@@ -12,7 +12,6 @@ namespace Bencodex.Types
         IEquatable<Text>,
         IComparable<string>,
         IComparable<Text>,
-        IEquatable<string>,
         IComparable
     {
         private int? _utf8Length;
@@ -91,44 +90,27 @@ namespace Bencodex.Types
             return new Text(s);
         }
 
-        public static bool operator ==(Text left, Text right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(Text left, Text right) => left.Equals(right);
 
-        public static bool operator !=(Text left, Text right)
-        {
-            return !left.Equals(right);
-        }
+        public static bool operator !=(Text left, Text right) => !left.Equals(right);
 
-        bool IEquatable<string>.Equals(string other)
-        {
-            return other != null && Value.Equals(other);
-        }
+        public static bool operator ==(Text left, string right) => left.Equals(right);
 
-        bool IEquatable<Text>.Equals(Text other) => Value.Equals(other);
+        public static bool operator !=(Text left, string right) => !left.Equals(right);
 
-        bool IEquatable<IValue>.Equals(IValue other) =>
-            other is Text o && ((IEquatable<Text>)this).Equals(o);
+        public static bool operator ==(string left, Text right) => left.Equals(right);
 
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case null:
-                    return false;
-                case Text txt:
-                    return ((IEquatable<Text>)this).Equals(txt);
-                case string str:
-                    return ((IEquatable<string>)this).Equals(str);
-                default:
-                    return false;
-            }
-        }
+        public static bool operator !=(string left, Text right) => !left.Equals(right);
+
+        public bool Equals(IValue other) => other is Text t && Equals(t);
+
+        public bool Equals(Text other) => Value.Equals(other);
+
+        public override bool Equals(object obj) => obj is Text t && Equals(t);
 
         public override int GetHashCode()
         {
-            return Value?.GetHashCode() ?? 0;
+            return Value.GetHashCode();
         }
 
         int IComparable<string>.CompareTo(string other)
