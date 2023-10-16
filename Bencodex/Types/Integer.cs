@@ -10,7 +10,6 @@ namespace Bencodex.Types
     public struct Integer :
         IValue,
         IEquatable<Integer>,
-        IComparable<BigInteger>,
         IComparable<Integer>,
         IComparable
     {
@@ -214,24 +213,24 @@ namespace Bencodex.Types
 
         public static bool operator !=(BigInteger a, Integer b) => !(a == b);
 
-        int IComparable.CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
-            if (obj is Integer i)
+            if (obj is null)
             {
-                return ((IComparable<Integer>)this).CompareTo(i);
+                return 1;
             }
 
-            return Value.CompareTo(obj);
+            if (obj is Integer i)
+            {
+                return CompareTo(i);
+            }
+
+            throw new ArgumentException($"Object must be of type {nameof(Integer)}");
         }
 
-        int IComparable<BigInteger>.CompareTo(BigInteger other)
+        public int CompareTo(Integer other)
         {
-            return Value.CompareTo(other);
-        }
-
-        int IComparable<Integer>.CompareTo(Integer other)
-        {
-            return ((IComparable<BigInteger>)this).CompareTo(other.Value);
+            return Value.CompareTo(other.Value);
         }
 
         public override bool Equals(object obj) => obj is Integer other && Equals(other);

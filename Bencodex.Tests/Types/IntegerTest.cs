@@ -48,6 +48,9 @@ namespace Bencodex.Tests.Types
 
 #pragma warning disable CS1718 // Comparison made to same variable
             Assert.True(x == x);
+            Assert.True(x.Equals(ox));
+            Assert.True(ox.Equals(x));
+            Assert.True(ox.Equals(ox));
 #pragma warning restore CS1718 // Comparison made to same variable
 
             Assert.True(s == x);
@@ -70,8 +73,6 @@ namespace Bencodex.Tests.Types
             Assert.True(x.Equals(l));
             Assert.True(x.Equals(b));
 
-            Assert.True(ox.Equals(ox));
-
             Assert.False(os.Equals(ox));
             Assert.False(oi.Equals(ox));
             Assert.False(ol.Equals(ox));
@@ -81,6 +82,50 @@ namespace Bencodex.Tests.Types
             Assert.False(ox.Equals(oi));
             Assert.False(ox.Equals(ol));
             Assert.False(ox.Equals(ob));
+        }
+
+        [Fact]
+        public void Comparison()
+        {
+            short s = 5;
+            int i = 5;
+            long l = 5;
+            BigInteger b = new BigInteger(5);
+            Integer x = new Integer(5);
+            Integer? n = null;
+            object os = s;
+            object oi = i;
+            object ol = l;
+            object ob = b;
+            object ox = x;
+            object on = null;
+
+            Assert.Equal(0, x.CompareTo(x));
+            Assert.Equal(0, x.CompareTo(ox));
+            Assert.Equal(1, x.CompareTo(n));
+            Assert.Equal(1, x.CompareTo(on));
+
+            // NOTE: This behavior is different from comparing a primitive type
+            // to a BigInteger; this is due to implicit operators present for the Integer type
+            Assert.Equal(0, s.CompareTo(x));
+            Assert.Equal(0, i.CompareTo(x));
+            Assert.Equal(0, l.CompareTo(x));
+            Assert.Equal(0, b.CompareTo(x));
+
+            Assert.Equal(0, x.CompareTo(s));
+            Assert.Equal(0, x.CompareTo(i));
+            Assert.Equal(0, x.CompareTo(l));
+            Assert.Equal(0, x.CompareTo(b));
+
+            Assert.Throws<ArgumentException>(() => s.CompareTo(ox));
+            Assert.Throws<ArgumentException>(() => i.CompareTo(ox));
+            Assert.Throws<ArgumentException>(() => l.CompareTo(ox));
+            Assert.Throws<ArgumentException>(() => b.CompareTo(ox));
+
+            Assert.Throws<ArgumentException>(() => x.CompareTo(os));
+            Assert.Throws<ArgumentException>(() => x.CompareTo(oi));
+            Assert.Throws<ArgumentException>(() => x.CompareTo(ol));
+            Assert.Throws<ArgumentException>(() => x.CompareTo(ob));
         }
 
         [Fact]
