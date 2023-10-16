@@ -33,6 +33,57 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void Equality()
+        {
+            short s = 5;
+            int i = 5;
+            long l = 5;
+            BigInteger b = new BigInteger(5);
+            Integer x = new Integer(5);
+            object os = s;
+            object oi = i;
+            object ol = l;
+            object ob = b;
+            object ox = x;
+
+#pragma warning disable CS1718 // Comparison made to same variable
+            Assert.True(x == x);
+#pragma warning restore CS1718 // Comparison made to same variable
+
+            Assert.True(s == x);
+            Assert.True(i == x);
+            Assert.True(l == x);
+            Assert.True(b == x);
+
+            Assert.True(x == s);
+            Assert.True(x == i);
+            Assert.True(x == l);
+            Assert.True(x == b);
+
+            Assert.True(s.Equals(x));
+            Assert.True(i.Equals(x));
+            Assert.True(l.Equals(x));
+            Assert.True(b.Equals(x));
+
+            Assert.True(x.Equals(s));
+            Assert.True(x.Equals(i));
+            Assert.True(x.Equals(l));
+            Assert.True(x.Equals(b));
+
+            Assert.True(ox.Equals(ox));
+
+            Assert.False(os.Equals(ox));
+            Assert.False(oi.Equals(ox));
+            Assert.False(ol.Equals(ox));
+            Assert.False(ob.Equals(ox));
+
+            Assert.False(ox.Equals(os));
+            Assert.False(ox.Equals(oi));
+            Assert.False(ox.Equals(ol));
+            Assert.False(ox.Equals(ob));
+        }
+
+        [Fact]
         public void Kind()
         {
             Assert.Equal(ValueKind.Integer, new Integer(0).Kind);
