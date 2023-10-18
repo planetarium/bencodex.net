@@ -15,8 +15,6 @@ namespace Bencodex.Types
     public readonly struct Binary :
         IKey,
         IEquatable<Binary>,
-        IComparable<ImmutableArray<byte>>,
-        IComparable<byte[]>,
         IComparable<Binary>,
         IComparable,
         IEnumerable<byte>
@@ -266,32 +264,23 @@ namespace Bencodex.Types
             return hash;
         }
 
-        int IComparable<ImmutableArray<byte>>.CompareTo(ImmutableArray<byte> other) =>
-            ByteArrayComparer.Compare(ByteArray, other);
+        public int CompareTo(Binary other) =>
+            ByteArrayComparer.Compare(ByteArray, other.ByteArray);
 
-        int IComparable<byte[]>.CompareTo(byte[] other) =>
-            ByteArrayComparer.Compare(ByteArray, other);
-
-        int IComparable<Binary>.CompareTo(Binary other) =>
-            ((IComparable<ImmutableArray<byte>>)this).CompareTo(other.ByteArray);
-
-        int IComparable.CompareTo(object obj) =>
-            obj switch
+        public int CompareTo(object? obj)
+        {
+            if (obj is null)
             {
-                null =>
-                    1,
-                Binary binary =>
-                    ((IComparable<Binary>)this).CompareTo(binary),
-                ImmutableArray<byte> bytes =>
-                    ((IComparable<ImmutableArray<byte>>)this).CompareTo(bytes),
-                byte[] bytes =>
-                    ((IComparable<byte[]>)this).CompareTo(bytes),
-                _ =>
-                    throw new ArgumentException(
-                        "the argument is neither Binary nor Byte[]",
-                        nameof(obj)
-                    ),
-            };
+                return 1;
+            }
+
+            if (obj is Binary b)
+            {
+                return CompareTo(b);
+            }
+
+            throw new ArgumentException($"Object must be of type {nameof(Binary)}");
+        }
 
         public IEnumerator<byte> GetEnumerator() =>
             ((IEnumerable<byte>)ByteArray).GetEnumerator();
