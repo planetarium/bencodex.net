@@ -14,8 +14,6 @@ namespace Bencodex.Types
 {
     public readonly struct Binary :
         IKey,
-        IEquatable<ImmutableArray<byte>>,
-        IEquatable<byte[]>,
         IEquatable<Binary>,
         IComparable<ImmutableArray<byte>>,
         IComparable<byte[]>,
@@ -229,30 +227,11 @@ namespace Bencodex.Types
             return new Binary(moved);
         }
 
-        bool IEquatable<ImmutableArray<byte>>.Equals(ImmutableArray<byte> other) =>
-            ByteArray.SequenceEqual(other);
+        public override bool Equals(object? obj) => obj is Binary other && Equals(other);
 
-        bool IEquatable<byte[]>.Equals(byte[] other) =>
-            ByteArray.SequenceEqual(other);
+        public bool Equals(IValue other) => other is Binary i && Equals(i);
 
-        bool IEquatable<Binary>.Equals(Binary other) =>
-            ((IEquatable<ImmutableArray<byte>>)this).Equals(other.ByteArray);
-
-        bool IEquatable<IValue>.Equals(IValue other) =>
-            other is Binary o && ((IEquatable<Binary>)this).Equals(o);
-
-        public override bool Equals(object obj) =>
-            obj switch
-            {
-                Binary b =>
-                    ((IEquatable<Binary>)this).Equals(b),
-                ImmutableArray<byte> b =>
-                    ((IEquatable<ImmutableArray<byte>>)this).Equals(b),
-                byte[] b =>
-                    ((IEquatable<byte[]>)this).Equals(b),
-                _ =>
-                    false,
-            };
+        public bool Equals(Binary other) => ByteArray.SequenceEqual(other.ByteArray);
 
         public override int GetHashCode()
         {
