@@ -1,3 +1,4 @@
+using System;
 using Bencodex.Types;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
@@ -46,6 +47,40 @@ namespace Bencodex.Tests.Types
             Assert.False(ot.Equals(s));
             Assert.False(os.Equals(ot));
             Assert.False(ot.Equals(os));
+        }
+
+        [Fact]
+        public void Comparison()
+        {
+            string s = "foo";
+            Text t = new Text("foo");
+            Text? n = null;
+            object os = (object)s;
+            object ot = (object)t;
+            object on = null;
+
+            Assert.Equal(0, t.CompareTo(t));
+            Assert.Equal(0, t.CompareTo(ot));
+            Assert.Equal(1, t.CompareTo(n));
+            Assert.Equal(1, t.CompareTo(on));
+
+            Assert.Equal(0, s.CompareTo(t));
+            Assert.Equal(0, t.CompareTo(s));
+
+            Assert.Throws<ArgumentException>(() => s.CompareTo(ot));
+            Assert.Throws<ArgumentException>(() => t.CompareTo(os));
+
+            Text t0 = new Text("0");
+            Text t1 = new Text("1");
+            Text t00 = new Text("00");
+
+            Assert.Equal(0, t0.CompareTo(t0));
+            Assert.True(t0.CompareTo(t1) < 0);
+            Assert.True(t1.CompareTo(t0) > 0);
+            Assert.True(t0.CompareTo(t00) < 0);
+            Assert.True(t00.CompareTo(t0) > 0);
+            Assert.True(t1.CompareTo(t00) > 0);
+            Assert.True(t00.CompareTo(t1) < 0);
         }
 
         [Fact]

@@ -10,7 +10,6 @@ namespace Bencodex.Types
     public struct Text :
         IKey,
         IEquatable<Text>,
-        IComparable<string>,
         IComparable<Text>,
         IComparable
     {
@@ -98,9 +97,9 @@ namespace Bencodex.Types
 
         public static bool operator !=(Text left, string right) => !left.Equals(right);
 
-        public static bool operator ==(string left, Text right) => left.Equals(right);
+        public static bool operator ==(string left, Text right) => left.Equals(right.Value);
 
-        public static bool operator !=(string left, Text right) => !left.Equals(right);
+        public static bool operator !=(string left, Text right) => !left.Equals(right.Value);
 
         public bool Equals(IValue other) => other is Text t && Equals(t);
 
@@ -113,32 +112,24 @@ namespace Bencodex.Types
             return Value.GetHashCode();
         }
 
-        int IComparable<string>.CompareTo(string other)
-        {
-            return string.Compare(Value, other, StringComparison.Ordinal);
-        }
-
-        int IComparable<Text>.CompareTo(Text other)
+        public int CompareTo(Text other)
         {
             return string.Compare(Value, other.Value, StringComparison.Ordinal);
         }
 
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
-            switch (obj)
+            if (obj is null)
             {
-                case null:
-                    return 1;
-                case Text txt:
-                    return ((IComparable<Text>)this).CompareTo(txt);
-                case string str:
-                    return ((IComparable<string>)this).CompareTo(str);
-                default:
-                    throw new ArgumentException(
-                        "the argument is neither Text nor String",
-                        nameof(obj)
-                    );
+                return 1;
             }
+
+            if (obj is Text t)
+            {
+                return CompareTo(t);
+            }
+
+            throw new ArgumentException($"Object must be of type {nameof(Text)}");
         }
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>
