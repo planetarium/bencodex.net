@@ -41,10 +41,10 @@ namespace Bencodex.Tests.Misc
         {
             var binary = new Binary(new byte[] { 0x01, 0x02, 0x03 });
 
-            ImmutableArray<byte> immutable = binary;
+            ImmutableArray<byte> immutable = (ImmutableArray<byte>)binary;
             Assert.Equal(immutable, binary.ByteArray);
 
-            byte[] mutable = binary;
+            byte[] mutable = (byte[])binary;
             Assert.Equal(mutable, binary.ToByteArray());
         }
 

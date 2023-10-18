@@ -28,6 +28,64 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void Equality()
+        {
+            byte[] b = new byte[] { 0, 1 };
+            ImmutableArray<byte> i = ImmutableArray.Create(b);
+            Binary x = new Binary(i);
+            object ob = (object)b;
+            object oi = (object)i;
+            object ox = (object)x;
+
+#pragma warning disable CS1718 // Comparison made to same variable
+            Assert.True(x == x);
+            Assert.True(x.Equals(x));
+            Assert.True(x.Equals(ox));
+            Assert.True(ox.Equals(x));
+            Assert.True(ox.Equals(ox));
+#pragma warning restore CS1718
+
+            // Unlike Integer and Text, implicit conversion is not supported.
+            Assert.False(b.Equals(x));
+            Assert.False(i.Equals(x));
+            Assert.False(x.Equals(b));
+            Assert.False(x.Equals(i));
+
+            Assert.False(b.Equals(ox));
+            Assert.False(i.Equals(ox));
+            Assert.False(ox.Equals(b));
+            Assert.False(ox.Equals(i));
+
+            Assert.False(ob.Equals(ox));
+            Assert.False(oi.Equals(ox));
+            Assert.False(ox.Equals(ob));
+            Assert.False(ox.Equals(oi));
+
+            Binary empty = new Binary(Array.Empty<byte>());
+            IValue n = Null.Value;
+            Assert.False(empty.Equals(x));
+            Assert.False(x.Equals(empty));
+            Assert.False(empty.Equals(n));
+            Assert.False(n.Equals(empty));
+        }
+
+        [Fact]
+        public void Comparison()
+        {
+            Binary b0 = new Binary(new byte[] { 0 });
+            Binary b1 = new Binary(new byte[] { 1 });
+            Binary b00 = new Binary(new byte[] { 0, 0 });
+
+            Assert.Equal(0, b0.CompareTo(b0));
+            Assert.True(b0.CompareTo(b1) < 0);
+            Assert.True(b1.CompareTo(b0) > 0);
+            Assert.True(b0.CompareTo(b00) < 0);
+            Assert.True(b00.CompareTo(b0) > 0);
+            Assert.True(b1.CompareTo(b00) > 0);
+            Assert.True(b00.CompareTo(b1) < 0);
+        }
+
+        [Fact]
         public void ConstructorTakingImmutableByteArray()
         {
             ImmutableArray<byte> bytes =
@@ -138,38 +196,6 @@ namespace Bencodex.Tests.Types
                 new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f },
                 _hello.ToByteArray()
             );
-        }
-
-        [Fact]
-        public void Equality()
-        {
-            Assert.Equal(_empty, new Binary(new byte[0]));
-            Assert.Equal<IValue>(_empty, new Binary(new byte[0]));
-            Assert.Equal(_empty, ImmutableArray<byte>.Empty);
-            Assert.Equal(_empty, new byte[0]);
-
-            Assert.Equal(
-                _hello,
-                new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f })
-            );
-            Assert.Equal(
-                _hello,
-                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f }.ToImmutableArray<byte>()
-            );
-            Assert.Equal(
-                _hello,
-                new byte[] { 0x68, 0x65, 0x6c, 0x6c, 0x6f }
-            );
-
-            Assert.NotEqual(_empty, _hello);
-            Assert.NotEqual<IValue>(_empty, _hello);
-            Assert.NotEqual(
-                _hello,
-                new Binary(new byte[] { 0x68, 0x65, 0x6c, 0x6f, 0x6f })
-            );
-
-            Assert.NotEqual<IValue>(Null.Value, _empty);
-            Assert.NotEqual<IValue>(Null.Value, _hello);
         }
 
         [Fact]

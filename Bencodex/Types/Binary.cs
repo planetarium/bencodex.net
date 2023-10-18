@@ -85,29 +85,21 @@ namespace Bencodex.Types
         [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
         public string Inspection => Inspect(true);
 
-        public static implicit operator Binary(ImmutableArray<byte> bytes) =>
+        public static explicit operator Binary(ImmutableArray<byte> bytes) =>
             new Binary(bytes);
 
-        public static implicit operator ImmutableArray<byte>(Binary binary) =>
+        public static explicit operator ImmutableArray<byte>(Binary binary) =>
             binary.ByteArray;
 
-        public static implicit operator Binary(byte[] bytes)
-        {
-            return new Binary(bytes);
-        }
+        public static explicit operator Binary(byte[] bytes) =>
+            new Binary(bytes);
 
-        public static implicit operator byte[](Binary binary) =>
+        public static explicit operator byte[](Binary binary) =>
             binary.ToByteArray();
 
-        public static bool operator ==(Binary left, Binary right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(Binary left, Binary right) => left.Equals(right);
 
-        public static bool operator !=(Binary left, Binary right)
-        {
-            return !left.Equals(right);
-        }
+        public static bool operator !=(Binary left, Binary right) => !left.Equals(right);
 
         /// <summary>
         /// Creates a new <see cref="Binary"/> instance from a binary turned into
