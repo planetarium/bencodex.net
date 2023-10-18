@@ -6,6 +6,10 @@ Version 0.15.0
 
 To be released.
 
+ -  Removed `CompositeComparer<TA, TB>` struct.  [[#109]]
+
+[#109]: https://github.com/planetarium/bencodex.net/pull/109
+
 
 Version 0.14.0
 --------------
