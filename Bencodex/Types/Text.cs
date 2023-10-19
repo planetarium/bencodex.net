@@ -10,9 +10,7 @@ namespace Bencodex.Types
     public struct Text :
         IKey,
         IEquatable<Text>,
-        IComparable<string>,
         IComparable<Text>,
-        IEquatable<string>,
         IComparable
     {
         private int? _utf8Length;
@@ -91,72 +89,47 @@ namespace Bencodex.Types
             return new Text(s);
         }
 
-        public static bool operator ==(Text left, Text right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(Text left, Text right) => left.Equals(right);
 
-        public static bool operator !=(Text left, Text right)
-        {
-            return !left.Equals(right);
-        }
+        public static bool operator !=(Text left, Text right) => !left.Equals(right);
 
-        bool IEquatable<string>.Equals(string other)
-        {
-            return other != null && Value.Equals(other);
-        }
+        public static bool operator ==(Text left, string right) => left.Equals(right);
 
-        bool IEquatable<Text>.Equals(Text other) => Value.Equals(other);
+        public static bool operator !=(Text left, string right) => !left.Equals(right);
 
-        bool IEquatable<IValue>.Equals(IValue other) =>
-            other is Text o && ((IEquatable<Text>)this).Equals(o);
+        public static bool operator ==(string left, Text right) => left.Equals(right.Value);
 
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case null:
-                    return false;
-                case Text txt:
-                    return ((IEquatable<Text>)this).Equals(txt);
-                case string str:
-                    return ((IEquatable<string>)this).Equals(str);
-                default:
-                    return false;
-            }
-        }
+        public static bool operator !=(string left, Text right) => !left.Equals(right.Value);
+
+        public bool Equals(IValue other) => other is Text t && Equals(t);
+
+        public bool Equals(Text other) => Value.Equals(other);
+
+        public override bool Equals(object obj) => obj is Text t && Equals(t);
 
         public override int GetHashCode()
         {
-            return Value?.GetHashCode() ?? 0;
+            return Value.GetHashCode();
         }
 
-        int IComparable<string>.CompareTo(string other)
-        {
-            return string.Compare(Value, other, StringComparison.Ordinal);
-        }
-
-        int IComparable<Text>.CompareTo(Text other)
+        public int CompareTo(Text other)
         {
             return string.Compare(Value, other.Value, StringComparison.Ordinal);
         }
 
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
-            switch (obj)
+            if (obj is null)
             {
-                case null:
-                    return 1;
-                case Text txt:
-                    return ((IComparable<Text>)this).CompareTo(txt);
-                case string str:
-                    return ((IComparable<string>)this).CompareTo(str);
-                default:
-                    throw new ArgumentException(
-                        "the argument is neither Text nor String",
-                        nameof(obj)
-                    );
+                return 1;
             }
+
+            if (obj is Text t)
+            {
+                return CompareTo(t);
+            }
+
+            throw new ArgumentException($"Object must be of type {nameof(Text)}");
         }
 
         /// <inheritdoc cref="IValue.Inspect(bool)"/>

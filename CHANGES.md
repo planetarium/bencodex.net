@@ -10,11 +10,14 @@ To be released.
     `Integer`.  [[#104], [#107]]
  -  Changed the behaviors of `Integer.Equals()` and `Integer.CompareTo()`
     to be more consistent.  [[#106], [#107]]
+ -  Removed `IEquatable<string>` and `IComparable<string>` from `Text`.
+    [[#104], [#108]]
  -  Removed `CompositeComparer<TA, TB>` struct.  [[#109]]
 
 [#104]: https://github.com/planetarium/bencodex.net/issues/104
 [#106]: https://github.com/planetarium/bencodex.net/issues/106
 [#107]: https://github.com/planetarium/bencodex.net/pull/107
+[#108]: https://github.com/planetarium/bencodex.net/pull/108
 [#109]: https://github.com/planetarium/bencodex.net/pull/109
 
 
