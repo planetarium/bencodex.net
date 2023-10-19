@@ -16,7 +16,6 @@ namespace Bencodex.Types
     public sealed class List :
         IValue,
         IImmutableList<IValue>,
-        IEquatable<IImmutableList<IValue>>,
         IEquatable<List>
     {
         /// <summary>
@@ -259,35 +258,29 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IReadOnlyList{T}.this[int]"/>
         public IValue this[int index] => _values[index];
 
-        bool IEquatable<IImmutableList<IValue>>.Equals(IImmutableList<IValue> other)
+        public override bool Equals(object obj) => obj is List l && Equals(l);
+
+        public bool Equals(IValue other) => other is List l && Equals(l);
+
+        public bool Equals(List other)
         {
-            if (Count != other.Count)
+            if (Count == other.Count)
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    if (!_values[i].Equals(other[i]))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else
             {
                 return false;
             }
-            else if (other is List otherList)
-            {
-                return Fingerprint.Equals(otherList.Fingerprint);
-            }
-
-            for (int i = 0; i < _values.Length; i++)
-            {
-                IValue v = _values[i];
-                IValue ov = other[i];
-                if (!ov.Equals(v))
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
-
-        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-        public bool Equals(List other) => Fingerprint.Equals(other.Fingerprint);
-
-        bool IEquatable<IValue>.Equals(IValue other) =>
-            other is List o && Equals(o);
 
         IEnumerator<IValue> IEnumerable<IValue>.GetEnumerator()
         {
@@ -296,10 +289,6 @@ namespace Bencodex.Types
                 yield return element;
             }
         }
-
-        /// <inheritdoc cref="object.Equals(object?)"/>
-        public override bool Equals(object? obj) => obj is List other &&
-            ((IEquatable<IImmutableList<IValue>>)this).Equals(other);
 
         /// <inheritdoc cref="object.GetHashCode()"/>
         public override int GetHashCode()
