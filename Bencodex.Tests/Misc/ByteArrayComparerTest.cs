@@ -8,27 +8,6 @@ namespace Bencodex.Tests.Misc
     public class ByteArrayComparerTest
     {
         [Fact]
-        public void CompareMutableArrays()
-        {
-            var comparer = default(ByteArrayComparer);
-            ComparerTestUtils.TestComparison(
-                comparer,
-                new List<byte[]>()
-                {
-                    new byte[] { },
-                    new byte[] { 0x00 },
-                    new byte[] { 0x00, 0x00 },
-                    new byte[] { 0x00, 0x80 },
-                    new byte[] { 0x00, 0xff },
-                    new byte[] { 0x01 },
-                    new byte[] { 0x01, 0x01 },
-                    new byte[] { 0x01, 0x80 },
-                    new byte[] { 0x01, 0xff },
-                }
-            );
-        }
-
-        [Fact]
         public void CompareImmutableArrays()
         {
             var comparer = default(ByteArrayComparer);

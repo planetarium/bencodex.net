@@ -9,26 +9,13 @@ namespace Bencodex.Misc
     /// Similar to <see cref="StringComparer"/> but for <see cref="byte"/>s instead of Unicode
     /// <see cref="string"/>s.
     /// </summary>
-    public struct ByteArrayComparer
-        : IComparer<byte[]>, IComparer<ImmutableArray<byte>>, IComparer<IReadOnlyList<byte>>
+    public struct ByteArrayComparer : IComparer<ImmutableArray<byte>>
     {
-        private static readonly ByteArrayComparer<byte[]> _mutableArrayComparer =
-            new ByteArrayComparer<byte[]>();
-
         private static readonly ByteArrayComparer<ImmutableArray<byte>> _immutableArrayComparer =
             new ByteArrayComparer<ImmutableArray<byte>>();
 
-        private static readonly ByteArrayComparer<IReadOnlyList<byte>> _readOnlyListComparer =
-            new ByteArrayComparer<IReadOnlyList<byte>>();
-
-        public int Compare(byte[] x, byte[] y) =>
-            _mutableArrayComparer.Compare(x, y);
-
         public int Compare(ImmutableArray<byte> x, ImmutableArray<byte> y) =>
             _immutableArrayComparer.Compare(x, y);
-
-        public int Compare(IReadOnlyList<byte> x, IReadOnlyList<byte> y) =>
-            _readOnlyListComparer.Compare(x, y);
     }
 
     internal class ByteArrayComparer<T> : IComparer<T>

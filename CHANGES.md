@@ -13,12 +13,20 @@ To be released.
  -  Removed `IEquatable<string>` and `IComparable<string>` from `Text`.
     [[#104], [#108]]
  -  Removed `CompositeComparer<TA, TB>` struct.  [[#109]]
+ -  Removed `IEquatable<byte[]>`, `IEquatable<ImmutableArray<byte>>`,
+    `IComparable<byte[]>`, and `IComparable<ImmutableArray<byte>>` from
+    `Binary`.  [[#104], [#110]]
+ -  Removed `IComparer<byte[]>` and `IComparer<ReadOnlyList<byte>>` from
+    `ByteArrayComparer`.  [[#110]]
+ -  Changed the behaviors of `Binary.Equals()` and `Binary.CompareTo()`
+    to be more consistent.  [[#106], [#110]]
 
 [#104]: https://github.com/planetarium/bencodex.net/issues/104
 [#106]: https://github.com/planetarium/bencodex.net/issues/106
 [#107]: https://github.com/planetarium/bencodex.net/pull/107
 [#108]: https://github.com/planetarium/bencodex.net/pull/108
 [#109]: https://github.com/planetarium/bencodex.net/pull/109
+[#110]: https://github.com/planetarium/bencodex.net/pull/110
 
 
 Version 0.14.0
