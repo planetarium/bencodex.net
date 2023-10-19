@@ -21,6 +21,7 @@ To be released.
  -  Changed the behaviors of `Binary.Equals()` and `Binary.CompareTo()`
     to be more consistent.  [[#106], [#110]]
  -  Removed `ByteArrayComparer` and `FingerprintComparer`.  [[#111]]
+ -  Removed `IEquatable<IImmutableList<IValue>>` from `List`.  [[#104], [#112]]
 
 [#104]: https://github.com/planetarium/bencodex.net/issues/104
 [#106]: https://github.com/planetarium/bencodex.net/issues/106
@@ -29,6 +30,7 @@ To be released.
 [#109]: https://github.com/planetarium/bencodex.net/pull/109
 [#110]: https://github.com/planetarium/bencodex.net/pull/110
 [#111]: https://github.com/planetarium/bencodex.net/pull/111
+[#112]: https://github.com/planetarium/bencodex.net/pull/112
 
 
 Version 0.14.0
