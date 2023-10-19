@@ -160,35 +160,6 @@ namespace Bencodex.Tests.Types
             Assert.Equal(6L, new Integer(-456).EncodingLength);
         }
 
-        [Fact]
-        public void Fingerprint()
-        {
-            Assert.Equal(
-                new Fingerprint(ValueKind.Integer, 3L, new byte[] { 0 }),
-                new Integer(0).Fingerprint
-            );
-            Assert.Equal(
-                new Fingerprint(ValueKind.Integer, 4L, new byte[] { 45 }),
-                new Integer(45).Fingerprint
-            );
-            Assert.Equal(
-                new Fingerprint(ValueKind.Integer, 6L, new byte[] { 0b10000101 }),
-                new Integer(-123).Fingerprint
-            );
-            BigInteger bigint = BigInteger.Parse(
-                "10000000000000000000000000000000000000000",
-                NumberStyles.HexNumber
-            );
-            Assert.Equal(
-                new Fingerprint(
-                    ValueKind.Integer,
-                    51L,
-                    ParseHex("8209ad2f4fad401d8e3d33def02577bd9ab550e5")
-                ),
-                new Integer(bigint).Fingerprint
-            );
-        }
-
         [Theory]
         [InlineData(new object[] { false })]
         [InlineData(new object[] { true })]
