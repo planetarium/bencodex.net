@@ -54,23 +54,6 @@ namespace Bencodex.Types
         [Pure]
         public ValueKind Kind => ValueKind.Binary;
 
-        /// <inheritdoc cref="IValue.Fingerprint"/>
-        [Pure]
-        public Fingerprint Fingerprint
-        {
-            get
-            {
-                ImmutableArray<byte> digest = _digest is { } cache
-                    ? cache[0] is { } b
-                        ? b
-                        : ByteArray.Length > 20
-                            ? ImmutableArray.Create(SHA1.Create().ComputeHash(ToByteArray()))
-                            : ByteArray
-                    : ImmutableArray<byte>.Empty;
-                return new Fingerprint(Kind, EncodingLength, digest);
-            }
-        }
-
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
         public long EncodingLength =>

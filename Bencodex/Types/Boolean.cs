@@ -13,14 +13,6 @@ namespace Bencodex.Types
         IComparable<Boolean>,
         IComparable
     {
-#pragma warning disable SA1202
-        public static readonly Fingerprint TrueFingerprint =
-            new Fingerprint(ValueKind.Boolean, 1L, new byte[] { 1 });
-
-        public static readonly Fingerprint FalseFingerprint =
-            new Fingerprint(ValueKind.Boolean, 1L, new byte[] { 0 });
-#pragma warning restore SA1202
-
         public Boolean(bool value)
         {
             Value = value;
@@ -31,10 +23,6 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IValue.Kind"/>
         [Pure]
         public ValueKind Kind => ValueKind.Boolean;
-
-        /// <inheritdoc cref="IValue.Fingerprint"/>
-        [Pure]
-        public Fingerprint Fingerprint => Value ? TrueFingerprint : FalseFingerprint;
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         [Pure]
