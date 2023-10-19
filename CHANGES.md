@@ -6,8 +6,15 @@ Version 0.15.0
 
 To be released.
 
+ -  Removed `IEquatable<BigInteger>` and `IComparable<BigInteger>` from
+    `Integer`.  [[#104], [#107]]
+ -  Changed the behaviors of `Integer.Equals()` and `Integer.CompareTo()`
+    to be more consistent.  [[#106], [#107]]
  -  Removed `CompositeComparer<TA, TB>` struct.  [[#109]]
 
+[#104]: https://github.com/planetarium/bencodex.net/issues/104
+[#106]: https://github.com/planetarium/bencodex.net/issues/106
+[#107]: https://github.com/planetarium/bencodex.net/pull/107
 [#109]: https://github.com/planetarium/bencodex.net/pull/109
 
 

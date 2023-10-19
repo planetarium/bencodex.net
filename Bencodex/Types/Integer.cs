@@ -9,9 +9,7 @@ namespace Bencodex.Types
 {
     public struct Integer :
         IValue,
-        IEquatable<BigInteger>,
         IEquatable<Integer>,
-        IComparable<BigInteger>,
         IComparable<Integer>,
         IComparable
     {
@@ -155,83 +153,91 @@ namespace Bencodex.Types
             return new Integer(i);
         }
 
-        public static bool operator ==(Integer a, Integer b)
-        {
-            return a.Equals(b);
-        }
+        public static bool operator ==(Integer a, Integer b) => a.Equals(b);
 
-        public static bool operator !=(Integer a, Integer b)
-        {
-            return !(a == b);
-        }
+        public static bool operator !=(Integer a, Integer b) => !(a == b);
 
-        public static bool operator ==(Integer a, BigInteger b)
-        {
-            return a.Value.Equals(b);
-        }
+        public static bool operator ==(Integer a, short b) => a.Equals(b);
 
-        public static bool operator !=(Integer a, BigInteger b)
-        {
-            return !(a == b);
-        }
+        public static bool operator !=(Integer a, short b) => !(a == b);
 
-        public static bool operator ==(BigInteger a, Integer b)
-        {
-            return a.Equals(b.Value);
-        }
+        public static bool operator ==(Integer a, ushort b) => a.Equals(b);
 
-        public static bool operator !=(BigInteger a, Integer b)
-        {
-            return !(a == b);
-        }
+        public static bool operator !=(Integer a, ushort b) => !(a == b);
 
-        int IComparable.CompareTo(object obj)
+        public static bool operator ==(Integer a, int b) => a.Equals(b);
+
+        public static bool operator !=(Integer a, int b) => !(a == b);
+
+        public static bool operator ==(Integer a, uint b) => a.Equals(b);
+
+        public static bool operator !=(Integer a, uint b) => !(a == b);
+
+        public static bool operator ==(Integer a, long b) => a.Equals(b);
+
+        public static bool operator !=(Integer a, long b) => !(a == b);
+
+        public static bool operator ==(Integer a, ulong b) => a.Equals(b);
+
+        public static bool operator !=(Integer a, ulong b) => !(a == b);
+
+        public static bool operator ==(Integer a, BigInteger b) => a.Equals(b);
+
+        public static bool operator !=(Integer a, BigInteger b) => !(a == b);
+
+        public static bool operator ==(short a, Integer b) => a.Equals(b);
+
+        public static bool operator !=(short a, Integer b) => !(a == b);
+
+        public static bool operator ==(ushort a, Integer b) => a.Equals(b);
+
+        public static bool operator !=(ushort a, Integer b) => !(a == b);
+
+        public static bool operator ==(int a, Integer b) => a.Equals(b);
+
+        public static bool operator !=(int a, Integer b) => !(a == b);
+
+        public static bool operator ==(uint a, Integer b) => a.Equals(b);
+
+        public static bool operator !=(uint a, Integer b) => !(a == b);
+
+        public static bool operator ==(long a, Integer b) => a.Equals(b);
+
+        public static bool operator !=(long a, Integer b) => !(a == b);
+
+        public static bool operator ==(ulong a, Integer b) => a.Equals(b);
+
+        public static bool operator !=(ulong a, Integer b) => !(a == b);
+
+        public static bool operator ==(BigInteger a, Integer b) => a.Equals(b);
+
+        public static bool operator !=(BigInteger a, Integer b) => !(a == b);
+
+        public int CompareTo(object? obj)
         {
+            if (obj is null)
+            {
+                return 1;
+            }
+
             if (obj is Integer i)
             {
-                return ((IComparable<Integer>)this).CompareTo(i);
+                return CompareTo(i);
             }
 
-            return Value.CompareTo(obj);
+            throw new ArgumentException($"Object must be of type {nameof(Integer)}");
         }
 
-        int IComparable<BigInteger>.CompareTo(BigInteger other)
+        public int CompareTo(Integer other)
         {
-            return Value.CompareTo(other);
+            return Value.CompareTo(other.Value);
         }
 
-        int IComparable<Integer>.CompareTo(Integer other)
-        {
-            return ((IComparable<BigInteger>)this).CompareTo(other.Value);
-        }
+        public override bool Equals(object obj) => obj is Integer other && Equals(other);
 
-        bool IEquatable<BigInteger>.Equals(BigInteger other)
-        {
-            return Value.Equals(other);
-        }
+        public bool Equals(IValue other) => other is Integer i && Equals(i);
 
-        bool IEquatable<Integer>.Equals(Integer other)
-        {
-            return Value.Equals(other.Value);
-        }
-
-        bool IEquatable<IValue>.Equals(IValue other) =>
-            other is Integer o && ((IEquatable<Integer>)this).Equals(o);
-
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case null:
-                    return false;
-                case Integer other:
-                    return ((IEquatable<Integer>)this).Equals(other);
-                case BigInteger other:
-                    return ((IEquatable<BigInteger>)this).Equals(other);
-                default:
-                    return false;
-            }
-        }
+        public bool Equals(Integer other) => Value.Equals(other.Value);
 
         public override int GetHashCode()
         {
