@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
-using Bencodex.Misc;
 using Bencodex.Types;
-using SharpYaml.Tokens;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
 using static Bencodex.Tests.TestUtils;
-using IEquatableDict = System.IEquatable<System.Collections.Immutable.IImmutableDictionary<
-    Bencodex.Types.IKey,
-    Bencodex.Types.IValue>>;
 
 namespace Bencodex.Tests.Types
 {

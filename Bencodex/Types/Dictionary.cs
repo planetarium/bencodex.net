@@ -17,7 +17,6 @@ namespace Bencodex.Types
     public sealed class Dictionary :
         IValue,
         IEquatable<Dictionary>,
-        IEquatable<IImmutableDictionary<IKey, IValue>>,
         IImmutableDictionary<IKey, IValue>
     {
         /// <summary>
@@ -1697,53 +1696,30 @@ namespace Bencodex.Types
             return (T)this[name];
         }
 
-        /// <inheritdoc cref="object.Equals(object)"/>
-        public override bool Equals(object obj) =>
-            obj switch
-            {
-                null => false,
-                Dictionary d => Equals(d),
-                _ => false,
-            };
+        public override bool Equals(object obj) => obj is Dictionary d && Equals(d);
 
-        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-        public bool Equals(Dictionary other) =>
-            Fingerprint.Equals(other.Fingerprint);
+        public bool Equals(IValue other) => other is Dictionary d && Equals(d);
 
-        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-        bool IEquatable<IImmutableDictionary<IKey, IValue>>.Equals(
-            IImmutableDictionary<IKey, IValue> other
-        )
+        public bool Equals(Dictionary other)
         {
-            if (_dict.Count != other.Count)
+            if (Count == other.Count)
+            {
+                foreach (KeyValuePair<IKey, IValue> kv in _dict)
+                {
+                    if (!other.TryGetValue(kv.Key, out IValue v) ||
+                        !kv.Value.Equals(v))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else
             {
                 return false;
             }
-            else if (other is Dictionary od)
-            {
-                return od.Fingerprint.Equals(Fingerprint);
-            }
-
-            foreach (KeyValuePair<IKey, IValue> kv in _dict)
-            {
-                if (!other.TryGetValue(kv.Key, out IValue v))
-                {
-                    return false;
-                }
-
-                if (!kv.Value.Equals(v))
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
-
-        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
-        bool IEquatable<IValue>.Equals(IValue other) =>
-            other is Dictionary o &&
-            ((IEquatable<IImmutableDictionary<IKey, IValue>>)this).Equals(o);
 
         /// <inheritdoc cref="object.GetHashCode()"/>
         public override int GetHashCode()
