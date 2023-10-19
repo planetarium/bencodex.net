@@ -6,9 +6,7 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using System.Text;
-using Bencodex.Misc;
 
 namespace Bencodex.Types
 {

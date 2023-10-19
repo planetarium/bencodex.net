@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Numerics;
-using System.Security.Cryptography;
 
 namespace Bencodex.Types
 {
