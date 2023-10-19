@@ -6,8 +6,6 @@ using Bencodex.Types;
 using Xunit;
 using static Bencodex.Misc.ImmutableByteArrayExtensions;
 using static Bencodex.Tests.TestUtils;
-using IEquatableValues =
-    System.IEquatable<System.Collections.Immutable.IImmutableList<Bencodex.Types.IValue>>;
 
 namespace Bencodex.Tests.Types
 {
@@ -204,48 +202,22 @@ namespace Bencodex.Tests.Types
         public void Equality()
         {
             Assert.True(_zero.Equals(new List()));
-            Assert.True(((IEquatableValues)_zero).Equals(ImmutableArray<IValue>.Empty));
             Assert.True(_one.Equals(new List(Null.Value)));
-            Assert.True(
-                ((IEquatableValues)_one).Equals(ImmutableArray<IValue>.Empty.Add(Null.Value))
-            );
             Assert.True(_two.Equals(new List((Text)"hello", (Text)"world")));
-            Assert.True(
-                ((IEquatableValues)_two).Equals(
-                    ImmutableArray.Create<IValue>((Text)"hello", (Text)"world")
-                )
-            );
             Assert.True(_nest.Equals(new List(Null.Value, _zero, _one, _two)));
-            Assert.True(
-                ((IEquatableValues)_nest).Equals(
-                    ImmutableArray.Create<IValue>(Null.Value, _zero, _one, _two)
-                )
-            );
 
             Assert.False(_zero.Equals(_one));
-            Assert.False(((IEquatableValues)_zero).Equals(_one));
             Assert.False(_zero.Equals(_two));
-            Assert.False(((IEquatableValues)_zero).Equals(_two));
             Assert.False(_zero.Equals(_nest));
-            Assert.False(((IEquatableValues)_zero).Equals(_nest));
             Assert.False(_one.Equals(_zero));
-            Assert.False(((IEquatableValues)_one).Equals(_zero));
             Assert.False(_one.Equals(_two));
-            Assert.False(((IEquatableValues)_one).Equals(_two));
             Assert.False(_one.Equals(_nest));
-            Assert.False(((IEquatableValues)_one).Equals(_nest));
             Assert.False(_two.Equals(_zero));
-            Assert.False(((IEquatableValues)_two).Equals(_zero));
             Assert.False(_two.Equals(_one));
-            Assert.False(((IEquatableValues)_two).Equals(_one));
             Assert.False(_two.Equals(_nest));
-            Assert.False(((IEquatableValues)_two).Equals(_nest));
             Assert.False(_nest.Equals(_one));
-            Assert.False(((IEquatableValues)_nest).Equals(_one));
             Assert.False(_nest.Equals(_two));
-            Assert.False(((IEquatableValues)_nest).Equals(_two));
             Assert.False(_nest.Equals(_two));
-            Assert.False(((IEquatableValues)_nest).Equals(_two));
         }
 
         [Fact]
