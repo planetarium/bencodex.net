@@ -24,7 +24,10 @@ To be released.
  -  Removed `IEquatable<IImmutableList<IValue>>` from `List`.  [[#104], [#112]]
  -  Removed `IEquatable<IImmutableDictionary<IKey, IValue>>` from `Dictionary`.
     [[#104], [#113]]
+ -  Removed `Fingerprint` struct.  [[#103], [#114]]
+ -  Removed `IValue.Fingerprint` property.  [[#103], [#114]]
 
+[#103]: https://github.com/planetarium/bencodex.net/issues/103
 [#104]: https://github.com/planetarium/bencodex.net/issues/104
 [#106]: https://github.com/planetarium/bencodex.net/issues/106
 [#107]: https://github.com/planetarium/bencodex.net/pull/107
@@ -34,6 +37,7 @@ To be released.
 [#111]: https://github.com/planetarium/bencodex.net/pull/111
 [#112]: https://github.com/planetarium/bencodex.net/pull/112
 [#113]: https://github.com/planetarium/bencodex.net/pull/113
+[#114]: https://github.com/planetarium/bencodex.net/pull/114
 
 
 Version 0.14.0

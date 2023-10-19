@@ -5,7 +5,6 @@ using System.Collections.Immutable;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Numerics;
-using System.Security.Cryptography;
 using Bencodex.Misc;
 
 namespace Bencodex.Types
@@ -28,14 +27,7 @@ namespace Bencodex.Types
                 EncodingLength = 2L,
             };
 
-        /// <summary>
-        /// The singleton fingerprint for empty dictionaries.
-        /// </summary>
-        public static readonly Fingerprint EmptyFingerprint =
-            new Fingerprint(ValueKind.Dictionary, 2);
-
         private readonly ImmutableSortedDictionary<IKey, IValue> _dict;
-        private ImmutableArray<byte>? _hash;
         private long _encodingLength = -1L;
 
         /// <summary>
@@ -934,44 +926,6 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="IValue.Kind"/>
         public ValueKind Kind => ValueKind.Dictionary;
-
-        /// <inheritdoc cref="IValue.Fingerprint"/>
-        public Fingerprint Fingerprint
-        {
-            get
-            {
-                if (_dict.Count < 1)
-                {
-                    return EmptyFingerprint;
-                }
-
-                if (!(_hash is { } hash))
-                {
-                    long encLength = 2L;
-                    SHA1 sha1 = SHA1.Create();
-                    sha1.Initialize();
-                    foreach (KeyValuePair<IKey, IValue> pair in _dict)
-                    {
-                        byte[] fp = pair.Key.Fingerprint.Serialize();
-                        sha1.TransformBlock(fp, 0, fp.Length, null, 0);
-                        fp = pair.Value.Fingerprint.Serialize();
-                        sha1.TransformBlock(fp, 0, fp.Length, null, 0);
-                        encLength += pair.Key.EncodingLength +
-                                     pair.Value.EncodingLength;
-                    }
-
-                    sha1.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
-                    hash = ImmutableArray.Create(sha1.Hash);
-                    _hash = hash;
-                    if (_encodingLength < 0)
-                    {
-                        _encodingLength = encLength;
-                    }
-                }
-
-                return new Fingerprint(Kind, EncodingLength, hash);
-            }
-        }
 
         /// <inheritdoc cref="IValue.EncodingLength"/>
         public long EncodingLength

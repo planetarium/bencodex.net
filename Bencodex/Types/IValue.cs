@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
 namespace Bencodex.Types
@@ -20,13 +19,6 @@ namespace Bencodex.Types
         /// </summary>
         [Pure]
         ValueKind Kind { get; }
-
-        /// <summary>
-        /// A unique identifier of the value.  Can be used for efficient determining of two values
-        /// that may be a deep tree.
-        /// </summary>
-        [Pure]
-        Fingerprint Fingerprint { get; }
 
         /// <summary>The number of bytes used for serializing the value.</summary>
         [Pure]
