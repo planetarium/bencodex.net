@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Bencodex.Types;
 
 namespace Bencodex.Misc
@@ -16,8 +14,6 @@ namespace Bencodex.Misc
         /// </summary>
         public static readonly KeyComparer Instance = new KeyComparer();
 
-        private static readonly ByteArrayComparer _binaryComparer = default;
-
         private KeyComparer()
         {
         }
@@ -27,11 +23,11 @@ namespace Bencodex.Misc
         {
             if (x is Binary xb && y is Binary yb)
             {
-                return _binaryComparer.Compare(xb.ByteArray, yb.ByteArray);
+                return xb.CompareTo(yb);
             }
             else if (x is Text xt && y is Text yt)
             {
-                return string.CompareOrdinal(xt.Value, yt.Value);
+                return xt.CompareTo(yt);
             }
 
             return (x.Kind == ValueKind.Text).CompareTo(y.Kind == ValueKind.Text);

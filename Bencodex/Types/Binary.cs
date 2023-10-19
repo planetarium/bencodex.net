@@ -19,9 +19,6 @@ namespace Bencodex.Types
         IComparable,
         IEnumerable<byte>
     {
-        private static readonly ByteArrayComparer ByteArrayComparer =
-            default(ByteArrayComparer);
-
         private readonly ImmutableArray<byte> _value;
         private readonly int?[] _hashCode;
         private readonly ImmutableArray<byte>?[] _digest;
@@ -256,8 +253,20 @@ namespace Bencodex.Types
             return hash;
         }
 
-        public int CompareTo(Binary other) =>
-            ByteArrayComparer.Compare(ByteArray, other.ByteArray);
+        public int CompareTo(Binary other)
+        {
+            int minLength = Math.Min(ByteArray.Length, other.ByteArray.Length);
+            for (int i = 0; i < minLength; i++)
+            {
+                int c = ByteArray[i].CompareTo(other.ByteArray[i]);
+                if (c != 0)
+                {
+                    return c;
+                }
+            }
+
+            return ByteArray.Length.CompareTo(other.ByteArray.Length);
+        }
 
         public int CompareTo(object? obj)
         {
