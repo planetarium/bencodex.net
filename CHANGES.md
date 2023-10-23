@@ -4,7 +4,7 @@ Changelog
 Version 0.15.0
 --------------
 
-To be released.
+Released on October 23rd, 2023.
 
  -  Removed `IEquatable<BigInteger>` and `IComparable<BigInteger>` from
     `Integer`.  [[#104], [#107]]
