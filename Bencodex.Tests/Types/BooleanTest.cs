@@ -39,6 +39,36 @@ namespace Bencodex.Tests.Types
         }
 
         [Fact]
+        public void Comparison()
+        {
+            bool b = true;
+            Boolean x = new Boolean(true);
+            Boolean? n = null;
+            object ob = (object)b;
+            object ox = (object)x;
+            object on = null;
+
+            Assert.Equal(0, x.CompareTo(x));
+            Assert.Equal(0, x.CompareTo(ox));
+            Assert.Equal(1, x.CompareTo(n));
+            Assert.Equal(1, x.CompareTo(on));
+
+            Assert.Equal(0, b.CompareTo(x));
+            Assert.Equal(0, x.CompareTo(b));
+
+            Assert.Throws<System.ArgumentException>(() => b.CompareTo(ox));
+            Assert.Throws<System.ArgumentException>(() => x.CompareTo(ob));
+
+            Boolean f = new Boolean(false);
+            Boolean t = new Boolean(true);
+
+            Assert.Equal(0, f.CompareTo(f));
+            Assert.Equal(0, t.CompareTo(t));
+            Assert.True(f.CompareTo(t) < 0);
+            Assert.True(t.CompareTo(f) > 0);
+        }
+
+        [Fact]
         public void Kind()
         {
             Assert.Equal(ValueKind.Boolean, _t.Kind);
