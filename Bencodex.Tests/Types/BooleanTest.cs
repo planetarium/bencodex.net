@@ -37,13 +37,11 @@ namespace Bencodex.Tests.Types
             );
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void Inspect(bool loadAll)
+        [Fact]
+        public void Inspect()
         {
-            Assert.Equal("true", _t.Inspect(loadAll));
-            Assert.Equal("false", _f.Inspect(loadAll));
+            Assert.Equal("true", _t.Inspect());
+            Assert.Equal("false", _f.Inspect());
         }
 
         [Fact]

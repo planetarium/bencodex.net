@@ -111,16 +111,14 @@ namespace Bencodex.Tests.Types
             );
         }
 
-        [Theory]
-        [InlineData(new object[] { false })]
-        [InlineData(new object[] { true })]
-        public void Inspect(bool loadAll)
+        [Fact]
+        public void Inspect()
         {
-            Assert.Equal("\"\"", _empty.Inspect(loadAll));
-            Assert.Equal("\"\u4f60\u597d\"", _nihao.Inspect(loadAll));
+            Assert.Equal("\"\"", _empty.Inspect());
+            Assert.Equal("\"\u4f60\u597d\"", _nihao.Inspect());
             Assert.Equal(
                 "\"new lines and\\n\\\"quotes\\\" become escaped to \\\\\"",
-                _complex.Inspect(loadAll)
+                _complex.Inspect()
             );
         }
 

@@ -464,10 +464,10 @@ namespace Bencodex.Types
         IImmutableList<IValue> IImmutableList<IValue>.SetItem(int index, IValue value) =>
             new List(_values.SetItem(index, value));
 
-        /// <inheritdoc cref="IValue.Inspect(bool)"/>
-        public string Inspect(bool loadAll)
+        /// <inheritdoc cref="IValue.Inspect()"/>
+        public string Inspect()
         {
-            string InspectItem(IValue value, bool load) => value.Inspect(load);
+            string InspectItem(IValue value) => value.Inspect();
 
             string inspection;
             switch (_values.Length)
@@ -483,12 +483,12 @@ namespace Bencodex.Types
                         goto default;
                     }
 
-                    inspection = $"[{InspectItem(first, loadAll)}]";
+                    inspection = $"[{InspectItem(first)}]";
                     break;
 
                 default:
                     IEnumerable<string> elements = _values.Select(v =>
-                        $"  {InspectItem(v, loadAll).Replace("\n", "\n  ")},\n"
+                        $"  {InspectItem(v).Replace("\n", "\n  ")},\n"
                     );
                     inspection = $"[\n{string.Join(string.Empty, elements)}]";
                     break;
@@ -499,6 +499,6 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(List)} {Inspect(false)}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(List)} {Inspect()}";
     }
 }

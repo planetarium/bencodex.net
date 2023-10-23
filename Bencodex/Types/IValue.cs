@@ -26,13 +26,9 @@ namespace Bencodex.Types
 
         /// <summary>
         /// Gets a human-readable representation for debugging.
-        /// <para>Unloaded values may be omitted.</para>
         /// </summary>
-        /// <param name="loadAll">Load all unloaded values before showing them.  This option
-        /// is applied to subtrees recursively.</param>
         /// <returns>A human-readable representation for debugging, which looks similar to Python's
-        /// literal syntax.  However, if a value is a complex tree and contains any unloaded
-        /// subvalues, these are omitted and their fingerprints are shown instead.</returns>
-        string Inspect(bool loadAll);
+        /// literal syntax.</returns>
+        string Inspect();
     }
 }

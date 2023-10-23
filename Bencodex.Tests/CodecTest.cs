@@ -29,7 +29,7 @@ namespace Bencodex.Tests
             _output.WriteLine("Data: {0}", spec.EncodingPath);
             Codec codec = new Codec();
             IValue decoded = codec.Decode(spec.Encoding);
-            _output.WriteLine("Value: {0}", decoded.Inspect(false));
+            _output.WriteLine("Value: {0}", decoded.Inspect());
             Assert.Equal(spec.Semantics, decoded);
             Assert.Equal(spec.Encoding.LongLength, decoded.EncodingLength);
             Assert.Equal(spec.Semantics.EncodingLength, decoded.EncodingLength);

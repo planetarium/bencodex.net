@@ -160,13 +160,11 @@ namespace Bencodex.Tests.Types
             Assert.Equal(6L, new Integer(-456).EncodingLength);
         }
 
-        [Theory]
-        [InlineData(new object[] { false })]
-        [InlineData(new object[] { true })]
-        public void Inspect(bool loadAll)
+        [Fact]
+        public void Inspect()
         {
-            Assert.Equal("123", new Integer(123).Inspect(loadAll));
-            Assert.Equal("-456", new Integer(-456).Inspect(loadAll));
+            Assert.Equal("123", new Integer(123).Inspect());
+            Assert.Equal("-456", new Integer(-456).Inspect());
         }
 
         [Fact]

@@ -95,8 +95,8 @@ namespace Bencodex.Types
             throw new ArgumentException($"Object must be of type {nameof(Text)}");
         }
 
-        /// <inheritdoc cref="IValue.Inspect(bool)"/>
-        public string Inspect(bool loadAll)
+        /// <inheritdoc cref="IValue.Inspect()"/>
+        public string Inspect()
         {
             string contents = Value
                 .Replace("\\", "\\\\")
@@ -107,6 +107,6 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Text)} {Inspect(false)}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Text)} {Inspect()}";
     }
 }

@@ -98,14 +98,12 @@ namespace Bencodex.Tests.Types
             Assert.Equal(26L, _nest.EncodingLength);
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void Inspect(bool loadAll)
+        [Fact]
+        public void Inspect()
         {
-            Assert.Equal("[]", _zero.Inspect(loadAll));
-            Assert.Equal("[null]", _one.Inspect(loadAll));
-            Assert.Equal("[\n  \"hello\",\n  \"world\",\n]", _two.Inspect(loadAll));
+            Assert.Equal("[]", _zero.Inspect());
+            Assert.Equal("[null]", _one.Inspect());
+            Assert.Equal("[\n  \"hello\",\n  \"world\",\n]", _two.Inspect());
 
             var expected = @"[
   null,
@@ -116,11 +114,11 @@ namespace Bencodex.Tests.Types
     ""world"",
   ],
 ]".NoCr();
-            Assert.Equal(expected, _nest.Inspect(loadAll));
+            Assert.Equal(expected, _nest.Inspect());
 
             // If any element is a list/dict it should be indented
-            Assert.Equal("[\n  [],\n]", new List(new IValue[] { _zero }).Inspect(loadAll));
-            Assert.Equal("[\n  {},\n]", new List(Dictionary.Empty).Inspect(loadAll));
+            Assert.Equal("[\n  [],\n]", new List(new IValue[] { _zero }).Inspect());
+            Assert.Equal("[\n  {},\n]", new List(Dictionary.Empty).Inspect());
         }
 
         [Fact]

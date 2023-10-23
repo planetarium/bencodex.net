@@ -88,13 +88,12 @@ namespace Bencodex.Types
             return Value.GetHashCode();
         }
 
-        /// <inheritdoc cref="IValue.Inspect(bool)"/>
-        public string Inspect(bool loadAll) =>
-            Value ? "true" : "false";
+        /// <inheritdoc cref="IValue.Inspect()"/>
+        public string Inspect() => Value ? "true" : "false";
 
         /// <inheritdoc cref="object.ToString()"/>
         [Pure]
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Boolean)} {Inspect(false)}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Boolean)} {Inspect()}";
     }
 }

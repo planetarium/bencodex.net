@@ -25,12 +25,10 @@ namespace Bencodex.Tests.Types
             Assert.Equal(ValueKind.Null, Null.Value.Kind);
         }
 
-        [Theory]
-        [InlineData(new object[] { false })]
-        [InlineData(new object[] { true })]
-        public void Inspect(bool loadAll)
+        [Fact]
+        public void Inspect()
         {
-            Assert.Equal("null", Null.Value.Inspect(loadAll));
+            Assert.Equal("null", Null.Value.Inspect());
         }
 
         [Fact]
