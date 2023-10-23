@@ -62,10 +62,6 @@ namespace Bencodex.Types
         public long EncodingLength =>
             2L + CountDecimalDigits();
 
-        /// <inheritdoc cref="IValue.Inspection"/>
-        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
-        public string Inspection => Inspect(true);
-
         public static implicit operator BigInteger(Integer i)
         {
             return i.Value;

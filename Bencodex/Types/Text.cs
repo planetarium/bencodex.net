@@ -34,10 +34,6 @@ namespace Bencodex.Types
             CommonVariables.Separator.LongLength +
             Utf8Length;
 
-        /// <inheritdoc cref="IValue.Inspection"/>
-        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
-        public string Inspection => Inspect(true);
-
         [Pure]
         internal int Utf8Length =>
             _utf8Length is { } l ? l : (
