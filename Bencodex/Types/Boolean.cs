@@ -36,6 +36,18 @@ namespace Bencodex.Types
             return new Boolean(b);
         }
 
+        public static bool operator ==(Boolean a, Boolean b) => a.Equals(b);
+
+        public static bool operator !=(Boolean a, Boolean b) => !a.Equals(b);
+
+        public static bool operator ==(Boolean a, bool b) => a.Equals(b);
+
+        public static bool operator !=(Boolean a, bool b) => !a.Equals(b);
+
+        public static bool operator ==(bool a, Boolean b) => a.Equals(b.Value);
+
+        public static bool operator !=(bool a, Boolean b) => !a.Equals(b.Value);
+
         public int CompareTo(Boolean other)
         {
             return Value.CompareTo(other.Value);
