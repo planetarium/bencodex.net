@@ -6,6 +6,10 @@ Version 0.16.0
 
 To be released.
 
+ -  Removed `IValue.Inspection` property.  [[#117]]
+
+[#117]: https://github.com/planetarium/bencodex.net/pull/117
+
 
 Version 0.15.0
 --------------
