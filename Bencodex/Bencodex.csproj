@@ -4,7 +4,7 @@
     <Title>Bencodex</Title>
     <Summary>Bencodex codec for .NET</Summary>
     <!-- TODO: Remove duplicate data between this and Bencodex.Json.csproj: -->
-    <VersionPrefix>0.15.0</VersionPrefix>
+    <VersionPrefix>0.16.0</VersionPrefix>
     <PackageProjectUrl>https://github.com/planetarium/bencodex.net</PackageProjectUrl>
     <Authors>Planetarium</Authors>
     <Company>Planetarium</Company>
