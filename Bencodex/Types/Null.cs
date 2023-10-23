@@ -27,10 +27,6 @@ namespace Bencodex.Types
         [Pure]
         public long EncodingLength => 1L;
 
-        /// <inheritdoc cref="IValue.Inspection"/>
-        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
-        public string Inspection => Inspect(true);
-
         public override int GetHashCode() => 0;
 
         int IComparable.CompareTo(object obj) => obj is Null ? 0 : -1;

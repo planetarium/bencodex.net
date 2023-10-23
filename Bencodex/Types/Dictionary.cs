@@ -940,10 +940,6 @@ namespace Bencodex.Types
             internal set => _encodingLength = value;
         }
 
-        /// <inheritdoc cref="IValue.Inspection"/>
-        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
-        public string Inspection => Inspect(true);
-
         /// <inheritdoc cref="IReadOnlyDictionary{TKey,TValue}.this[TKey]"/>
         public IValue this[IKey key] => _dict[key];
 

@@ -24,13 +24,6 @@ namespace Bencodex.Types
         [Pure]
         long EncodingLength { get; }
 
-        /// <summary>A human-readable representation for debugging.</summary>
-        /// <returns>A human-readable representation.</returns>
-        /// <remarks>This property is deprecated.  Use <see cref="Inspect(bool)"/>
-        /// method instead.</remarks>
-        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
-        string Inspection { get; }
-
         /// <summary>
         /// Gets a human-readable representation for debugging.
         /// <para>Unloaded values may be omitted.</para>

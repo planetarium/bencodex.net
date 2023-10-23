@@ -28,10 +28,6 @@ namespace Bencodex.Types
         [Pure]
         public long EncodingLength => 1L;
 
-        /// <inheritdoc cref="IValue.Inspection"/>
-        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
-        public string Inspection => Inspect(true);
-
         public static implicit operator bool(Boolean boolean)
         {
             return boolean.Value;

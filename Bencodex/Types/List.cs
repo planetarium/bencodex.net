@@ -202,10 +202,6 @@ namespace Bencodex.Types
             private set => _encodingLength = value;
         }
 
-        /// <inheritdoc cref="IValue.Inspection"/>
-        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
-        public string Inspection => Inspect(true);
-
         /// <inheritdoc cref="IReadOnlyCollection{T}.Count"/>
         public int Count => _values.Length;
 

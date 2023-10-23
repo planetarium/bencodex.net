@@ -59,10 +59,6 @@ namespace Bencodex.Types
             CommonVariables.Separator.LongLength +
             ByteArray.Length;
 
-        /// <inheritdoc cref="IValue.Inspection"/>
-        [Obsolete("Deprecated in favour of " + nameof(Inspect) + "() method.")]
-        public string Inspection => Inspect(true);
-
         public static explicit operator Binary(ImmutableArray<byte> bytes) =>
             new Binary(bytes);
 
