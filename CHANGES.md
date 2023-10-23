@@ -7,8 +7,10 @@ Version 0.16.0
 To be released.
 
  -  Removed `IValue.Inspection` property.  [[#117]]
+ -  Changed `IValue.Inspect(bool)` to `IValue.Inspect()`.  [[#118]]
 
 [#117]: https://github.com/planetarium/bencodex.net/pull/117
+[#118]: https://github.com/planetarium/bencodex.net/pull/118
 
 
 Version 0.15.0
