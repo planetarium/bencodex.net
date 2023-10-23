@@ -178,13 +178,11 @@ namespace Bencodex.Tests.Types
             Assert.Equal(13L, new Binary(new byte[10]).EncodingLength);
         }
 
-        [Theory]
-        [InlineData(new object[] { false })]
-        [InlineData(new object[] { true })]
-        public void Inspect(bool loadAll)
+        [Fact]
+        public void Inspect()
         {
-            Assert.Equal("b\"\"", _empty.Inspect(loadAll));
-            Assert.Equal(@"b""\x68\x65\x6c\x6c\x6f""", _hello.Inspect(loadAll));
+            Assert.Equal("b\"\"", _empty.Inspect());
+            Assert.Equal(@"b""\x68\x65\x6c\x6c\x6f""", _hello.Inspect());
         }
 
         [Fact]

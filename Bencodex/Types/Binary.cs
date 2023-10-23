@@ -317,8 +317,8 @@ namespace Bencodex.Types
             return Convert.ToBase64String(Unsafe.As<ImmutableArray<byte>, byte[]>(ref bytes));
         }
 
-        /// <inheritdoc cref="IValue.Inspect(bool)"/>
-        public string Inspect(bool loadAll)
+        /// <inheritdoc cref="IValue.Inspect()"/>
+        public string Inspect()
         {
             IEnumerable<string> contents = this.Select(b => $"\\x{b:x2}");
             return $"b\"{string.Join(string.Empty, contents)}\"";
@@ -326,6 +326,6 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Binary)} {Inspect(false)}";
+            $"{nameof(Bencodex)}.{nameof(Bencodex.Types)}.{nameof(Binary)} {Inspect()}";
     }
 }

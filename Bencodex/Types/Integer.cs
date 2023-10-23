@@ -223,13 +223,13 @@ namespace Bencodex.Types
             return Value.GetHashCode();
         }
 
-        /// <inheritdoc cref="IValue.Inspect(bool)"/>
-        public string Inspect(bool loadAll) =>
+        /// <inheritdoc cref="IValue.Inspect()"/>
+        public string Inspect() =>
             Value.ToString(CultureInfo.InvariantCulture);
 
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Integer)} {Inspect(false)}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Integer)} {Inspect()}";
 
         internal long CountDecimalDigits() =>
             Value.Sign switch

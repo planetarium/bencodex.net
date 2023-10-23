@@ -43,8 +43,8 @@ namespace Bencodex.Types
 
         bool IEquatable<Null>.Equals(Null other) => true;
 
-        /// <inheritdoc cref="IValue.Inspect(bool)"/>
-        public string Inspect(bool loadAll) => "null";
+        /// <inheritdoc cref="IValue.Inspect()"/>
+        public string Inspect() => "null";
 
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>

@@ -1676,8 +1676,8 @@ namespace Bencodex.Types
             => unchecked(_dict.Aggregate(GetType().GetHashCode(), (accum, next)
                 => (accum * 397) ^ ((next.Key.GetHashCode() * 397) ^ next.Value.GetHashCode())));
 
-        /// <inheritdoc cref="IValue.Inspect(bool)"/>
-        public string Inspect(bool loadAll)
+        /// <inheritdoc cref="IValue.Inspect()"/>
+        public string Inspect()
         {
             if (_dict.Count < 1)
             {
@@ -1685,7 +1685,7 @@ namespace Bencodex.Types
             }
 
             IEnumerable<string> pairs = this.Select(kv =>
-                $"  {kv.Key.Inspect(loadAll)}: {kv.Value.Inspect(loadAll).Replace("\n", "\n  ")},\n"
+                $"  {kv.Key.Inspect()}: {kv.Value.Inspect().Replace("\n", "\n  ")},\n"
             ).OrderBy(s => s);
             string pairsString = string.Join(string.Empty, pairs);
             return $"{{\n{pairsString}}}";
@@ -1693,6 +1693,6 @@ namespace Bencodex.Types
 
         /// <inheritdoc cref="object.ToString()"/>
         public override string ToString() =>
-            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Dictionary)} {Inspect(false)}";
+            $"{nameof(Bencodex)}.{nameof(Types)}.{nameof(Dictionary)} {Inspect()}";
     }
 }
