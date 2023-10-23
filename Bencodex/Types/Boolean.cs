@@ -7,7 +7,6 @@ namespace Bencodex.Types
     /// or false (i.e., <c>f</c>).</summary>
     public struct Boolean :
         IValue,
-        IEquatable<bool>,
         IEquatable<Boolean>,
         IComparable<bool>,
         IComparable<Boolean>,
@@ -55,33 +54,11 @@ namespace Bencodex.Types
             return CompareTo(other.Value);
         }
 
-        bool IEquatable<bool>.Equals(bool other)
-        {
-            return Value == other;
-        }
+        public bool Equals(Boolean other) => Value == other.Value;
 
-        bool IEquatable<Boolean>.Equals(Boolean other)
-        {
-            return Value == other.Value;
-        }
+        public bool Equals(IValue other) => other is Boolean b && Equals(b);
 
-        bool IEquatable<IValue>.Equals(IValue other) =>
-            other is Boolean o && ((IEquatable<Boolean>)this).Equals(o);
-
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case null:
-                    return false;
-                case Boolean b:
-                    return Value.Equals(b.Value);
-                case bool b:
-                    return Value.Equals(b);
-                default:
-                    return false;
-            }
-        }
+        public override bool Equals(object obj) => obj is Boolean b && Equals(b);
 
         public override int GetHashCode()
         {

@@ -10,6 +10,35 @@ namespace Bencodex.Tests.Types
         private readonly Boolean _f = new Boolean(false);
 
         [Fact]
+        public void Equality()
+        {
+            bool b = true;
+            Boolean x = new Boolean(true);
+            object ob = (object)b;
+            object ox = (object)x;
+
+#pragma warning disable CS1718 // Comparison made to same variable
+            Assert.True(x == x);
+            Assert.True(x.Equals(x));
+            Assert.True(x.Equals(ox));
+            Assert.True(ox.Equals(x));
+            Assert.True(ox.Equals(ox));
+#pragma warning restore CS1718
+
+            Assert.True(b == x);
+            Assert.True(x == b);
+            Assert.True(b.Equals(x));
+            Assert.True(x.Equals(x));
+
+            Assert.False(b.Equals(ox));
+            Assert.False(x.Equals(ob));
+            Assert.False(ob.Equals(x));
+            Assert.False(ox.Equals(b));
+            Assert.False(ob.Equals(ox));
+            Assert.False(ox.Equals(ob));
+        }
+
+        [Fact]
         public void Kind()
         {
             Assert.Equal(ValueKind.Boolean, _t.Kind);
