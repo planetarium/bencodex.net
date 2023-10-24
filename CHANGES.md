@@ -8,9 +8,13 @@ To be released.
 
  -  Removed `IValue.Inspection` property.  [[#117]]
  -  Changed `IValue.Inspect(bool)` to `IValue.Inspect()`.  [[#118]]
+ -  Removed `IEquatable<bool>` and `IComparable<bool>` from `Boolean`.
+    [[#104], [#119]]
+ -  Added `==` and `!=` operators for `Boolean`.  [[#119]]
 
 [#117]: https://github.com/planetarium/bencodex.net/pull/117
 [#118]: https://github.com/planetarium/bencodex.net/pull/118
+[#119]: https://github.com/planetarium/bencodex.net/pull/119
 
 
 Version 0.15.0

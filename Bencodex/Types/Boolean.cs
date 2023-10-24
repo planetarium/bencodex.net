@@ -7,9 +7,7 @@ namespace Bencodex.Types
     /// or false (i.e., <c>f</c>).</summary>
     public struct Boolean :
         IValue,
-        IEquatable<bool>,
         IEquatable<Boolean>,
-        IComparable<bool>,
         IComparable<Boolean>,
         IComparable
     {
@@ -38,50 +36,43 @@ namespace Bencodex.Types
             return new Boolean(b);
         }
 
-        public int CompareTo(object obj)
+        public static bool operator ==(Boolean a, Boolean b) => a.Equals(b);
+
+        public static bool operator !=(Boolean a, Boolean b) => !a.Equals(b);
+
+        public static bool operator ==(Boolean a, bool b) => a.Equals(b);
+
+        public static bool operator !=(Boolean a, bool b) => !a.Equals(b);
+
+        public static bool operator ==(bool a, Boolean b) => a.Equals(b.Value);
+
+        public static bool operator !=(bool a, Boolean b) => !a.Equals(b.Value);
+
+        public int CompareTo(Boolean other)
         {
-            if (obj is bool b)
+            return Value.CompareTo(other.Value);
+        }
+
+        public int CompareTo(object? obj)
+        {
+            if (obj is null)
             {
-                return ((IComparable<bool>)this).CompareTo(b);
+                return 1;
             }
 
-            return Value.CompareTo(obj);
-        }
-
-        int IComparable<bool>.CompareTo(bool other) => Value.CompareTo(other);
-
-        int IComparable<Boolean>.CompareTo(Boolean other)
-        {
-            return CompareTo(other.Value);
-        }
-
-        bool IEquatable<bool>.Equals(bool other)
-        {
-            return Value == other;
-        }
-
-        bool IEquatable<Boolean>.Equals(Boolean other)
-        {
-            return Value == other.Value;
-        }
-
-        bool IEquatable<IValue>.Equals(IValue other) =>
-            other is Boolean o && ((IEquatable<Boolean>)this).Equals(o);
-
-        public override bool Equals(object obj)
-        {
-            switch (obj)
+            if (obj is Boolean b)
             {
-                case null:
-                    return false;
-                case Boolean b:
-                    return Value.Equals(b.Value);
-                case bool b:
-                    return Value.Equals(b);
-                default:
-                    return false;
+                return CompareTo(b);
             }
+
+            throw new ArgumentException($"Object must be of type {nameof(Boolean)}");
         }
+
+        public bool Equals(Boolean other) => Value == other.Value;
+
+        public bool Equals(IValue other) => other is Boolean b && Equals(b);
+
+        public override bool Equals(object obj) => obj is Boolean b && Equals(b);
 
         public override int GetHashCode()
         {
