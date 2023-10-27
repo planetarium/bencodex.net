@@ -4,7 +4,7 @@ Changelog
 Version 0.16.0
 --------------
 
-To be released.
+Released on October 27th, 2023.
 
  -  Removed `IValue.Inspection` property.  [[#117]]
  -  Changed `IValue.Inspect(bool)` to `IValue.Inspect()`.  [[#118]]
