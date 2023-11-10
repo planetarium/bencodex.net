@@ -6,6 +6,10 @@ Version 0.17.0
 
 To be released.
 
+ -  Removed `Dictionary.GetValue<T>()` methods.  [[#122]]
+
+[#122]: https://github.com/planetarium/bencodex.net/pull/122
+
 
 Version 0.16.0
 --------------
