@@ -1629,23 +1629,6 @@ namespace Bencodex.Types
         public bool TryGetKey(IKey equalKey, out IKey actualKey) =>
             _dict.TryGetKey(equalKey, out actualKey);
 
-        public T GetValue<T>(string name)
-            where T : IValue
-        {
-            return (T)this[name];
-        }
-
-        public T GetValue<T>(ImmutableArray<byte> name)
-            where T : IValue
-        =>
-            (T)this[name];
-
-        public T GetValue<T>(byte[] name)
-            where T : IValue
-        {
-            return (T)this[name];
-        }
-
         public override bool Equals(object obj) => obj is Dictionary d && Equals(d);
 
         public bool Equals(IValue other) => other is Dictionary d && Equals(d);
