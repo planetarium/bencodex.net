@@ -193,7 +193,7 @@ namespace Bencodex.Types
 
         public override bool Equals(object? obj) => obj is Binary other && Equals(other);
 
-        public bool Equals(IValue other) => other is Binary i && Equals(i);
+        public bool Equals(IValue? other) => other is Binary i && Equals(i);
 
         public bool Equals(Binary other) => ByteArray.SequenceEqual(other.ByteArray);
 

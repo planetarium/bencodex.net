@@ -208,13 +208,13 @@ namespace Bencodex.Types
         /// <inheritdoc cref="IReadOnlyList{T}.this[int]"/>
         public IValue this[int index] => _values[index];
 
-        public override bool Equals(object obj) => obj is List l && Equals(l);
+        public override bool Equals(object? obj) => obj is List l && Equals(l);
 
-        public bool Equals(IValue other) => other is List l && Equals(l);
+        public bool Equals(IValue? other) => other is List l && Equals(l);
 
-        public bool Equals(List other)
+        public bool Equals(List? other)
         {
-            if (Count == other.Count)
+            if (Count == other?.Count)
             {
                 for (int i = 0; i < Count; i++)
                 {
@@ -389,7 +389,7 @@ namespace Bencodex.Types
             IValue item,
             int index,
             int count,
-            IEqualityComparer<IValue> equalityComparer
+            IEqualityComparer<IValue>? equalityComparer
         ) =>
             _values.IndexOf(
                 item,
@@ -414,7 +414,7 @@ namespace Bencodex.Types
             IValue item,
             int index,
             int count,
-            IEqualityComparer<IValue> equalityComparer
+            IEqualityComparer<IValue>? equalityComparer
         ) =>
             _values.LastIndexOf(
                 item,
@@ -425,7 +425,7 @@ namespace Bencodex.Types
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.Remove(
             IValue value,
-            IEqualityComparer<IValue> equalityComparer
+            IEqualityComparer<IValue>? equalityComparer
         ) =>
             new List(_values.Remove(value, equalityComparer));
 
@@ -441,7 +441,7 @@ namespace Bencodex.Types
         [Obsolete("This operation immediately loads all unloaded values on the memory.")]
         IImmutableList<IValue> IImmutableList<IValue>.RemoveRange(
             IEnumerable<IValue> items,
-            IEqualityComparer<IValue> equalityComparer
+            IEqualityComparer<IValue>? equalityComparer
         ) =>
             new List(_values.RemoveRange(items.Select(v => v), equalityComparer));
 
@@ -452,7 +452,7 @@ namespace Bencodex.Types
         IImmutableList<IValue> IImmutableList<IValue>.Replace(
             IValue oldValue,
             IValue newValue,
-            IEqualityComparer<IValue> equalityComparer
+            IEqualityComparer<IValue>? equalityComparer
         ) =>
             new List(
                 _values.Replace(

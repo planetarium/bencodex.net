@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -239,6 +240,8 @@ namespace Bencodex
         // TODO: Needs a unit test.
         internal static long Encode(in IValue value, byte[] buffer, long offset)
         {
+            using Activity? activity = BencodexTracer.StartActivity(nameof(Encode));
+            activity?.AddTag("type", value.GetType().ToString());
             return value switch
             {
                 Null _ => EncodeNull(buffer, offset),

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Numerics;
@@ -39,30 +40,38 @@ namespace Bencodex
 
         private IValue? DecodeValue()
         {
+            using Activity? activity = BencodexTracer.StartActivity(nameof(Decode));
             switch (ReadByte())
             {
                 case 0x65: // 'e'
+                    activity?.AddTag("type", "null");
                     return null;
 
                 case 0x6e: // 'n'
 #pragma warning disable SA1129
+                    activity?.AddTag("type", nameof(Types.Null));
                     return new Null();
 #pragma warning restore SA1129
 
                 case 0x74: // 't'
+                    activity?.AddTag("type", nameof(Types.Boolean));
                     return new Bencodex.Types.Boolean(true);
 
                 case 0x66: // 'f'
+                    activity?.AddTag("type", nameof(Types.Boolean));
                     return new Bencodex.Types.Boolean(false);
 
                 case 0x69: // 'i'
+                    activity?.AddTag("type", nameof(Types.Integer));
                     BigInteger integer = ReadInteger();
                     return new Integer(integer);
 
                 case 0x75: // 'u'
+                    activity?.AddTag("type", nameof(Types.Text));
                     return ReadTextAfterPrefix();
 
                 case 0x6c: // 'l'
+                    activity?.AddTag("type", nameof(Types.List));
                     var elements = new List<IValue>();
                     while (DecodeValue() is IValue element)
                     {
@@ -72,6 +81,7 @@ namespace Bencodex
                     return new Bencodex.Types.List(elements);
 
                 case 0x64: // 'd'
+                    activity?.AddTag("type", nameof(Types.Dictionary));
                     var builder = ImmutableSortedDictionary.CreateBuilder<IKey, IValue>(KeyComparer.Instance);
                     IKey? lastKey = null;
                     while (DecodeKey() is IKey key)

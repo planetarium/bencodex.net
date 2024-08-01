@@ -29,16 +29,16 @@ namespace Bencodex.Types
 
         public override int GetHashCode() => 0;
 
-        int IComparable.CompareTo(object obj) => obj is Null ? 0 : -1;
+        int IComparable.CompareTo(object? obj) => obj is Null ? 0 : -1;
 
         int IComparable<Null>.CompareTo(Null other) => 0;
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return ReferenceEquals(null, obj) || obj is Null;
         }
 
-        bool IEquatable<IValue>.Equals(IValue other) =>
+        bool IEquatable<IValue>.Equals(IValue? other) =>
             other is Null;
 
         bool IEquatable<Null>.Equals(Null other) => true;

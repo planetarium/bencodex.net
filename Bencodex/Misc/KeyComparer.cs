@@ -19,7 +19,7 @@ namespace Bencodex.Misc
         }
 
         /// <inheritdoc cref="IComparer{T}.Compare(T, T)"/>
-        public int Compare(IKey x, IKey y)
+        public int Compare(IKey? x, IKey? y)
         {
             if (x is Binary xb && y is Binary yb)
             {
@@ -30,7 +30,7 @@ namespace Bencodex.Misc
                 return xt.CompareTo(yt);
             }
 
-            return (x.Kind == ValueKind.Text).CompareTo(y.Kind == ValueKind.Text);
+            return (x?.Kind == ValueKind.Text).CompareTo(y?.Kind == ValueKind.Text);
         }
     }
 }
