@@ -24,7 +24,7 @@
     <NoWarn>CS1591</NoWarn>
     <IsTestProject>false</IsTestProject>
     <DebugType>portable</DebugType>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0</TargetFrameworks>
     <CodeAnalysisRuleSet>../Bencodex.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
