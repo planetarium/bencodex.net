@@ -9,6 +9,16 @@ namespace Bencodex
 {
     internal static class Encoder
     {
+        private const byte _n = 0x6e;
+        private const byte _t = 0x74;
+        private const byte _f = 0x66;
+        private const byte _i = 0x69;
+        private const byte _c = 0x3a;   // `:`
+        private const byte _e = 0x65;
+        private const byte _u = 0x75;
+        private const byte _l = 0x6c;
+        private const byte _d = 0x64;
+
         // TODO: Needs a unit test.
         public static byte[] Encode(IValue value)
         {
@@ -36,24 +46,24 @@ namespace Bencodex
                 switch (value)
                 {
                     case List l:
-                        output.WriteByte(0x6c);  // 'l'
+                        output.WriteByte(_l);
                         foreach (IValue el in l)
                         {
                             Encode(el, output);
                         }
 
-                        output.WriteByte(0x65);  // 'e'
+                        output.WriteByte(_e);
                         break;
 
                     case Dictionary d:
-                        output.WriteByte(0x6c);  // 'l'
+                        output.WriteByte(_d);
                         foreach (KeyValuePair<IKey, IValue> pair in d)
                         {
                             Encode(pair.Key, output);
                             Encode(pair.Value, output);
                         }
 
-                        output.WriteByte(0x65);  // 'e'
+                        output.WriteByte(_e);
                         break;
                 }
 
@@ -71,19 +81,17 @@ namespace Bencodex
 
         internal static void EncodeNull(byte[] buffer, ref long offset)
         {
-            buffer[offset++] = 0x6e;  // 'n'
+            buffer[offset++] = _n;
         }
 
         internal static void EncodeBoolean(in Types.Boolean value, byte[] buffer, ref long offset)
         {
-            buffer[offset++] = value.Value
-                ? (byte)0x74 // 't'
-                : (byte)0x66; // 'f'
+            buffer[offset++] = value.Value ? _t : _f;
         }
 
         internal static void EncodeInteger(in Integer value, byte[] buffer, ref long offset)
         {
-            buffer[offset++] = 0x69;  // 'i'
+            buffer[offset++] = _i;
             string digits = value.Value.ToString(CultureInfo.InvariantCulture);
             if (offset + digits.Length <= int.MaxValue)
             {
@@ -96,14 +104,14 @@ namespace Bencodex
             }
 
             offset += digits.Length;
-            buffer[offset++] = 0x65;  // 'e'
+            buffer[offset++] = _e;
         }
 
         internal static void EncodeBinary(in Binary value, byte[] buffer, ref long offset)
         {
             long len = value.ByteArray.Length;
             EncodeDigits(len, buffer, ref offset);
-            buffer[offset++] = 0x3a;  // ':'
+            buffer[offset++] = _c;
 
             if (offset + len <= int.MaxValue)
             {
@@ -120,14 +128,12 @@ namespace Bencodex
 
         internal static void EncodeText(in Text value, byte[] buffer, ref long offset)
         {
-            buffer[offset++] = 0x75;  // 'u'
+            buffer[offset++] = _u;
             int utf8Length = value.Utf8Length;
-
             EncodeDigits(utf8Length, buffer, ref offset);
-            buffer[offset++] = 0x3a;  // ':'
+            buffer[offset++] = _c;
 
             string str = value.Value;
-
             if (offset + str.Length <= int.MaxValue)
             {
                 Encoding.UTF8.GetBytes(str, 0, str.Length, buffer, (int)offset);
@@ -144,20 +150,20 @@ namespace Bencodex
         // TODO: Needs a unit test.
         internal static void EncodeList(in List value, byte[] buffer, ref long offset)
         {
-            buffer[offset++] = 0x6c;  // 'l'
+            buffer[offset++] = _l;
             foreach (IValue v in value)
             {
                 Encode(v, buffer, ref offset);
             }
 
-            buffer[offset++] = 0x65;  // 'e'
+            buffer[offset++] = _e;
             return;
         }
 
         // TODO: Needs a unit test.
         internal static void EncodeDictionary(in Dictionary value, byte[] buffer, ref long offset)
         {
-            buffer[offset++] = 0x64;  // 'd'
+            buffer[offset++] = _d;
 
             foreach (KeyValuePair<IKey, IValue> pair in value)
             {
@@ -177,7 +183,7 @@ namespace Bencodex
                 Encode(pair.Value, buffer, ref offset);
             }
 
-            buffer[offset++] = 0x65;  // 'e'
+            buffer[offset++] = _e;
             return;
         }
 
