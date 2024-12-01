@@ -24,7 +24,7 @@ namespace Bencodex
         {
             long estimatedLength = EstimateLength(value);
             var buffer = new byte[estimatedLength];
-            long offset = 0;
+            int offset = 0;
             Encode(value, buffer, ref offset);
             return buffer;
         }
@@ -79,54 +79,36 @@ namespace Bencodex
             return value.EncodingLength;
         }
 
-        internal static void EncodeNull(byte[] buffer, ref long offset)
+        internal static void EncodeNull(byte[] buffer, ref int offset)
         {
             buffer[offset++] = _n;
         }
 
-        internal static void EncodeBoolean(in Types.Boolean value, byte[] buffer, ref long offset)
+        internal static void EncodeBoolean(in Types.Boolean value, byte[] buffer, ref int offset)
         {
             buffer[offset++] = value.Value ? _t : _f;
         }
 
-        internal static void EncodeInteger(in Integer value, byte[] buffer, ref long offset)
+        internal static void EncodeInteger(in Integer value, byte[] buffer, ref int offset)
         {
             buffer[offset++] = _i;
             string digits = value.Value.ToString(CultureInfo.InvariantCulture);
-            if (offset + digits.Length <= int.MaxValue)
-            {
-                Encoding.ASCII.GetBytes(digits, 0, digits.Length, buffer, (int)offset);
-            }
-            else
-            {
-                byte[] digitBytes = Encoding.ASCII.GetBytes(digits);
-                Array.Copy(digitBytes, 0L, buffer, offset, digitBytes.LongLength);
-            }
-
+            Encoding.ASCII.GetBytes(digits, 0, digits.Length, buffer, offset);
             offset += digits.Length;
             buffer[offset++] = _e;
         }
 
-        internal static void EncodeBinary(in Binary value, byte[] buffer, ref long offset)
+        internal static void EncodeBinary(in Binary value, byte[] buffer, ref int offset)
         {
-            long len = value.ByteArray.Length;
+            int len = value.ByteArray.Length;
             EncodeDigits(len, buffer, ref offset);
             buffer[offset++] = _c;
-
-            if (offset + len <= int.MaxValue)
-            {
-                value.ByteArray.CopyTo(buffer, (int)offset);
-                offset += len;
-                return;
-            }
-
-            byte[] b = value.ToByteArray();
-            Array.Copy(b, 0L, buffer, offset, b.LongLength);
+            value.ByteArray.CopyTo(buffer, offset);
             offset += len;
             return;
         }
 
-        internal static void EncodeText(in Text value, byte[] buffer, ref long offset)
+        internal static void EncodeText(in Text value, byte[] buffer, ref int offset)
         {
             buffer[offset++] = _u;
             int utf8Length = value.Utf8Length;
@@ -134,21 +116,13 @@ namespace Bencodex
             buffer[offset++] = _c;
 
             string str = value.Value;
-            if (offset + str.Length <= int.MaxValue)
-            {
-                Encoding.UTF8.GetBytes(str, 0, str.Length, buffer, (int)offset);
-                offset += utf8Length;
-                return;
-            }
-
-            byte[] utf8 = Encoding.UTF8.GetBytes(value.Value);
-            Array.Copy(utf8, 0L, buffer, offset, utf8.LongLength);
-            offset += utf8.LongLength;
+            Encoding.UTF8.GetBytes(str, 0, str.Length, buffer, offset);
+            offset += utf8Length;
             return;
         }
 
         // TODO: Needs a unit test.
-        internal static void EncodeList(in List value, byte[] buffer, ref long offset)
+        internal static void EncodeList(in List value, byte[] buffer, ref int offset)
         {
             buffer[offset++] = _l;
             foreach (IValue v in value)
@@ -161,7 +135,7 @@ namespace Bencodex
         }
 
         // TODO: Needs a unit test.
-        internal static void EncodeDictionary(in Dictionary value, byte[] buffer, ref long offset)
+        internal static void EncodeDictionary(in Dictionary value, byte[] buffer, ref int offset)
         {
             buffer[offset++] = _d;
 
@@ -187,7 +161,7 @@ namespace Bencodex
             return;
         }
 
-        internal static long CountDecimalDigits(long value)
+        internal static int CountDecimalDigits(int value)
         {
 #pragma warning disable SA1503 // Braces should not be omitted
             if (value < 10L) return 1;
@@ -199,34 +173,25 @@ namespace Bencodex
             if (value < 10000000L) return 7;
             if (value < 100000000L) return 8;
             if (value < 1000000000L) return 9;
-            if (value < 10000000000L) return 10;
-            if (value < 100000000000L) return 11;
-            if (value < 1000000000000L) return 12;
-            if (value < 10000000000000L) return 13;
-            if (value < 100000000000000L) return 14;
-            if (value < 1000000000000000L) return 15;
-            if (value < 10000000000000000L) return 16;
-            if (value < 100000000000000000L) return 17;
-            if (value < 1000000000000000000L) return 18;
-            return 19;
+            return 10;
 #pragma warning restore SA1503
         }
 
-        internal static void EncodeDigits(long positiveInt, byte[] buffer, ref long offset)
+        internal static void EncodeDigits(int nonNegativeInt, byte[] buffer, ref int offset)
         {
             const int asciiZero = 0x30; // '0'
-            long length = CountDecimalDigits(positiveInt);
-            for (long i = offset + length - 1; i >= offset; i--)
+            int length = CountDecimalDigits(nonNegativeInt);
+            for (int i = offset + length - 1; i >= offset; i--)
             {
-                buffer[i] = (byte)(positiveInt % 10 + asciiZero);
-                positiveInt /= 10;
+                buffer[i] = (byte)(nonNegativeInt % 10 + asciiZero);
+                nonNegativeInt /= 10;
             }
 
             offset += length;
         }
 
         // TODO: Needs a unit test.
-        internal static void Encode(in IValue value, byte[] buffer, ref long offset)
+        internal static void Encode(in IValue value, byte[] buffer, ref int offset)
         {
             switch (value)
             {
