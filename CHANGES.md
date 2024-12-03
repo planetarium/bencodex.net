@@ -9,9 +9,11 @@ To be released.
  -  Removed `Dictionary.GetValue<T>()` methods.  [[#122]]
  -  Optimized `Encoder.Encode()` method.  [[#124]]
  -  Fixed a bug in `Encoder.Encode(IValue, Stream)` method.  [[#124]]
+ -  Optimized `Encoder.Encode()` method.  [[#125]]
 
 [#122]: https://github.com/planetarium/bencodex.net/pull/122
 [#124]: https://github.com/planetarium/bencodex.net/pull/124
+[#125]: https://github.com/planetarium/bencodex.net/pull/125
 
 
 Version 0.16.0
