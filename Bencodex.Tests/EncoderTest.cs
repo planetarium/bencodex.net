@@ -30,8 +30,9 @@ namespace Bencodex.Tests
         public void EncodeNull()
         {
             var buffer = new byte[10];
-            long size = Encoder.EncodeNull(buffer, 3L);
-            Assert.Equal(1L, size);
+            long offset = 3L;
+            Encoder.EncodeNull(buffer, ref offset);
+            Assert.Equal(3L + 1L, offset);
             AssertEqual(new byte[] { 0, 0, 0, 0x6e, 0, 0, 0, 0, 0, 0 }, buffer);
         }
 
@@ -39,12 +40,14 @@ namespace Bencodex.Tests
         public void EncodeBoolean()
         {
             var buffer = new byte[10];
-            long size = Encoder.EncodeBoolean(new Boolean(true), buffer, 2L);
-            Assert.Equal(1L, size);
+            long offset = 2L;
+            Encoder.EncodeBoolean(new Boolean(true), buffer, ref offset);
+            Assert.Equal(2L + 1L, offset);
             AssertEqual(new byte[] { 0, 0, 0x74, 0, 0, 0, 0, 0, 0, 0 }, buffer);
 
-            size = Encoder.EncodeBoolean(new Boolean(false), buffer, 5L);
-            Assert.Equal(1L, size);
+            offset = 5L;
+            Encoder.EncodeBoolean(new Boolean(false), buffer, ref offset);
+            Assert.Equal(5L + 1L, offset);
             AssertEqual(new byte[] { 0, 0, 0x74, 0, 0, 0x66, 0, 0, 0, 0 }, buffer);
         }
 
@@ -52,18 +55,21 @@ namespace Bencodex.Tests
         public void EncodeInteger()
         {
             var buffer = new byte[10];
-            long size = Encoder.EncodeInteger(0, buffer, 2L);
-            Assert.Equal(3L, size);
+            long offset = 2L;
+            Encoder.EncodeInteger(0, buffer, ref offset);
+            Assert.Equal(2L + 3L, offset);
             AssertEqual(new byte[] { 0, 0, 0x69, 0x30, 0x65, 0, 0, 0, 0, 0 }, buffer);
 
             Clear(buffer, 0, buffer.Length);
-            size = Encoder.EncodeInteger(-123, buffer, 1L);
-            Assert.Equal(6L, size);
+            offset = 1L;
+            Encoder.EncodeInteger(-123, buffer, ref offset);
+            Assert.Equal(1L + 6L, offset);
             AssertEqual(new byte[] { 0, 0x69, 0x2d, 0x31, 0x32, 0x33, 0x65, 0, 0, 0 }, buffer);
 
             Clear(buffer, 0, buffer.Length);
-            size = Encoder.EncodeInteger(456, buffer, 4L);
-            Assert.Equal(5L, size);
+            offset = 4L;
+            Encoder.EncodeInteger(456, buffer, ref offset);
+            Assert.Equal(4L + 5L, offset);
             AssertEqual(new byte[] { 0, 0, 0, 0, 0x69, 0x34, 0x35, 0x36, 0x65, 0 }, buffer);
         }
 
@@ -71,8 +77,9 @@ namespace Bencodex.Tests
         public void EncodeBinary()
         {
             var buffer = new byte[20];
-            long size = Encoder.EncodeBinary(new Binary("hello world", Encoding.ASCII), buffer, 2L);
-            Assert.Equal(14L, size);
+            long offset = 2L;
+            Encoder.EncodeBinary(new Binary("hello world", Encoding.ASCII), buffer, ref offset);
+            Assert.Equal(2L + 14L, offset);
             AssertEqual(
                 new byte[20]
                 {
@@ -90,8 +97,9 @@ namespace Bencodex.Tests
         public void EncodeText()
         {
             var buffer = new byte[20];
-            long size = Encoder.EncodeText("한글", buffer, 5L);
-            Assert.Equal(9L, size);
+            long offset = 5L;
+            Encoder.EncodeText("한글", buffer, ref offset);
+            Assert.Equal(5L + 9L, offset);
             AssertEqual(
                 new byte[20]
                 {
@@ -130,28 +138,33 @@ namespace Bencodex.Tests
         public void EncodeDigits()
         {
             var buffer = new byte[10];
-            long size = Encoder.EncodeDigits(0L, buffer, 2L);
-            Assert.Equal(1L, size);
+            long offset = 2L;
+            Encoder.EncodeDigits(0L, buffer, ref offset);
+            Assert.Equal(2L + 1L, offset);
             AssertEqual(new byte[] { 0, 0, 0x30, 0, 0, 0, 0, 0, 0, 0 }, buffer);
 
             Clear(buffer, 0, buffer.Length);
-            size = Encoder.EncodeDigits(5L, buffer, 0L);
-            Assert.Equal(1L, size);
+            offset = 0L;
+            Encoder.EncodeDigits(5L, buffer, ref offset);
+            Assert.Equal(0L + 1L, offset);
             AssertEqual(new byte[] { 0x35, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, buffer);
 
             Clear(buffer, 0, buffer.Length);
-            size = Encoder.EncodeDigits(10L, buffer, 5L);
-            Assert.Equal(2L, size);
+            offset = 5L;
+            Encoder.EncodeDigits(10L, buffer, ref offset);
+            Assert.Equal(5L + 2L, offset);
             AssertEqual(new byte[] { 0, 0, 0, 0, 0, 0x31, 0x30, 0, 0, 0 }, buffer);
 
             Clear(buffer, 0, buffer.Length);
-            size = Encoder.EncodeDigits(123L, buffer, 6L);
-            Assert.Equal(3L, size);
+            offset = 6L;
+            Encoder.EncodeDigits(123L, buffer, ref offset);
+            Assert.Equal(6L + 3L, offset);
             AssertEqual(new byte[] { 0, 0, 0, 0, 0, 0, 0x31, 0x32, 0x33, 0 }, buffer);
 
             Clear(buffer, 0, buffer.Length);
-            size = Encoder.EncodeDigits(9876543210L, buffer, 0L);
-            Assert.Equal(10L, size);
+            offset = 0L;
+            Encoder.EncodeDigits(9876543210L, buffer, ref offset);
+            Assert.Equal(0L + 10L, offset);
             AssertEqual(
                 new byte[] { 0x39, 0x38, 0x37, 0x36, 0x35, 0x34, 0x33, 0x32, 0x31, 0x30 },
                 buffer

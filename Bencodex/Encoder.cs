@@ -9,12 +9,23 @@ namespace Bencodex
 {
     internal static class Encoder
     {
+        private const byte _n = 0x6e;
+        private const byte _t = 0x74;
+        private const byte _f = 0x66;
+        private const byte _i = 0x69;
+        private const byte _c = 0x3a;   // `:`
+        private const byte _e = 0x65;
+        private const byte _u = 0x75;
+        private const byte _l = 0x6c;
+        private const byte _d = 0x64;
+
         // TODO: Needs a unit test.
         public static byte[] Encode(IValue value)
         {
             long estimatedLength = EstimateLength(value);
             var buffer = new byte[estimatedLength];
-            Encode(value, buffer, 0L);
+            long offset = 0;
+            Encode(value, buffer, ref offset);
             return buffer;
         }
 
@@ -35,24 +46,24 @@ namespace Bencodex
                 switch (value)
                 {
                     case List l:
-                        output.WriteByte(0x6c);  // 'l'
+                        output.WriteByte(_l);
                         foreach (IValue el in l)
                         {
                             Encode(el, output);
                         }
 
-                        output.WriteByte(0x65);  // 'e'
+                        output.WriteByte(_e);
                         break;
 
                     case Dictionary d:
-                        output.WriteByte(0x6c);  // 'l'
+                        output.WriteByte(_d);
                         foreach (KeyValuePair<IKey, IValue> pair in d)
                         {
                             Encode(pair.Key, output);
                             Encode(pair.Value, output);
                         }
 
-                        output.WriteByte(0x65);  // 'e'
+                        output.WriteByte(_e);
                         break;
                 }
 
@@ -68,24 +79,19 @@ namespace Bencodex
             return value.EncodingLength;
         }
 
-        internal static long EncodeNull(byte[] buffer, long offset)
+        internal static void EncodeNull(byte[] buffer, ref long offset)
         {
-            buffer[offset] = 0x6e;  // 'n'
-            return 1L;
+            buffer[offset++] = _n;
         }
 
-        internal static long EncodeBoolean(in Types.Boolean value, byte[] buffer, long offset)
+        internal static void EncodeBoolean(in Types.Boolean value, byte[] buffer, ref long offset)
         {
-            buffer[offset] = value.Value
-                ? (byte)0x74 // 't'
-                : (byte)0x66; // 'f'
-            return 1L;
+            buffer[offset++] = value.Value ? _t : _f;
         }
 
-        internal static long EncodeInteger(in Integer value, byte[] buffer, long offset)
+        internal static void EncodeInteger(in Integer value, byte[] buffer, ref long offset)
         {
-            buffer[offset] = 0x69;  // 'i'
-            offset++;
+            buffer[offset++] = _i;
             string digits = value.Value.ToString(CultureInfo.InvariantCulture);
             if (offset + digits.Length <= int.MaxValue)
             {
@@ -98,104 +104,87 @@ namespace Bencodex
             }
 
             offset += digits.Length;
-            buffer[offset] = 0x65;  // 'e'
-            return 1L + digits.Length + 1L;
+            buffer[offset++] = _e;
         }
 
-        internal static long EncodeBinary(in Binary value, byte[] buffer, long offset)
+        internal static void EncodeBinary(in Binary value, byte[] buffer, ref long offset)
         {
             long len = value.ByteArray.Length;
-            long lenStrLength = EncodeDigits(len, buffer, offset);
-            offset += lenStrLength;
-            buffer[offset] = 0x3a;  // ':'
-            offset++;
+            EncodeDigits(len, buffer, ref offset);
+            buffer[offset++] = _c;
 
             if (offset + len <= int.MaxValue)
             {
                 value.ByteArray.CopyTo(buffer, (int)offset);
-                return lenStrLength + 1L + len;
+                offset += len;
+                return;
             }
 
             byte[] b = value.ToByteArray();
             Array.Copy(b, 0L, buffer, offset, b.LongLength);
-            return lenStrLength + 1L + b.LongLength;
+            offset += len;
+            return;
         }
 
-        internal static long EncodeText(in Text value, byte[] buffer, long offset)
+        internal static void EncodeText(in Text value, byte[] buffer, ref long offset)
         {
-            buffer[offset++] = 0x75;  // 'u'
+            buffer[offset++] = _u;
             int utf8Length = value.Utf8Length;
-            long lenStrLength = EncodeDigits(utf8Length, buffer, offset);
-            offset += lenStrLength;
-            buffer[offset] = 0x3a;  // ':'
-            offset++;
-            string str = value.Value;
+            EncodeDigits(utf8Length, buffer, ref offset);
+            buffer[offset++] = _c;
 
+            string str = value.Value;
             if (offset + str.Length <= int.MaxValue)
             {
                 Encoding.UTF8.GetBytes(str, 0, str.Length, buffer, (int)offset);
-                return 1L + lenStrLength + 1L + utf8Length;
+                offset += utf8Length;
+                return;
             }
 
             byte[] utf8 = Encoding.UTF8.GetBytes(value.Value);
             Array.Copy(utf8, 0L, buffer, offset, utf8.LongLength);
-            return 1L + lenStrLength + 1L + utf8.LongLength;
+            offset += utf8.LongLength;
+            return;
         }
 
         // TODO: Needs a unit test.
-        internal static long EncodeList(
-            in List value,
-            byte[] buffer,
-            long offset
-        )
+        internal static void EncodeList(in List value, byte[] buffer, ref long offset)
         {
-            buffer[offset] = 0x6c;  // 'l'
-            long encLen = 1L;  // This means the logical "expanded" encoding length.
-            long actualBytes = 1L;  // This means the actual "collapsed" encoding length.
+            buffer[offset++] = _l;
             foreach (IValue v in value)
             {
-                actualBytes += Encode(v, buffer, offset + actualBytes);
-                encLen += v.EncodingLength;
+                Encode(v, buffer, ref offset);
             }
 
-            offset += actualBytes;
-            buffer[offset] = 0x65;  // 'e'
-            actualBytes++;
-            encLen++;
-            return actualBytes;
+            buffer[offset++] = _e;
+            return;
         }
 
         // TODO: Needs a unit test.
-        internal static long EncodeDictionary(
-            in Dictionary value,
-            byte[] buffer,
-            long offset
-        )
+        internal static void EncodeDictionary(in Dictionary value, byte[] buffer, ref long offset)
         {
-            buffer[offset] = 0x64;  // 'd'
-            long encLen = 1L;  // This means the logical "expanded" encoding length.
-            long actualBytes = 1L;  // This means the actual "collapsed" encoding length.
+            buffer[offset++] = _d;
+
             foreach (KeyValuePair<IKey, IValue> pair in value)
             {
-                actualBytes += pair.Key switch
+                switch (pair.Key)
                 {
-                    Text tk => EncodeText(tk, buffer, offset + actualBytes),
-                    Binary bk => EncodeBinary(bk, buffer, offset + actualBytes),
-                    { } k => throw new ArgumentException(
-                        $"Unsupported type: {k.GetType()}", nameof(k)),
-                };
+                    case Binary binary:
+                        EncodeBinary(binary, buffer, ref offset);
+                        break;
+                    case Text text:
+                        EncodeText(text, buffer, ref offset);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            $"Unsupported type: {pair.Key.GetType()}", nameof(pair.Key));
+                }
 
-                actualBytes += Encode(pair.Value, buffer, offset + actualBytes);
-
-                encLen += pair.Key.EncodingLength + pair.Value.EncodingLength;
+                Encode(pair.Value, buffer, ref offset);
             }
 
-            offset += actualBytes;
-            buffer[offset] = 0x65;  // 'e'
-            encLen++;
-            actualBytes++;
-            value.EncodingLength = encLen;
-            return actualBytes;
+            buffer[offset++] = _e;
+            return;
         }
 
         internal static long CountDecimalDigits(long value)
@@ -223,7 +212,7 @@ namespace Bencodex
 #pragma warning restore SA1503
         }
 
-        internal static long EncodeDigits(long positiveInt, byte[] buffer, long offset)
+        internal static void EncodeDigits(long positiveInt, byte[] buffer, ref long offset)
         {
             const int asciiZero = 0x30; // '0'
             long length = CountDecimalDigits(positiveInt);
@@ -233,26 +222,39 @@ namespace Bencodex
                 positiveInt /= 10;
             }
 
-            return length;
+            offset += length;
         }
 
         // TODO: Needs a unit test.
-        internal static long Encode(in IValue value, byte[] buffer, long offset)
+        internal static void Encode(in IValue value, byte[] buffer, ref long offset)
         {
-            return value switch
+            switch (value)
             {
-                Null _ => EncodeNull(buffer, offset),
-                Types.Boolean b => EncodeBoolean(b, buffer, offset),
-                Integer i => EncodeInteger(i, buffer, offset),
-                Binary bin => EncodeBinary(bin, buffer, offset),
-                Text t => EncodeText(t, buffer, offset),
-                List l => EncodeList(l, buffer, offset),
-                Dictionary d => EncodeDictionary(d, buffer, offset),
-                _ =>
+                case Null _:
+                    EncodeNull(buffer, ref offset);
+                    break;
+                case Types.Boolean boolean:
+                    EncodeBoolean(boolean, buffer, ref offset);
+                    break;
+                case Integer integer:
+                    EncodeInteger(integer, buffer, ref offset);
+                    break;
+                case Binary binary:
+                    EncodeBinary(binary, buffer, ref offset);
+                    break;
+                case Text text:
+                    EncodeText(text, buffer, ref offset);
+                    break;
+                case List list:
+                    EncodeList(list, buffer, ref offset);
+                    break;
+                case Dictionary dictionary:
+                    EncodeDictionary(dictionary, buffer, ref offset);
+                    break;
+                default:
                     throw new ArgumentException(
-                        "Unsupported type: " + value.GetType().FullName, nameof(value)
-                    ),
-            };
+                        $"Unsupported type: {value.GetType()}", nameof(value));
+            }
         }
     }
 }
